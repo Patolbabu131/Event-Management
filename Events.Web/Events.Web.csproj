@@ -14,4 +14,14 @@
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\Account\" />
+    <None Remove="Views\Events\" />
+    <None Remove="Views\ExecutiveMembers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Events\" />
+    <Folder Include="Views\ExecutiveMembers\" />
+  </ItemGroup>
 </Project>
