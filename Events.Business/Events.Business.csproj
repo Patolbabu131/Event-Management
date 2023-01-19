@@ -6,4 +6,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Events.Common\Events.Common.csproj" />
+    <ProjectReference Include="..\Events.Repository\Events.Repository.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Interface\" />
+    <None Remove="Implementation\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interface\" />
+    <Folder Include="Implementation\" />
+  </ItemGroup>
 </Project>
