@@ -18,10 +18,18 @@
     <None Remove="Views\Account\" />
     <None Remove="Views\Events\" />
     <None Remove="Views\ExecutiveMembers\" />
+    <None Remove="jQuery" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Events\" />
     <Folder Include="Views\ExecutiveMembers\" />
+    <Folder Include="wwwroot\Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="jQuery" Version="3.6.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\Scripts\" />
   </ItemGroup>
 </Project>
