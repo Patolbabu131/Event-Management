@@ -32,4 +32,8 @@
   <ItemGroup>
     <Content Remove="wwwroot\Scripts\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\fonts\boxicons\boxicons.svg" />
+    <None Include="wwwroot\fonts\boxicons\boxicons.woff2" />
+  </ItemGroup>
 </Project>
