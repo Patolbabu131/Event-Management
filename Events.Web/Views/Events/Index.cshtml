@@ -1,8 +1,6 @@
-﻿@page
-@{
+﻿@{
     ViewData["Title"] = "Events";
 }
-
 <div class="row">
     <div class="col-6">
         <h2 class="fw-bold mb-4">Events</h2>
@@ -467,71 +465,69 @@
 
 @section Scripts
     {
-        <link href="~/lib/DataTables/dataTables.bootstrap4.css" rel="stylesheet" />
-        <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
-        <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
-        <script>
-            $("document").ready(function () {
+    <link href="~/lib/DataTables/dataTables.bootstrap4.css" rel="stylesheet" />
+    <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script>$("document").ready(function () {
 
-                // Event DataTable
-                $("#event").dataTable({
-                    "searching": true,
-                    language: {
-                        'paginate': {
-                            'previous': '<i class="bx bx-chevrons-left"></i>',
-                            'next': '<i class="bx bx-chevrons-right"></i>'
-                        }
+            // Event DataTable
+            $("#event").dataTable({
+                "searching": true,
+                language: {
+                    'paginate': {
+                        'previous': '<i class="bx bx-chevrons-left"></i>',
+                        'next': '<i class="bx bx-chevrons-right"></i>'
                     }
-                });
-
-                var table = $('#event').DataTable();
-
-                $("#event_filter.dataTables_filter").append($("#yearFilter"));
-
-                var categoryIndex = 0;
-                $("#event th").each(function (i) {
-                    if ($($(this)).html() == "Date") {
-                        categoryIndex = i; return false;
-                    }
-                });
-
-                $.fn.dataTable.ext.search.push(
-                    function (settings, data, dataIndex) {
-                        var selectedItem = $('#yearFilter').val()
-                        var category = data[categoryIndex];
-                        if (selectedItem === "" || category.includes(selectedItem)) {
-                            return true;
-                        }
-                        return false;
-                    }
-                );
-
-                $("#yearFilter").change(function (e) {
-                    table.draw();
-                });
-
-                table.draw();
-
-                // Expenses DataTable
-                $("#expenses").dataTable({
-                    "bPaginate": false,
-                    "bInfo": false
-                });
-
-                var expensesFilter = $("#expenses_filter");
-                expensesFilter.append($("#addExpensesBtn"));
-                expensesFilter.closest(".row").find(".col-md-6").removeClass("col-md-6");
-
-                // Sponsors DataTable
-                $("#sponsors").dataTable({
-                    "sPaginationType": "bootstrap",
-                    "bPaginate": false,
-                    "bInfo": false
-                });
-
-                var sponsorsFilter = $("#sponsors_filter");
-                sponsorsFilter.append($("#addSponsorsBtn"));
-                sponsorsFilter.closest(".row").find(".col-md-6").removeClass("col-md-6");
+                }
             });
-        </script>
+
+            var table = $('#event').DataTable();
+
+            $("#event_filter.dataTables_filter").append($("#yearFilter"));
+
+            var categoryIndex = 0;
+            $("#event th").each(function (i) {
+                if ($($(this)).html() == "Date") {
+                    categoryIndex = i; return false;
+                }
+            });
+
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var selectedItem = $('#yearFilter').val()
+                    var category = data[categoryIndex];
+                    if (selectedItem === "" || category.includes(selectedItem)) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+            $("#yearFilter").change(function (e) {
+                table.draw();
+            });
+
+            table.draw();
+
+            // Expenses DataTable
+            $("#expenses").dataTable({
+                "bPaginate": false,
+                "bInfo": false
+            });
+
+            var expensesFilter = $("#expenses_filter");
+            expensesFilter.append($("#addExpensesBtn"));
+            expensesFilter.closest(".row").find(".col-md-6").removeClass("col-md-6");
+
+            // Sponsors DataTable
+            $("#sponsors").dataTable({
+                "sPaginationType": "bootstrap",
+                "bPaginate": false,
+                "bInfo": false
+            });
+
+            var sponsorsFilter = $("#sponsors_filter");
+            sponsorsFilter.append($("#addSponsorsBtn"));
+            sponsorsFilter.closest(".row").find(".col-md-6").removeClass("col-md-6");
+        });</script>
 }
