@@ -1,0 +1,39 @@
+﻿/* Authentication */
+.authentication-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    width: 100%;
+}
+
+    .authentication-wrapper .authentication-inner {
+        max-width: 400px;
+        position: relative;
+        width: 100%;
+    }
+
+        .authentication-wrapper .authentication-inner:before,
+        .authentication-wrapper .authentication-inner:after {
+            background-image: url("../images/dots-pattern.svg");
+            content: " ";
+            position: absolute;
+            height: 148px;
+            width: 148px;
+        }
+
+        .authentication-wrapper .authentication-inner:before {
+            top: -40px;
+            right: -40px;
+        }
+
+        .authentication-wrapper .authentication-inner:after {
+            bottom: -40px;
+            left: -40px;
+        }
+
+        .authentication-wrapper .authentication-inner .card {
+            z-index: 1;
+        }
