@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Events.Database\Events.Database.csproj" />
     <ProjectReference Include="..\Events.Common\Events.Common.csproj" />
+    <ProjectReference Include="..\Events.DomainObjects\Events.DomainObjects.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Interface\" />

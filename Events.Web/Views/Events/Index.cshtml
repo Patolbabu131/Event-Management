@@ -12,6 +12,12 @@
 
 <div class="card shadow">
     <div class="card-body">
+        <div class="input-group mb20 mt10">
+            <input type="text" class="form-control" id="txteventsearchbox" placeholder="Search Events" />
+            <span class="input-group-addon">
+                <i class="fa fa-search" aria-hidden="false"></i>
+            </span>
+        </div>
         <div class="year-filter">
             <select id="yearFilter" class="custom-select form-control w-auto">
                 <option value="">Select Year</option>
@@ -22,10 +28,12 @@
                 <option value="2019">2019</option>
             </select>
         </div>
-        <table id="event" class="table table-striped">
+
+        <table id="tblevents" class="table table-striped">
             <thead>
                 <tr>
                     <th>Event Name</th>
+                    <th>Year</th>
                     <th>Date</th>
                     <th>Venue</th>
                     <th>Event Time</th>
@@ -99,54 +107,7 @@
     </div>
 </div>
 
-<!-- Add Event Modal -->
-<div class="modal fade" id="addEventModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Event</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form id="formAddEvent" method="POST">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="addEventName" class="form-label">Event Name</label>
-                            <input class="form-control" type="text" id="addEventName" name="addEventName" />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="addEventDate" class="form-label">Event Date</label>
-                            <input class="form-control" type="date" name="addEventDate" id="addEventDate" />
-                        </div>
-                        <div class="mb-3 col-md-12">
-                            <label for="addEventVenue" class="form-label">Event Venue</label>
-                            <textarea class="form-control" id="addEventVenue" name="addEventVenue"></textarea>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="addStartTime" class="form-label">Start Time</label>
-                            <input class="form-control" type="time" name="addStartTime" id="addStartTime" />
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="addEndTime" class="form-label">End Time</label>
-                            <input class="form-control" type="time" id="addEndTime" name="addEndTime" />
-                        </div>
-                        <div class="col-md-12">
-                            <label for="addFoodCouponRate" class="form-label">Food Coupon Rate</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bx bx-rupee"></i></span>
-                                <input class="form-control" type="text" name="addFoodCouponRate" id="addFoodCouponRate" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 
 <!-- Edit Event Modal -->
 <div class="modal fade" id="editEventModal" tabindex="-1" aria-hidden="true">
@@ -197,12 +158,6 @@
 </div>
 
 
-
-
-
-
-
-
 <!-- Details Sponsors Modal -->
 <div class="modal fade zindex-modal" id="detailsSponsorsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -235,71 +190,9 @@
 
 @section Scripts
     {
-    <link rel="stylesheet" href="~/lib/DataTables/dataTables.bootstrap4.css" />
     <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script>
-        $("document").ready(function () {
-
-            // Event DataTable
-            $("#event").dataTable({
-                "searching": true,
-                language: {
-                    'paginate': {
-                        'previous': '<i class="bx bx-chevrons-left"></i>',
-                        'next': '<i class="bx bx-chevrons-right"></i>'
-                    }
-                }
-            });
-
-            var table = $('#event').DataTable();
-
-            $("#event_filter.dataTables_filter").append($("#yearFilter"));
-
-            var categoryIndex = 0;
-            $("#event th").each(function (i) {
-                if ($($(this)).html() == "Date") {
-                    categoryIndex = i; return false;
-                }
-            });
-
-            $.fn.dataTable.ext.search.push(
-                function (settings, data, dataIndex) {
-                    var selectedItem = $('#yearFilter').val()
-                    var category = data[categoryIndex];
-                    if (selectedItem === "" || category.includes(selectedItem)) {
-                        return true;
-                    }
-                    return false;
-                }
-            );
-
-            $("#yearFilter").change(function (e) {
-                table.draw();
-            });
-
-            table.draw();
-
-            // Expenses DataTable
-            $("#expenses").dataTable({
-                "bPaginate": false,
-                "bInfo": false
-            });
-
-            var expensesFilter = $("#expenses_filter");
-            expensesFilter.append($("#addExpensesBtn"));
-            expensesFilter.closest(".row").find(".col-md-6").removeClass("col-md-6");
-
-            // Sponsors DataTable
-            $("#sponsors").dataTable({
-                "sPaginationType": "bootstrap",
-                "bPaginate": false,
-                "bInfo": false
-            });
-
-            var sponsorsFilter = $("#sponsors_filter");
-            sponsorsFilter.append($("#addSponsorsBtn"));
-            sponsorsFilter.closest(".row").find(".col-md-6").removeClass("col-md-6");
-        });
-    </script>
+    <script src="~/Scripts/Custom/jquery-extensions.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/Events/Index.js"></script>
 }

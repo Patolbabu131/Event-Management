@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Events.Web.Models.Events
+namespace Events.DomainObjects
 {
 
     public class EventExpenseModel

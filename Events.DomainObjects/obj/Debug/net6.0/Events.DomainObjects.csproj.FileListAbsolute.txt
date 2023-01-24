@@ -1,0 +1,12 @@
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/bin/Debug/net6.0/Events.DomainObjects.deps.json
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/bin/Debug/net6.0/Events.DomainObjects.dll
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/bin/Debug/net6.0/Events.DomainObjects.pdb
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.csproj.AssemblyReference.cache
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.GeneratedMSBuildEditorConfig.editorconfig
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.AssemblyInfoInputs.cache
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.AssemblyInfo.cs
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.csproj.CoreCompileInputs.cache
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.dll
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/refint/Events.DomainObjects.dll
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.pdb
+/Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/obj/Debug/net6.0/ref/Events.DomainObjects.dll
