@@ -1,4 +1,78 @@
-﻿@page
-@{
-}
-
+﻿<!-- Sponsors Modal -->
+<div class="modal fade" id="sponsorsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">[[Event Name]] - Sponsor Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a id="addSponsorsBtn" class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addSponsorsModal">Add Sponsor</a>
+                <table id="sponsors" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sponsor Name</th>
+                            <th>Sponsor Organization</th>
+                            <th>Amount Sponsored</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Kushal Kshatriya</td>
+                            <td>D' Boro The Luxury Living</td>
+                            <td>₹3,00,000</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow lh-1" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#detailsSponsorsModal"><i class="bx bxs-user-detail me-1 align-text-top"></i> Details</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kushal Kshatriya</td>
+                            <td>Cotton House</td>
+                            <td>₹2,50,000</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow lh-1" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#detailsSponsorsModal"><i class="bx bxs-user-detail me-1 align-text-top"></i> Details</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kushal Kshatriya</td>
+                            <td>Sarva Group</td>
+                            <td>₹3,00,000</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow lh-1" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#detailsSponsorsModal"><i class="bx bxs-user-detail me-1 align-text-top"></i> Details</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kushal Kshatriya</td>
+                            <td>Tech Services</td>
+                            <td>₹5,00,000</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow lh-1" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#detailsSponsorsModal"><i class="bx bxs-user-detail me-1 align-text-top"></i> Details</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

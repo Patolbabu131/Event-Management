@@ -1,0 +1,46 @@
+﻿<!-- Add Expenses Modal -->
+<div class="modal fade zindex-modal" id="addExpensesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Expenses</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formAddExpenses" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="mb-3 col-md-6">
+                            <label for="addExpenseSubject" class="form-label">Expense Subject</label>
+                            <input class="form-control" type="text" id="addExpenseSubject" name="addExpenseSubject" />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="addAdvanceAmt" class="form-label">Advance Amt</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bx bx-rupee"></i></span>
+                                <input class="form-control" type="text" name="addAdvanceAmt" id="addAdvanceAmt" />
+                            </div>
+                        </div>
+                        <div class="mb-3 mb-md-0 col-md-6">
+                            <label for="addRemainingAmt" class="form-label">Remaining Amt</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bx bx-rupee"></i></span>
+                                <input class="form-control" type="text" name="addRemainingAmt" id="addRemainingAmt" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="addTotalAmt" class="form-label">Total Amt</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bx bx-rupee"></i></span>
+                                <input class="form-control" type="text" name="addTotalAmt" id="addTotalAmt" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
