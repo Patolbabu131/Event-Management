@@ -1,5 +1,6 @@
-﻿using Events.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Events.Business;
+using Events.Repository;
+using Events.Services;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IViewRenderingService, ViewRenderingService>();
 builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+
+builder.Services.AddTransient<IEventsService, EventsService>();
+builder.Services.AddTransient<IEventsRepository, EventsRepository>();
 
 var app = builder.Build();
 

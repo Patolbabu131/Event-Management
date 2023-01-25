@@ -1,12 +1,9 @@
-﻿using System.Data;
-using System.Globalization;
-using Events.Business.Interface;
+﻿using Events.Business;
 using Events.Common;
 using Events.DomainObjects;
 using Events.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Localization;
 using static Events.Web.Services.CommonService;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

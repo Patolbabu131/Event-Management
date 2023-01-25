@@ -1,26 +1,23 @@
-﻿using System;
-using Events.Database;
+﻿using Events.Database;
 using Events.DomainObjects;
-using Events.Repository.Interface;
-using Microsoft.Extensions.Options;
 
-namespace Events.Repository.Implementation
+namespace Events.Repository
 {
     public class EventsRepository : IEventsRepository
     {
         #region Variables
 
-        private readonly eventdbContext _context;
+        //private readonly eventdbContext _context;
 
         #endregion
 
         #region Constructor
 
-        public EventsRepository(eventdbContext context)
+        //public EventsRepository(eventdbContext context)
 
-        {
-            _context = context;
-        }
+        //{
+        //    _context = context;
+        //}
 
         #endregion
 

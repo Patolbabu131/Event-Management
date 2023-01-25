@@ -1,11 +1,7 @@
-﻿using System;
-using System.Reflection;
-using Events.Business.Interface;
-using Events.Common;
-using Events.DomainObjects;
-using Events.Repository.Interface;
+﻿using Events.DomainObjects;
+using Events.Repository;
 
-namespace Events.Business.Implementation
+namespace Events.Business
 {
     public class EventsService : IEventsService
     {

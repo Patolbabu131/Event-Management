@@ -1,7 +1,7 @@
 ﻿using System;
 using Events.DomainObjects;
 
-namespace Events.Repository.Interface
+namespace Events.Repository
 {
 	public interface IEventsRepository
 	{
