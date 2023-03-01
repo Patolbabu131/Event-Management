@@ -19,4 +19,9 @@
     <Folder Include="Interface\" />
     <Folder Include="Implementation\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="HttpPostedFileHelper" Version="1.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.32" />
+  </ItemGroup>
 </Project>

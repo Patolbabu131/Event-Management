@@ -104,8 +104,134 @@
 
 }
 
+function save_event() {
+    //var img = new FormData;
+    var files = $("#addFileMultiple").get(0).files;
+    
+    //if (files.length > 0) {
+    //    data.append("MyImages", files[0]);
+    //}
+
+
+    var data = {
+        EventName: $("#addEventName").val(),
+        EventDate: $("#addEventDate").val(),
+        EventVenue: $("#addEventVenue").val(),
+        EventStartTime: $("#addStartTime").val(),
+        EventEndTime: $("#addEndTime").val(),
+        FoodMenu: $("").val(),
+        //Eventsponsorsimages:files    
+    }
+
+    var formData = new FormData();
+
+    formData.append("data",data);
+   
+    formData.append("base64image", files);
+    
+    $.ajax({
+        type: "post",
+        url: '/Events/CreateEvents',
+        data: formData,
+        success: function (resonce) {
+            alert("ok");
+
+        }
+    })
+}
+
+function bindDatatable() {
+    datatable = $('#tblevents')
+        .DataTable
+        ({
+            "sAjaxSource": "/Events/GetEventList",
+            "bServerSide": true,
+            "bProcessing": true,
+            "bSearchable": true,
+            "filter": true,
+            "language": {
+                "emptyTable": "No record found.",
+                "processing":
+                    '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+            },
+            "columns": [
+                {
+                    "data": "eventeame",
+                    render: function (data, type, row, meta) {
+                        return row.eventName
+                    }
+                },
+                {
+                    "data": "eventdate",
+                    render: function (data, type, row, meta) {
+                        return row.eventDate
+                    }
+                },
+                {
+                    "data": "eventdate",
+                    render: function (data, type, row, meta) {
+                        return row.eventDate
+                    }
+                },
+                {
+                    "data": "eventvenue",
+                    render: function (data, type, row, meta) {
+                        return row.eventVenue
+                    }
+                },
+                {
+                    "data": "eventstarttime",
+                    render: function (data, type, row, meta) {
+                        return row.eventStartTime
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+
+                        return row.eventEndTime
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        var dropdown = '';
+                        if (row != null) {
+                            dropdown += '<select id="select">';
+                            dropdown += '<option value="0">&vellip;<option>';
+                            dropdown += '<option onclick="select()"value="Completed" >Completed</option>';
+                            dropdown += '<option value="Cancelled">Cancelled</option>';
+                            dropdown += '<option value="InProgress">In Progress</option>';
+                            dropdown += '<option value="OnHold">On Hold</option>';
+                            dropdown += '<option value="WaitingToStart">Waiting To Start</option>';
+                            dropdown += '</select>';
+                        }
+                        else {
+                            dropdown = '<select class="form-control"><option value="0">Select Status</option></select>';
+                        }
+                        return dropdown;
+                    }
+                }
+            ]
+        });
+
+}
 
 $(document).ready(function () {
 
+    $('#create_event').click(function () {
+        $.ajax({
+            type: "get",
+            url: '/Events/CreateEvent',
+            success: function (resonce) {
+                $('#CreateContainer').html(resonce);
+                $("#addEventModal").modal('show');
+            }
+        })
+    });
+    bindDatatable();
+
+    $('#selectEl').change(function () {
+        // set the window's location property to the value of the option the user has selected
+        window.location = $(this).val();
+    });
 
 });

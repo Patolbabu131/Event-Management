@@ -9,4 +9,3 @@ namespace Events.Business
         List<EventsResponse> GetEventsList(Dictionary<string, string> Parameters);
     }
 }
-

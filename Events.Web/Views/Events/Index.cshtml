@@ -1,18 +1,19 @@
 ﻿@{
     ViewData["Title"] = "Events";
 }
+<div id="CreateContainer"></div>
 <div class="row">
     <div class="col-6">
         <h2 class="fw-bold mb-4">Events</h2>
     </div>
     <div class="col-6 text-end">
-        <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addEventModal">Add Event</a>
+        <a class="btn btn-primary"  id="create_event" >Add Event</a>
     </div>
 </div>
 
 <div class="card shadow">
     <div class="card-body">
-        <div class="input-group mb20 mt10">
+   @*     <div class="input-group mb20 mt10">
             <input type="text" class="form-control" id="txteventsearchbox" placeholder="Search Events" />
             <span class="input-group-addon">
                 <i class="fa fa-search" aria-hidden="false"></i>
@@ -27,7 +28,7 @@
                 <option value="2020">2020</option>
                 <option value="2019">2019</option>
             </select>
-        </div>
+        </div>*@
 
         <table id="tblevents" class="table table-striped">
             <thead>

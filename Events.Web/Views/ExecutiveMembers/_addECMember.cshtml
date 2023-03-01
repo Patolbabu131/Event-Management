@@ -1,0 +1,43 @@
+﻿<!-- Add Event Modal -->
+<div class="modal fade" id="addECMemberModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add EC Member</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formAddECMember" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <input type="text" id="EventId" hidden>
+                        <input type="date" id="createon"hidden>
+                        <div class="mb-3 col-md-12">
+                            <label for="addName" class="form-label">Name</label>
+                            <input class="form-control" type="text" id="addrName" name="addName" />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="addDesignation" class="form-label">Designation</label>
+                            <input class="form-control" type="text" name="addDesignation" id="addDesignation" />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="addAppointedOn" class="form-label">Appointed On</label>
+                            <input class="form-control" type="date" name="addAppointedOn" id="addAppointedOn" />
+                        </div>
+                        <div class="mb-3 col-md-12">
+                            <label for="addDuties" class="form-label">Duties</label>
+                            <textarea class="form-control" id="addDuties" name="addDuties"></textarea>
+                        </div>
+                      @*  <div class="col-md-12">
+                            <label for="addUploadProfile" class="form-label">Upload Profile Pic</label>
+                            <input class="form-control" type="file" id="addrUploadProfile" name="addUploadProfile" />
+                        </div>*@
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button type="button"  onclick="save_member()" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,28 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Executive Members";
 }
+<div id="member"></div>
 <div class="row">
     <div class="col-6">
         <h2 class="fw-bold mb-4">@ViewData["Title"]</h2>
     </div>
     <div class="col-6 text-end">
-        <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addECMemberModal">Add EC Member</a>
+        <a class="btn btn-primary" id="create_member" >Add EC Member</a>
     </div>
 </div>
 
 <div class="card shadow">
     <div class="card-body">
-        <div class="input-group mb-2">
-            <input type="text" class="form-control" id="txtecmembersearchbox" placeholder="Search EC Member" />
-            <span class="input-group-addon">
-                <i class="fa fa-search" aria-hidden="false"></i>
-            </span>
-        </div>
-
-        <table id="tblecmembers" class="table table-striped mb-0">
+       
+        <table id="tblecmembers" class="table table-striped mb-5" style="width:100%">
             <thead>
                 <tr>
-                    <th>Image</th>
+                    
                     <th>Name</th>
                     <th>Designation</th>
                     <th>Appointed On</th>
@@ -31,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+        @*        <tr>
                     <td><img class="img-fluid img-round" src="https://via.placeholder.com/50X50" alt="" /></td>
                     <td>Mr. Ashok Arora</td>
                     <td>Founder & President</td>
@@ -78,13 +73,13 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>*@
             </tbody>
         </table>
     </div>
 </div>
 
-<!-- Add Event Modal -->
+@*<!-- Add Event Modal -->
 <div class="modal fade" id="addECMemberModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -124,4 +119,12 @@
             </form>
         </div>
     </div>
-</div>
+</div>*@
+@section Scripts
+    {
+    <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/Custom/jquery-extensions.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/ECMember/index.js"></script>
+}

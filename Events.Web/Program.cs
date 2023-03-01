@@ -1,6 +1,8 @@
 ﻿using Events.Business;
+using Events.Database;
 using Events.Repository;
 using Events.Services;
+using Events.Web.eventcontext;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +16,7 @@ builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 
 builder.Services.AddTransient<IEventsService, EventsService>();
 builder.Services.AddTransient<IEventsRepository, EventsRepository>();
-
+builder.Services.AddDbContext<EventDbContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,7 +36,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Events}/{action=index}/{id?}");
 
 app.Run();
 

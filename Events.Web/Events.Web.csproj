@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -25,14 +25,26 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Account\" />
-    <Folder Include="Views\Events\" />
-    <Folder Include="Views\ExecutiveMembers\" />
-    <Folder Include="wwwroot\Scripts\" />
     <Folder Include="wwwroot\Scripts\Events\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
+    <PackageReference Include="HttpPostedFileHelper" Version="1.2.0" />
     <PackageReference Include="jQuery" Version="3.6.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
+    <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.32" />
+    <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +52,20 @@
     <Content Remove="wwwroot\Scripts\Events\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="C:\Users\admin\source\repos\EventsPSV\Events.Web\.editorconfig" />
     <None Include="wwwroot\fonts\boxicons\boxicons.svg" />
     <None Include="wwwroot\fonts\boxicons\boxicons.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Abstractions">
+      <HintPath>..\..\..\..\Downloads\System.Web.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\..\..\Downloads\Employee\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4lib_4bootstrap_4dist_4css_4bootstrap-grid_1css_1map__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\admin\source\repos\EventsPSV\Events.Web\.editorconfig" />
   </ItemGroup>
 </Project>
