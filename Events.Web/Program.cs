@@ -2,7 +2,8 @@
 using Events.Database;
 using Events.Repository;
 using Events.Services;
-using Events.Web.eventcontext;
+using Events.Web.Models;
+
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IViewRenderingService, ViewRenderingService>();
 builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSession(option =>
+{
+    option.IdleTimeout = TimeSpan.FromSeconds(1200);
+});
 builder.Services.AddTransient<IEventsService, EventsService>();
 builder.Services.AddTransient<IEventsRepository, EventsRepository>();
 builder.Services.AddDbContext<EventDbContext>();
@@ -29,14 +34,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Events}/{action=index}/{id?}");
+
+    pattern: "{controller=Account}/{action=login}/{id?}");
 
 app.Run();
 

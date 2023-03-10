@@ -105,37 +105,21 @@
 }
 
 function save_event() {
-    //var img = new FormData;
-    var files = $("#addFileMultiple").get(0).files;
-    
-    //if (files.length > 0) {
-    //    data.append("MyImages", files[0]);
-    //}
-
-
     var data = {
+        Id: $("#EventID").val(),
         EventName: $("#addEventName").val(),
         EventDate: $("#addEventDate").val(),
         EventVenue: $("#addEventVenue").val(),
         EventStartTime: $("#addStartTime").val(),
         EventEndTime: $("#addEndTime").val(),
         FoodMenu: $("").val(),
-        //Eventsponsorsimages:files    
     }
-
-    var formData = new FormData();
-
-    formData.append("data",data);
-   
-    formData.append("base64image", files);
-    
     $.ajax({
         type: "post",
         url: '/Events/CreateEvents',
-        data: formData,
+        data: data,
         success: function (resonce) {
-            alert("ok");
-
+            alert(resonce);
         }
     })
 }
@@ -149,69 +133,68 @@ function bindDatatable() {
             "bProcessing": true,
             "bSearchable": true,
             "filter": true,
+            "autoWidth": true,
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
+              
                 {
-                    "data": "eventeame",
-                    render: function (data, type, row, meta) {
-                        return row.eventName
+                    "data": "eventName",
+                },
+                {
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.eventDate);
+                        var month = date.getMonth();
+                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
                     }
                 },
                 {
-                    "data": "eventdate",
-                    render: function (data, type, row, meta) {
-                        return row.eventDate
+                    "data": "eventVenue",
+                },
+                {
+                    "render": function (data, type, row, meta) {
+                        var Time = new Date(row.eventStartTime);
+                        return Time.getHours() + ":" + Time.getMinutes();
+                    }
+                },
+                {   
+                    "render": function (data, type, row, meta) {
+                        var Time = new Date(row.eventEndTime);
+                        return Time.getHours() + ":" + Time.getMinutes();
                     }
                 },
                 {
-                    "data": "eventdate",
-                    render: function (data, type, row, meta) {
-                        return row.eventDate
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.eventDate);
+                        var month = date.getMonth();
+                        return  date.getFullYear();
                     }
                 },
                 {
-                    "data": "eventvenue",
-                    render: function (data, type, row, meta) {
-                        return row.eventVenue
-                    }
-                },
-                {
-                    "data": "eventstarttime",
-                    render: function (data, type, row, meta) {
-                        return row.eventStartTime
-                    }
-                },
-                {
-                    render: function (data, type, row, meta) {
+                    "data": "foodMenu",
+                    //render: function (data, type, row, meta) {
 
-                        return row.eventEndTime
-                    }
+                    //    return row.eventEndTime
+                    //}
                 },
                 {
                     render: function (data, type, row, meta) {
-                        var dropdown = '';
-                        if (row != null) {
-                            dropdown += '<select id="select">';
-                            dropdown += '<option value="0">&vellip;<option>';
-                            dropdown += '<option onclick="select()"value="Completed" >Completed</option>';
-                            dropdown += '<option value="Cancelled">Cancelled</option>';
-                            dropdown += '<option value="InProgress">In Progress</option>';
-                            dropdown += '<option value="OnHold">On Hold</option>';
-                            dropdown += '<option value="WaitingToStart">Waiting To Start</option>';
-                            dropdown += '</select>';
-                        }
-                        else {
-                            dropdown = '<select class="form-control"><option value="0">Select Status</option></select>';
-                        }
-                        return dropdown;
+                        return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
                     }
+                },
+                {
+                    render: function (data, type, row, meta)
+                    {
+                        return '<table><tr><th> <a class="btn btn-primary"   href="/eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary" onclick="Index_Couponassignments(' + row.id + ')" >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary" onclick="Index_CType(' + row.id + ')" >Coupon Type</a> </td><td> <a class="btn btn-primary" onclick="Index_SImage(' + row.id + ')" >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary" onclick="Index_Sponsors(' + row.id + ')" >Sponsors</a> </td>  <td> <a class="btn btn-primary" onclick="Index_Expenses(' + row.id + ')" >Expenses</a> </td></tr></table>';
+                    }   
                 }
             ]
         });
+
+   
 
 }
 
@@ -232,6 +215,133 @@ $(document).ready(function () {
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
+
     });
 
+
+   
 });
+
+function details_event(id) {
+    $.ajax({
+        type: "post",
+        data: id,
+        url: '/Events/EventsDetails/' + id,
+        success: function (resonce) {
+            $('#CreateContainer').html(resonce);
+            $("#DetailsEventsModal").modal('show');
+        }
+    })
+}
+
+function edit_event(id) {
+    $.ajax({
+        type: "get",
+        url: '/Events/CreateEvent',
+        success: function (resonce) {
+            $('#CreateContainer').html(resonce);
+            $("#addEventModal").modal('show');
+        }
+    })
+
+    $.ajax({
+        type: "post",
+        data: id,
+        url: '/Events/Edit/' + id,
+        success: function (resonce) {
+            var now = new Date(resonce.eventDate);
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+            var start = new Date(resonce.eventStartTime);
+            var end = new Date(resonce.eventEndTime);
+            var strTime = start.getHours() + ':' + start.getMinutes();
+
+            var ampm = "am";
+            if (start.getHours > 12) {
+                start.getHours -= 12;
+                ampm = "pm";
+            }
+           // = end.getHours() + ':' + end.getMinutes() + ampm;
+            var endtime = (end.getHours() || '00') + ':' + (end.getMinutes() || '00');
+
+            $('#EventID').val(resonce.id);
+            $('#addEventName').val(resonce.eventName);
+            $('#addEventDate').val(today);
+            $('#addEventVenue').val(resonce.eventVenue);
+            $('#addStartTime').val(strTime);
+            $('#addEndTime').val(endtime);
+    
+
+
+        }
+    })
+}
+
+function delete_event(id) {
+    var confirmation = confirm("Are you sure to delete this Member...");
+    if (confirmation) {
+        $.ajax({
+            type: "post",
+            url: '/Events/DeteleEvent/' + id,
+            success: function (resonce) {
+                alert("Record Deleted Successfuly..");
+                window.location.reload();
+            }
+        })
+    }
+}
+
+
+function eventattendeestable() {
+    $.ajax({
+
+        url: '/Eventattendees/Index',
+     
+    });
+
+
+    //datatable = $('#Eventattendeestable')
+    //    .DataTable
+    //    ({
+    //        "sAjaxSource": "/Events/GetEventattendees/" + EID,
+    //        "bServerSide": true,
+    //        "bProcessing": true,
+    //        "bSearchable": true,
+    //        "filter": true,
+    //        "language": {
+    //            "emptyTable": "No record found.",
+    //            "processing":
+    //                '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+    //        },
+    //        "columns": [
+    //            {
+    //                "data": "id",
+
+    //            },
+    //            {
+    //                "data": "eventId",
+
+    //            },
+    //            {
+    //                "data": 'sponsorImage',
+    //                "render": function (data, type, row, meta) {
+    //                    return '<img src="' + row.sponsorImage + '" width="40px">';
+    //                }
+    //            }
+    //            //{
+    //            //    "data": "duties",
+    //            //    render: function (data, type, row, meta) {
+    //            //        return row.duties
+    //            //    }
+    //            //},
+    //            //{
+    //            //    render: function (data, type, row, meta) {
+    //            //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
+    //            //    }
+    //            //}
+    //        ]
+    //    });
+
+}

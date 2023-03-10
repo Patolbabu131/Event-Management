@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Threading.Tasks;
-using Events.Web.eventcontext;
 using Events.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Math;
@@ -23,21 +22,21 @@ namespace Events.Web.Controllers
         }
         // GET: /<controller>/
         public IActionResult Index()
-            {
-                return View();
-            }
+        {
+            return View();
+        }
         public IActionResult CreateMember()
         {
             return PartialView("_addECMember");
         }
         public IActionResult CreateMembers(Executivemember executivemember)
         {
-            if (executivemember.Id==null)
+            if (executivemember.Id == null)
             {
                 var id = _db.Executivemembers.ToList();
                 var member = new Executivemember()
                 {
-                    Id = id.Count + 1,
+
                     FullName = executivemember.FullName,
                     Designation = executivemember.Designation,
                     AppointedOn = executivemember.AppointedOn,
@@ -50,10 +49,10 @@ namespace Events.Web.Controllers
             }
             else
             {
-         
+
                 var member = new Executivemember()
                 {
-                    Id=executivemember.Id,
+                    Id = executivemember.Id,
                     FullName = executivemember.FullName,
                     Designation = executivemember.Designation,
                     AppointedOn = executivemember.AppointedOn,
@@ -62,25 +61,25 @@ namespace Events.Web.Controllers
                     ModifiedOn = DateTime.Now
                 };
                 _db.Update(member);
-               
+
             }
             _db.SaveChanges();
 
             return Json("Member saved.");
         }
         public IActionResult GetEdit(Int64 id)
-            {
+        {
             var EC = _db.Executivemembers.Where(x => x.Id == id).FirstOrDefault();
             return Json(EC);
         }
         public ActionResult GetECMember(JqueryDatatableParam param)
         {
-            var Ecmember = _db.Executivemembers.ToList();
+            var eventattendees = _db.Executivemembers.ToList();
 
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                Ecmember = Ecmember.Where(x => x.FullName.ToString().Contains(param.sSearch.ToLower())
+                eventattendees = eventattendees.Where(x => x.FullName.ToString().Contains(param.sSearch.ToLower())
                                               || x.Designation.ToString().Contains(param.sSearch.ToLower())
                                               || x.Duties.ToString().Contains(param.sSearch.ToLower())
                                               || x.Active.ToString().Contains(param.sSearch.ToLower())).ToList();
@@ -88,43 +87,43 @@ namespace Events.Web.Controllers
             //Sorting
             if (param.iSortCol_0 == 0)
             {
-                Ecmember = param.sSortDir_0 == "asc" ? Ecmember.OrderBy(c => c.FullName).ToList() : Ecmember.OrderByDescending(c => c.FullName).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.FullName).ToList() : eventattendees.OrderByDescending(c => c.FullName).ToList();
             }
             else if (param.iSortCol_0 == 1)
             {
-                Ecmember = param.sSortDir_0 == "asc" ? Ecmember.OrderBy(c => c.Designation).ToList() : Ecmember.OrderByDescending(c => c.Designation).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Designation).ToList() : eventattendees.OrderByDescending(c => c.Designation).ToList();
             }
             else if (param.iSortCol_0 == 2)
             {
-                Ecmember = param.sSortDir_0 == "asc" ? Ecmember.OrderBy(c => c.AppointedOn).ToList() : Ecmember.OrderByDescending(c => c.AppointedOn).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.AppointedOn).ToList() : eventattendees.OrderByDescending(c => c.AppointedOn).ToList();
 
             }
             else if (param.iSortCol_0 == 3)
             {
-                Ecmember = param.sSortDir_0 == "asc" ? Ecmember.OrderBy(c => c.Duties).ToList() : Ecmember.OrderByDescending(c => c.Duties).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Duties).ToList() : eventattendees.OrderByDescending(c => c.Duties).ToList();
             }
             else if (param.iSortCol_0 == 4)
             {
-                Ecmember = param.sSortDir_0 == "asc" ? Ecmember.OrderBy(c => c.Active).ToList() : Ecmember.OrderByDescending(c => c.Active).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Active).ToList() : eventattendees.OrderByDescending(c => c.Active).ToList();
             }
 
-                //TotalRecords
-                var displayResult = Ecmember.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
-                var totalRecords = Ecmember.Count();
-                return Json(new
-                {
-                    param.sEcho,
-                    iTotalRecords = totalRecords,
-                    iTotalDisplayRecords = totalRecords,
-                    aaData = displayResult
-                });
+            //TotalRecords
+            var displayResult = eventattendees.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+            var totalRecords = eventattendees.Count();
+            return Json(new
+            {
+                param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalRecords,
+                aaData = displayResult
+            });
         }
         public IActionResult ECMemberDetails(Int64 id)
         {
-            var EC=_db.Executivemembers.Where(x => x.Id == id).FirstOrDefault();
-            return PartialView("_ECDetails",EC);
+            var EC = _db.Executivemembers.Where(x => x.Id == id).FirstOrDefault();
+            return PartialView("_ECDetails", EC);
         }
-       
+
         public IActionResult DeteleMember(Int64 id)
         {
             var data = _db.Executivemembers.Where(e => e.Id == id).SingleOrDefault();
@@ -133,4 +132,4 @@ namespace Events.Web.Controllers
             return Json("success");
         }
     }
- }
+}

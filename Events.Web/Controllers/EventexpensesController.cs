@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-using Events.Web.eventcontext;
+
 
 namespace Events.Web.Controllers
 {
@@ -20,11 +20,11 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventexpenses
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var eventDbContext = _context.Eventexpenses.Include(e => e.CreatedByNavigation).Include(e => e.Event).Include(e => e.ModifiedByNavigation);
-            return View(await eventDbContext.ToListAsync());
+            return View();
         }
+
 
         // GET: Eventexpenses/Details/5
         public async Task<IActionResult> Details(long? id)

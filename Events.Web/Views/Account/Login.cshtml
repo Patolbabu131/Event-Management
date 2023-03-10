@@ -23,13 +23,16 @@
                         <h3 class="pb-2 mb-4 text-center">
                             <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Index">Events By PSV</a>
                         </h3>
-                
+                     
+                           
+                    
+                        <p style="color:orangered"> @ViewBag.Message</p>
                         <p class="mb-4">Please sign-in to your account.</p>
 
-                        <form id="formLogin" class="mb-3" action="#" method="POST">
+                        <form id="formLogin" class="mb-3" method="post" >
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email or Username</label>
-                                <input type="text" class="form-control" id="email" name="email-username" placeholder="Enter your email or username" autofocus>
+                                <input type="text" class="form-control" id="email" name="email_username" placeholder="Enter your email or username" autofocus>
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
@@ -52,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary w-100" type="submit">Sign in</button>
+                                <button class="btn btn-primary w-100 " id="login_member()">Sign in</button>
                             </div>
                         </form>
                     </div>
@@ -74,6 +77,22 @@
                 }
             });
         });
+
+        $('#create_member').click(function () {
+            var data = {
+                Id: $("#password").val(),
+                FullName: $("#email").val(),
+            }
+            $.ajax({
+                type: "post",
+                data: data,
+                url: '/Account/Login',
+                success: function (resonce) {
+                    alert(resonce);
+                }
+            })
+        });
+
     </script>
 
 </body>

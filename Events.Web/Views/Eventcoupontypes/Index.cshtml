@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Events.Web.Models.Eventcoupontype>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>EventId</th>
+            <th>CouponName</th>
+            <th>CouponPrice</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+@section Scripts
+    {
+    <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/Custom/jquery-extensions.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+
+}
+
+<script>
+    $(document).ready(function () {
+        GetemployeeList();
+    });
+
+</script>

@@ -9,33 +9,31 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<div class="card shadow">
+    <div class="card-body">
+        <table id="Eventsponsorsimagestable" class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SponsorImage)
+               Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Event)
+                Event Id
             </th>
-            <th></th>
+            <th>image</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SponsorImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Event.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+
     </tbody>
 </table>
+</div>
+</div>
+@section Scripts
+{
+    <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/Custom/jquery-extensions.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/Eventsponsors/index.js"></script>
+}

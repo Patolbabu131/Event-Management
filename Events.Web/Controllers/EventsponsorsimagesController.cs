@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-using Events.Web.eventcontext;
+
 
 namespace Events.Web.Controllers
 {
@@ -20,10 +20,43 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventsponsorsimages
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var eventDbContext = _context.Eventsponsorsimages.Include(e => e.Event);
-            return View(await eventDbContext.ToListAsync());
+            return View();
+        }
+        
+
+
+        public ActionResult GetEventsponsorsimages(JqueryDatatableParam param)
+        {
+            var image = _context.Eventsponsorsimages.ToList();
+
+            //Searching
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                image = image.Where(x => x.EventId.ToString().Contains(param.sSearch.ToLower())
+                                              || x.Id.ToString().Contains(param.sSearch.ToLower())).ToList();
+            }
+            //Sorting
+            if (param.iSortCol_0 == 0)
+            {
+                image = param.sSortDir_0 == "asc" ? image.OrderBy(c => c.EventId).ToList() : image.OrderByDescending(c => c.EventId).ToList();
+            }
+            else if (param.iSortCol_0 == 1)
+            {
+                image = param.sSortDir_0 == "asc" ? image.OrderBy(c => c.Id).ToList() : image.OrderByDescending(c => c.Id).ToList();
+            }
+  
+            //TotalRecords
+            var displayResult = image.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+            var totalRecords = image.Count();
+            return Json(new
+            {
+                param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalRecords,
+                aaData = displayResult
+            });
         }
 
         // GET: Eventsponsorsimages/Details/5
@@ -68,7 +101,7 @@ namespace Events.Web.Controllers
 
                 //get file extension
                 FileInfo fileInfo = new FileInfo(eventsponsorsimage.File.FileName);
-                string fileName = eventsponsorsimage.File.FileName + fileInfo.Extension;
+                string fileName = eventsponsorsimage.File.FileName;
 
                 string fileNameWithPath = Path.Combine(path, fileName);
 
@@ -79,7 +112,7 @@ namespace Events.Web.Controllers
                 var member = new Eventsponsorsimage()
                 {
                     EventId = eventsponsorsimage.EventId,
-                    SponsorImage=fileName
+                    SponsorImage= fileNameWithPath
                 };
                 _context.Add(member);
                 await _context.SaveChangesAsync();

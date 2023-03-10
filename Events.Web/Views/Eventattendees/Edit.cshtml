@@ -1,0 +1,104 @@
+﻿@model Events.Web.Models.Eventattendee
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Eventattendee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="EventId" class="control-label"></label>
+                <select asp-for="EventId" class="form-control" asp-items="ViewBag.EventId"></select>
+                <span asp-validation-for="EventId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttendeeName" class="control-label"></label>
+                <input asp-for="AttendeeName" class="form-control" />
+                <span asp-validation-for="AttendeeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactNo" class="control-label"></label>
+                <input asp-for="ContactNo" class="form-control" />
+                <span asp-validation-for="ContactNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CouponsPurchased" class="control-label"></label>
+                <input asp-for="CouponsPurchased" class="form-control" />
+                <span asp-validation-for="CouponsPurchased" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchasedOn" class="control-label"></label>
+                <input asp-for="PurchasedOn" class="form-control" />
+                <span asp-validation-for="PurchasedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAmount" class="control-label"></label>
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedOn" class="control-label"></label>
+                <input asp-for="CreatedOn" class="form-control" />
+                <span asp-validation-for="CreatedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <select asp-for="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InvitedBy" class="control-label"></label>
+                <select asp-for="InvitedBy" class="form-control" asp-items="ViewBag.InvitedBy"></select>
+                <span asp-validation-for="InvitedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CouponTypeId" class="control-label"></label>
+                <select asp-for="CouponTypeId" class="form-control" asp-items="ViewBag.CouponTypeId"></select>
+                <span asp-validation-for="CouponTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RemainingCoupons" class="control-label"></label>
+                <input asp-for="RemainingCoupons" class="form-control" />
+                <span asp-validation-for="RemainingCoupons" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedBy" class="control-label"></label>
+                <select asp-for="ModifiedBy" class="form-control" asp-items="ViewBag.ModifiedBy"></select>
+                <span asp-validation-for="ModifiedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModifiedOn" class="control-label"></label>
+                <input asp-for="ModifiedOn" class="form-control" />
+                <span asp-validation-for="ModifiedOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ModeOfPayment" class="control-label"></label>
+                <input asp-for="ModeOfPayment" class="form-control" />
+                <span asp-validation-for="ModeOfPayment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

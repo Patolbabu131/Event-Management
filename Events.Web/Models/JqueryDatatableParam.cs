@@ -1,4 +1,6 @@
-﻿public class JqueryDatatableParam
+﻿
+
+public class JqueryDatatableParam
 {
     public string? sEcho { get; set; }
     public string? sSearch { get; set; }

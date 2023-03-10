@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Events.Web.Models.Eventattendee>
+@{
+    ViewData["Title"] = "Index";
+    var id = ViewBag.Eid;
+}
+
+<html>
+<body onload="functionToCall(@id)">
+
+    <h1>Index</h1>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+
+    <div class="card shadow">
+
+        <div class="card-body  table-responsive">
+            <table id="Eventattendeestable" class="table">
+                <thead>
+                    <tr>
+                        <th>EattendeesId</th>
+                        <th>EventId</th>
+                        <th>InviteeName</th>
+                        <th>ContactNo</th>
+                        <th>CouponsPurchased</th>
+                        <th>PurchasedOn</th>
+                        <th>TotalAmount</th>
+                        <th>Remarks</th>
+                        <th>CreatedOn</th>
+                        <th>CreatedBy</th>
+                        <th>CouponTypeId</th>
+                        <th>RemainingCoupons</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+</html>
+
+@section Scripts
+    {
+    <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/Custom/jquery-extensions.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/Events/Index.js"></script>
+    <script src="~/Scripts/Eventattendees/index.js"></script>
+
+    
+}

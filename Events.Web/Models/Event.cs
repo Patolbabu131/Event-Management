@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Events.Web.Models;
 
@@ -8,7 +9,7 @@ public partial class Event
     public long Id { get; set; }
 
     public string EventName { get; set; } = null!;
-
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime EventDate { get; set; }
 
     public string EventVenue { get; set; } = null!;
@@ -16,8 +17,8 @@ public partial class Event
     public DateTime EventStartTime { get; set; }
 
     public DateTime EventEndTime { get; set; }
-
-    public int EventYear { get; set; }
+    [DisplayFormat(DataFormatString = "{0:yyyy}")]
+    public DateTime EventYear { get; set; }
 
     public long? CreatedBy { get; set; }
 
