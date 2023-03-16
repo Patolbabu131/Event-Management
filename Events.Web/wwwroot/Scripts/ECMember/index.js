@@ -6,7 +6,6 @@ $(document).ready(function () {
 $('#create_member').click(function () {
     $.ajax({
         type: "post",
-        
         url: '/ExecutiveMembers/CreateMember',
         success: function (resonce) {
             $('#member').html(resonce);
@@ -34,6 +33,7 @@ function savemember(data) {
         url: '/ExecutiveMembers/CreateMembers',
         success: function (resonce) {
             alert(resonce);
+            window.location.reload();
         }
     })
 }
@@ -55,6 +55,9 @@ function bindmember() {
             },
             "columns": [
                 {
+                    "data": "id",
+                },
+                {
                     "data": "fullname",
                     render: function (data, type, row, meta) {
                         return row.fullName
@@ -67,11 +70,12 @@ function bindmember() {
                     }
                 },
                 {
-                    "data": 'appointedon',
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.appointedOn);
-                        var month = date.getMonth() ;
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+              
+                     "data": "appointedon",
+                    "render": function (data) {
+                        var date = new Date(data);
+                        var month = date.getMonth() + 1;
+                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
                 },
                 {

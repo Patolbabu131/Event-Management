@@ -7,9 +7,10 @@ public partial class Eventexpense
 {
     public long Id { get; set; }
 
+    public long EventId { get; set; }
     public string ExpenseName { get; set; } = null!;
 
-    public long EventId { get; set; }
+   
 
     public string ExpenseSubject { get; set; } = null!;
 

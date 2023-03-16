@@ -13,10 +13,11 @@ namespace Events.Web.Controllers
     public class EventattendeesController : Controller
     {
         private readonly EventDbContext _context;
-
-        public EventattendeesController(EventDbContext context)
+        private readonly IHttpContextAccessor cd;
+        public EventattendeesController(EventDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            cd = httpContextAccessor;
         }
 
         // GET: Eventattendees
@@ -31,19 +32,20 @@ namespace Events.Web.Controllers
                 ViewBag.Eid = Id;
                 return View();
             }
-      
+
         }
 
-        public ActionResult GetEventattendees(JqueryDatatableParam param,Int64 Id)
+        public ActionResult GetEventattendees(JqueryDatatableParam param, Int64 Id)
         {
-            IEnumerable<dynamic> eventattendees =null;
-            if (Id ==null || Id == 0)
+            var list = _context.Eventattendees.ToList();
+            IEnumerable<dynamic> eventattendees = null;
+            if (Id == null || Id == 0)
             {
                 eventattendees = _context.Eventattendees.ToList();
             }
             else
             {
-                 eventattendees = _context.Eventattendees.Where(m=>m.EventId==Id);
+                eventattendees = _context.Eventattendees.Where(m => m.EventId == Id);
             }
 
             //Searching
@@ -123,6 +125,8 @@ namespace Events.Web.Controllers
             });
         }
 
+
+
         // GET: Eventattendees/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -146,55 +150,79 @@ namespace Events.Web.Controllers
             return View(eventattendee);
         }
 
-        // GET: Eventattendees/Create
-        public IActionResult Create()
+    
+        public IActionResult CreateEdit(Int64 id)
         {
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id");
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id");
+            ViewBag.eid = id;
             ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id");
-            return View();
+            return PartialView("CreateEdit");
         }
-
-        // POST: Eventattendees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Eventattendee eventattendee)
+        public IActionResult CreateEdit1(Eventattendee eventattendee)
         {
-            if (ModelState.IsValid)
+            
+            string mid = cd.HttpContext.Session.GetString("MID");
+            if (eventattendee.Id == null || eventattendee.Id==0)
             {
-                _context.Add(eventattendee);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventattendee.CouponTypeId);
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.CreatedBy);
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventattendee.EventId);
-            ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id", eventattendee.InvitedBy);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.ModifiedBy);
-            return View(eventattendee);
-        }
+                
+                var member = new Eventattendee()
+                {
+                   EventId=eventattendee.EventId,
+                   AttendeeName = eventattendee.AttendeeName,
+                   ContactNo = eventattendee.ContactNo,
+                   CouponsPurchased = eventattendee.CouponsPurchased,
+                   PurchasedOn = eventattendee.PurchasedOn,
+                   TotalAmount = eventattendee.TotalAmount,
+                   Remarks = eventattendee.Remarks,
+                   CreatedOn = DateTime.Now,
+                   CreatedBy = Convert.ToInt64(mid),
+                    CouponTypeId = eventattendee.CouponTypeId,
+                   RemainingCoupons = eventattendee.RemainingCoupons,
+                   ModifiedBy = Convert.ToInt64(mid),
+                    ModifiedOn = DateTime.Now,
+                   ModeOfPayment = eventattendee.ModeOfPayment
 
+
+                };
+                _context.Eventattendees.Add(member);
+                _context.SaveChanges();
+            }
+            else
+            {
+
+                var member = new Eventattendee()
+                {
+                    Id = eventattendee.Id,
+                    EventId = eventattendee.EventId,
+                    AttendeeName = eventattendee.AttendeeName,
+                    ContactNo = eventattendee.ContactNo,
+                    CouponsPurchased = eventattendee.CouponsPurchased,
+                    PurchasedOn = eventattendee.PurchasedOn,
+                    TotalAmount = eventattendee.TotalAmount,
+                    Remarks = eventattendee.Remarks,
+                    CouponTypeId = eventattendee.CouponTypeId,
+                    RemainingCoupons = eventattendee.RemainingCoupons,
+                    CreatedOn = eventattendee.CreatedOn,
+                    CreatedBy = eventattendee.CreatedBy,
+                    ModifiedBy = Convert.ToInt64(mid),
+                    ModifiedOn = DateTime.Now,
+                    ModeOfPayment = eventattendee.ModeOfPayment
+                };
+                _context.Eventattendees.Update(member);
+
+            }
+            _context.SaveChanges();
+
+            return Json("Member saved.");
+        }
+     
         // GET: Eventattendees/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null || _context.Eventattendees == null)
-            {
-                return NotFound();
-            }
-
-            var eventattendee = await _context.Eventattendees.FindAsync(id);
-            if (eventattendee == null)
-            {
-                return NotFound();
-            }
-            ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventattendee.CouponTypeId);
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.CreatedBy);
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventattendee.EventId);
-            ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id", eventattendee.InvitedBy);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.ModifiedBy);
-            return View(eventattendee);
+            
+            var attendee = _context.Eventattendees.Where(x => x.Id == id).FirstOrDefault();
+            return Json(attendee);
         }
 
         // POST: Eventattendees/Edit/5
@@ -238,31 +266,16 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventattendees/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public  IActionResult Delete(long? id)
         {
-            if (id == null || _context.Eventattendees == null)
-            {
-                return NotFound();
-            }
-
-            var eventattendee = await _context.Eventattendees
-                .Include(e => e.CouponType)
-                .Include(e => e.CreatedByNavigation)
-                .Include(e => e.Event)
-                .Include(e => e.InvitedByNavigation)
-                .Include(e => e.ModifiedByNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (eventattendee == null)
-            {
-                return NotFound();
-            }
-
-            return View(eventattendee);
+            var data = _context.Eventattendees.Where(e => e.Id == id).SingleOrDefault();
+            _context.Eventattendees.Remove(data);
+            _context.SaveChanges();
+            return Json("success");
+ 
         }
 
-        // POST: Eventattendees/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
             if (_context.Eventattendees == null)

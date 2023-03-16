@@ -1,0 +1,75 @@
+﻿@model Events.Web.Models.Eventattendee
+@{
+ 
+    var id = ViewBag.eid;
+}
+<div class="modal fade" id="addeditattendee" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="formAddEvent">
+                <div class="modal-body">
+                    <input id="attenid" value="" hidden>
+                    <input id="Createdby" value="" hidden>
+                    <input id="crearedon" type="date" value="" hidden>
+                    <div class="form-group">
+                        <label asp-for="EventId" class="control-label"></label>
+
+                        <input id="EventId" class="form-control" value="@id" readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AttendeeName"  class="control-label"></label>
+                        <input asp-for="AttendeeName" id="AttendeeName" class="form-control" value="" />
+                        <span asp-validation-for="AttendeeName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContactNo"  class="control-label"></label>
+                        <input asp-for="ContactNo" id="ContactNo" class="form-control" value="" />
+                        <span asp-validation-for="ContactNo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CouponsPurchased"  class="control-label"></label>
+                        <input asp-for="CouponsPurchased" id="CouponsPurchased" class="form-control" value="" />
+                        <span asp-validation-for="CouponsPurchased" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PurchasedOn" class="control-label"></label>
+                        <input type="date" id="PurchasedOn" class="form-control" value="" />
+                        <span asp-validation-for="PurchasedOn" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TotalAmount"  class="control-label"></label>
+                        <input asp-for="TotalAmount" id="TotalAmount" class="form-control" value="" />
+                        <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Remarks"  class="control-label"></label>
+                        <input asp-for="Remarks" id="Remarks" class="form-control" value="" />
+                        <span asp-validation-for="Remarks" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CouponTypeId"  class="control-label"></label>
+                        <select asp-for="CouponTypeId" id="CouponTypeId" class="form-control" asp-items="ViewBag.CouponTypeId" value=""></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RemainingCoupons"  class="control-label"></label>
+                        <input asp-for="RemainingCoupons" id="RemainingCoupons" class="form-control" value="" />
+                        <span asp-validation-for="RemainingCoupons" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button type="button" onclick="save_Attendee()" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

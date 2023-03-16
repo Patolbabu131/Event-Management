@@ -54,94 +54,94 @@ namespace Events.Web.Controllers
             return View();
         }
 
-        public ActionResult GetEventattendees(JqueryDatatableParam param, Int64 Id)
-        {
-            IEnumerable<dynamic> eventattendees = null;
-            if (Id == null || Id == 0)
-            {
-                eventattendees = _db.Eventattendees.ToList();
-            }
-            else
-            {
-                eventattendees = _db.Eventattendees.Where(m => m.EventId == Id);
-            }
+        //public ActionResult GetEventattendees(JqueryDatatableParam param, Int64 Id)
+        //{
+        //    IEnumerable<dynamic> eventattendees = null;
+        //    if (Id == null || Id == 0)
+        //    {
+        //        eventattendees = _db.Eventattendees.ToList();
+        //    }
+        //    else
+        //    {
+        //        eventattendees = _db.Eventattendees.Where(m => m.EventId == Id);
+        //    }
 
-            //Searching
-            if (!string.IsNullOrEmpty(param.sSearch))
-            {
-                eventattendees = eventattendees.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.AttendeeName.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ContactNo.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CouponsPurchased.ToString().Contains(param.sSearch.ToLower())
-                                              || x.PurchasedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.TotalAmount.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Remarks.ToString().Contains(param.sSearch.ToLower())
-                                              || x.InvitedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.RemainingCoupons.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModeOfPayment.ToString().Contains(param.sSearch.ToLower())).ToList();
-            }
-            //Sorting
-            if (param.iSortCol_0 == 0)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Id).ToList() : eventattendees.OrderByDescending(c => c.Id).ToList();
-            }
-            else if (param.iSortCol_0 == 1)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.EventId).ToList() : eventattendees.OrderByDescending(c => c.EventId).ToList();
-            }
-            else if (param.iSortCol_0 == 2)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.AttendeeName).ToList() : eventattendees.OrderByDescending(c => c.AttendeeName).ToList();
+        //    //Searching
+        //    if (!string.IsNullOrEmpty(param.sSearch))
+        //    {
+        //        eventattendees = eventattendees.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.EventId.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.AttendeeName.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.ContactNo.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.CouponsPurchased.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.PurchasedOn.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.TotalAmount.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.Remarks.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.InvitedBy.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.RemainingCoupons.ToString().Contains(param.sSearch.ToLower())
+        //                                      || x.ModeOfPayment.ToString().Contains(param.sSearch.ToLower())).ToList();
+        //    }
+        //    //Sorting
+        //    if (param.iSortCol_0 == 0)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Id).ToList() : eventattendees.OrderByDescending(c => c.Id).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 1)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.EventId).ToList() : eventattendees.OrderByDescending(c => c.EventId).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 2)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.AttendeeName).ToList() : eventattendees.OrderByDescending(c => c.AttendeeName).ToList();
 
-            }
-            else if (param.iSortCol_0 == 3)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ContactNo).ToList() : eventattendees.OrderByDescending(c => c.ContactNo).ToList();
-            }
-            else if (param.iSortCol_0 == 4)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.CouponsPurchased).ToList() : eventattendees.OrderByDescending(c => c.CouponsPurchased).ToList();
-            }
-            else if (param.iSortCol_0 == 5)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.TotalAmount).ToList() : eventattendees.OrderByDescending(c => c.TotalAmount).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
-            }
-            else if (param.iSortCol_0 == 7)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.InvitedBy).ToList() : eventattendees.OrderByDescending(c => c.InvitedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 8)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.CouponTypeId).ToList() : eventattendees.OrderByDescending(c => c.CouponTypeId).ToList();
-            }
-            else if (param.iSortCol_0 == 9)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.RemainingCoupons).ToList() : eventattendees.OrderByDescending(c => c.RemainingCoupons).ToList();
-            }
-            else if (param.iSortCol_0 == 10)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
-            }
+        //    }
+        //    else if (param.iSortCol_0 == 3)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ContactNo).ToList() : eventattendees.OrderByDescending(c => c.ContactNo).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 4)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.CouponsPurchased).ToList() : eventattendees.OrderByDescending(c => c.CouponsPurchased).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 5)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.TotalAmount).ToList() : eventattendees.OrderByDescending(c => c.TotalAmount).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 6)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 7)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.InvitedBy).ToList() : eventattendees.OrderByDescending(c => c.InvitedBy).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 8)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.CouponTypeId).ToList() : eventattendees.OrderByDescending(c => c.CouponTypeId).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 9)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.RemainingCoupons).ToList() : eventattendees.OrderByDescending(c => c.RemainingCoupons).ToList();
+        //    }
+        //    else if (param.iSortCol_0 == 10)
+        //    {
+        //        eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
+        //    }
 
 
 
-            //TotalRecords
-            var displayResult = eventattendees.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
-            var totalRecords = eventattendees.Count();
-            return Json(new
-            {
-                param.sEcho,
-                iTotalRecords = totalRecords,
-                iTotalDisplayRecords = totalRecords,
-                aaData = displayResult
-            });
-        }
+        //    //TotalRecords
+        //    var displayResult = eventattendees.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+        //    var totalRecords = eventattendees.Count();
+        //    return Json(new
+        //    {
+        //        param.sEcho,
+        //        iTotalRecords = totalRecords,
+        //        iTotalDisplayRecords = totalRecords,
+        //        aaData = displayResult
+        //    });
+        //}
         public ActionResult GetEventList(JqueryDatatableParam param)
         {
             var events = _db.Events.ToList();
@@ -150,6 +150,7 @@ namespace Events.Web.Controllers
             if (!string.IsNullOrEmpty(param.sSearch))
             {
                 events = events.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
+                                              || x.Id.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventName.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventYear.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventDate.ToString().Contains(param.sSearch.ToLower())
@@ -157,26 +158,38 @@ namespace Events.Web.Controllers
                                               || x.EventEndTime.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             ////Sorting
-            //if (param.iSortCol_0 == 0)
-            //{
-            //    schools = param.sSortDir_0 == "asc" ? schools.OrderBy(c => c.SId).ToList() : schools.OrderByDescending(c => c.SId).ToList();
-            //}
-            //else if (param.iSortCol_0 == 1)
-            //{
-            //    schools = param.sSortDir_0 == "asc" ? schools.OrderBy(c => c.SName).ToList() : schools.OrderByDescending(c => c.SName).ToList();
-            //}
-            //else if (param.iSortCol_0 == 2)
-            //{
-            //    schools = param.sSortDir_0 == "asc" ? schools.OrderBy(c => c.SAddress).ToList() : schools.OrderByDescending(c => c.SAddress).ToList();
-            //}
-            //else if (param.iSortCol_0 == 3)
-            //{
-            //    schools = param.sSortDir_0 == "asc" ? schools.OrderBy(c => c.SCity).ToList() : schools.OrderByDescending(c => c.SCity).ToList();
-            //}
-            //else if (param.iSortCol_0 == 4)
-            //{
-            //    schools = param.sSortDir_0 == "asc" ? schools.OrderBy(c => c.SState).ToList() : schools.OrderByDescending(c => c.SState).ToList();
-            //}
+            if (param.iSortCol_0 == 0)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.Id).ToList() : events.OrderByDescending(c => c.Id).ToList();
+            }
+            else if (param.iSortCol_0 == 1)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventName).ToList() : events.OrderByDescending(c => c.EventName).ToList();
+            }
+            else if (param.iSortCol_0 == 2)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventDate).ToList() : events.OrderByDescending(c => c.EventDate).ToList();
+            }
+            else if (param.iSortCol_0 == 3)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventVenue).ToList() : events.OrderByDescending(c => c.EventVenue).ToList();
+            }
+            else if (param.iSortCol_0 == 4)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventStartTime).ToList() : events.OrderByDescending(c => c.EventStartTime).ToList();
+            }
+            else if (param.iSortCol_0 == 5)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventEndTime).ToList() : events.OrderByDescending(c => c.EventEndTime).ToList();
+            }
+            else if (param.iSortCol_0 == 6)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventYear).ToList() : events.OrderByDescending(c => c.EventYear).ToList();
+            }
+            else if (param.iSortCol_0 == 7)
+            {
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.FoodMenu).ToList() : events.OrderByDescending(c => c.FoodMenu).ToList();
+            }
 
             //TotalRecords
             var displayResult = events.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
@@ -219,7 +232,23 @@ namespace Events.Web.Controllers
             }
             else
             {
-                _db.Update(events);
+                string mid = cd.HttpContext.Session.GetString("MID");
+                var eventt = new Event()
+                {
+                    Id=events.Id,
+                    EventName = events.EventName,
+                    EventDate = events.EventDate,
+                    EventVenue = events.EventVenue,
+                    EventStartTime = events.EventStartTime,
+                    EventEndTime = events.EventEndTime,
+                    EventYear = events.EventDate,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = Convert.ToInt64(mid),
+                    ModifiedBy = Convert.ToInt64(mid),
+                    ModifiedOn = DateTime.Now,
+                    FoodMenu = "nothing"
+                };
+                _db.Events.Update(eventt);
             }
             _db.SaveChanges();
             return Json("ok");

@@ -1,6 +1,6 @@
 ﻿
 function functionToCall(id) {
-    alert(id);
+
     datatable = $('#Eventattendeestable')
         .DataTable
         ({
@@ -14,87 +14,189 @@ function functionToCall(id) {
                 "processing":
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
-            "columns": [
+            columns: [
                 {
                     "data": "id",
-
                 },
                 {
                     "data": "eventId",
-
                 },
                 {
-                    "data": 'sponsorImage',
-                    "render": function (data, type, row, meta) {
-                        return '<img src="' + row.sponsorImage + '" width="40px">';
+                    "data": "attendeeName",
+                },
+                {
+                    "data": "contactNo",
+                },
+                {
+                    "data": "couponsPurchased",
+                },
+                {
+
+                    "data": "purchasedOn",
+                    "render": function (data) {
+                        var date = new Date(data);
+                        var month = date.getMonth() + 1;
+                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
-                }
-                //{
-                //    "data": "duties",
-                //    render: function (data, type, row, meta) {
-                //        return row.duties
-                //    }
-                //},
-                //{
-                //    render: function (data, type, row, meta) {
-                //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
-                //    }
-                //}
+                  
+                },
+                {
+                    "data": "couponTypeId",
+                },
+                {
+
+                    "data": "totalAmount",
+                },
+
+                {
+                    "data": "modeOfPayment"
+                },
+
+                {
+                    "data": "remainingCoupons"
+                },
+                {
+                    "data": "remarks",
+                },
+                {
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.createdOn);
+                        var month = date.getMonth();
+                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+                    }
+                },
+                {
+                    "data": "createdBy",
+                },
+              
+                {
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.modifiedOn);
+                        var month = date.getMonth();
+                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+                    }
+               
+                },
+                {
+                    "data": "modifiedBy"
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_attendee(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                    }
+                },
+
             ]
         });
 
 }
-function eventattendeestable(EID) {
+
+$(document).ready(function () {
+
+});
+
+function create_attendee(id) {
     $.ajax({
 
-        url: '/Eventattendees/Index',
-        success: OnSuccess
-    });
+        url: '/Eventattendees/CreateEdit/' + id,
+        success: function (resonce) {
+            $('#Attendees').html(resonce);
+            $("#addeditattendee").modal('show');
+            
+        }
+    })
+}
 
+function save_Attendee() {
+    var data = {
+        Id: $("#attenid").val(),
+        EventId: $("#EventId").val(),
+        AttendeeName: $("#AttendeeName").val(),
+        ContactNo: $("#ContactNo").val(),
+        CouponsPurchased: $("#CouponsPurchased").val(),
+        PurchasedOn: $("#PurchasedOn").val(),
+        TotalAmount: $("#TotalAmount").val(),
+        Remarks: $("#Remarks").val(),
+        CouponTypeId: $("#CouponTypeId").val(),
+        RemainingCoupons: $("#RemainingCoupons").val(),
+        CreatedBy:$("#Createdby").val(),
+        CreatedOn:$("#crearedon").val()
+    }
+    $.ajax({
+        type: "post",
+        url: '/Eventattendees/CreateEdit1',
+        data: data,
+        success: function (resonce) {
+            alert(resonce);
+            window.location.reload();
+        }
+    })
+}
 
-    datatable = $('#Eventattendeestable')
-        .DataTable
-        ({
-            "sAjaxSource": "/Events/GetEventattendees/" + EID,
-            "bServerSide": true,
-            "bProcessing": true,
-            "bSearchable": true,
-            "filter": true,
-            "language": {
-                "emptyTable": "No record found.",
-                "processing":
-                    '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
-            },
-            "columns": [
-                {
-                    "data": "id",
+function details_event(id) {
+    $.ajax({
+        type: "post",
+        data: id,
+        url: '/Events/EventsDetails/' + id,
+        success: function (resonce) {
+            $('#CreateContainer').html(resonce);
+            $("#DetailsEventsModal").modal('show');
+        }
+    })
+}
 
-                },
-                {
-                    "data": "eventId",
+function edit_attendee(id) {
+    $.ajax({
+        type: "get",
+        url: '/Eventattendees/CreateEdit/'+id,
+        success: function (resonce) {
+            $('#Attendees').html(resonce);
+            $("#addeditattendee").modal('show');
 
-                },
-                {
-                    "data": 'sponsorImage',
-                    "render": function (data, type, row, meta) {
-                        return '<img src="' + row.sponsorImage + '" width="40px">';
-                    }
+            $.ajax({
+                type: "get",
+                url: '/Eventattendees/Edit/' + id,
+                success: function (resonce) {
+                    var now = new Date(resonce.purchasedOn);
+                    var day = ("0" + now.getDate()).slice(-2);
+                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                    var today = now.getFullYear() + "-" + month + "-" + day;
+
+                    var now = new Date(resonce.createdOn);
+                    var day = ("0" + now.getDate()).slice(-2);
+                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                    var todayq = now.getFullYear() + "-" + month + "-" + day;
+
+                    $("#attenid").val(resonce.id);
+                    $("#EventId").val(resonce.eventId);
+                    $("#AttendeeName").val(resonce.attendeeName);
+                    $("#ContactNo").val(resonce.contactNo);
+                    $("#CouponsPurchased").val(resonce.couponsPurchased);
+                    $("#PurchasedOn").val(today);
+                    $("#TotalAmount").val(resonce.totalAmount);
+                    $("#Remarks").val(resonce.remarks);
+                    $("#CouponTypeId").val(resonce.couponTypeId);
+                    $("#RemainingCoupons").val(resonce.remainingCoupons);
+                    $("#Createdby").val(resonce.createdBy);
+                    $("#crearedon").val(todayq);
+
                 }
-                //{
-                //    "data": "duties",
-                //    render: function (data, type, row, meta) {
-                //        return row.duties
-                //    }
-                //},
-                //{
-                //    render: function (data, type, row, meta) {
-                //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
-                //    }
-                //}
-            ]
-        });
+            })
+        }
+    })
 
 }
-$(document).ready(function () {
-  
-});
+
+function Delete(id) {
+    var confirmation = confirm("Are you sure to delete this Member...");
+    if (confirmation) {
+        $.ajax({
+            type: "post",
+            url: '/Eventattendees/Delete/' + id,
+            success: function (resonce) {
+                alert("Record Deleted Successfuly..");
+                window.location.reload();
+            }
+        })
+    }
+}

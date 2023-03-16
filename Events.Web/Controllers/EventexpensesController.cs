@@ -13,18 +13,109 @@ namespace Events.Web.Controllers
     public class EventexpensesController : Controller
     {
         private readonly EventDbContext _context;
-
-        public EventexpensesController(EventDbContext context)
+        private readonly IHttpContextAccessor cd;
+        public EventexpensesController(EventDbContext context, IHttpContextAccessor cd)
         {
             _context = context;
+            this.cd = cd;   
         }
 
         // GET: Eventexpenses
-        public IActionResult Index()
+        public ActionResult Index(Int64 Id)
         {
-            return View();
-        }
+            if (Id == null || Id == 0)
+            {
+                return View();
+            }
+            else
+            {
+                ViewBag.Eid = Id;
+                return View();
+            }
 
+        }
+        public ActionResult GetEventwxpenses(JqueryDatatableParam param, Int64 Id)
+        {
+
+
+            IEnumerable<dynamic> expenses = null;
+            if (Id == null || Id == 0)
+            {
+                expenses = _context.Eventexpenses.ToList();
+            }
+            else
+            {
+                expenses = _context.Eventexpenses.Where(m => m.EventId == Id);
+            }
+            //Searching
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                expenses = expenses.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
+                                              || x.EventId.ToString().Contains(param.sSearch.ToLower())
+                                              || x.ExpenseName.ToString().Contains(param.sSearch.ToLower())
+                                              || x.ExpenseSubject.ToString().Contains(param.sSearch.ToLower())
+                                              || x.AmountSpent.ToString().Contains(param.sSearch.ToLower())
+                                              || x.CreatedOn.ToString().Contains(param.sSearch.ToLower())
+                                              || x.CreatedBy.ToString().Contains(param.sSearch.ToLower())
+                                              || x.Remarks.ToString().Contains(param.sSearch.ToLower())
+                                              || x.ModifiedBy.ToString().Contains(param.sSearch.ToLower())
+                                              || x.ModifiedOn.ToString().Contains(param.sSearch.ToLower())).ToList();
+            }
+            //Sorting
+            else if (param.iSortCol_0 == 0)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.Id).ToList() : expenses.OrderByDescending(c => c.Id).ToList();
+            }
+            if (param.iSortCol_0 == 1)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.EventId).ToList() : expenses.OrderByDescending(c => c.EventId).ToList();
+            }
+            else if (param.iSortCol_0 == 2)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ExpenseName).ToList() : expenses.OrderByDescending(c => c.ExpenseName).ToList();
+            }
+            else if (param.iSortCol_0 == 3)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ExpenseSubject).ToList() : expenses.OrderByDescending(c => c.ExpenseSubject).ToList();
+
+            }
+            else if (param.iSortCol_0 == 4)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.AmountSpent).ToList() : expenses.OrderByDescending(c => c.AmountSpent).ToList();
+            }
+            else if (param.iSortCol_0 == 5)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.CreatedOn).ToList() : expenses.OrderByDescending(c => c.CreatedOn).ToList();
+            }
+            else if (param.iSortCol_0 == 6)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.CreatedBy).ToList() : expenses.OrderByDescending(c => c.CreatedBy).ToList();
+            }
+            else if (param.iSortCol_0 == 7)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.Remarks).ToList() : expenses.OrderByDescending(c => c.Remarks).ToList();
+            }
+            else if (param.iSortCol_0 == 8)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ModifiedBy).ToList() : expenses.OrderByDescending(c => c.ModifiedBy).ToList();
+
+            }
+            else if (param.iSortCol_0 == 8)
+            {
+                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ModifiedOn).ToList() : expenses.OrderByDescending(c => c.ModifiedOn).ToList();
+
+            }
+            //TotalRecords
+            var displayResult = expenses.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+            var totalRecords = expenses.Count();
+            return Json(new
+            {
+                param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalRecords,
+                aaData = displayResult
+            });
+        }
 
         // GET: Eventexpenses/Details/5
         public async Task<IActionResult> Details(long? id)
@@ -47,110 +138,81 @@ namespace Events.Web.Controllers
             return View(eventexpense);
         }
 
-        // GET: Eventexpenses/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult CreateEdit(Int64 Id)
         {
             ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id");
+            ViewBag.eid = Id;
             ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
-            return View();
+            return PartialView("CreateEdit");
         }
 
-        // POST: Eventexpenses/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExpenseName,EventId,ExpenseSubject,AmountSpent,CreatedOn,CreatedBy,Remarks,ModifiedBy,ModifiedOn")] Eventexpense eventexpense)
+        public  IActionResult CreateEdit( Eventexpense eventexpense)
         {
-            if (ModelState.IsValid)
+            string mid = cd.HttpContext.Session.GetString("MID");
+            if (eventexpense.Id == null || eventexpense.Id == 0)
             {
-                _context.Add(eventexpense);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var Expenses = new Eventexpense()
+                {
+                    EventId = eventexpense.EventId,
+                    ExpenseName = eventexpense.ExpenseName,
+                    ExpenseSubject = eventexpense.ExpenseSubject,
+                    AmountSpent = eventexpense.AmountSpent,
+                    Remarks = eventexpense.Remarks,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = Convert.ToInt64(mid),
+                    ModifiedBy = Convert.ToInt64(mid),
+                    ModifiedOn = DateTime.Now,
+
+                };
+                _context.Eventexpenses.Add(Expenses);
+                _context.SaveChanges();
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventexpense.CreatedBy);
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventexpense.EventId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventexpense.ModifiedBy);
-            return View(eventexpense);
+            else
+            {
+
+                var Expenses = new Eventexpense()
+                {
+                    Id=eventexpense.Id,
+                    EventId = eventexpense.EventId,
+                    ExpenseName = eventexpense.ExpenseName,
+                    ExpenseSubject = eventexpense.ExpenseSubject,
+                    AmountSpent = eventexpense.AmountSpent,
+                    Remarks = eventexpense.Remarks,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = Convert.ToInt64(mid),
+                    ModifiedBy = Convert.ToInt64(mid),
+                    ModifiedOn = DateTime.Now,
+
+                };
+                _context.Eventexpenses.Update(Expenses);
+
+            }
+            _context.SaveChanges();
+
+            return Json("Member saved.");
+
         }
 
         // GET: Eventexpenses/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(Int64 id)
         {
-            if (id == null || _context.Eventexpenses == null)
-            {
-                return NotFound();
-            }
+        
 
             var eventexpense = await _context.Eventexpenses.FindAsync(id);
-            if (eventexpense == null)
-            {
-                return NotFound();
-            }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventexpense.CreatedBy);
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventexpense.EventId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventexpense.ModifiedBy);
-            return View(eventexpense);
-        }
-
-        // POST: Eventexpenses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,ExpenseName,EventId,ExpenseSubject,AmountSpent,CreatedOn,CreatedBy,Remarks,ModifiedBy,ModifiedOn")] Eventexpense eventexpense)
-        {
-            if (id != eventexpense.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(eventexpense);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EventexpenseExists(eventexpense.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventexpense.CreatedBy);
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventexpense.EventId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventexpense.ModifiedBy);
-            return View(eventexpense);
+            
+            return Json(eventexpense);
         }
 
         // GET: Eventexpenses/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            if (id == null || _context.Eventexpenses == null)
-            {
-                return NotFound();
-            }
-
-            var eventexpense = await _context.Eventexpenses
-                .Include(e => e.CreatedByNavigation)
-                .Include(e => e.Event)
-                .Include(e => e.ModifiedByNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (eventexpense == null)
-            {
-                return NotFound();
-            }
-
-            return View(eventexpense);
+            var data = _context.Eventexpenses.Where(e => e.Id == id).SingleOrDefault();
+            _context.Eventexpenses.Remove(data);
+            _context.SaveChanges();
+            return Json("success");
         }
 
         // POST: Eventexpenses/Delete/5

@@ -2,38 +2,55 @@
 
 @{
     ViewData["Title"] = "Index";
+    var id = ViewBag.Eid;
 }
 
-<h1>Index</h1>
+<html>
+<body onload="Loadsponsor(@id)">
+    <div id="sponsors"></div>
+    <div class="row">
+        <div class="col-6">
+            <h2 class="fw-bold mb-4">Sponsors</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" id="create_attendee" onclick="create_sponsors(@id);">Add Sponsors</a>
+        </div>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>EventId</th>
-            <th>SponsorsName</th>
-            <th>SponsorsOrganization</th>
-            <th>AmountSponsored</th>
-        </tr>
-    </thead>
-    <tbody>
 
-    </tbody>
-</table>
+    <div class="card shadow">
+
+        <div class="card-body  table-responsive">
+            <table id="sTable" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Event Id</th>
+                        <th>Sponsor Name</th>
+                        <th>Sponsor Organization</th>
+                        <th>AmountSponsored</th>
+                        <th>Created On</th>
+                        <th>Created By</th>
+                        <th>Modified By</th>
+                        <th>Modified On</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
 @section Scripts
     {
     <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/Eventsponsors/index.js"></script>
 
 }
-<script>
-    $(document).ready(function () {
-        GetemployeeList();
-    });
- 
-</script>
+

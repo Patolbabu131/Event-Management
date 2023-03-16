@@ -6,11 +6,16 @@
 
 <html>
 <body onload="functionToCall(@id)">
+    <div id="Attendees"></div>
+    <div class="row">
+        <div class="col-6">
+            <h2 class="fw-bold mb-4">Attendees</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" id="create_attendee" onclick="create_attendee(@id);">Add Attendees</a>
+        </div>
+    </div>
 
-    <h1>Index</h1>
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
 
     <div class="card shadow">
 
@@ -18,18 +23,23 @@
             <table id="Eventattendeestable" class="table">
                 <thead>
                     <tr>
-                        <th>EattendeesId</th>
+                        <th>ID</th>
                         <th>EventId</th>
-                        <th>InviteeName</th>
+                        <th>Attendee Name</th>
                         <th>ContactNo</th>
-                        <th>CouponsPurchased</th>
-                        <th>PurchasedOn</th>
-                        <th>TotalAmount</th>
+                        <th>Coupons Purchased</th>
+                        <th>Purchased On</th>
+                        <th>Coupon Type Id</th>
+                        <th>Total Amount</th>
+                        <th>Mode of Payment</th>
+                        <th>Remaining Coupons</th>
                         <th>Remarks</th>
-                        <th>CreatedOn</th>
-                        <th>CreatedBy</th>
-                        <th>CouponTypeId</th>
-                        <th>RemainingCoupons</th>
+                        <th>Created On</th>
+                        <th>Created By</th>
+                        <th>Modified On</th>
+                        <th>Modified by</th>
+                        <th></th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +56,6 @@
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
-    <script src="~/Scripts/Events/Index.js"></script>
     <script src="~/Scripts/Eventattendees/index.js"></script>
 
     

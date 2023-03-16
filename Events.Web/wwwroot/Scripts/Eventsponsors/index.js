@@ -1,19 +1,19 @@
-﻿function LoadCtypetable(id) {
-
-    datatable = $('#CtypeTable')
+﻿function Loadsponsor(id) {
+    datatable = $('#sTable')
         .DataTable
         ({
-            "sAjaxSource": "/Eventcoupontypes/Getctype/" + id,
+            "sAjaxSource": "/Eventsponsors/Getsponsors/" + id,
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
             "filter": true,
+            "autoWidth": true,
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
-            columns: [
+            "columns": [
                 {
                     "data": "id",
                 },
@@ -21,19 +21,17 @@
                     "data": "eventId",
                 },
                 {
-                    "data": "couponName"
+                    "data": "sponsorName",
                 },
                 {
-                    "data": "couponPrice",
+                    "data": "sponsorOrganization",
                 },
                 {
-                    "data": "active",
+                    "data": "amountSponsored",
                 },
                 {
-                    "data": "createdBy",
-                },
-                {
-                      "data": "createdOn",
+                 
+                        "data": "createdOn",
                     "render": function (data) {
                         var date = new Date(data);
                         var month = date.getMonth() + 1;
@@ -41,11 +39,13 @@
                     }
                 },
                 {
-                    "data": "modifiedBy"
+                    "data": "createdBy",
                 },
                 {
-                  
-                        "data": "modifiedOn",
+                    "data": "modifiedBy",
+                },
+                {
+                    "data": "modifiedOn",
                     "render": function (data) {
                         var date = new Date(data);
                         var month = date.getMonth() + 1;
@@ -55,43 +55,38 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_ct(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a> | <a class="btn btn-info" onclick="edit_sponsors(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 },
-
             ]
         });
-
 }
 
 
-
-function create_Ctype(id) {
+function create_sponsors(id) {
     $.ajax({
         type: "get",
-        url: '/Eventcoupontypes/CreateCType/'+id,
+        url: '/Eventsponsors/CreateEdit/' + id,
         success: function (resonce) {
-            $('#Ctype').html(resonce);
-            $("#addCTypee").modal('show');
+            $('#sponsors').html(resonce);
+            $("#addsponsors").modal('show');
         }
     })
 }
 
-
-
-function save_ctype() {
+function save_Sponsors() {
     var data = {
-        Id: $("#Coupontype").val(),
+        Id: $("#ID").val(),
         EventId: $("#EventId").val(),
-        CouponName: $("#CouponName").val(),
-        CouponPrice: $("#CouponPrice").val(),
-        Active: $("#Active").val(),
-        CreatedBy: $("#CreatedBy").val(),
+        SponsorName: $("#SponsorName").val(),
+        SponsorOrganization: $("#SponsorOrganization").val(),
+        AmountSponsored: $("#AmountSponsored").val(),
         CreatedOn: $("#CreatedOn").val(),
+        CreatedBy: $("#CreatedBy").val(),
     }
     $.ajax({
         type: "post",
-        url: '/Eventcoupontypes/CreateCType',
+        url: '/Eventsponsors/CreateEdit',
         data: data,
         success: function (resonce) {
             alert(resonce);
@@ -101,42 +96,44 @@ function save_ctype() {
 }
 
 
-function edit_ct(id) {
+function edit_sponsors(id) {
     $.ajax({
         type: "get",
-        url: '/Eventcoupontypes/CreateCType',
+        url: '/Eventsponsors/CreateEdit',
         success: function (resonce) {
-            $('#Ctype').html(resonce);
-            $("#addCTypee").modal('show');
+            $('#sponsors').html(resonce);
+            $("#addsponsors").modal('show');
+
 
             $.ajax({
                 type: "get",
-                url: '/Eventcoupontypes/Edit/' + id,
+                url: '/Eventsponsors/Edit/' + id,
                 success: function (resonce) {
                     var now = new Date(resonce.createdOn);
                     var day = ("0" + now.getDate()).slice(-2);
                     var month = ("0" + (now.getMonth() + 1)).slice(-2);
                     var today = now.getFullYear() + "-" + month + "-" + day;
 
-                    $("#Coupontype").val(resonce.id);
+                    $("#ID").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
-                    $("#CouponName").val(resonce.couponName);
-                    $("#CouponPrice").val(resonce.couponPrice);
-                    $("#Active").prop("checked", resonce.active);
-                    $("#CreatedBy").val(resonce.createdBy);
+                    $("#SponsorName").val(resonce.sponsorName);
+                    $("#SponsorOrganization").val(resonce.sponsorOrganization);
+                    $("#AmountSponsored").val(resonce.amountSponsored);
                     $("#CreatedOn").val(today);
+                    $("#CreatedBy").val(resonce.createdBy);     
                 }
             })
         }
     })
 
 }
+
+
 function Delete(id) {
     var confirmation = confirm("Are you sure to delete this Member...");
     if (confirmation) {
         $.ajax({
-            type: "get",
-            url: '/Eventcoupontypes/Delete/' + id,
+            url: '/Eventsponsors/Delete/    ' + id,
             success: function (resonce) {
                 alert("Record Deleted Successfuly..");
                 window.location.reload();

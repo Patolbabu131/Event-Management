@@ -2,57 +2,61 @@
 
 @{
     ViewData["Title"] = "Create";
+    var id = ViewBag.eid;
 }
 
-<h1>Create</h1>
 
-<h4>Eventcouponassignment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EventId" class="control-label"></label>
-                <select asp-for="EventId" class ="form-control" asp-items="ViewBag.EventId"></select>
+<div class="modal fade" id="addCAssign" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="form-group">
-                <label asp-for="ExecutiveMemberId" class="control-label"></label>
-                <select asp-for="ExecutiveMemberId" class ="form-control" asp-items="ViewBag.ExecutiveMemberId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CouponsFrom" class="control-label"></label>
-                <input asp-for="CouponsFrom" class="form-control" />
-                <span asp-validation-for="CouponsFrom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CouponsTo" class="control-label"></label>
-                <input asp-for="CouponsTo" class="form-control" />
-                <span asp-validation-for="CouponsTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalCoupons" class="control-label"></label>
-                <input asp-for="TotalCoupons" class="form-control" />
-                <span asp-validation-for="TotalCoupons" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedOn" class="control-label"></label>
-                <input asp-for="CreatedOn" class="form-control" />
-                <span asp-validation-for="CreatedOn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <select asp-for="CreatedBy" class ="form-control" asp-items="ViewBag.CreatedBy"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+            <form>
+                <div class="modal-body">
+                <input id="Cassignid" value="" hidden>
+                <div class="form-group">
+                    <label asp-for="EventId" class="control-label"></label>
+                        <input id="EventId" class="form-control" value="@id" readonly />
+                </div>
+                <div class="form-group" hidden>
+                    <label asp-for="ExecutiveMemberId" class="control-label"></label>
+                    <select asp-for="ExecutiveMemberId" id="ExecutiveMemberId" class="form-control" asp-items="ViewBag.ExecutiveMemberId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CouponsFrom" class="control-label"></label>
+                    <input asp-for="CouponsFrom" id="CouponsFrom" class="form-control" />
+                    <span asp-validation-for="CouponsFrom" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CouponsTo" class="control-label"></label>
+                    <input asp-for="CouponsTo" id="CouponsTo" class="form-control" />
+                    <span asp-validation-for="CouponsTo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalCoupons" class="control-label"></label>
+                    <input asp-for="TotalCoupons" id="TotalCoupons" class="form-control" />
+                    <span asp-validation-for="TotalCoupons" class="text-danger"></span>
+                </div>
+                <div class="form-group" hidden>
+                    <label asp-for="CreatedOn" class="control-label"></label>
+                    <input type="date" id="CreatedOn" class="form-control" />
+                    <span asp-validation-for="CreatedOn" class="text-danger"></span>
+                </div>
+                <div class="form-group" hidden>
+                    <label asp-for="CreatedBy" class="control-label"></label>
+                    <select asp-for="CreatedBy" id="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button type="button" onclick="save_Cassign()" class="btn btn-primary">Save</button>
+                </div>
+                </div>
+
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

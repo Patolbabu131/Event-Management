@@ -2,37 +2,53 @@
 
 @{
     ViewData["Title"] = "Index";
+    var id = ViewBag.Eid;
 }
+<html>
+<body onload="Coupenassign(@id)">
+<div id="Cassign"></div>
+<div class="row">
+    <div class="col-6">
+        <h2 class="fw-bold mb-4">Assigned Coupon</h2>
+    </div>
+    <div class="col-6 text-end">
+            <a class="btn btn-primary" onclick="create_cassign(@id)">Assign Coupon</a>
+    </div>
+</div>
 
-<h1>Index</h1>
+<div class="card shadow">
+    <div class="card-body">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>EcassignmentsId</th>
-            <th>EventId</th>
-            <th>CouponsFrom</th>
-            <th>CouponsTo</th>
-            <th>TotalCoupons</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+        <table id="Cassignmenttable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Event Id</th>
+                    <th>Executive Member Id</th>
+                    <th>Coupons From</th>
+                    <th>Coupons To</th>
+                    <th>Total Coupons</th>
+                    <th>Created On</th>
+                    <th>Created By</th>
+                    <th>Modified By</th>
+                    <th>Modified On</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+
+
 @section Scripts
     {
     <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
-
+    <script src="~/Scripts//Eventcouponassignments/index.js"></script>
 }
-<script>
-    $(document).ready(function () {
-        GetemployeeList();
-    });
-   
-</script>

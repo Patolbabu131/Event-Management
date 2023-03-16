@@ -1,29 +1,48 @@
 ﻿@model IEnumerable<Events.Web.Models.Eventexpense>
-
 @{
     ViewData["Title"] = "Index";
+    var id = ViewBag.Eid;
 }
 
-<h1>Index</h1>
+<html>
+<body onload="callbindexpenese(@id)">
+    <div id="expenses"></div>
+    <div class="row">
+        <div class="col-6">
+            <h2 class="fw-bold mb-4">Expenses</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" id="create_attendee" onclick="addEventListener_expenses(@id);">Add Expenses</a>
+        </div>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>EexpensesId</th>
-            <th>ExpenseName</th>
-            <th>EventId</th>
-            <th>ExpenseSubject</th>
-            <th>AmountSpent</th>
-            <th>Remarks</th>
-            <th>Edit</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+
+    <div class="card shadow">
+
+        <div class="card-body  table-responsive">
+            <table id="expensestable" class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Event Id</th>
+                        <th>Expense Name</th>
+                        <th>Subject</th>
+                        <th>Amount Spent</th>
+                        <th>CreatedOn</th>
+                        <th>CreatedBy</th>
+                        <th>Remarks</th>
+                        <th>ModifiedBy</th>
+                        <th>ModifiedOn</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
 
 
 
@@ -33,5 +52,5 @@
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
-    <script src="~/Scripts/EventexpensesController/index.js"></script>
+    <script src="~/Scripts/Eventexpenses//index.js"></script>
 }

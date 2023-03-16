@@ -22,9 +22,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\Scripts\Events\" />
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\Scripts\Eventsponsors\" />
     <Folder Include="wwwroot\Scripts\ExecutiveMembers\" />
-    <Folder Include="wwwroot\Scripts\EventexpensesController\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HttpPostedFileHelper" Version="1.2.0" />

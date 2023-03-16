@@ -1,39 +1,55 @@
 ﻿@model IEnumerable<Events.Web.Models.Eventcoupontype>
-
 @{
     ViewData["Title"] = "Index";
+    var id = ViewBag.Eid;
 }
 
-<h1>Index</h1>
+<html>
+<body onload="LoadCtypetable(@id)">
+    <div id="Ctype"></div>
+    <div class="row">
+        <div class="col-6">
+            <h2 class="fw-bold mb-4">Coupon Type</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" id="create_attendee" onclick="create_Ctype(@id);">Add Coupon Cype</a>
+        </div>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>EventId</th>
-            <th>CouponName</th>
-            <th>CouponPrice</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+
+    <div class="card shadow">
+
+        <div class="card-body  table-responsive">
+            <table id="CtypeTable" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Event Id</th>
+                        <th>Coupon Name</th>
+                        <th>Coupon Price</th>
+                        <th>Active</th>
+                        <th>Created By</th>
+                        <th>Created On</th>
+                        <th>Modified By</th>
+                        <th>Modified On</th>
+  
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
 @section Scripts
     {
     <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
-
+    <script src="~/Scripts/Eventcoupontypes/index.js"></script>
 }
 
-<script>
-    $(document).ready(function () {
-        GetemployeeList();
-    });
-
-</script>

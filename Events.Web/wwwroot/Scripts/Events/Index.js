@@ -120,6 +120,7 @@ function save_event() {
         data: data,
         success: function (resonce) {
             alert(resonce);
+            window.location.reload();
         }
     })
 }
@@ -140,15 +141,19 @@ function bindDatatable() {
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
-              
+                {
+                    "data":"id"
+                },
                 {
                     "data": "eventName",
                 },
                 {
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.eventDate);
-                        var month = date.getMonth();
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
+                   
+                        "data": "eventDate",
+                    "render": function (data) {
+                        var date = new Date(data);
+                        var month = date.getMonth() + 1;
+                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
                 },
                 {
@@ -167,6 +172,7 @@ function bindDatatable() {
                     }
                 },
                 {
+
                     "render": function (data, type, row, meta) {
                         var date = new Date(row.eventDate);
                         var month = date.getMonth();
@@ -188,7 +194,7 @@ function bindDatatable() {
                 {
                     render: function (data, type, row, meta)
                     {
-                        return '<table><tr><th> <a class="btn btn-primary"   href="/eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary" onclick="Index_Couponassignments(' + row.id + ')" >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary" onclick="Index_CType(' + row.id + ')" >Coupon Type</a> </td><td> <a class="btn btn-primary" onclick="Index_SImage(' + row.id + ')" >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary" onclick="Index_Sponsors(' + row.id + ')" >Sponsors</a> </td>  <td> <a class="btn btn-primary" onclick="Index_Expenses(' + row.id + ')" >Expenses</a> </td></tr></table>';
+                        return '<table><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td><td> <a class="btn btn-primary"  onclick="Index_SImage(' + row.id + ')" >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td>  <td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
                     }   
                 }
             ]
@@ -215,11 +221,7 @@ $(document).ready(function () {
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
-
     });
-
-
-   
 });
 
 function details_event(id) {
@@ -294,12 +296,12 @@ function delete_event(id) {
 }
 
 
-function eventattendeestable() {
-    $.ajax({
+//function eventattendeestable() {
+//      $.ajax({
 
-        url: '/Eventattendees/Index',
+//        url: '/Eventattendees/Index',
      
-    });
+//    });
 
 
     //datatable = $('#Eventattendeestable')
@@ -344,4 +346,3 @@ function eventattendeestable() {
     //        ]
     //    });
 
-}

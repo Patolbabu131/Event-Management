@@ -1,19 +1,19 @@
-﻿function LoadCtypetable(id) {
-
-    datatable = $('#CtypeTable')
+﻿function callbindexpenese(id) {
+    datatable = $('#expensestable')
         .DataTable
         ({
-            "sAjaxSource": "/Eventcoupontypes/Getctype/" + id,
+            "sAjaxSource": "/Eventexpenses/GetEventwxpenses/"+id,
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
             "filter": true,
+            "autoWidth": true,
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
-            columns: [
+            "columns": [
                 {
                     "data": "id",
                 },
@@ -21,19 +21,16 @@
                     "data": "eventId",
                 },
                 {
-                    "data": "couponName"
+                    "data": "expenseName",
                 },
                 {
-                    "data": "couponPrice",
+                    "data": "expenseSubject",
                 },
                 {
-                    "data": "active",
+                    "data": "amountSpent",
                 },
                 {
-                    "data": "createdBy",
-                },
-                {
-                      "data": "createdOn",
+                           "data": "createdOn",
                     "render": function (data) {
                         var date = new Date(data);
                         var month = date.getMonth() + 1;
@@ -41,11 +38,17 @@
                     }
                 },
                 {
-                    "data": "modifiedBy"
+                    "data": "createdBy",
                 },
                 {
-                  
-                        "data": "modifiedOn",
+                    "data": "remarks",
+                },
+               
+                {
+                    "data": "modifiedBy",
+                },
+                {
+                    "data": "modifiedOn",
                     "render": function (data) {
                         var date = new Date(data);
                         var month = date.getMonth() + 1;
@@ -55,43 +58,39 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_ct(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a> | <a class="btn btn-info" onclick="edit_expenses(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 },
-
             ]
         });
-
 }
 
 
-
-function create_Ctype(id) {
+function addEventListener_expenses(id) {
     $.ajax({
         type: "get",
-        url: '/Eventcoupontypes/CreateCType/'+id,
+        url: '/Eventexpenses/CreateEdit/'+id,
         success: function (resonce) {
-            $('#Ctype').html(resonce);
-            $("#addCTypee").modal('show');
+            $('#expenses').html(resonce);
+            $("#createexpenses").modal('show');
         }
     })
 }
 
-
-
-function save_ctype() {
+function save_eexpenses() {
     var data = {
-        Id: $("#Coupontype").val(),
+        Id: $("#expensesid").val(),
         EventId: $("#EventId").val(),
-        CouponName: $("#CouponName").val(),
-        CouponPrice: $("#CouponPrice").val(),
-        Active: $("#Active").val(),
-        CreatedBy: $("#CreatedBy").val(),
+        ExpenseName: $("#ExpenseName").val(),
+        ExpenseSubject: $("#ExpenseSubject").val(),
+        AmountSpent: $("#AmountSpent").val(),
         CreatedOn: $("#CreatedOn").val(),
+        CreatedBy: $("#CreatedBy").val(),
+        Remarks: $("#Remarks").val(),
     }
     $.ajax({
         type: "post",
-        url: '/Eventcoupontypes/CreateCType',
+        url: '/Eventexpenses/CreateEdit',
         data: data,
         success: function (resonce) {
             alert(resonce);
@@ -101,42 +100,45 @@ function save_ctype() {
 }
 
 
-function edit_ct(id) {
+function edit_expenses(id) {
     $.ajax({
         type: "get",
-        url: '/Eventcoupontypes/CreateCType',
+        url: '/Eventexpenses/CreateEdit' ,
         success: function (resonce) {
-            $('#Ctype').html(resonce);
-            $("#addCTypee").modal('show');
+            $('#expenses').html(resonce);
+            $("#createexpenses").modal('show');
+
 
             $.ajax({
                 type: "get",
-                url: '/Eventcoupontypes/Edit/' + id,
+                url: '/Eventexpenses/Edit/' + id,
                 success: function (resonce) {
                     var now = new Date(resonce.createdOn);
                     var day = ("0" + now.getDate()).slice(-2);
                     var month = ("0" + (now.getMonth() + 1)).slice(-2);
                     var today = now.getFullYear() + "-" + month + "-" + day;
 
-                    $("#Coupontype").val(resonce.id);
+                    $("#expensesid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
-                    $("#CouponName").val(resonce.couponName);
-                    $("#CouponPrice").val(resonce.couponPrice);
-                    $("#Active").prop("checked", resonce.active);
-                    $("#CreatedBy").val(resonce.createdBy);
+                    $("#ExpenseName").val(resonce.expenseName);
+                    $("#ExpenseSubject").val(resonce.expenseSubject);
+                    $("#AmountSpent").val(resonce.amountSpent);
+                    $("#Remarks").val(resonce.remarks);
                     $("#CreatedOn").val(today);
+                    $("#CreatedBy").val(resonce.createdBy);
                 }
             })
         }
     })
 
 }
+
 function Delete(id) {
     var confirmation = confirm("Are you sure to delete this Member...");
     if (confirmation) {
         $.ajax({
             type: "get",
-            url: '/Eventcoupontypes/Delete/' + id,
+            url: '/Eventexpenses/Delete/' + id,
             success: function (resonce) {
                 alert("Record Deleted Successfuly..");
                 window.location.reload();
