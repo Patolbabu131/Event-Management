@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;    
 
 namespace Events.Web.Models;
 
@@ -8,7 +9,7 @@ public partial class Eventattendee
     public long Id { get; set; }
 
     public long EventId { get; set; }
-
+    [Required(ErrorMessage ="lakh")]
     public string AttendeeName { get; set; } = null!;
 
     public string ContactNo { get; set; } = null!;

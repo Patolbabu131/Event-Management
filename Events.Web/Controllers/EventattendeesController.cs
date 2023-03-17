@@ -186,7 +186,8 @@ namespace Events.Web.Controllers
 
                 };
                 _context.Eventattendees.Add(member);
-                _context.SaveChanges();
+                _context.SaveChanges(); 
+                return Json("Event created...");
             }
             else
             {
@@ -210,11 +211,11 @@ namespace Events.Web.Controllers
                     ModeOfPayment = eventattendee.ModeOfPayment
                 };
                 _context.Eventattendees.Update(member);
+                _context.SaveChanges();
 
+                return Json("Event updated...");
             }
-            _context.SaveChanges();
-
-            return Json("Member saved.");
+          
         }
      
         // GET: Eventattendees/Edit/5

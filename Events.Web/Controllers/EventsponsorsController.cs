@@ -161,6 +161,7 @@ namespace Events.Web.Controllers
                 };
                 _context.Eventsponsors.Add(sponsor);
                 _context.SaveChanges();
+                return Json("Sponsor is Added...");
             }
             else
             {
@@ -178,9 +179,10 @@ namespace Events.Web.Controllers
                     ModifiedOn = DateTime.Now,
                 };
                 _context.Eventsponsors.Update(sponsor);
+                _context.SaveChanges();
+                return Json("Sponsor Updated");
             }
-            _context.SaveChanges();
-            return Json("ok");
+           
         }
 
 

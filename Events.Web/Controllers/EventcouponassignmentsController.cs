@@ -169,6 +169,8 @@ namespace Events.Web.Controllers
                 };
                 _context.Eventcouponassignments.Add(member);
                 _context.SaveChanges();
+
+                return Json("Coupon Assignments...");
             }
             else
             {
@@ -188,11 +190,12 @@ namespace Events.Web.Controllers
                     ModifiedOn = DateTime.Now,
                 };
                 _context.Eventcouponassignments.Update(member);
+                _context.SaveChanges();
+
+                return Json("Assigned Coupon Updated....");
 
             }
-            _context.SaveChanges();
-
-            return Json("Member saved.");
+        
         }
 
         public async Task<IActionResult> getEdit(long? id)

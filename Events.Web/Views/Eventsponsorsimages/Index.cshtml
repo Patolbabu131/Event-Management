@@ -2,38 +2,48 @@
 
 @{
     ViewData["Title"] = "Index";
+    var id = ViewBag.Eid;
 }
 
-<h1>Index</h1>
-<img src="C:\Users\admin\source\repos\EventsPSV\Events.Web\wwwroot\Files\Screenshot (11).png"></img>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div class="card shadow">
-    <div class="card-body">
-        <table id="Eventsponsorsimagestable" class="table">
-    <thead>
-        <tr>
-            <th>
-               Id
-            </th>
-            <th>
-                Event Id
-            </th>
-            <th>image</th>
-        </tr>
-    </thead>
-    <tbody>
+<html>
+<body onload="imgtable(@id)">
+    <div id="image"></div>
+    <div class="row">
+        <div class="col-6">
+            <h2 class="fw-bold mb-4">Spounsor Images</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" onclick="create_i(@id);">Add Attendees</a>
+        </div>
+    </div>
+    <div class="card shadow">
+        <div class="card-body">
+            <table id="Eventsponsorsimagestable" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Event Id
+                        </th>
+                        <th>image</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
 
-    </tbody>
-</table>
-</div>
-</div>
 @section Scripts
 {
     <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
-    <script src="~/Scripts/Eventsponsors/index.js"></script>
+    <script src="~/Scripts/Eventsponsorsimages/index.js"></script>
 }

@@ -60,7 +60,7 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return ' <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a> | <a class="btn btn-info" onclick="edit_cassign(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-info" onclick="edit_cassign(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 },
             ]

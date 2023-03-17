@@ -229,6 +229,7 @@ namespace Events.Web.Controllers
                 };
                 _db.Events.Add(eventt);
                 _db.SaveChanges();
+                return Json("Event is Created...");
             }
             else
             {
@@ -249,9 +250,10 @@ namespace Events.Web.Controllers
                     FoodMenu = "nothing"
                 };
                 _db.Events.Update(eventt);
+                _db.SaveChanges();
+                return Json("Event Updated");
             }
-            _db.SaveChanges();
-            return Json("ok");
+         
         }
 
         public IActionResult Edit(Int64 id)

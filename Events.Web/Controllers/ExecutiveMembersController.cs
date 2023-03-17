@@ -31,13 +31,11 @@ namespace Events.Web.Controllers
         }
         public IActionResult CreateMembers(Executivemember executivemember)
         {
-
             if (executivemember.Id == null)
             {
                 var id = _db.Executivemembers.ToList();
                 var member = new Executivemember()
                 {
-
                     FullName = executivemember.FullName,
                     Designation = executivemember.Designation,
                     AppointedOn = executivemember.AppointedOn,
@@ -47,10 +45,10 @@ namespace Events.Web.Controllers
                 };
                 _db.Executivemembers.Add(member);
                 _db.SaveChanges();
+                return Json("Member saved.");
             }
             else
             {
-
                 var member = new Executivemember()
                 {
                     Id = executivemember.Id,
@@ -62,10 +60,10 @@ namespace Events.Web.Controllers
                     ModifiedOn = DateTime.Now
                 };
                 _db.Executivemembers.Update(member);
+                _db.SaveChanges();
+                return Json("Member saved.");
             }
-            _db.SaveChanges();
-
-            return Json("Member saved.");
+     
         }
         public IActionResult GetEdit(Int64 id)
         {

@@ -82,7 +82,7 @@ function functionToCall(id) {
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_attendee(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 },
 
@@ -108,30 +108,39 @@ function create_attendee(id) {
 }
 
 function save_Attendee() {
-    var data = {
-        Id: $("#attenid").val(),
-        EventId: $("#EventId").val(),
-        AttendeeName: $("#AttendeeName").val(),
-        ContactNo: $("#ContactNo").val(),
-        CouponsPurchased: $("#CouponsPurchased").val(),
-        PurchasedOn: $("#PurchasedOn").val(),
-        TotalAmount: $("#TotalAmount").val(),
-        Remarks: $("#Remarks").val(),
-        CouponTypeId: $("#CouponTypeId").val(),
-        RemainingCoupons: $("#RemainingCoupons").val(),
-        CreatedBy:$("#Createdby").val(),
-        CreatedOn:$("#crearedon").val()
-    }
-    $.ajax({
-        type: "post",
-        url: '/Eventattendees/CreateEdit1',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
-        }
-    })
+    ValidationForm();
+    //var data = {
+    //    Id: $("#attenid").val(),
+    //    EventId: $("#EventId").val(),
+    //    AttendeeName: $("#AttendeeName").val(),
+    //    ContactNo: $("#ContactNo").val(),
+    //    CouponsPurchased: $("#CouponsPurchased").val(),
+    //    PurchasedOn: $("#PurchasedOn").val(),
+    //    TotalAmount: $("#TotalAmount").val(),
+    //    Remarks: $("#Remarks").val(),
+    //    CouponTypeId: $("#CouponTypeId").val(),
+    //    RemainingCoupons: $("#RemainingCoupons").val(),
+    //    CreatedBy:$("#Createdby").val(),
+    //    CreatedOn:$("#crearedon").val()
+    //}
+    //$.ajax({
+    //    type: "post",
+    //    url: '/Eventattendees/CreateEdit1',
+    //    data: data,
+    //    success: function (resonce) {
+    //        alert(resonce);
+    //        window.location.reload();
+    //    }
+    //})
 }
+
+function ValidationForm() {
+    if (!$("#formAddEvent").valid()) {
+        return false;
+    }
+}
+
+
 
 function details_event(id) {
     $.ajax({

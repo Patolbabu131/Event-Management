@@ -4,33 +4,39 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Eventsponsorsimage</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="EventId" class="control-label"></label>
-                <select asp-for="EventId" class="form-control" asp-items="ViewBag.EventId"></select>
-                <span asp-validation-for="EventId" class="text-danger"></span>
+<div class="modal fade" id="Editimage" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="form-group">
-                <label asp-for="SponsorImage" class="control-label"></label>
-                <input asp-for="SponsorImage" class="form-control" />
-                <span asp-validation-for="SponsorImage" class="text-danger"></span>
+            <div class="modal-body">
+                <form asp-action="Create"  enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="EventId" class="control-label"></label>
+                        <select asp-for="EventId" class="form-control" asp-items="ViewBag.EventId"></select>
+                        <span asp-validation-for="EventId" class="text-danger"></span>
+                    </div><br>
+                    <div class="form-group">
+                        <label  class="control-label"> Current Image</label>
+                        <img src="@Model.SponsorImage" width="200" class="form-control"></img>
+                    </div><br>
+                    <div class="form-group">
+                        <label asp-for="SponsorImage" class="control-label"></label>
+                        <input asp-for="File" class="form-control" />
+                        @*<input type="file" class="form-control" />*@
+                        <span asp-validation-for="SponsorImage" class="text-danger"></span>
+                    </div>
+                    <hr>
+                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    <input type="submit" class="btn btn-primary">
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="modal-footer">
             </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

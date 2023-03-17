@@ -1,10 +1,9 @@
-﻿$(document).ready(function () {
-
+﻿function imgtable(id) { 
     datatable = $('#Eventsponsorsimagestable')
         .DataTable
         ({
 
-            "sAjaxSource": "/Eventsponsorsimages/GetEventsponsorsimages",
+            "sAjaxSource": "/Eventsponsorsimages/GetEventsponsorsimages/"+id,
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
@@ -26,7 +25,12 @@
                 {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
-                        return '<img src="'+row.sponsorImage+'" width="40px">';
+                        return '<img src="'+row.sponsorImage+'" width="300px">';
+                    }
+                },
+                {
+                    render: function (data, type, row, meta) {
+                        return '<a class="btn btn-info" onclick="Edit_i(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 }
                 //{
@@ -44,4 +48,41 @@
         });
 
 
-});
+}
+
+function Delete(id) {
+    var confirmation = confirm("Are you sure to delete this Member...");
+    if (confirmation) {
+        $.ajax({
+            type: "get",
+            url: '/Eventsponsorsimages/Delete/' + id,
+            success: function (responce) {
+                alert(responce);
+                window.location.reload();
+            }
+        })
+    }
+}
+
+function create_i(id) {
+    $.ajax({
+        url: '/Eventsponsorsimages/Create/' + id,
+        success: function (resonce) {
+            $('#image').html(resonce);
+            $("#addimage").modal('show');
+
+        }
+    })
+}
+
+
+function Edit_i(id) {
+    $.ajax({
+        url: '/Eventsponsorsimages/Edit/' + id,
+        success: function (resonce) {
+            $('#image').html(resonce);
+            $("#Editimage").modal('show');
+
+        }
+    })
+}

@@ -165,6 +165,8 @@ namespace Events.Web.Controllers
                 };
                 _context.Eventcoupontypes.Add(Coupontype);
                 _context.SaveChanges();
+
+                return Json("Type of Coupon is Created...");
             }
             else
             {
@@ -183,11 +185,11 @@ namespace Events.Web.Controllers
                     ModifiedOn = DateTime.Now,
                 };
                 _context.Eventcoupontypes.Update(Coupontype);
-
-            }
                 _context.SaveChanges();
 
-                return Json("Member saved.");
+                return Json("Updated ...");
+            }
+       
             
             }
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
+using System.IO;
 
 
 namespace Events.Web.Controllers
@@ -13,24 +14,42 @@ namespace Events.Web.Controllers
     public class EventsponsorsimagesController : Controller
     {
         private readonly EventDbContext _context;
+        private readonly IHttpContextAccessor cd;
 
-        public EventsponsorsimagesController(EventDbContext context)
+        public EventsponsorsimagesController(EventDbContext context, IHttpContextAccessor cd)
         {
             _context = context;
+            this.cd = cd;
         }
 
         // GET: Eventsponsorsimages
-        public IActionResult Index()
+        public IActionResult Index(Int64 Id)
         {
-            return View();
+
+            if (Id == null || Id == 0)
+            {
+                return View();
+            }
+            else
+            {
+                ViewBag.Eid = Id;
+                return View();
+            }
         }
         
 
 
-        public ActionResult GetEventsponsorsimages(JqueryDatatableParam param)
+        public ActionResult GetEventsponsorsimages(JqueryDatatableParam param,Int64 Id)
         {
-            var image = _context.Eventsponsorsimages.ToList();
-
+            IEnumerable<dynamic> image = null;
+            if (Id == null || Id == 0)
+            {
+                image = _context.Eventsponsorsimages.ToList();
+            }
+            else
+            {
+                image = _context.Eventsponsorsimages.Where(m => m.EventId == Id);
+            }
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
@@ -79,10 +98,11 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventsponsorsimages/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create(Int64 id)
         {
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id");
-            return View();
+            ViewBag.Eid = id;
+            return PartialView("Create");
         }
 
         // POST: Eventsponsorsimages/Create
@@ -92,8 +112,16 @@ namespace Events.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Eventsponsorsimage eventsponsorsimage)
         {
-           
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
+            if (eventsponsorsimage.Id==null || eventsponsorsimage.Id==0)
+            {
+                string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + eventsponsorsimage.File.FileName);
+
+                if (System.IO.File.Exists(path1))
+                {
+                    return View();
+                }
+
+                string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
 
                 //create folder if not exist
                 if (!Directory.Exists(path))
@@ -112,14 +140,64 @@ namespace Events.Web.Controllers
                 var member = new Eventsponsorsimage()
                 {
                     EventId = eventsponsorsimage.EventId,
-                    SponsorImage= fileNameWithPath
+                    SponsorImage = Path.Combine("\\Files", fileName)
                 };
                 _context.Add(member);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(Index);
+            }
+            else
+            {
+                var image = _context.Eventsponsorsimages.Where(m => m.Id == eventsponsorsimage.Id).FirstOrDefault();
+       
+                string i = image.SponsorImage;
+                string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\" + i);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                else
+                {
+                    return View();
+                }
+
+
+                string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + eventsponsorsimage.File.FileName);
+
+                if (System.IO.File.Exists(path1))
+                {
+                    return View();
+                }
+
+                string path2 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
+
+                //create folder if not exist
+                if (!Directory.Exists(path2))
+                    Directory.CreateDirectory(path2);
+
+                //get file extension
+                FileInfo fileInfo = new FileInfo(eventsponsorsimage.File.FileName);
+                string fileName = eventsponsorsimage.File.FileName;
+
+                string fileNameWithPath = Path.Combine(path2, fileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    eventsponsorsimage.File.CopyTo(stream);
+                }
+                var member = new Eventsponsorsimage()
+                {
+                    Id=eventsponsorsimage.Id,
+                    EventId = eventsponsorsimage.EventId,
+                    SponsorImage = Path.Combine("\\Files", fileName)
+                };
+                _context.Eventsponsorsimages.Update(member);
+                await _context.SaveChangesAsync();
+                return View(Index);
+
+
+            }
             
-            //ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventsponsorsimage.EventId);
-            //return View(eventsponsorsimage);
         }
 
         // GET: Eventsponsorsimages/Edit/5
@@ -144,19 +222,15 @@ namespace Events.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,EventId,SponsorImage")] Eventsponsorsimage eventsponsorsimage)
+        public IActionResult Edit(Eventsponsorsimage eventsponsorsimage)
         {
-            if (id != eventsponsorsimage.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(eventsponsorsimage);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -176,22 +250,28 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventsponsorsimages/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public IActionResult Delete(long? id)
         {
             if (id == null || _context.Eventsponsorsimages == null)
             {
                 return NotFound();
             }
 
-            var eventsponsorsimage = await _context.Eventsponsorsimages
-                .Include(e => e.Event)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (eventsponsorsimage == null)
+            var image = _context.Eventsponsorsimages.Where(m => m.Id == id).FirstOrDefault();
+            string i = image.SponsorImage;
+
+            string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\"+ i);
+
+            if (System.IO.File.Exists(path))
             {
-                return NotFound();
+                System.IO.File.Delete(path);
             }
 
-            return View(eventsponsorsimage);
+            _context.Eventsponsorsimages.Remove(image);
+            _context.SaveChanges();
+
+
+            return Json("success");
         }
 
         // POST: Eventsponsorsimages/Delete/5

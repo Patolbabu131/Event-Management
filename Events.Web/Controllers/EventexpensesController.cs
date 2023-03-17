@@ -169,6 +169,8 @@ namespace Events.Web.Controllers
                 };
                 _context.Eventexpenses.Add(Expenses);
                 _context.SaveChanges();
+
+                return Json("Expense Added....");
             }
             else
             {
@@ -188,11 +190,11 @@ namespace Events.Web.Controllers
 
                 };
                 _context.Eventexpenses.Update(Expenses);
+                _context.SaveChanges();
 
+                return Json("Expense Updated...");
             }
-            _context.SaveChanges();
-
-            return Json("Member saved.");
+      
 
         }
 
