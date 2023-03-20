@@ -135,6 +135,7 @@ function save_Attendee() {
 }
 
 function ValidationForm() {
+
     if (!$("#formAddEvent").valid()) {
         return false;
     }
