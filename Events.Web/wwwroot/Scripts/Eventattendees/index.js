@@ -108,29 +108,36 @@ function create_attendee(id) {
 }
 
 function save_Attendee() {
-    var data = {
-        Id: $("#attenid").val(),
-        EventId: $("#EventId").val(),
-        AttendeeName: $("#AttendeeName").val(),
-        ContactNo: $("#ContactNo").val(),
-        CouponsPurchased: $("#CouponsPurchased").val(),
-        PurchasedOn: $("#PurchasedOn").val(),
-        TotalAmount: $("#TotalAmount").val(),
-        Remarks: $("#Remarks").val(),
-        CouponTypeId: $("#CouponTypeId").val(),
-        RemainingCoupons: $("#RemainingCoupons").val(),
-        CreatedBy:$("#Createdby").val(),
-        CreatedOn:$("#crearedon").val()
+    ValidationForm();
+    //var data = {
+    //    Id: $("#attenid").val(),
+    //    EventId: $("#EventId").val(),
+    //    AttendeeName: $("#AttendeeName").val(),
+    //    ContactNo: $("#ContactNo").val(),
+    //    CouponsPurchased: $("#CouponsPurchased").val(),
+    //    PurchasedOn: $("#PurchasedOn").val(),
+    //    TotalAmount: $("#TotalAmount").val(),
+    //    Remarks: $("#Remarks").val(),
+    //    CouponTypeId: $("#CouponTypeId").val(),
+    //    RemainingCoupons: $("#RemainingCoupons").val(),
+    //    CreatedBy:$("#Createdby").val(),
+    //    CreatedOn:$("#crearedon").val()
+    //}
+    //$.ajax({
+    //    type: "post",
+    //    url: '/Eventattendees/CreateEdit1',
+    //    data: data,
+    //    success: function (resonce) {
+    //        alert(resonce);
+    //        window.location.reload();
+    //    }
+    //})
+}
+
+function ValidationForm() {
+    if (!$("#formAddEvent").valid()) {
+        return false;
     }
-    $.ajax({
-        type: "post",
-        url: '/Eventattendees/CreateEdit1',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
-        }
-    })
 }
 
 
