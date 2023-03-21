@@ -105,24 +105,66 @@
 }
 
 function save_event() {
-    var data = {
-        Id: $("#EventID").val(),
-        EventName: $("#addEventName").val(),
-        EventDate: $("#addEventDate").val(),
-        EventVenue: $("#addEventVenue").val(),
-        EventStartTime: $("#addStartTime").val(),
-        EventEndTime: $("#addEndTime").val(),
-        FoodMenu: $("").val(),
-    }
-    $.ajax({
-        type: "post",
-        url: '/Events/CreateEvents',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
+    $("#formAddEvent").validate({
+        rules: {
+            addEventName: {
+                required: true,
+                maximum: 50,
+                minimum: 05,
+            },
+            addEventDate: {
+                required: true
+
+            },
+            addEventVenue: {
+                required: true
+            },
+            addStartTime: {
+                required: true
+            },
+            addEndTime: {
+                required: true
+            },
+        },
+        messages: {
+            addEventName: {
+                required: "Event Name is a required field!!!"
+            },
+            addEventDate: {
+                required: "Event Date is a required field!!!"
+            },
+            addEventVenue: {
+                required: "Event Venue is a required field!!!"
+            },
+            addStartTime: {
+                required: "Start Time is a required field!!!"
+            },
+            addEndTime: {
+                required: "End Time is a required field!!!"
+                },         
         }
-    })
+    });
+    if ($('#formAddEvent').valid()) {
+        var data = {
+            Id: $("#EventID").val(),
+            EventName: $("#addEventName").val(),
+            EventDate: $("#addEventDate").val(),
+            EventVenue: $("#addEventVenue").val(),
+            EventStartTime: $("#addStartTime").val(),
+            EventEndTime: $("#addEndTime").val(),
+            FoodMenu: $("").val(),
+        }
+        $.ajax({
+            type: "post",
+            url: '/Events/CreateEvents',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
+    }
+   
 }
 
 function bindDatatable() {
@@ -201,46 +243,7 @@ function bindDatatable() {
 
     /*---Deepti---*/
 
-    $("#tblevents").validate({
-        rules: {
-            id: {
-                required: true
-            },
-            eventName: {
-                required: true,
-                maximum: 50,
-                minimum: 05,
-            },
-            eventDate: {
-                required: true
-
-            },
-            eventVenue: {
-                required: true
-            },
-            foodMenu: {
-                required: true
-            }
-        },
-        messages: {
-            id: {
-                required: "ID is a required field!!!"
-            },
-            eventName: {
-                required: "Event Name is a required field!!!"
-            },
-            eventDate: {
-                required: "Event Date is a required field!!!"
-            },
-            eventVenue{
-                required: "Event Venue is a required field!!!"
-            },
-            foodMenu{
-                required: "Food Menu is a required field!!!"
-            }
-        }
-    });
-
+   
     /*---Deepti---*/
 }
 
