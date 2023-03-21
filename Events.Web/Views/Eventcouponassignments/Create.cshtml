@@ -13,7 +13,7 @@
                 <h5 class="modal-title"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
+            <form id="CAssignform">
                 <div class="modal-body">
                 <input id="Cassignid" value="" hidden>
                 <div class="form-group">
@@ -22,31 +22,31 @@
                 </div>
                 <div class="form-group" hidden>
                     <label asp-for="ExecutiveMemberId" class="control-label"></label>
-                    <select asp-for="ExecutiveMemberId" id="ExecutiveMemberId" class="form-control" asp-items="ViewBag.ExecutiveMemberId"></select>
+                    <select name="ExecutiveMemberId" id="ExecutiveMemberId" class="form-control" asp-items="ViewBag.ExecutiveMemberId"></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponsFrom" class="control-label"></label>
-                    <input asp-for="CouponsFrom" id="CouponsFrom" class="form-control" />
+                        <input name="CouponsFrom" id="CouponsFrom" class="form-control" />
                     <span asp-validation-for="CouponsFrom" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponsTo" class="control-label"></label>
-                    <input asp-for="CouponsTo" id="CouponsTo" class="form-control" />
+                        <input name="CouponsTo" id="CouponsTo" class="form-control" />
                     <span asp-validation-for="CouponsTo" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="TotalCoupons" class="control-label"></label>
-                    <input asp-for="TotalCoupons" id="TotalCoupons" class="form-control" />
+                        <input name="TotalCoupons" id="TotalCoupons" class="form-control" />
                     <span asp-validation-for="TotalCoupons" class="text-danger"></span>
                 </div>
                 <div class="form-group" hidden>
                     <label asp-for="CreatedOn" class="control-label"></label>
-                    <input type="date" id="CreatedOn" class="form-control" />
+                        <input type="date" name="CreatedOn" id="CreatedOn" class="form-control" />
                     <span asp-validation-for="CreatedOn" class="text-danger"></span>
                 </div>
                 <div class="form-group" hidden>
                     <label asp-for="CreatedBy" class="control-label"></label>
-                    <select asp-for="CreatedBy" id="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
+                        <select name="CreatedBy" id="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
