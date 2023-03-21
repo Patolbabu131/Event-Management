@@ -189,16 +189,16 @@ function save_Attendee() {
         RemainingCoupons: $("#RemainingCoupons").val(),
         CreatedBy: $("#Createdby").val(),
         CreatedOn: $("#crearedon").val()
-    }
-    $.ajax({
-        type: "post",
-        url: '/Eventattendees/CreateEdit1',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
         }
-    })
+        $.ajax({
+            type: "post",
+            url: '/Eventattendees/CreateEdit1',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
     }
 }
 
