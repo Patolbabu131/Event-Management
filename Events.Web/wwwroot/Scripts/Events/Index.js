@@ -148,8 +148,7 @@ function bindDatatable() {
                     "data": "eventName",
                 },
                 {
-                   
-                        "data": "eventDate",
+                    "data": "eventDate",
                     "render": function (data) {
                         var date = new Date(data);
                         var month = date.getMonth() + 1;
@@ -200,15 +199,57 @@ function bindDatatable() {
             ]
         });
 
-   
+    /*---Deepti---*/
 
+    $("#tblevents").validate({
+        rules: {
+            id: {
+                required: true
+            },
+            eventName: {
+                required: true,
+                maximum: 50,
+                minimum: 05,
+            },
+            eventDate: {
+                required: true
+
+            },
+            eventVenue: {
+                required: true
+            },
+            foodMenu: {
+                required: true
+            }
+        },
+        messages: {
+            id: {
+                required: "ID is a required field!!!"
+            },
+            eventName: {
+                required: "Event Name is a required field!!!"
+            },
+            eventDate: {
+                required: "Event Date is a required field!!!"
+            },
+            eventVenue{
+                required: "Event Venue is a required field!!!"
+            },
+            foodMenu{
+                required: "Food Menu is a required field!!!"
+            }
+        }
+    });
+
+    /*---Deepti---*/
 }
+
+
 
 
 $(document).ready(function () {
 
     $('#create_event').click(function () {
-     
         $.ajax({
             type: "get",
             url: '/Events/CreateEvent',
@@ -216,35 +257,14 @@ $(document).ready(function () {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
             }
-        
         })
-
-       
     });
     bindDatatable();
- 
-    function ok() {
-        $('#addStartTime').timepicker({
-            timeFormat: 'h:mm p',
-            interval: 60,
-            minTime: '10',
-            maxTime: '6:00pm',
-            defaultTime: '11',
-            startTime: '10:00',
-            dynamic: false,
-            dropdown: true,
-            scrollbar: true
-        });
 
-    }
-  
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
     });
-
-
-    
 });
 
 function details_event(id) {
@@ -281,8 +301,8 @@ function edit_event(id) {
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
-            //var strTime = start.getHours() + ':' + caches.getMinutes();
-            var strTime = (start.getHours || '00') + ':' + (start.getMinutess    || '00');
+            var strTime = start.getHours() + ':' + start.getMinutes();
+
             var ampm = "am";
             if (start.getHours > 12) {
                 start.getHours -= 12;
