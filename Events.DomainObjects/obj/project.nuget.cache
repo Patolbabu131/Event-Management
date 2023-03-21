@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "FApZotNw6iNmX4vDqiW0M0mtx5oCMKv4ns6arhIdyVrKfud6b5PryK/c9vJVIpmnlnjPpAbX6P/MDBFTzQP1hA==",
   "success": true,
   "projectFilePath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+=======
+  "dgSpecHash": "GgT9DfpF+CC3XRXiW0YJja0pBmq43mcr0iSRenNJH9gvlTOWxBZY4VrW3hx9Ul/mPc+cxN76yaipi5DnaM7wWg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+>>>>>>> origin/Deepti_Joshi
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
@@ -128,6 +134,12 @@
     "C:\\Users\\HP\\.nuget\\packages\\windowsazure.storage\\8.1.1\\windowsazure.storage.8.1.1.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1701",
       "level": "Warning",
