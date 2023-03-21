@@ -80,6 +80,15 @@ function create_Ctype(id) {
 
 
 function save_ctype() {
+  
+    if ($("#Active").is(':checked')) {
+        $("#Active").attr('value', 'true');
+        } else {
+        $("#Active").attr('value', 'false');
+        }
+
+     
+
     var data = {
         Id: $("#Coupontype").val(),
         EventId: $("#EventId").val(),

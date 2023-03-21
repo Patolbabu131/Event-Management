@@ -204,9 +204,11 @@ function bindDatatable() {
 
 }
 
+
 $(document).ready(function () {
 
     $('#create_event').click(function () {
+     
         $.ajax({
             type: "get",
             url: '/Events/CreateEvent',
@@ -214,14 +216,35 @@ $(document).ready(function () {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
             }
+        
         })
+
+       
     });
     bindDatatable();
+ 
+    function ok() {
+        $('#addStartTime').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '10',
+            maxTime: '6:00pm',
+            defaultTime: '11',
+            startTime: '10:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+        });
 
+    }
+  
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
     });
+
+
+    
 });
 
 function details_event(id) {
@@ -258,8 +281,8 @@ function edit_event(id) {
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
-            var strTime = start.getHours() + ':' + start.getMinutes();
-
+            //var strTime = start.getHours() + ':' + caches.getMinutes();
+            var strTime = (start.getHours || '00') + ':' + (start.getMinutess    || '00');
             var ampm = "am";
             if (start.getHours > 12) {
                 start.getHours -= 12;
