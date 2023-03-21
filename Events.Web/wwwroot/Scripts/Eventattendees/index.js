@@ -38,7 +38,7 @@ function functionToCall(id) {
                         var month = date.getMonth() + 1;
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
-                  
+
                 },
                 {
                     "data": "couponTypeId",
@@ -68,21 +68,21 @@ function functionToCall(id) {
                 {
                     "data": "createdBy",
                 },
-              
+
                 {
                     "render": function (data, type, row, meta) {
                         var date = new Date(row.modifiedOn);
                         var month = date.getMonth();
                         return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
                     }
-               
+
                 },
                 {
                     "data": "modifiedBy"
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a> | <a class="btn btn-primary" onclick="edit_attendee(' + row.id + ')" >Edit</a>';
                     }
                 },
 
@@ -92,8 +92,10 @@ function functionToCall(id) {
 }
 
 $(document).ready(function () {
-
+   
 });
+
+
 
 function create_attendee(id) {
     $.ajax({
@@ -103,12 +105,78 @@ function create_attendee(id) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
             
+           
         }
     })
 }
 
+
 function save_Attendee() {
-    var data = {
+    $("#formAddAttendees").validate({
+        rules: {
+            AttendeeName: "required",
+            ContactNo: {
+                required: true,
+                minlength: 10,
+                maxlength: 10
+            },
+            CouponsPurchased: {
+                required: true,
+                number: true
+            },
+            PurchasedOn: {
+                required: true,
+            },
+            TotalAmount: {
+                required: true,
+                number: true
+            },
+            Remarks: {
+                required: true,
+            },
+            CouponTypeId: {
+                required: true,
+                number: true
+            },
+            RemainingCoupons: {
+                required: true,
+                number: true
+            }
+
+        },
+        messages: {
+            AttendeeName: " Please enter AttendeeName",
+            ContactNo: " Please enter valid Contact Number",
+            CouponsPurchased: {
+                required: " Please enter Purchased Coupons",
+                number:"Invalid input"
+            },
+            PurchasedOn: {
+                required: "Please enter Date",
+            },
+            TotalAmount: {
+                required: " Please enter Amount ",
+                number: "Invalid input"
+            },
+            Remarks: "Please enter Remark",
+            CouponTypeId: {
+                required: " Please Select Id ",
+                number: "Invalid input"
+            },
+            RemainingCoupons: {
+                required: " Please Remaining Coupons ",
+                number: "Invalid input"
+            }
+        },
+        highlight: function (element) { 
+            $(element).parent().addClass('error')
+        },
+        unhighlight: function (element) {
+            $(element).parent().removeClass('error')
+        }
+    });
+    if ($('#formAddAttendees').valid()) {
+       var data = {
         Id: $("#attenid").val(),
         EventId: $("#EventId").val(),
         AttendeeName: $("#AttendeeName").val(),
@@ -119,20 +187,20 @@ function save_Attendee() {
         Remarks: $("#Remarks").val(),
         CouponTypeId: $("#CouponTypeId").val(),
         RemainingCoupons: $("#RemainingCoupons").val(),
-        CreatedBy:$("#Createdby").val(),
-        CreatedOn:$("#crearedon").val()
-    }
-    $.ajax({
-        type: "post",
-        url: '/Eventattendees/CreateEdit1',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
+        CreatedBy: $("#Createdby").val(),
+        CreatedOn: $("#crearedon").val()
         }
-    })
+        $.ajax({
+            type: "post",
+            url: '/Eventattendees/CreateEdit1',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
+    }
 }
-
 
 
 
@@ -152,7 +220,7 @@ function details_event(id) {
 function edit_attendee(id) {
     $.ajax({
         type: "get",
-        url: '/Eventattendees/CreateEdit/'+id,
+        url: '/Eventattendees/CreateEdit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');

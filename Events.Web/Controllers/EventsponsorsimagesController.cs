@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using System.IO;
-
+using System.Diagnostics.Metrics;
+using System.Drawing.Text;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Events.Web.Controllers
 {
@@ -15,6 +17,7 @@ namespace Events.Web.Controllers
     {
         private readonly EventDbContext _context;
         private readonly IHttpContextAccessor cd;
+
 
         public EventsponsorsimagesController(EventDbContext context, IHttpContextAccessor cd)
         {
@@ -104,16 +107,34 @@ namespace Events.Web.Controllers
             ViewBag.Eid = id;
             return PartialView("Create");
         }
-
+    
         // POST: Eventsponsorsimages/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Eventsponsorsimage eventsponsorsimage)
+        public IActionResult Create(Eventsponsorsimage eventsponsorsimage)
         {
-            if (eventsponsorsimage.Id==null || eventsponsorsimage.Id==0)
+
+            if (eventsponsorsimage.Id == null || eventsponsorsimage.Id == 0)
             {
+                Create1(eventsponsorsimage);
+                return View();
+            }
+            else
+            {
+                var img = _context.Eventsponsorsimages.Where(m => m.Id == eventsponsorsimage.Id).FirstOrDefault();
+                string i = img.SponsorImage;
+                string path111 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\" + i);
+
+                Create2(eventsponsorsimage, path111);
+                return View();
+            }
+               
+        }
+        public async Task<IActionResult> Create1(Eventsponsorsimage eventsponsorsimage)
+        {
+            
                 string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + eventsponsorsimage.File.FileName);
 
                 if (System.IO.File.Exists(path1))
@@ -144,62 +165,54 @@ namespace Events.Web.Controllers
                 };
                 _context.Add(member);
                 await _context.SaveChangesAsync();
-                return View(Index);
+            return View(Index);
+        }
+        public IActionResult Create2(Eventsponsorsimage eventsponsorsimage, string path111)
+        {
+            string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + eventsponsorsimage.File.FileName);
+
+            if (System.IO.File.Exists(path1))
+            {
+                return View();
+            }
+
+            string path2 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
+
+            //create folder if not exist
+            if (!Directory.Exists(path2))
+                Directory.CreateDirectory(path2);
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(eventsponsorsimage.File.FileName);
+            string fileName = eventsponsorsimage.File.FileName;
+
+            string fileNameWithPath = Path.Combine(path2, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                eventsponsorsimage.File.CopyTo(stream);
+            }
+            var member = new Eventsponsorsimage()
+            {
+                Id = eventsponsorsimage.Id,
+                EventId = eventsponsorsimage.EventId,
+                SponsorImage = Path.Combine("\\Files", fileName)
+            };
+            _context.Eventsponsorsimages.Update(member);
+            _context.SaveChanges();
+
+
+            if (System.IO.File.Exists(path111))
+            {
+                System.IO.File.Delete(path111);
             }
             else
             {
-                var image = _context.Eventsponsorsimages.Where(m => m.Id == eventsponsorsimage.Id).FirstOrDefault();
-       
-                string i = image.SponsorImage;
-                string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\" + i);
-                if (System.IO.File.Exists(path))
-                {
-                    System.IO.File.Delete(path);
-                }
-                else
-                {
-                    return View();
-                }
-
-
-                string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + eventsponsorsimage.File.FileName);
-
-                if (System.IO.File.Exists(path1))
-                {
-                    return View();
-                }
-
-                string path2 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
-
-                //create folder if not exist
-                if (!Directory.Exists(path2))
-                    Directory.CreateDirectory(path2);
-
-                //get file extension
-                FileInfo fileInfo = new FileInfo(eventsponsorsimage.File.FileName);
-                string fileName = eventsponsorsimage.File.FileName;
-
-                string fileNameWithPath = Path.Combine(path2, fileName);
-
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                {
-                    eventsponsorsimage.File.CopyTo(stream);
-                }
-                var member = new Eventsponsorsimage()
-                {
-                    Id=eventsponsorsimage.Id,
-                    EventId = eventsponsorsimage.EventId,
-                    SponsorImage = Path.Combine("\\Files", fileName)
-                };
-                _context.Eventsponsorsimages.Update(member);
-                await _context.SaveChangesAsync();
-                return View(Index);
-
-
+                return View();
             }
-            
-        }
+            return View();
 
+        }
         // GET: Eventsponsorsimages/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {

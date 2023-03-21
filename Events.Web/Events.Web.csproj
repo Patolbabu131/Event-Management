@@ -21,7 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\Files\" />
-    <Folder Include="wwwroot\Scripts\Events\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\Scripts\ExecutiveMembers\" />
   </ItemGroup>

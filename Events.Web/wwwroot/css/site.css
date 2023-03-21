@@ -217,3 +217,8 @@ div.dataTables_wrapper div.dataTables_filter {
         margin-bottom: 0.5rem;
     }
 }
+
+.error {
+    color: #F00;
+    
+}
