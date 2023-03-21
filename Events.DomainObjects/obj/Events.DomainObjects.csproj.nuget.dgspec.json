@@ -2,6 +2,7 @@
   "format": 1,
   "restore": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj": {}
   },
   "projects": {
@@ -15,17 +16,24 @@
         "outputPath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\obj\\",
 =======
     "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj": {}
+=======
+    "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj": {}
+>>>>>>> origin/Vraj_Shah
   },
   "projects": {
-    "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj": {
+    "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+        "projectUniqueName": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
         "projectName": "Events.DomainObjects",
-        "projectPath": "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+        "projectPath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+<<<<<<< HEAD
         "outputPath": "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\obj\\",
 >>>>>>> origin/Deepti_Joshi
+=======
+        "outputPath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\obj\\",
+>>>>>>> origin/Vraj_Shah
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -98,7 +106,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

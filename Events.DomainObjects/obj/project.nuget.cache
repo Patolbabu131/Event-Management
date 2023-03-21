@@ -1,6 +1,7 @@
 {
   "version": 2,
 <<<<<<< HEAD
+<<<<<<< HEAD
   "dgSpecHash": "FApZotNw6iNmX4vDqiW0M0mtx5oCMKv4ns6arhIdyVrKfud6b5PryK/c9vJVIpmnlnjPpAbX6P/MDBFTzQP1hA==",
   "success": true,
   "projectFilePath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
@@ -9,6 +10,11 @@
   "success": true,
   "projectFilePath": "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
 >>>>>>> origin/Deepti_Joshi
+=======
+  "dgSpecHash": "FApZotNw6iNmX4vDqiW0M0mtx5oCMKv4ns6arhIdyVrKfud6b5PryK/c9vJVIpmnlnjPpAbX6P/MDBFTzQP1hA==",
+  "success": true,
+  "projectFilePath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+>>>>>>> origin/Vraj_Shah
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
@@ -138,7 +144,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+      "message": "Problem reading the cache file C:\\Projects\\EventsPSV\\Events.DomainObjects\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     },
     {
       "code": "NU1701",
