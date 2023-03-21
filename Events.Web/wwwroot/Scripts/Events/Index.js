@@ -104,6 +104,8 @@
 
 }
 
+/*---Deepti---*/
+
 function save_event() {
     $("#formAddEvent").validate({
         rules: {
@@ -143,6 +145,9 @@ function save_event() {
                 },         
         }
     });
+
+    /*---Deepti---*/
+
     if ($('#formAddEvent').valid()) {
         var data = {
             Id: $("#EventID").val(),
@@ -239,11 +244,6 @@ function bindDatatable() {
                 }
             ]
         });
-
-    /*---Deepti---*/
-
-   
-    /*---Deepti---*/
 }
 
 
