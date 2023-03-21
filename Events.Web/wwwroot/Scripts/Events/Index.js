@@ -114,7 +114,6 @@ function save_event() {
             },
             addEventDate: {
                 required: true
-
             },
             addEventVenue: {
                 required: true
