@@ -66,7 +66,6 @@ function save_member() {
     }
 }
 
-
 function savemember(data) {
     $.ajax({
         type: "post",
