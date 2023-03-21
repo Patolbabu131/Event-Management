@@ -77,27 +77,75 @@ function addEventListener_expenses(id) {
     })
 }
 
+
+
+
 function save_eexpenses() {
-    var data = {
-        Id: $("#expensesid").val(),
-        EventId: $("#EventId").val(),
-        ExpenseName: $("#ExpenseName").val(),
-        ExpenseSubject: $("#ExpenseSubject").val(),
-        AmountSpent: $("#AmountSpent").val(),
-        CreatedOn: $("#CreatedOn").val(),
-        CreatedBy: $("#CreatedBy").val(),
-        Remarks: $("#Remarks").val(),
-    }
-    $.ajax({
-        type: "post",
-        url: '/Eventexpenses/CreateEdit',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
+    $("#formAddExpenses").validate({
+        rules: {
+            ExpenseName: "required",
+            ExpenseSubject: {
+                required: true,
+
+            },
+            PurchasedOn: {
+                required: true,
+            },
+            AmountSpent: {
+                required: true,
+                number: true
+            },
+            Remarks: {
+                required: true,
+            },
+        },
+        messages: {
+            ExpenseName: " Please enter ExpenseName",
+            ContactNo: " Please enter valid Contact Number",
+            ExpenseSubject: {
+                required: " Please enter ExpenseSubject",
+            },
+            AmountSpent: {
+                required: " Please enter Amount ",
+                number: "Invalid input"
+            },
+            AmountSpent: {
+                required: " Please AmountSpent ",
+            },
+            Remarks: "Please enter Remark",
+        },
+        highlight: function (element) {
+            $(element).parent().addClass('error')
+        },
+        unhighlight: function (element) {
+            $(element).parent().removeClass('error')
         }
-    })
+    });
+    if ($('#formAddExpenses').valid()) {
+        var data = {
+            Id: $("#expensesid").val(),
+            EventId: $("#EventId").val(),
+            ExpenseName: $("#ExpenseName").val(),
+            ExpenseSubject: $("#ExpenseSubject").val(),
+            AmountSpent: $("#AmountSpent").val(),
+            CreatedOn: $("#CreatedOn").val(),
+            CreatedBy: $("#CreatedBy").val(),
+            Remarks: $("#Remarks").val(),
+        }
+        $.ajax({
+            type: "post",
+            url: '/Eventexpenses/CreateEdit',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
+    }
 }
+
+
+
 
 
 function edit_expenses(id) {

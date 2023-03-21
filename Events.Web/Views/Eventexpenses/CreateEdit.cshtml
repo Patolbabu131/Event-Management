@@ -13,7 +13,7 @@
                 <h5 class="modal-title"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Create">
+            <form asp-action="Create" id="formAddExpenses">
                 <div class="modal-body">
                     <input type="text" id="expensesid" hidden></input>
                     <div class="form-group">
@@ -22,18 +22,18 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="ExpenseName" class="control-label"></label>
-                        <input asp-for="ExpenseName" id="ExpenseName" class="form-control" />
+                        <input name="ExpenseName" id="ExpenseName" class="form-control" />
                         <span asp-validation-for="ExpenseName" class="text-danger"></span>
                     </div>
                    
                     <div class="form-group">
                         <label asp-for="ExpenseSubject" class="control-label"></label>
-                        <input asp-for="ExpenseSubject" id="ExpenseSubject" class="form-control" />
+                        <input name="ExpenseSubject" id="ExpenseSubject" class="form-control" />
                         <span asp-validation-for="ExpenseSubject" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="AmountSpent" class="control-label"></label>
-                        <input asp-for="AmountSpent" id="AmountSpent" class="form-control" />
+                        <input name="AmountSpent" id="AmountSpent" class="form-control" />
                         <span asp-validation-for="AmountSpent" class="text-danger"></span>
                     </div>
                     <div class="form-group" hidden>
@@ -43,11 +43,11 @@
                     </div>
                     <div class="form-group" hidden>
                         <label asp-for="CreatedBy" id="CreatedBy" class="control-label"></label>
-                        <select asp-for="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
+                        <select name="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
                     </div>
                     <div class="form-group">
                         <label asp-for="Remarks" class="control-label"></label>
-                        <input asp-for="Remarks" id="Remarks" class="form-control" />
+                        <input name="Remarks" id="Remarks" class="form-control" />
                         <span asp-validation-for="Remarks" class="text-danger"></span>
                     </div>
           

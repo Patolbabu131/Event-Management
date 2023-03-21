@@ -244,6 +244,11 @@ function bindDatatable() {
                 }
             ]
         });
+
+    /*---Deepti---*/
+
+   
+    /*---Deepti---*/
 }
 
 
