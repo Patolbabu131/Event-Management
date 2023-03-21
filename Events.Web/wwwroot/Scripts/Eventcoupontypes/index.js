@@ -80,33 +80,55 @@ function create_Ctype(id) {
 
 
 function save_ctype() {
-  
+
+    $("#ctypeform").validate({
+        rules: {
+            CouponName: {
+                required: true,
+                maximum: 50,
+                minimum: 05,
+            },
+            CouponPrice: {
+                required: true
+            },
+        },
+        messages: {
+            CouponName: {
+                required: "Coupon Name is a required field!!!"
+            },
+            CouponPrice: {
+                required: "Coupon Price is a required field!!!"
+            },
+        }
+    });
+
     if ($("#Active").is(':checked')) {
         $("#Active").attr('value', 'true');
-        } else {
+    } else {
         $("#Active").attr('value', 'false');
-        }
-
-     
-
-    var data = {
-        Id: $("#Coupontype").val(),
-        EventId: $("#EventId").val(),
-        CouponName: $("#CouponName").val(),
-        CouponPrice: $("#CouponPrice").val(),
-        Active: $("#Active").val(),
-        CreatedBy: $("#CreatedBy").val(),
-        CreatedOn: $("#CreatedOn").val(),
     }
-    $.ajax({
-        type: "post",
-        url: '/Eventcoupontypes/CreateCType',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
+
+
+    if ($('#ctypeform').valid()) {
+        var data = {
+            Id: $("#Coupontype").val(),
+            EventId: $("#EventId").val(),
+            CouponName: $("#CouponName").val(),
+            CouponPrice: $("#CouponPrice").val(),
+            Active: $("#Active").val(),
+            CreatedBy: $("#CreatedBy").val(),
+            CreatedOn: $("#CreatedOn").val(),
         }
-    })
+        $.ajax({
+            type: "post",
+            url: '/Eventcoupontypes/CreateCType',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
+    }
 }
 
 

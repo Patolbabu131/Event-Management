@@ -51,7 +51,6 @@
                         var month = date.getMonth() + 1;
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
-
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -74,25 +73,63 @@ function create_sponsors(id) {
     })
 }
 
+/*---Deepti---*/
+
 function save_Sponsors() {
-    var data = {
-        Id: $("#ID").val(),
-        EventId: $("#EventId").val(),
-        SponsorName: $("#SponsorName").val(),
-        SponsorOrganization: $("#SponsorOrganization").val(),
-        AmountSponsored: $("#AmountSponsored").val(),
-        CreatedOn: $("#CreatedOn").val(),
-        CreatedBy: $("#CreatedBy").val(),
-    }
-    $.ajax({
-        type: "post",
-        url: '/Eventsponsors/CreateEdit',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
+
+    $("#formAddEvent").validate({
+        rules: {
+            SponsorName: {
+                required: true,
+                maximum: 50,
+                minimum: 05,
+            },
+            SponsorOrganization: {
+                required: true
+            },
+            AmountSponsored: {
+                required: true
+            },
+            CreatedOn: {
+                required: true
+            },
+        },
+        messages: {
+            SponsorName: {
+                required: "Sponsor Name is a required field!!!"
+            },
+            SponsorOrganization: {
+                required: "Sponsor Organization is a required field!!!"
+            },
+            AmountSponsored: {
+                required: "Amount Sponsored is a required field!!!"
+            },
+            CreatedOn: {
+                required: "Created On is a required field!!!"
+            },
         }
-    })
+    });
+
+    if ($('#formAddEvent').valid()) {
+        var data = {
+            Id: $("#ID").val(),
+            EventId: $("#EventId").val(),
+            SponsorName: $("#SponsorName").val(),
+            SponsorOrganization: $("#SponsorOrganization").val(),
+            AmountSponsored: $("#AmountSponsored").val(),
+            CreatedOn: $("#CreatedOn").val(),
+            CreatedBy: $("#CreatedBy").val(),
+        }
+        $.ajax({
+            type: "post",
+            url: '/Eventsponsors/CreateEdit',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
+    }
 }
 
 
