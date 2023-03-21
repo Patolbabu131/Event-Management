@@ -10,54 +10,54 @@ public partial class Event
     
     [DisplayName("ID")]
     public long Id { get; set; }  
-    [Required]
+    //[Required(ErrorMessage = "ID is required...")]
     
 
     [DisplayName("Event Name")]
     public string EventName { get; set; } = null!;
-    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-    [Required]
+    //[Required(ErrorMessage = "Event Name is required...")]
 
     [DisplayName("Event Date")]
     public DateTime EventDate { get; set; }
-    [Required]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+    //[Required(ErrorMessage = "Event Date is required...")]
 
     [DisplayName("Event Venue")]
     public string EventVenue { get; set; } = null!;
-    [Required]
+    //[Required(ErrorMessage = "Event Venue is required...")]
     
     [DisplayName("Event Start Time")]
     public DateTime EventStartTime { get; set; }
-    [Required]
+    //[Required(ErrorMessage = "Event Start Time is required...")]
     
     [DisplayName("Event End Time")]
     public DateTime EventEndTime { get; set; }
     [DisplayFormat(DataFormatString = "{0:yyyy}")]
-    [Required]
+    //[Required(ErrorMessage = "Eventg End Time is required...")]
 
     [DisplayName("Event Year")]
     public DateTime EventYear { get; set; }
-    [Required]
+    //[Required(ErrorMessage = "Event Year is required...")]    
     
     [DisplayName("Created By")]
     public long? CreatedBy { get; set; }
-    [Required]
+    //[Required(ErrorMessage = "Created By is required...")]
     
     [DisplayName("Created On")]
     public DateTime CreatedOn { get; set; }
-    [Required]
+    //[Required(ErrorMessage = "Created On is required...")]
    
     [DisplayName("Modified By")]
     public long? ModifiedBy { get; set; }
-    [Required]
+    //[Required(ErrorMessage = "Modified By is required...")]
     
     [DisplayName("Modified On")]
     public DateTime? ModifiedOn { get; set; }
-    [Required]
+    //[Required(ErrorMessage = "Modified On is required...")]
     
     [DisplayName("Food Menu")]
     public string FoodMenu { get; set; } = null!;
-    [Required]
+    //[Required(ErrorMessage = "Food Menu is required...")]
 
     public virtual Executivemember? CreatedByNavigation { get; set; }
     
