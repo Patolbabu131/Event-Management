@@ -104,13 +104,13 @@
 
 }
 
+/*---Deepti---*/
+
 function save_event() {
     $("#formAddEvent").validate({
         rules: {
             addEventName: {
                 required: true,
-                maximum: 50,
-                minimum: 05,
             },
             addEventDate: {
                 required: true
@@ -143,6 +143,9 @@ function save_event() {
             },
         }
     });
+
+    /*---Deepti---*/
+
     if ($('#formAddEvent').valid()) {
         var data = {
             Id: $("#EventID").val(),
@@ -182,7 +185,7 @@ function bindDatatable() {
             },
             "columns": [
                 {
-                    "data":"id"
+                    "data": "id"
                 },
                 {
                     "data": "eventName",
@@ -204,7 +207,7 @@ function bindDatatable() {
                         return Time.getHours() + ":" + Time.getMinutes();
                     }
                 },
-                {   
+                {
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventEndTime);
                         return Time.getHours() + ":" + Time.getMinutes();
@@ -215,7 +218,7 @@ function bindDatatable() {
                     "render": function (data, type, row, meta) {
                         var date = new Date(row.eventDate);
                         var month = date.getMonth();
-                        return  date.getFullYear();
+                        return date.getFullYear();
                     }
                 },
                 {
@@ -231,14 +234,17 @@ function bindDatatable() {
                     }
                 },
                 {
-                    render: function (data, type, row, meta)
-                    {
+                    render: function (data, type, row, meta) {
                         return '<table><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td>  <td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
-                    }   
+                    }
                 }
             ]
         });
 
+    /*---Deepti---*/
+
+
+    /*---Deepti---*/
 }
 
 
@@ -248,43 +254,42 @@ function bindDatatable() {
 $(document).ready(function () {
 
     $('#create_event').click(function () {
-     
+
         $.ajax({
             type: "get",
             url: '/Events/CreateEvent',
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
+                $('#addStartTime').timepicker({
+                    timeFormat: 'H:mm',
+                    dynamic: true,
+                    dropdown: true,
+                    scrollbar: true
+                });
+                $('#addEndTime').timepicker({
+                    timeFormat: 'H:mm',
+                    dynamic: true,
+                    dropdown: true,
+                    scrollbar: true
+                });
+              
             }
-        
         })
-
-       
     });
     bindDatatable();
  
-    function ok() {
-        $('#addStartTime').timepicker({
-            timeFormat: 'h:mm p',
-            interval: 60,
-            minTime: '10',
-            maxTime: '6:00pm',
-            defaultTime: '11',
-            startTime: '10:00',
-            dynamic: false,
-            dropdown: true,
-            scrollbar: true
-        });
+    setInterval(function () {
+        $(".ui-timepicker-container").css("z-index", "33442");
+    }, 100);
 
-    }
-  
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
     });
 
 
-    
+
 });
 
 function details_event(id) {
@@ -306,6 +311,18 @@ function edit_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#addEventModal").modal('show');
+            $('#addStartTime').timepicker({
+                timeFormat: 'H:mm',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+            $('#addEndTime').timepicker({
+                timeFormat: 'H:mm',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
         }
     })
 
@@ -321,14 +338,7 @@ function edit_event(id) {
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
-            //var strTime = start.getHours() + ':' + caches.getMinutes();
-            var strTime = (start.getHours || '00') + ':' + (start.getMinutess    || '00');
-            var ampm = "am";
-            if (start.getHours > 12) {
-                start.getHours -= 12;
-                ampm = "pm";
-            }
-           // = end.getHours() + ':' + end.getMinutes() + ampm;
+            var strTime = start.getHours() + ':' + start.getMinutes();
             var endtime = (end.getHours() || '00') + ':' + (end.getMinutes() || '00');
 
             $('#EventID').val(resonce.id);
@@ -337,7 +347,7 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
-    
+
 
 
         }
@@ -363,7 +373,7 @@ function delete_event(id) {
 //      $.ajax({
 
 //        url: '/Eventattendees/Index',
-     
+
 //    });
 
 

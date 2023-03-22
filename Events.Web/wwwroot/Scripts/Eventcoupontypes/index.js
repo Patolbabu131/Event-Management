@@ -85,11 +85,10 @@ function save_ctype() {
         rules: {
             CouponName: {
                 required: true,
-                maximum: 50,
-                minimum: 05,
             },
             CouponPrice: {
-                required: true
+                required: true,
+                number:true
             },
         },
         messages: {
@@ -97,7 +96,8 @@ function save_ctype() {
                 required: "Coupon Name is a required field!!!"
             },
             CouponPrice: {
-                required: "Coupon Price is a required field!!!"
+                required: "Coupon Price is a required field!!!",
+                number:"Invalid input"
             },
         }
     });

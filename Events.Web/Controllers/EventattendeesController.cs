@@ -191,26 +191,22 @@ namespace Events.Web.Controllers
             }
             else
             {
+                var attendees = _context.Eventattendees.Where(m => m.Id == eventattendee.Id).FirstOrDefault();
 
-                var member = new Eventattendee()
-                {
-                    Id = eventattendee.Id,
-                    EventId = eventattendee.EventId,
-                    AttendeeName = eventattendee.AttendeeName,
-                    ContactNo = eventattendee.ContactNo,
-                    CouponsPurchased = eventattendee.CouponsPurchased,
-                    PurchasedOn = eventattendee.PurchasedOn,
-                    TotalAmount = eventattendee.TotalAmount,
-                    Remarks = eventattendee.Remarks,
-                    CouponTypeId = eventattendee.CouponTypeId,
-                    RemainingCoupons = eventattendee.RemainingCoupons,
-                    CreatedOn = eventattendee.CreatedOn,
-                    CreatedBy = eventattendee.CreatedBy,
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                    ModeOfPayment = eventattendee.ModeOfPayment
-                };
-                _context.Eventattendees.Update(member);
+
+                attendees.AttendeeName = eventattendee.AttendeeName;
+                attendees.ContactNo = eventattendee.ContactNo;
+                attendees.CouponsPurchased = eventattendee.CouponsPurchased;
+                attendees.PurchasedOn= eventattendee.PurchasedOn;
+                attendees.TotalAmount= eventattendee.TotalAmount;
+                attendees.Remarks= eventattendee.Remarks;
+                attendees.CouponTypeId= eventattendee.CouponTypeId;
+                attendees.RemainingCoupons = eventattendee.RemainingCoupons;
+                attendees.ModifiedBy = Convert.ToInt64(mid);
+                attendees.ModifiedOn = DateTime.Now;
+                attendees.ModeOfPayment = eventattendee.ModeOfPayment;
+
+                _context.Eventattendees.Update(attendees);
                 _context.SaveChanges();
 
                 return Json("Event updated...");

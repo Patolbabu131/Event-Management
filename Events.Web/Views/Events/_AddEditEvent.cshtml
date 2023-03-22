@@ -1,4 +1,9 @@
 ﻿<!-- Add Event Modal -->
+    @*<style>
+        .ui-timepicker-container {
+            z-index: 33442;
+        }
+    </style>*@
 <div class="modal fade" id="addEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -24,13 +29,13 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addStartTime" class="form-label">Start Time</label>
-                            <input class="form-control" type="time" name="addStartTime" id="addStartTime" />
+                            <input class="form-control" type="text" name="addStartTime" id="addStartTime" placeholder="12:0" autocomplete="off" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addEndTime" class="form-label">End Time</label>
-                            <input class="form-control" type="time" id="addEndTime" name="addEndTime" />
+                            <input class="form-control" type="text" id="addEndTime" name="addEndTime" placeholder="5:0" autocomplete="off" />
                         </div>
-                    
+
                     </div>
                 </div>
                 <div class="modal-footer">

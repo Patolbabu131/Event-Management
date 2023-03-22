@@ -70,19 +70,65 @@ function create_i(id) {
         success: function (resonce) {
             $('#image').html(resonce);
             $("#addimage").modal('show');
-
         }
     })
 }
 
+function save_image() {
+
+    $("#imageform").validate({
+        rules: {
+            File: "required",
+        },
+        messages: {
+            File: " Please Select An Image",
+        },
+    });
+    if ($('#imageform').valid()) {
+
+    var formData = new FormData();
+    var data = {
+        Id: $("#Id").val(),
+        EventId: $("#EventId").val(),
+        File: $("#File")[0].files[0]
+    }
+    formData.append("Id", $("#Id").val());
+    formData.append("EventId", $("#EventId").val());
+    formData.append("File", $("#File")[0].files[0]);
+
+    $.ajax({
+        type: "POST",
+        url: '/Eventsponsorsimages/Create',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+        
+            alert(response);
+            window.location.reload();
+        }
+    })
+    }
+}
+
+
 
 function Edit_i(id) {
     $.ajax({
-        url: '/Eventsponsorsimages/Edit/' + id,
+        url: '/Eventsponsorsimages/Edit1',
         success: function (resonce) {
             $('#image').html(resonce);
             $("#Editimage").modal('show');
 
+            $.ajax({
+                type:"get",
+                url: '/Eventsponsorsimages/Edit/' + id,
+                success: function (resonce) {
+                    $("#Id").val(resonce.id);
+                    $("#EventId").val(resonce.eventId);
+                    $("#simage").attr('src', resonce.sponsorImage);
+                }
+            })
         }
     })
 }

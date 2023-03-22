@@ -12,27 +12,27 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="Create"  enctype="multipart/form-data">
+                <form id="imageform">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
+                    <input type="text" id="Id" value=""/ hidden>
                     <div class="form-group">
                         <label asp-for="EventId" class="control-label"></label>
-                        <select asp-for="EventId" class="form-control" asp-items="ViewBag.EventId"></select>
+                        <input type="text" name="EventId" id="EventId" class="form-control" value="">
                         <span asp-validation-for="EventId" class="text-danger"></span>
                     </div><br>
                     <div class="form-group">
                         <label  class="control-label"> Current Image</label>
-                        <img src="@Model.SponsorImage" width="200" class="form-control"></img>
+                        <img src="" width="200" id="simage" class="form-control">
                     </div><br>
                     <div class="form-group">
                         <label asp-for="SponsorImage" class="control-label"></label>
-                        <input asp-for="File" class="form-control" />
+                        <input type="File" id="File" name="File" class="form-control" />
                         @*<input type="file" class="form-control" />*@
                         <span asp-validation-for="SponsorImage" class="text-danger"></span>
                     </div>
                     <hr>
                     <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                    <input type="submit" class="btn btn-primary">
+                    <button type="button" onclick="save_image()" class="btn btn-primary">Submit</button>
                 </form>
             </div>
             <div class="modal-footer">
