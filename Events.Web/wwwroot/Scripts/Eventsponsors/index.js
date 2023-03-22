@@ -81,8 +81,8 @@ function save_Sponsors() {
         rules: {
             SponsorName: {
                 required: true,
-                maximum: 50,
-                minimum: 05,
+                //maximum: 50,
+                //minimum: 05,
             },
             SponsorOrganization: {
                 required: true
@@ -110,7 +110,6 @@ function save_Sponsors() {
         }
     });
 
-    /*---Deepti---*/
     if ($('#formAddEvent').valid()) {
         var data = {
             Id: $("#ID").val(),

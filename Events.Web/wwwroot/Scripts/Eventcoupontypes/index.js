@@ -64,8 +64,6 @@
 
 }
 
-
-
 function create_Ctype(id) {
     $.ajax({
         type: "get",
@@ -102,14 +100,15 @@ function save_ctype() {
         }
     });
 
-    if ($("#Active").is(':checked')) {
-        $("#Active").attr('value', 'true');
-    } else {
-        $("#Active").attr('value', 'false');
-    }
-
+ 
 
     if ($('#ctypeform').valid()) {
+        if ($("#Active").is(':checked')) {
+            $("#Active").attr('value', 'true');
+        } else {
+            $("#Active").attr('value', 'false');
+        }
+
         var data = {
             Id: $("#Coupontype").val(),
             EventId: $("#EventId").val(),

@@ -114,12 +114,7 @@ function save_eexpenses() {
             },
             Remarks: "Please enter Remark",
         },
-        highlight: function (element) {
-            $(element).parent().addClass('error')
-        },
-        unhighlight: function (element) {
-            $(element).parent().removeClass('error')
-        }
+     
     });
     if ($('#formAddExpenses').valid()) {
         var data = {

@@ -104,7 +104,6 @@
 
 }
 
-/*---Deepti---*/
 
 function save_event() {
     $("#formAddEvent").validate({
@@ -145,9 +144,6 @@ function save_event() {
                 },         
         }
     });
-
-    /*---Deepti---*/
-
     if ($('#formAddEvent').valid()) {
         var data = {
             Id: $("#EventID").val(),
@@ -245,17 +241,14 @@ function bindDatatable() {
             ]
         });
 
-    /*---Deepti---*/
-
-   
-    /*---Deepti---*/
+  
 }
 
 
 
 
 $(document).ready(function () {
-
+     
     $('#create_event').click(function () {
         $.ajax({
             type: "get",
@@ -265,6 +258,7 @@ $(document).ready(function () {
                 $("#addEventModal").modal('show');
             }
         })
+       
     });
     bindDatatable();
 
@@ -282,6 +276,31 @@ function details_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#DetailsEventsModal").modal('show');
+            $('#addStartTime').timepicker();
+                (
+                    {
+                        timeFormat: 'h:mm p',
+                        interval: 60,
+                        minTime: '10',
+                        maxTime: '6:00pm',
+                        defaultTime: '11',
+                        startTime: '10:00',
+                        dynamic: false,
+                        dropdown: true,
+                        scrollbar: true
+                    }
+                ); 
+            $('#addStartTime').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 60,
+                minTime: '10',
+                maxTime: '6:00pm',
+                defaultTime: '11',
+                startTime: '10:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+});
         }
     })
 }

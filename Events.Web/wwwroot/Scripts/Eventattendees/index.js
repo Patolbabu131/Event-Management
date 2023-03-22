@@ -168,12 +168,7 @@ function save_Attendee() {
                 number: "Invalid input"
             }
         },
-        highlight: function (element) { 
-            $(element).parent().addClass('error')
-        },
-        unhighlight: function (element) {
-            $(element).parent().removeClass('error')
-        }
+       
     });
     if ($('#formAddAttendees').valid()) {
        var data = {
