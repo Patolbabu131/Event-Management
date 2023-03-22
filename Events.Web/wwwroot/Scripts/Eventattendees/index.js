@@ -104,7 +104,7 @@ function create_attendee(id) {
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-            text.replace("#attendeestitle", "Add Attendee ");
+            
         }
     })
 }
@@ -217,7 +217,7 @@ function edit_attendee(id) {
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-
+            document.getElementById("attendeestitle").innerHTML = text.replace("Add", "Edit");
             $.ajax({
                 type: "get",
                 url: '/Eventattendees/Edit/' + id,
