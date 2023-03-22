@@ -105,7 +105,6 @@ function create_attendee(id) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
             
-           
         }
     })
 }
@@ -149,7 +148,7 @@ function save_Attendee() {
             ContactNo: " Please enter valid Contact Number",
             CouponsPurchased: {
                 required: " Please enter Purchased Coupons",
-                number:"Invalid input"
+                number: "Invalid input"
             },
             PurchasedOn: {
                 required: "Please enter Date",
@@ -168,22 +167,21 @@ function save_Attendee() {
                 number: "Invalid input"
             }
         },
-       
     });
     if ($('#formAddAttendees').valid()) {
-       var data = {
-        Id: $("#attenid").val(),
-        EventId: $("#EventId").val(),
-        AttendeeName: $("#AttendeeName").val(),
-        ContactNo: $("#ContactNo").val(),
-        CouponsPurchased: $("#CouponsPurchased").val(),
-        PurchasedOn: $("#PurchasedOn").val(),
-        TotalAmount: $("#TotalAmount").val(),
-        Remarks: $("#Remarks").val(),
-        CouponTypeId: $("#CouponTypeId").val(),
-        RemainingCoupons: $("#RemainingCoupons").val(),
-        CreatedBy: $("#Createdby").val(),
-        CreatedOn: $("#crearedon").val()
+        var data = {
+            Id: $("#attenid").val(),
+            EventId: $("#EventId").val(),
+            AttendeeName: $("#AttendeeName").val(),
+            ContactNo: $("#ContactNo").val(),
+            CouponsPurchased: $("#CouponsPurchased").val(),
+            PurchasedOn: $("#PurchasedOn").val(),
+            TotalAmount: $("#TotalAmount").val(),
+            Remarks: $("#Remarks").val(),
+            CouponTypeId: $("#CouponTypeId").val(),
+            RemainingCoupons: $("#RemainingCoupons").val(),
+            CreatedBy: $("#Createdby").val(),
+            CreatedOn: $("#crearedon").val()
         }
         $.ajax({
             type: "post",
@@ -219,7 +217,7 @@ function edit_attendee(id) {
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-
+            document.getElementById("attendeestitle").innerHTML = text.replace("Add", "Edit");
             $.ajax({
                 type: "get",
                 url: '/Eventattendees/Edit/' + id,

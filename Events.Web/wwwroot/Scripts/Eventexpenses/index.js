@@ -77,9 +77,6 @@ function addEventListener_expenses(id) {
     })
 }
 
-
-
-
 function save_eexpenses() {
     $("#formAddExpenses").validate({
         rules: {
@@ -113,8 +110,7 @@ function save_eexpenses() {
                 required: " Please AmountSpent ",
             },
             Remarks: "Please enter Remark",
-        },
-     
+        }
     });
     if ($('#formAddExpenses').valid()) {
         var data = {
@@ -138,9 +134,6 @@ function save_eexpenses() {
         })
     }
 }
-
-
-
 
 
 function edit_expenses(id) {
