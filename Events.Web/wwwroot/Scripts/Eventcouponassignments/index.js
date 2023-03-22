@@ -80,25 +80,60 @@ function create_cassign(id) {
 }
 
 function save_Cassign() {
-    var data = {
-        Id: $("#Cassignid").val(),
-        EventId: $("#EventId").val(),
-        ExecutiveMemberId: $("#ExecutiveMemberId").val(),
-        CouponsFrom: $("#CouponsFrom").val(),
-        CouponsTo: $("#CouponsTo").val(),
-        TotalCoupons: $("#TotalCoupons").val(),
-        CreatedOn: $("#CreatedOn").val(),
-        CreatedBy: $("#CreatedBy").val(),
-    }
-    $.ajax({
-        type: "post",
-        url: '/Eventcouponassignments/CreateCAssign',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
+    $("#CAssignform").validate({
+        rules: {
+            
+            CouponsFrom: {
+                required: true,
+                number: true
+            },
+            CouponsTo: {
+                required: true,
+                number: true
+            },
+            TotalCoupons: {
+                required: true,
+                number: true
+            },
+        },
+        messages: {
+            CouponsFrom: {
+                required: " Please enter Coupons From",
+                number: "Invalid input"
+            },
+            CouponsTo: {
+                required: " Please enter Coupons To ",
+                number: "Invalid input"
+            },
+            TotalCoupons: {
+                required: " Please enter Total Coupons",
+                number: "Invalid input"
+            }
+            
+        },
+    });
+    if ($('#CAssignform').valid()) {
+        var data = {
+            Id: $("#Cassignid").val(),
+            EventId: $("#EventId").val(),
+            ExecutiveMemberId: $("#ExecutiveMemberId").val(),
+            CouponsFrom: $("#CouponsFrom").val(),
+            CouponsTo: $("#CouponsTo").val(),
+            TotalCoupons: $("#TotalCoupons").val(),
+            CreatedOn: $("#CreatedOn").val(),
+            CreatedBy: $("#CreatedBy").val(),
         }
-    })
+        $.ajax({
+            type: "post",
+            url: '/Eventcouponassignments/CreateCAssign',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
+    }
+    
 }
 
 

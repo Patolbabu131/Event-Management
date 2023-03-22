@@ -66,7 +66,7 @@
 }
 
 
-function addEventListener_expenses(id) {
+function addEventListener_expenses(id) {    
     $.ajax({
         type: "get",
         url: '/Eventexpenses/CreateEdit/'+id,
@@ -93,7 +93,8 @@ function save_eexpenses() {
             },
             AmountSpent: {
                 required: true,
-                number: true
+                number: true,
+
             },
             Remarks: {
                 required: true,
