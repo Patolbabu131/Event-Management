@@ -143,7 +143,7 @@ function edit_expenses(id) {
         success: function (resonce) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
-
+            $('.modal-title').text('Edit Expenese');
 
             $.ajax({
                 type: "get",

@@ -217,7 +217,7 @@ function edit_attendee(id) {
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-            document.getElementById("attendeestitle").innerHTML = text.replace("Add", "Edit");
+            $('#attendeestitle').text('Edit Attendee Detail');
             $.ajax({
                 type: "get",
                 url: '/Eventattendees/Edit/' + id,

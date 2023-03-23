@@ -141,7 +141,7 @@ function edit_sponsors(id) {
         success: function (resonce) {
             $('#sponsors').html(resonce);
             $("#addsponsors").modal('show');
-
+            $('.modal-title').text('Edit Sponsor Details');
 
             $.ajax({
                 type: "get",

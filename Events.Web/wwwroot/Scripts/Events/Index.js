@@ -261,6 +261,7 @@ $(document).ready(function () {
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
+               
                 $('#addStartTime').timepicker({
                     timeFormat: 'H:mm',
                     dynamic: true,
@@ -311,6 +312,7 @@ function edit_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#addEventModal").modal('show');
+            $('.modal-title').text('Edit Event Details');
             $('#addStartTime').timepicker({
                 timeFormat: 'H:mm',
                 dynamic: true,

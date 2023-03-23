@@ -139,7 +139,7 @@ function edit_ct(id) {
         success: function (resonce) {
             $('#Ctype').html(resonce);
             $("#addCTypee").modal('show');
-
+            $('.modal-title').text('Edit Coupon Type');
             $.ajax({
                 type: "get",
                 url: '/Eventcoupontypes/Edit/' + id,

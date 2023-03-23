@@ -144,7 +144,7 @@ function edit_cassign(id) {
         success: function (resonce) {
             $('#Cassign').html(resonce);
             $("#addCAssign").modal('show');
-
+            $('.modal-title').text('Edit Assigned coupon');
 
             $.ajax({
                 type: "get",
