@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NPMFFLBE0RuxT+rYTkg4Ibqf4lHASOpcw9iCS7dqyZrRpbJ9r4+tM8NTp4S8PVdgZVfuHEoHc+uOuMZphYhmmA==",
+  "dgSpecHash": "k50zSpEz7p5Fwj3U6IL8+RQWFTbvBL0JXUce7OhpXgvextlu5kPo0CViEm1uq0Xtq+Td2mDHrYLsJ4B1CuxAIw==",
   "success": true,
   "projectFilePath": "C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
   "expectedPackageFiles": [
@@ -8,8 +8,6 @@
     "C:\\Users\\admin\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\httppostedfilehelper\\1.2.0\\httppostedfilehelper.1.2.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
-    "C:\\Users\\admin\\.nuget\\packages\\jquery\\1.8.0\\jquery.1.8.0.nupkg.sha512",
-    "C:\\Users\\admin\\.nuget\\packages\\jquery.validation\\1.8.0.1\\jquery.validation.1.8.0.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\k4os.compression.lz4.streams\\1.2.6\\k4os.compression.lz4.streams.1.2.6.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\k4os.hash.xxhash\\1.0.6\\k4os.hash.xxhash.1.0.6.nupkg.sha512",
@@ -32,7 +30,6 @@
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
-    "C:\\Users\\admin\\.nuget\\packages\\microsoft.jquery.unobtrusive.validation\\4.0.0\\microsoft.jquery.unobtrusive.validation.4.0.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.win32.primitives\\4.0.1\\microsoft.win32.primitives.4.0.1.nupkg.sha512",
