@@ -35,6 +35,7 @@ namespace Events.Web.Controllers
             }
             else
             {
+                ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.Eid = Id;
                 return View();
             }

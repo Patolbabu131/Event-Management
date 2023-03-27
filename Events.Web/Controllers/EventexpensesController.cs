@@ -21,7 +21,7 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventexpenses
-        public ActionResult Index(Int64 Id)
+        public async Task<IActionResult> Index(Int64 Id)
         {
             if (Id == null || Id == 0)
             {
@@ -29,9 +29,12 @@ namespace Events.Web.Controllers
             }
             else
             {
+                ViewBag.VBFriend = _context.Events.Where(e=>e.Id==Id).FirstOrDefault();
                 ViewBag.Eid = Id;
                 return View();
             }
+
+            
 
         }
         public ActionResult GetEventwxpenses(JqueryDatatableParam param, Int64 Id)
@@ -50,61 +53,30 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                expenses = expenses.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ExpenseName.ToString().Contains(param.sSearch.ToLower())
+                expenses = expenses.Where(x => x.ExpenseName.ToString().Contains(param.sSearch.ToLower())
                                               || x.ExpenseSubject.ToString().Contains(param.sSearch.ToLower())
                                               || x.AmountSpent.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Remarks.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedOn.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.Remarks.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
-            else if (param.iSortCol_0 == 0)
-            {
-                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.Id).ToList() : expenses.OrderByDescending(c => c.Id).ToList();
-            }
-            if (param.iSortCol_0 == 1)
-            {
-                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.EventId).ToList() : expenses.OrderByDescending(c => c.EventId).ToList();
-            }
-            else if (param.iSortCol_0 == 2)
+            if (param.iSortCol_0 == 0)
             {
                 expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ExpenseName).ToList() : expenses.OrderByDescending(c => c.ExpenseName).ToList();
             }
-            else if (param.iSortCol_0 == 3)
+            else if (param.iSortCol_0 == 1)
             {
                 expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ExpenseSubject).ToList() : expenses.OrderByDescending(c => c.ExpenseSubject).ToList();
 
             }
-            else if (param.iSortCol_0 == 4)
+            else if (param.iSortCol_0 == 2)
             {
                 expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.AmountSpent).ToList() : expenses.OrderByDescending(c => c.AmountSpent).ToList();
             }
-            else if (param.iSortCol_0 == 5)
-            {
-                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.CreatedOn).ToList() : expenses.OrderByDescending(c => c.CreatedOn).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
-            {
-                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.CreatedBy).ToList() : expenses.OrderByDescending(c => c.CreatedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 7)
+            else if (param.iSortCol_0 == 3)
             {
                 expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.Remarks).ToList() : expenses.OrderByDescending(c => c.Remarks).ToList();
             }
-            else if (param.iSortCol_0 == 8)
-            {
-                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ModifiedBy).ToList() : expenses.OrderByDescending(c => c.ModifiedBy).ToList();
-
-            }
-            else if (param.iSortCol_0 == 8)
-            {
-                expenses = param.sSortDir_0 == "asc" ? expenses.OrderBy(c => c.ModifiedOn).ToList() : expenses.OrderByDescending(c => c.ModifiedOn).ToList();
-
-            }
+            
             //TotalRecords
             var displayResult = expenses.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
             var totalRecords = expenses.Count();

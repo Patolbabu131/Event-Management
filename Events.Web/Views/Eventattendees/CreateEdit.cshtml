@@ -56,9 +56,9 @@
                         <select name="CouponTypeId" id="CouponTypeId" class="form-control" asp-items="ViewBag.CouponTypeId" value=""></select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="RemainingCoupons" class="control-label"></label>
-                        <input name="RemainingCoupons" id="RemainingCoupons" class="form-control" value="" />
-                        <span asp-validation-for="RemainingCoupons" class="text-danger"></span>
+                        <label asp-for="RemainingCoupons" class="control-label" hidden></label>
+                        <input name="RemainingCoupons" id="RemainingCoupons" class="form-control" value="" hidden/>
+                        <span asp-validation-for="RemainingCoupons" class="text-danger" hidden></span>
                     </div>
                 </div>
                 <div class="modal-footer">

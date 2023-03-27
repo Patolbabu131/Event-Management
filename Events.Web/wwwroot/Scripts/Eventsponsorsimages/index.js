@@ -30,20 +30,9 @@
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return '<a class="btn btn-info" onclick="Edit_i(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return '<a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 }
-                //{
-                //    "data": "duties",
-                //    render: function (data, type, row, meta) {
-                //        return row.duties
-                //    }
-                //},
-                //{
-                //    render: function (data, type, row, meta) {
-                //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
-                //    }
-                //}
             ]
         });
 

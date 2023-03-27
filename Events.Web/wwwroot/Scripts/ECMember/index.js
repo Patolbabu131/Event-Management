@@ -95,9 +95,6 @@ function bindmember() {
             },
             "columns": [
                 {
-                    "data": "id",
-                },
-                {
                     "data": "fullname",
                     render: function (data, type, row, meta) {
                         return row.fullName
