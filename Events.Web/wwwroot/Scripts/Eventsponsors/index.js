@@ -81,11 +81,16 @@ function save_Sponsors() {
         rules: {
             SponsorName: {
                 required: true,
+                maximum: 50,
+                minimum: 05,
             },
             SponsorOrganization: {
                 required: true
             },
             AmountSponsored: {
+                required: true
+            },
+            CreatedOn: {
                 required: true
             },
         },
@@ -98,7 +103,10 @@ function save_Sponsors() {
             },
             AmountSponsored: {
                 required: "Amount Sponsored is a required field!!!"
-            },  
+            },
+            CreatedOn: {
+                required: "Created On is a required field!!!"
+            },
         }
     });
 

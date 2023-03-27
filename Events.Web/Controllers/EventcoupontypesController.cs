@@ -253,7 +253,7 @@ namespace Events.Web.Controllers
                 return Json("Coupon Deleted");
             }
           
-        }
+        } 
 
 
         private bool EventcoupontypeExists(long id)

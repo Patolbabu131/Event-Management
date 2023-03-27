@@ -111,6 +111,12 @@ function save_eexpenses() {
                 required: " Please AmountSpent ",
             },
             Remarks: "Please enter Remark",
+        },
+        highlight: function (element) {
+            $(element).parent().addClass('error')
+        },
+        unhighlight: function (element) {
+            $(element).parent().removeClass('error')
         }
     });
     if ($('#formAddExpenses').valid()) {
@@ -120,6 +126,8 @@ function save_eexpenses() {
             ExpenseName: $("#ExpenseName").val(),
             ExpenseSubject: $("#ExpenseSubject").val(),
             AmountSpent: $("#AmountSpent").val(),
+            CreatedOn: $("#CreatedOn").val(),
+            CreatedBy: $("#CreatedBy").val(),
             Remarks: $("#Remarks").val(),
         }
         $.ajax({
@@ -133,6 +141,7 @@ function save_eexpenses() {
         })
     }
 }
+
 function onlynumber() {
     $('.numberonly').keypress(function (e) {
 

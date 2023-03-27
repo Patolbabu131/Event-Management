@@ -15,16 +15,56 @@ $('#create_member').click(function () {
     })
 });
 
+
+
+
+
 function save_member() {
-    var data = {
-        Id: $("#EventId").val(),
-        FullName: $("#addrName").val(),
-        Designation: $("#addDesignation").val(),
-        AppointedOn: $("#addAppointedOn").val(),
-        Duties: $("#addDuties").val(),
+    $("#formAddECMember").validate({
+        rules: {
+            addName: "required",
+            addDesignation: {
+                required: true,
+
+            },
+            PurchasedOn: {
+                required: true,
+            },
+            addAppointedOn: {
+                required: true,
+            },
+            addDuties: {
+                required: true,
+            },
+        },
+        messages: {
+            addName: " Please enter Name",
+            addDesignation: {
+                required: " Please enter Designation",
+            },
+            addAppointedOn: {
+                required: " Please AppointedOn ",
+            },
+            addDuties: "Please enter Duties",
+        },
+        highlight: function (element) {
+            $(element).parent().addClass('error')
+        },
+        unhighlight: function (element) {
+            $(element).parent().removeClass('error')
+        }
+    });
+    if ($('#formAddECMember').valid()) {
+        var data = {
+            Id: $("#EventId").val(),
+            FullName: $("#addrName").val(),
+            Designation: $("#addDesignation").val(),
+            AppointedOn: $("#addAppointedOn").val(),
+            Duties: $("#addDuties").val(),
         CreatedOn:$("#createon").val()
+        }
+        savemember(data);
     }
-    savemember(data);
 }
 
 function savemember(data) {
