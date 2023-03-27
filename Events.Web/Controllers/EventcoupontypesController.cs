@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-
+using System.Globalization;
 
 namespace Events.Web.Controllers
 {
@@ -172,18 +172,15 @@ namespace Events.Web.Controllers
             {
 
 
-                var Coupontype = new Eventcoupontype()
-                {
-                    Id=eventcoupontype.Id,
-                    EventId = eventcoupontype.EventId,
-                    CouponName = eventcoupontype.CouponName,
-                    CouponPrice = eventcoupontype.CouponPrice,
-                    Active = eventcoupontype.Active,
-                    CreatedOn = eventcoupontype.CreatedOn,
-                    CreatedBy = eventcoupontype.CreatedBy,
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                };
+                var Coupontype = _context.Eventcoupontypes.Where(m => m.Id == eventcoupontype.Id).FirstOrDefault();
+
+
+                    Coupontype.CouponName = eventcoupontype.CouponName;
+                    Coupontype.CouponPrice = eventcoupontype.CouponPrice;
+                    Coupontype.Active = eventcoupontype.Active;
+                    Coupontype.ModifiedBy = Convert.ToInt64(mid);
+                    Coupontype.ModifiedOn = DateTime.Now;
+                
                 _context.Eventcoupontypes.Update(Coupontype);
                 _context.SaveChanges();
 
@@ -242,30 +239,22 @@ namespace Events.Web.Controllers
         // GET: Eventcoupontypes/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
-            var data = _context.Eventcoupontypes.Where(e => e.Id == id).SingleOrDefault();
-            _context.Eventcoupontypes.Remove(data);
-            _context.SaveChanges();
-            return Json("success");
-        }
-
-        // POST: Eventcoupontypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
-            if (_context.Eventcoupontypes == null)
-            {
-                return Problem("Entity set 'EventDbContext.Eventcoupontypes'  is null.");
-            }
-            var eventcoupontype = await _context.Eventcoupontypes.FindAsync(id);
-            if (eventcoupontype != null)
+            var eventcoupontype = _context.Eventcoupontypes.Where(e => e.Id == id).FirstOrDefault();
+            var data = _context.Eventattendees.Where(e => e.CouponTypeId == id).FirstOrDefault();
+          
+                if (data!=null)
+                {
+                    return Json("Unable To Delete Coupon. Because " + eventcoupontype.CouponName + " is already assigned to Attendee :" + data.AttendeeName);
+                }
+            else
             {
                 _context.Eventcoupontypes.Remove(eventcoupontype);
+                _context.SaveChangesAsync();
+                return Json("Coupon Deleted");
             }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+          
         }
+
 
         private bool EventcoupontypeExists(long id)
         {

@@ -73,6 +73,7 @@ function addEventListener_expenses(id) {
         success: function (resonce) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
+            onlynumber();
         }
     })
 }
@@ -119,8 +120,6 @@ function save_eexpenses() {
             ExpenseName: $("#ExpenseName").val(),
             ExpenseSubject: $("#ExpenseSubject").val(),
             AmountSpent: $("#AmountSpent").val(),
-            CreatedOn: $("#CreatedOn").val(),
-            CreatedBy: $("#CreatedBy").val(),
             Remarks: $("#Remarks").val(),
         }
         $.ajax({
@@ -134,7 +133,15 @@ function save_eexpenses() {
         })
     }
 }
+function onlynumber() {
+    $('.numberonly').keypress(function (e) {
 
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            return false;
+    });
+}
 
 function edit_expenses(id) {
     $.ajax({
@@ -144,24 +151,17 @@ function edit_expenses(id) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
             $('.modal-title').text('Edit Expenese');
-
+            onlynumber();
             $.ajax({
                 type: "get",
                 url: '/Eventexpenses/Edit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
-
                     $("#expensesid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#ExpenseName").val(resonce.expenseName);
                     $("#ExpenseSubject").val(resonce.expenseSubject);
                     $("#AmountSpent").val(resonce.amountSpent);
                     $("#Remarks").val(resonce.remarks);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);
                 }
             })
         }

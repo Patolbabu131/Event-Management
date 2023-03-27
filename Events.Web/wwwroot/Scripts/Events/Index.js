@@ -104,7 +104,6 @@
 
 }
 
-/*---Deepti---*/
 
 function save_event() {
     $("#formAddEvent").validate({
@@ -144,9 +143,12 @@ function save_event() {
         }
     });
 
-    /*---Deepti---*/
-
+    
     if ($('#formAddEvent').valid()) {
+                    
+        CKEDITOR.instances.FoodMenu.updateElement();
+        var descProduct = document.getElementById('FoodMenu').value;
+
         var data = {
             Id: $("#EventID").val(),
             EventName: $("#addEventName").val(),
@@ -154,7 +156,7 @@ function save_event() {
             EventVenue: $("#addEventVenue").val(),
             EventStartTime: $("#addStartTime").val(),
             EventEndTime: $("#addEndTime").val(),
-            FoodMenu: $("").val(),
+            FoodMenu:descProduct
         }
         $.ajax({
             type: "post",
@@ -178,12 +180,14 @@ function bindDatatable() {
             "bSearchable": true,
             "filter": true,
             "autoWidth": true,
+            "order": [[2, 'asc']],
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
+               
                 {
                     "data": "id"
                 },
@@ -204,13 +208,13 @@ function bindDatatable() {
                 {
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventStartTime);
-                        return Time.getHours() + ":" + Time.getMinutes();
+                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
                 {
                     "render": function (data, type, row, meta) {
-                        var Time = new Date(row.eventEndTime);
-                        return Time.getHours() + ":" + Time.getMinutes();
+                        var Time = new Date(row.eventEndTime)
+                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() +":"+(Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
                 {
@@ -241,10 +245,6 @@ function bindDatatable() {
             ]
         });
 
-    /*---Deepti---*/
-
-
-    /*---Deepti---*/
 }
 
 
@@ -261,20 +261,32 @@ $(document).ready(function () {
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
-               
+                $("#addEventDate").datepicker();
                 $('#addStartTime').timepicker({
-                    timeFormat: 'H:mm',
+                    timeFormat: 'HH:mm',
                     dynamic: true,
                     dropdown: true,
                     scrollbar: true
                 });
                 $('#addEndTime').timepicker({
-                    timeFormat: 'H:mm',
+                    timeFormat: 'HH:mm',
                     dynamic: true,
                     dropdown: true,
                     scrollbar: true
                 });
-              
+                CKEDITOR.replace('FoodMenu', {
+                    toolbar: [
+                     
+                        { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                        { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+                        { name: 'links', items: ['Link', 'Anchor'] },
+                        { name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                        { name: 'others', items: ['-'] }
+                    ]
+                });
             }
         })
     });
@@ -301,6 +313,7 @@ function details_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#DetailsEventsModal").modal('show');
+    
         }
     })
 }
@@ -313,17 +326,32 @@ function edit_event(id) {
             $('#CreateContainer').html(resonce);
             $("#addEventModal").modal('show');
             $('.modal-title').text('Edit Event Details');
+            $("#addEventDate").datepicker();
             $('#addStartTime').timepicker({
-                timeFormat: 'H:mm',
+                timeFormat: 'HH:mm',
                 dynamic: true,
                 dropdown: true,
                 scrollbar: true
             });
             $('#addEndTime').timepicker({
-                timeFormat: 'H:mm',
+                timeFormat: 'HH:mm',
                 dynamic: true,
                 dropdown: true,
                 scrollbar: true
+            });
+            CKEDITOR.replace('FoodMenu', {
+                toolbar: [
+
+                    { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                    { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+                    { name: 'links', items: ['Link', 'Anchor'] },
+                    { name: 'insert', items: ['Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+
+                    { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] },
+                    { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                    { name: 'others', items: ['-'] }
+                ]
             });
         }
     })
@@ -336,7 +364,7 @@ function edit_event(id) {
             var now = new Date(resonce.eventDate);
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            var today = now.getFullYear() + "/" + (month) + "/" + (day);
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
@@ -349,9 +377,7 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
-
-
-
+            $('#FoodMenu').val(resonce.foodMenu);
         }
     })
 }
@@ -363,7 +389,7 @@ function delete_event(id) {
             type: "post",
             url: '/Events/DeteleEvent/' + id,
             success: function (resonce) {
-                alert("Record Deleted Successfuly..");
+                alert(resonce);
                 window.location.reload();
             }
         })

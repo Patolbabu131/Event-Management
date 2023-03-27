@@ -31,7 +31,6 @@ function functionToCall(id) {
                     "data": "couponsPurchased",
                 },
                 {
-
                     "data": "purchasedOn",
                     "render": function (data) {
                         var date = new Date(data);
@@ -104,11 +103,20 @@ function create_attendee(id) {
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-            
+            onlynumber();
+            $("#PurchasedOn").datepicker();
         }
     })
 }
+function onlynumber() {
+    $('.numberonly').keypress(function (e) {
 
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            return false;
+    });
+}
 
 function save_Attendee() {
     $("#formAddAttendees").validate({
@@ -180,8 +188,6 @@ function save_Attendee() {
             Remarks: $("#Remarks").val(),
             CouponTypeId: $("#CouponTypeId").val(),
             RemainingCoupons: $("#RemainingCoupons").val(),
-            CreatedBy: $("#Createdby").val(),
-            CreatedOn: $("#crearedon").val()
         }
         $.ajax({
             type: "post",
@@ -195,6 +201,11 @@ function save_Attendee() {
     }
 }
 
+function selectcoupon(cname) {
+
+    $("#CouponTypeId select").val(cname);
+
+}
 
 
 
@@ -213,27 +224,26 @@ function details_event(id) {
 function edit_attendee(id) {
     $.ajax({
         type: "get",
-        url: '/Eventattendees/CreateEdit/' + id,
+        url: '/Eventattendees/Edit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
+            $("#PurchasedOn").datepicker();
             $('#attendeestitle').text('Edit Attendee Detail');
+            onlynumber();
+
             $.ajax({
                 type: "get",
-                url: '/Eventattendees/Edit/' + id,
+                url: '/Eventattendees/Edit1/' + id,
                 success: function (resonce) {
                     var now = new Date(resonce.purchasedOn);
                     var day = ("0" + now.getDate()).slice(-2);
                     var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
+                    var today = day + "/" + month + "/" + now.getFullYear() ;
 
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var todayq = now.getFullYear() + "-" + month + "-" + day;
 
                     $("#attenid").val(resonce.id);
-                    $("#EventId").val(resonce.eventId);
+                    $("#EventId").val(resonce.id);
                     $("#AttendeeName").val(resonce.attendeeName);
                     $("#ContactNo").val(resonce.contactNo);
                     $("#CouponsPurchased").val(resonce.couponsPurchased);
@@ -242,8 +252,6 @@ function edit_attendee(id) {
                     $("#Remarks").val(resonce.remarks);
                     $("#CouponTypeId").val(resonce.couponTypeId);
                     $("#RemainingCoupons").val(resonce.remainingCoupons);
-                    $("#Createdby").val(resonce.createdBy);
-                    $("#crearedon").val(todayq);
 
                 }
             })

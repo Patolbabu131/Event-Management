@@ -25,12 +25,12 @@
                 {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
-                        return '<img src="'+row.sponsorImage+'" width="300px">';
+                        return '<img src="/Files/'+row.sponsorImage+'" width="300px">';
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return '<a class="btn btn-info" onclick="Edit_i(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 }
                 //{
@@ -88,11 +88,9 @@ function save_image() {
 
     var formData = new FormData();
     var data = {
-        Id: $("#Id").val(),
         EventId: $("#EventId").val(),
         File: $("#File")[0].files[0]
     }
-    formData.append("Id", $("#Id").val());
     formData.append("EventId", $("#EventId").val());
     formData.append("File", $("#File")[0].files[0]);
 

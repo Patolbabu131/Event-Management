@@ -17,9 +17,9 @@
             <form id="CAssignform">
                 <div class="modal-body">
                 <input id="Cassignid" value="" hidden>
-                <div class="form-group">
+                    <div class="form-group" hidden>
                     <label asp-for="EventId" class="control-label"></label>
-                        <input id="EventId" class="form-control" value="@id" hidden />
+                        <input id="EventId" class="form-control" value="@id"  />
                 </div>
                 <div class="form-group" hidden>
                     <label asp-for="ExecutiveMemberId" class="control-label"></label>
@@ -40,15 +40,8 @@
                         <input name="TotalCoupons" id="TotalCoupons" class="form-control" />
                     <span asp-validation-for="TotalCoupons" class="text-danger"></span>
                 </div>
-                <div class="form-group" hidden>
-                    <label asp-for="CreatedOn" class="control-label"></label>
-                        <input type="date" name="CreatedOn" id="CreatedOn" class="form-control" />
-                    <span asp-validation-for="CreatedOn" class="text-danger"></span>
-                </div>
-                <div class="form-group" hidden>
-                    <label asp-for="CreatedBy" class="control-label"></label>
-                        <select name="CreatedBy" id="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
-                </div>
+               
+               
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                     <button type="button" onclick="save_Cassign()" class="btn btn-primary">Save</button>

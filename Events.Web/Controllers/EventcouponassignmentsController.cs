@@ -176,19 +176,15 @@ namespace Events.Web.Controllers
             {
 
 
-                var member = new Eventcouponassignment()
-                {
-                    Id=eventcouponassignment.Id,
-                    EventId = eventcouponassignment.EventId,
-                    ExecutiveMemberId = Convert.ToInt64(mid),
-                    CouponsFrom = eventcouponassignment.CouponsFrom,
-                    CouponsTo = eventcouponassignment.CouponsTo,
-                    TotalCoupons = eventcouponassignment.TotalCoupons,
-                    CreatedOn = eventcouponassignment.CreatedOn,
-                    CreatedBy = eventcouponassignment.CreatedBy,
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                };
+                var member = _context.Eventcouponassignments.Where(m => m.Id == eventcouponassignment.Id).FirstOrDefault();
+
+                member.ExecutiveMemberId = Convert.ToInt64(mid);
+                member.CouponsFrom = eventcouponassignment.CouponsFrom;
+                member.CouponsTo = eventcouponassignment.CouponsTo;
+                member.TotalCoupons = eventcouponassignment.TotalCoupons;
+                member.ModifiedBy = Convert.ToInt64(mid);
+                member.ModifiedOn = DateTime.Now;
+
                 _context.Eventcouponassignments.Update(member);
                 _context.SaveChanges();
 

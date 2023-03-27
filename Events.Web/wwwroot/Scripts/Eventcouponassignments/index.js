@@ -120,8 +120,6 @@ function save_Cassign() {
             CouponsFrom: $("#CouponsFrom").val(),
             CouponsTo: $("#CouponsTo").val(),
             TotalCoupons: $("#TotalCoupons").val(),
-            CreatedOn: $("#CreatedOn").val(),
-            CreatedBy: $("#CreatedBy").val(),
         }
         $.ajax({
             type: "post",
@@ -150,19 +148,12 @@ function edit_cassign(id) {
                 type: "get",
                 url: '/Eventcouponassignments/getEdit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
-
                     $("#Cassignid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#ExecutiveMemberId").val(resonce.executiveMemberId);
                     $("#CouponsFrom").val(resonce.couponsFrom);
                     $("#CouponsTo").val(resonce.couponsTo);
                     $("#TotalCoupons").val(resonce.totalCoupons);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);
                 }
             })
         }

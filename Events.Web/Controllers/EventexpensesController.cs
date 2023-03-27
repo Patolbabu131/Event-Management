@@ -175,20 +175,16 @@ namespace Events.Web.Controllers
             else
             {
 
-                var Expenses = new Eventexpense()
-                {
-                    Id=eventexpense.Id,
-                    EventId = eventexpense.EventId,
-                    ExpenseName = eventexpense.ExpenseName,
-                    ExpenseSubject = eventexpense.ExpenseSubject,
-                    AmountSpent = eventexpense.AmountSpent,
-                    Remarks = eventexpense.Remarks,
-                    CreatedOn = DateTime.Now,
-                    CreatedBy = Convert.ToInt64(mid),
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
+                var Expenses = _context.Eventexpenses.Where(m => m.Id == eventexpense.Id).FirstOrDefault();
 
-                };
+                Expenses.ExpenseName = eventexpense.ExpenseName;
+                Expenses.ExpenseSubject = eventexpense.ExpenseSubject;
+                Expenses.AmountSpent = eventexpense.AmountSpent;
+                Expenses.Remarks = eventexpense.Remarks;
+                Expenses.ModifiedBy = Convert.ToInt64(mid);
+                Expenses.ModifiedOn = DateTime.Now;
+
+               
                 _context.Eventexpenses.Update(Expenses);
                 _context.SaveChanges();
 

@@ -11,9 +11,9 @@
             </div>
                 <div class="modal-body">
                     <form id="imageform" >
-                        <div class="form-group">
+                    <div class="form-group" hidden>
                             <label asp-for="EventId" class="control-label"></label>
-                            <input asp-for="EventId"  type="text" id="EventId" value="@id" class="form-control" hidden>
+                            <input asp-for="EventId"  type="text" id="EventId" value="@id" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label asp-for="SponsorImage" class="control-label"></label>

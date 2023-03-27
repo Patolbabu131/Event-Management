@@ -26,9 +26,17 @@
                 {
                     "data": "couponPrice",
                 },
+
                 {
-                    "data": "active",
-                },
+                    render: function (data, type, row) {
+                        if (row.active == 0) {
+                            return 'No'
+                        }
+                        else {
+                            return 'Yes'
+                        }
+                    },
+                },  
                 {
                     "data": "createdBy",
                 },
@@ -73,6 +81,7 @@ function create_Ctype(id) {
         success: function (resonce) {
             $('#Ctype').html(resonce);
             $("#addCTypee").modal('show');
+            document.getElementById("Active").checked = true;
         }
     })
 }
@@ -115,9 +124,7 @@ function save_ctype() {
             EventId: $("#EventId").val(),
             CouponName: $("#CouponName").val(),
             CouponPrice: $("#CouponPrice").val(),
-            Active: $("#Active").val(),
-            CreatedBy: $("#CreatedBy").val(),
-            CreatedOn: $("#CreatedOn").val(),
+            Active: $("#Active").val()
         }
         $.ajax({
             type: "post",
@@ -144,18 +151,11 @@ function edit_ct(id) {
                 type: "get",
                 url: '/Eventcoupontypes/Edit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
-
                     $("#Coupontype").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#CouponName").val(resonce.couponName);
                     $("#CouponPrice").val(resonce.couponPrice);
                     $("#Active").prop("checked", resonce.active);
-                    $("#CreatedBy").val(resonce.createdBy);
-                    $("#CreatedOn").val(today);
                 }
             })
         }
@@ -169,7 +169,7 @@ function Delete(id) {
             type: "get",
             url: '/Eventcoupontypes/Delete/' + id,
             success: function (resonce) {
-                alert("Record Deleted Successfuly..");
+                alert(resonce);
                 window.location.reload();
             }
         })

@@ -81,16 +81,11 @@ function save_Sponsors() {
         rules: {
             SponsorName: {
                 required: true,
-                maximum: 50,
-                minimum: 05,
             },
             SponsorOrganization: {
                 required: true
             },
             AmountSponsored: {
-                required: true
-            },
-            CreatedOn: {
                 required: true
             },
         },
@@ -103,14 +98,11 @@ function save_Sponsors() {
             },
             AmountSponsored: {
                 required: "Amount Sponsored is a required field!!!"
-            },
-            CreatedOn: {
-                required: "Created On is a required field!!!"
-            },
+            },  
         }
     });
 
-    /*---Deepti---*/
+
     if ($('#formAddEvent').valid()) {
         var data = {
             Id: $("#ID").val(),
@@ -118,8 +110,6 @@ function save_Sponsors() {
             SponsorName: $("#SponsorName").val(),
             SponsorOrganization: $("#SponsorOrganization").val(),
             AmountSponsored: $("#AmountSponsored").val(),
-            CreatedOn: $("#CreatedOn").val(),
-            CreatedBy: $("#CreatedBy").val(),
         }
         $.ajax({
             type: "post",
@@ -147,18 +137,12 @@ function edit_sponsors(id) {
                 type: "get",
                 url: '/Eventsponsors/Edit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
 
                     $("#ID").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#SponsorName").val(resonce.sponsorName);
                     $("#SponsorOrganization").val(resonce.sponsorOrganization);
-                    $("#AmountSponsored").val(resonce.amountSponsored);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);     
+                    $("#AmountSponsored").val(resonce.amountSponsored);    
                 }
             })
         }

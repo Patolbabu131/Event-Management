@@ -10,6 +10,8 @@ using System.IO;
 using System.Diagnostics.Metrics;
 using System.Drawing.Text;
 using Microsoft.EntityFrameworkCore.Migrations;
+using static System.Net.WebRequestMethods;
+using static Azure.Core.HttpHeader;
 
 namespace Events.Web.Controllers
 {
@@ -112,91 +114,40 @@ namespace Events.Web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Create(Int64 Id, Int64 EventId,IFormFile File)
+        public IActionResult Create( Int64 EventId,IFormFile File)
         {
 
-            if (Id == null || Id == 0)
-            {
-                string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + File.FileName);
-
-                if (System.IO.File.Exists(path1))
-                {
-                    return Json("Selected Image is already exists");
-                }
-                string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
-
-                //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-
-                //get file extension
+                string CurrentDirectory = System.Environment.CurrentDirectory;
                 FileInfo fileInfo = new FileInfo(File.FileName);
-                string fileName = File.FileName;
+                string Name = File.FileName;
 
-                string fileNameWithPath = Path.Combine(path, fileName);
+                var fileName = EventId.ToString() + Name;
 
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                var sponimg = _context.Eventsponsorsimages.Where(e=>e.EventId==EventId).ToList();
+
+                foreach (var i in sponimg)
                 {
-                    File.CopyTo(stream);
+                    if (Equals(i.SponsorImage, fileName))
+                    {
+                        return Json("Selected Image is already exists");
+                    }
                 }
-                var member = new Eventsponsorsimage()
-                {
+
+               string path = Path.Combine(CurrentDirectory+ "\\wwwroot\\Files");            
+               string fileNameWithPath = Path.Combine(path, fileName);
+
+               using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+               {
+                    File.CopyTo(stream);
+               }
+               var member = new Eventsponsorsimage()
+               {
                     EventId = EventId,
-                    SponsorImage = Path.Combine("\\Files", fileName)
-                };
-                _context.Add(member);
-                _context.SaveChangesAsync();
-                return Json("Image Saved");
-            }
-            else
-            {
-                var img = _context.Eventsponsorsimages.Where(m => m.Id == Id).FirstOrDefault();
-                string i = img.SponsorImage;
-                string path111 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\" + i);
-
-                string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + File.FileName);
-
-                if (System.IO.File.Exists(path1))
-                {
-                    return Json("Selected Image is already exists");
-                }
-
-                string path2 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
-
-                //create folder if not exist
-                if (!Directory.Exists(path2))
-                    Directory.CreateDirectory(path2);
-
-                //get file extension
-                FileInfo fileInfo = new FileInfo(File.FileName);
-                string fileName = File.FileName;
-
-                string fileNameWithPath = Path.Combine(path2, fileName);
-
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-                {
-                    File.CopyTo(stream);
-                }
-
-                img.EventId = EventId;
-                img.SponsorImage = Path.Combine("\\Files", fileName);
-
-                _context.Eventsponsorsimages.Update(img);
-                _context.SaveChanges();
-
-
-                if (System.IO.File.Exists(path111))
-                {
-                    System.IO.File.Delete(path111);
-                }
-                else
-                {
-                    return Json("unexpected error..");
-                }
-                return Json("Image Updated..");
-            }
-
+                    SponsorImage = fileName
+               };
+               _context.Add(member);
+               _context.SaveChangesAsync();
+            return Json("Image Saved");
         }
 
          
@@ -265,8 +216,8 @@ namespace Events.Web.Controllers
 
             var image = _context.Eventsponsorsimages.Where(m => m.Id == id).FirstOrDefault();
             string i = image.SponsorImage;
-
-            string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\" + i);
+            string CurrentDirectory = System.Environment.CurrentDirectory;
+            string path = Path.Combine(CurrentDirectory + "\\wwwroot\\" + i);
 
             if (System.IO.File.Exists(path))
             {
