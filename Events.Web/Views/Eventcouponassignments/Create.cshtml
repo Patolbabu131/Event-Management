@@ -5,7 +5,6 @@
     var id = ViewBag.eid;
 }
 
-
 <div class="modal fade" id="addCAssign" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -19,7 +18,7 @@
                 <input id="Cassignid" value="" hidden>
                     <div class="form-group" hidden>
                     <label asp-for="EventId" class="control-label"></label>
-                        <input id="EventId" class="form-control" value="@id"  />
+                    <input id="EventId" class="form-control" value="@id" readonly />
                 </div>
                 <div class="form-group" hidden>
                     <label asp-for="ExecutiveMemberId" class="control-label"></label>
@@ -27,17 +26,17 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponsFrom" class="control-label"></label>
-                        <input name="CouponsFrom" id="CouponsFrom" class="form-control" />
+                        <input type="number" name="CouponsFrom" id="CouponsFrom" class="form-control" />
                     <span asp-validation-for="CouponsFrom" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponsTo" class="control-label"></label>
-                        <input name="CouponsTo" id="CouponsTo" class="form-control" />
+                        <input type="number" name="CouponsTo" id="CouponsTo" class="form-control" />
                     <span asp-validation-for="CouponsTo" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="TotalCoupons" class="control-label"></label>
-                        <input name="TotalCoupons" id="TotalCoupons" class="form-control" />
+                        <input type="number" name="TotalCoupons" id="TotalCoupons" class="form-control" />
                     <span asp-validation-for="TotalCoupons" class="text-danger"></span>
                 </div>
                
