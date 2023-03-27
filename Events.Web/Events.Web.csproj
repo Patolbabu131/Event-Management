@@ -20,7 +20,7 @@
     <None Remove="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\Files\" />
+    <Folder Include="wwwroot\File\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\Scripts\ExecutiveMembers\" />
   </ItemGroup>
@@ -44,7 +44,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\Files\Screenshot.png" />
+    <Content Remove="wwwroot\File\Screenshot.png" />
     <Content Remove="wwwroot\Scripts\" />
     <Content Remove="wwwroot\Scripts\Events\" />
   </ItemGroup>

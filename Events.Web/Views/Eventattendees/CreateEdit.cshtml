@@ -23,12 +23,12 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="AttendeeName" class="control-label"></label>
-                        <input name="AttendeeName" id="AttendeeName" class="form-control" value="" />
+                        <input type="text" name="AttendeeName" id="AttendeeName" class="form-control" value="" maxlength="200" />
                         <span asp-validation-for="AttendeeName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ContactNo" class="control-label"></label>
-                        <input name="ContactNo" id="ContactNo" class="form-control" value="" />
+                        <input type="number" name="ContactNo" id="ContactNo" class="form-control" value="" maxlength="10" />
                         <span asp-validation-for="ContactNo" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -43,17 +43,17 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="TotalAmount" class="control-label"></label>
-                        <input name="TotalAmount" id="TotalAmount" class="form-control" value="" />
+                        <input type="number" name="TotalAmount" id="TotalAmount" class="form-control" value="" />
                         <span asp-validation-for="TotalAmount" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Remarks" class="control-label"></label>
-                        <input name="Remarks" id="Remarks" class="form-control" value="" />
+                        <input type="text" name="Remarks" id="Remarks" class="form-control" value="" maxlength="500" />
                         <span asp-validation-for="Remarks" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CouponTypeId" class="control-label"></label>
-                        <select name="CouponTypeId"  id="CouponTypeId" class="form-control" placeholder="Click to select coupon Id" asp-items="ViewBag.CouponTypeId" value=""></select>
+                        <select name="CouponTypeId" id="CouponTypeId" class="form-control" placeholder="Click to select coupon Id" asp-items="ViewBag.CouponTypeId" value=""></select>
                     </div>
                     <div class="form-group">
                         <label asp-for="RemainingCoupons" class="control-label"></label>

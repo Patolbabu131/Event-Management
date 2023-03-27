@@ -4,6 +4,7 @@
             z-index: 33442;
         }
     </style>*@
+
 <div class="modal fade" id="addEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -17,23 +18,23 @@
                         <div class="mb-3 col-md-6">
                             <input type="text" id="EventID" hidden>
                             <label for="addEventName" class="form-label">Event Name</label>
-                            <input class="form-control" type="text" id="addEventName" name="addEventName" />
+                            <input type="text" class="form-control" id="addEventName" name="addEventName" maxlength="100" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addEventDate" class="form-label">Event Date</label>
-                            <input class="form-control" type="date" name="addEventDate" id="addEventDate" />
+                            <input type="date" class="form-control" name="addEventDate" id="addEventDate" />
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="addEventVenue" class="form-label">Event Venue</label>
-                            <textarea class="form-control" id="addEventVenue" name="addEventVenue"></textarea>
+                            <textarea class="form-control" id="addEventVenue" name="addEventVenue" maxlength="500"></textarea>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addStartTime" class="form-label">Start Time</label>
-                            <input class="form-control" type="text" name="addStartTime" id="addStartTime" placeholder="12:0" autocomplete="off" />
+                            <input type ="text" class="form-control" name="addStartTime" id="addStartTime" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addEndTime" class="form-label">End Time</label>
-                            <input class="form-control" type="text" id="addEndTime" name="addEndTime" placeholder="5:0" autocomplete="off" />
+                            <input type="text" class="form-control" id="addEndTime" name="addEndTime" placeholder="5:0" autocomplete="off" />
                         </div>
 
                     </div>

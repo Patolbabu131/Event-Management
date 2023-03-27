@@ -123,11 +123,11 @@ namespace Events.Web.Controllers
                 {
                     return Json("Selected Image is already exists");
                 }
-                string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
+                string path = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\File\\");
 
                 //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
+                //if (!Directory.Exists(path))
+                //    Directory.CreateDirectory(path);
 
 
                 //get file extension
@@ -155,14 +155,14 @@ namespace Events.Web.Controllers
                 string i = img.SponsorImage;
                 string path111 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\" + i);
 
-                string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\" + File.FileName);
+                string path1 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\File\\" + File.FileName);
 
                 if (System.IO.File.Exists(path1))
                 {
                     return Json("Selected Image is already exists");
                 }
 
-                string path2 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\Files\\");
+                string path2 = Path.Combine("C:\\Users\\admin\\source\\repos\\EventsPSV\\Events.Web\\wwwroot\\File\\");
 
                 //create folder if not exist
                 if (!Directory.Exists(path2))
@@ -180,7 +180,7 @@ namespace Events.Web.Controllers
                 }
 
                 img.EventId = EventId;
-                img.SponsorImage = Path.Combine("\\Files", fileName);
+                img.SponsorImage = Path.Combine("\\File", fileName);
 
                 _context.Eventsponsorsimages.Update(img);
                 _context.SaveChanges();

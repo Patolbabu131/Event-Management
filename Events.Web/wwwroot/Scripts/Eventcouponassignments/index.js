@@ -40,7 +40,6 @@
                         var month = date.getMonth() + 1;
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
-
                 },
                 {
                     "data": "createdBy",
@@ -56,7 +55,6 @@
                         var month = date.getMonth() + 1;
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
-
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -112,7 +110,8 @@ function save_Cassign() {
             
         },
     });
-    if ($('#CAssignform').valid()) {
+    if ($('#CAssignform').valid())
+    {
         var data = {
             Id: $("#Cassignid").val(),
             EventId: $("#EventId").val(),
@@ -127,13 +126,34 @@ function save_Cassign() {
             type: "post",
             url: '/Eventcouponassignments/CreateCAssign',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
+            success: function ConfirmDialog(message) {
+                $("#addCAssign").modal('hide');
+                $('#Cassign').appendTo('body')
+                    .html('<div><h6>' + message + '</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Save Message',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        icon: 'fa fa- close',
+                        click: function () {
+                            $(this).dialog("close");
+                        },
+                        buttons: [
+                            {
+                                text: "Ok",
+                                icon: "ui-icon-heart",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    window.location.reload();
+                                }
+                            }
+                        ]
+                    });
+            }             
         })
-    }
-    
+    }    
 }
 
 
@@ -170,16 +190,70 @@ function edit_cassign(id) {
 
 }
 
+//function Delete(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "get",
+//            url: '/Eventcouponassignments/Delete/' + id,
+//            success: function (resonce) {
+//                alert("Record Deleted Successfuly..");
+//                window.location.reload();
+//            }
+//        })
+//    }
+//}
+
+
 function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "get",
-            url: '/Eventcouponassignments/Delete/' + id,
-            success: function (resonce) {
-                alert("Record Deleted Successfuly..");
-                window.location.reload();
+    $('#Cassign').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventcouponassignments/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }

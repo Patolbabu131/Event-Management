@@ -1,10 +1,8 @@
 ﻿@model Events.Web.Models.Eventcoupontype
 
-@{
-   
+@{   
     var id = ViewBag.eid;
 }
-
 
 <div class="modal fade" id="addCTypee" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -23,13 +21,13 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponName" class="control-label"></label>
-                    <input class="form-control" type="text" id="CouponName" name="CouponName" />                    
-                    <span asp-validation-for="CouponName" class="text-danger"></span>
+                        <input type="text" class="form-control" id="CouponName" name="CouponName" maxlength="100" />
+                        <span asp-validation-for="CouponName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponPrice" class="control-label"></label>
-                    <input class="form-control" type="text" id="CouponPrice" name="CouponPrice" />                    
-                    <span asp-validation-for="CouponPrice" class="text-danger"></span>
+                        <input type="number" class="form-control" id="CouponPrice" name="CouponPrice" />
+                        <span asp-validation-for="CouponPrice" class="text-danger"></span>
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">

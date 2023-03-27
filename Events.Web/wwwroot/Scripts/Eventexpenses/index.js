@@ -77,16 +77,18 @@ function addEventListener_expenses(id) {
     })
 }
 
+
 function save_eexpenses() {
+
     $("#formAddExpenses").validate({
         rules: {
-            ExpenseName: "required",
+            ExpenseName: {
+                required: true,
+                maxlength: 100
+            },
             ExpenseSubject: {
                 required: true,
-
-            },
-            PurchasedOn: {
-                required: true,
+                maxlength: 300
             },
             AmountSpent: {
                 required: true,
@@ -94,22 +96,22 @@ function save_eexpenses() {
             },
             Remarks: {
                 required: true,
+                maxlength: 500
             },
         },
         messages: {
-            ExpenseName: " Please enter ExpenseName",
-            ContactNo: " Please enter valid Contact Number",
+            ExpenseName: {
+                required: "Expense Name is a required field!!!"
+            },
             ExpenseSubject: {
-                required: " Please enter ExpenseSubject",
+                required: "Expense Subject is a required field!!!"
             },
             AmountSpent: {
-                required: " Please enter Amount ",
-                number: "Invalid input"
+                required: "Amount Spent is a required field!!!"
             },
-            AmountSpent: {
-                required: " Please AmountSpent ",
+            Remarks: {
+                required: "Remarks is a required field!!!"
             },
-            Remarks: "Please enter Remark",
         }
     });
     if ($('#formAddExpenses').valid()) {
@@ -127,10 +129,36 @@ function save_eexpenses() {
             type: "post",
             url: '/Eventexpenses/CreateEdit',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
+            success: function ConfirmDialog(message)
+            {              
+
+                $("#createexpenses").modal('hide');
+                $('#expenses').appendTo('body')
+                    .html('<div><h6>' + message + '</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Save Message',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        icon: 'fa fa- close',
+                        click: function ()
+                        {
+                            $(this).dialog("close");
+                        },
+                        buttons: [
+                            {
+                                text: "Ok",
+                                icon: "ui-icon-heart",
+                                click: function()
+                                {
+                                    $(this).dialog("close");
+                                    window.location.reload();
+                                }
+                            }
+                        ]
+                    });                  
+            }             
         })
     }
 }
@@ -143,7 +171,6 @@ function edit_expenses(id) {
         success: function (resonce) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
-
 
             $.ajax({
                 type: "get",
@@ -169,16 +196,70 @@ function edit_expenses(id) {
 
 }
 
+//function Delete(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "get",
+//            url: '/Eventexpenses/Delete/' + id,
+//            success: function (resonce) {
+//                alert("Record Deleted Successfuly..");
+//                window.location.reload();
+//            }
+//        })
+//    }
+//}
+
+
 function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "get",
-            url: '/Eventexpenses/Delete/' + id,
-            success: function (resonce) {
-                alert("Record Deleted Successfuly..");
-                window.location.reload();
+    $('#expenses').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventexpenses/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }

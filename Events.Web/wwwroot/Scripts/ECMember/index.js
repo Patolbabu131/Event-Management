@@ -31,11 +31,30 @@ function savemember(data) {
         type: "post",
         data: data,
         url: '/ExecutiveMembers/CreateMembers',
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
-        }
+        success: //function (resonce) {
+            //alert(resonce);
+
+           // ConfirmDialog('Are you sure');
+
+            function ConfirmDialog(message)
+            {
+            $('<div></div>').appendTo('body')
+                .html('<div><h6>' + message + '?</h6></div>')
+                .dialog({
+                    modal: true,
+                    title: 'Events Data Is Saved...',
+                    zIndex: 10000,
+                    autoOpen: true,
+                    width: 'auto',
+                    resizable: false,
+                    close: function (event, ui) {
+                        $(this).remove();
+                    }
+                })
+           }
+            //window.location.reload();        
     })
+    window.location.reload();
 }
 
 function bindmember() {

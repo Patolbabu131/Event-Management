@@ -99,24 +99,22 @@
             },
         });
     },
-
-
-
 }
 
-/*---Deepti---*/
 
 function save_event() {
     $("#formAddEvent").validate({
         rules: {
             addEventName: {
                 required: true,
+                maxlength: 100
             },
             addEventDate: {
                 required: true
             },
             addEventVenue: {
-                required: true
+                required: true,
+                maxlength: 500
             },
             addStartTime: {
                 required: true
@@ -143,9 +141,6 @@ function save_event() {
             },
         }
     });
-
-    /*---Deepti---*/
-
     if ($('#formAddEvent').valid()) {
         var data = {
             Id: $("#EventID").val(),
@@ -160,11 +155,36 @@ function save_event() {
             type: "post",
             url: '/Events/CreateEvents',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
-        })
+            success: function ConfirmDialog(message)
+            {                
+                $("#addEventModal").modal('hide');
+                $('#CreateContainer').appendTo('body')
+                    .html('<div><h6>' + message + '</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Save Message',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        icon: 'fa fa- close',
+                        click: function ()
+                        {
+                            $(this).dialog("close");
+                        },
+                        buttons: [
+                            {
+                                text: "Ok",
+                                icon: "ui-icon-heart",
+                                click: function()
+                                {
+                                    $(this).dialog("close");
+                                    window.location.reload();
+                                }
+                            }
+                        ]
+                    });                  
+            }             
+        })         
     }
 }
 
@@ -240,19 +260,12 @@ function bindDatatable() {
                 }
             ]
         });
-
-    /*---Deepti---*/
-
-
-    /*---Deepti---*/
 }
 
 
 
-
-
 $(document).ready(function () {
-
+     
     $('#create_event').click(function () {
 
         $.ajax({
@@ -276,6 +289,7 @@ $(document).ready(function () {
               
             }
         })
+       
     });
     bindDatatable();
  
@@ -288,8 +302,6 @@ $(document).ready(function () {
         window.location = $(this).val();
     });
 
-
-
 });
 
 function details_event(id) {
@@ -300,6 +312,31 @@ function details_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#DetailsEventsModal").modal('show');
+            $('#addStartTime').timepicker();
+                (
+                    {
+                        timeFormat: 'h:mm p',
+                        interval: 60,
+                        minTime: '10',
+                        maxTime: '6:00pm',
+                        defaultTime: '11',
+                        startTime: '10:00',
+                        dynamic: false,
+                        dropdown: true,
+                        scrollbar: true
+                    }
+                ); 
+            $('#addEndTime').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 60,
+                minTime: '10',
+                maxTime: '6:00pm',
+                defaultTime: '11',
+                startTime: '10:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
         }
     })
 }
@@ -347,75 +384,74 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
-
-
-
         }
     })
 }
 
-function delete_event(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "post",
-            url: '/Events/DeteleEvent/' + id,
-            success: function (resonce) {
-                alert("Record Deleted Successfuly..");
-                window.location.reload();
+//function delete_event(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "post",
+//            url: '/Events/DeteleEvent/' + id,
+//            success: function (resonce) {
+//                alert("Record Deleted Successfuly..");
+//                window.location.reload();
+//            }
+//        })
+//    }
+//}
+
+
+function Delete(id) {
+    $('#CreateContainer').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Events/DeteleEvent/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }
-
-
-//function eventattendeestable() {
-//      $.ajax({
-
-//        url: '/Eventattendees/Index',
-
-//    });
-
-
-    //datatable = $('#Eventattendeestable')
-    //    .DataTable
-    //    ({
-    //        "sAjaxSource": "/Events/GetEventattendees/" + EID,
-    //        "bServerSide": true,
-    //        "bProcessing": true,
-    //        "bSearchable": true,
-    //        "filter": true,
-    //        "language": {
-    //            "emptyTable": "No record found.",
-    //            "processing":
-    //                '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
-    //        },
-    //        "columns": [
-    //            {
-    //                "data": "id",
-
-    //            },
-    //            {
-    //                "data": "eventId",
-
-    //            },
-    //            {
-    //                "data": 'sponsorImage',
-    //                "render": function (data, type, row, meta) {
-    //                    return '<img src="' + row.sponsorImage + '" width="40px">';
-    //                }
-    //            }
-    //            //{
-    //            //    "data": "duties",
-    //            //    render: function (data, type, row, meta) {
-    //            //        return row.duties
-    //            //    }
-    //            //},
-    //            //{
-    //            //    render: function (data, type, row, meta) {
-    //            //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
-    //            //    }
-    //            //}
-    //        ]
-    //    });
-

@@ -50,19 +50,19 @@
 
 }
 
-function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "get",
-            url: '/Eventsponsorsimages/Delete/' + id,
-            success: function (responce) {
-                alert(responce);
-                window.location.reload();
-            }
-        })
-    }
-}
+//function Delete(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "get",
+//            url: '/Eventsponsorsimages/Delete/' + id,
+//            success: function (responce) {
+//                alert(responce);
+//                window.location.reload();
+//            }
+//        })
+//    }
+//}
 
 function create_i(id) {
     $.ajax({
@@ -102,10 +102,31 @@ function save_image() {
         data: formData,
         processData: false,
         contentType: false,
-        success: function (response) {
-        
-            alert(response);
-            window.location.reload();
+        success: function ConfirmDialog(message) {
+            $("#Editimage").modal('hide');
+            $('#image').appendTo('body')
+                .html('<div><h6>' + message + '</h6></div>')
+                .dialog({
+                    modal: true,
+                    title: 'Save Message',
+                    zIndex: 10000,
+                    autoOpen: true,
+                    width: 'auto',
+                    icon: 'fa fa- close',
+                    click: function () {
+                        $(this).dialog("close");
+                    },
+                    buttons: [
+                        {
+                            text: "Ok",
+                            icon: "ui-icon-heart",
+                            click: function () {
+                                $(this).dialog("close");
+                                window.location.reload();
+                            }
+                        }
+                    ]
+                });
         }
     })
     }
@@ -131,4 +152,59 @@ function Edit_i(id) {
             })
         }
     })
+}
+
+
+
+function Delete(id) {
+    $('#image').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventsponsorsimages/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
+            }
+        });
 }

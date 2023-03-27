@@ -85,13 +85,12 @@ function functionToCall(id) {
                         return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a> | <a class="btn btn-primary" onclick="edit_attendee(' + row.id + ')" >Edit</a>';
                     }
                 },
-
             ]
         });
-
 }
 
-$(document).ready(function () {
+$(document).ready(function ()
+{
    
 });
 
@@ -99,12 +98,10 @@ $(document).ready(function () {
 
 function create_attendee(id) {
     $.ajax({
-
         url: '/Eventattendees/CreateEdit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
-            $("#addeditattendee").modal('show');
-            
+            $("#addeditattendee").modal('show');            
         }
     })
 }
@@ -113,10 +110,12 @@ function create_attendee(id) {
 function save_Attendee() {
     $("#formAddAttendees").validate({
         rules: {
-            AttendeeName: "required",
+            AttendeeName: {
+                required: true,
+                maxlength: 200
+            },
             ContactNo: {
                 required: true,
-                minlength: 10,
                 maxlength: 10
             },
             CouponsPurchased: {
@@ -132,6 +131,7 @@ function save_Attendee() {
             },
             Remarks: {
                 required: true,
+                maxlength:500
             },
             CouponTypeId: {
                 required: true,
@@ -187,15 +187,39 @@ function save_Attendee() {
             type: "post",
             url: '/Eventattendees/CreateEdit1',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
+            success: function ConfirmDialog(message) {
+                $("#addeditattendee").modal('hide');
+                CallDialog(message);                                   
+            }             
         })
     }
 }
 
-
+function CallDialog(message) {
+    $('#Attendees').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog("close");
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
+}
 
 
 function details_event(id) {
@@ -252,16 +276,75 @@ function edit_attendee(id) {
 
 }
 
+//function Delete(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "post",
+//            url: '/Eventattendees/Delete/' + id,
+//            //success: function (resonce) {
+//            //    alert("Record Deleted Successfuly..");
+//            //    window.location.reload();
+
+//            success: function ConfirmDialog(message) {
+//                    //$("#addeditattendee").modal('hide');
+//                    CallDialog(message);
+//                }
+
+//        })
+//    }
+//}
+
+
 function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "post",
-            url: '/Eventattendees/Delete/' + id,
-            success: function (resonce) {
-                alert("Record Deleted Successfuly..");
-                window.location.reload();
+    $('#Attendees').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?..." + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',            
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventattendees/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }

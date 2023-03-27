@@ -160,8 +160,7 @@ namespace Events.Web.Controllers
         }
         [HttpPost]
         public IActionResult CreateEdit1(Eventattendee eventattendee)
-        {
-            
+        {            
             string mid = cd.HttpContext.Session.GetString("MID");
             if (eventattendee.Id == null || eventattendee.Id==0)
             {
@@ -210,8 +209,7 @@ namespace Events.Web.Controllers
                 _context.SaveChanges();
 
                 return Json("Event updated...");
-            }
-          
+            }          
         }
      
         // GET: Eventattendees/Edit/5
@@ -268,8 +266,7 @@ namespace Events.Web.Controllers
             var data = _context.Eventattendees.Where(e => e.Id == id).SingleOrDefault();
             _context.Eventattendees.Remove(data);
             _context.SaveChanges();
-            return Json("success");
- 
+            return Json("success"); 
         }
 
 

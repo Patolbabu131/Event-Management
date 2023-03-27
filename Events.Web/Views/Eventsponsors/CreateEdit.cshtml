@@ -1,9 +1,9 @@
 ﻿@model Events.Web.Models.Eventsponsor
 
 @{
-
     var id = ViewBag.eid;
 }
+
 <div class="modal fade" id="addsponsors" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -12,6 +12,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formAddEvent">
+
                 <div class="modal-body">
                     <input type="text" id="ID" value="" hidden>
                     <div class="form-group">
@@ -20,22 +21,22 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="SponsorName" class="control-label"></label>
-                        <input class="form-control" type="text" id="SponsorName" name="SponsorName" />
+                        <input type="text" class="form-control" id="SponsorName" name="SponsorName" maxlength="200" />
                         <span asp-validation-for="SponsorName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SponsorOrganization" class="control-label"></label>
-                        <input class="form-control" type="text" id="SponsorOrganization" name="SponsorOrganization" />
+                        <input type="text" class="form-control" id="SponsorOrganization" name="SponsorOrganization" maxlength="200" />
                         <span asp-validation-for="SponsorOrganization" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="AmountSponsored" class="control-label"></label>
-                        <input class="form-control" type="number" id="AmountSponsored" name="AmountSponsored" />
+                        <input type="number" class="form-control" id="AmountSponsored" name="AmountSponsored" />
                         <span asp-validation-for="AmountSponsored" class="text-danger"></span>
                     </div>
                     <div class="form-group" hidden>
                         <label asp-for="CreatedOn" class="control-label"></label>
-                        <input class="form-control" type="date" id="CreatedOn" name="CreatedOn" />                        
+                        <input type="date" class="form-control" id="CreatedOn" name="CreatedOn" />
                         <span asp-validation-for="CreatedOn" class="text-danger"></span>
                     </div>
                     <div class="form-group" hidden>
