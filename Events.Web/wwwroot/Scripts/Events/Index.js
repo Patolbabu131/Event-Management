@@ -254,7 +254,6 @@ function bindDatatable() {
 }
 
 
-
 $(document).ready(function () {
      
     $('#create_event').click(function () {
