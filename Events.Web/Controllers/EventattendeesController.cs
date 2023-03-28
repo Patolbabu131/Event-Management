@@ -41,7 +41,7 @@ namespace Events.Web.Controllers
 
         public ActionResult GetEventattendees(JqueryDatatableParam param, Int64 Id)
         {
-            //var list = _context.Eventattendees.ToList();
+            var list = _context.Eventattendees.ToList();
             IEnumerable<dynamic> eventattendees = null;
             if (Id == null || Id == 0)
             {
@@ -113,6 +113,8 @@ namespace Events.Web.Controllers
             });
         }
 
+
+
         // GET: Eventattendees/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -169,8 +171,7 @@ namespace Events.Web.Controllers
         }
         [HttpPost]
         public IActionResult CreateEdit1(Eventattendee eventattendee)
-        {
-            
+        {            
             string mid = cd.HttpContext.Session.GetString("MID");
             if (eventattendee.Id == null || eventattendee.Id==0)
             {
@@ -219,8 +220,7 @@ namespace Events.Web.Controllers
                 _context.SaveChanges();
 
                 return Json("Event updated...");
-            }
-          
+            }          
         }
      
         // GET: Eventattendees/Edit/5
@@ -272,8 +272,7 @@ namespace Events.Web.Controllers
           
             _context.Eventattendees.Remove(attendees);
             _context.SaveChanges();
-            return Json("success");
-
+            return Json("success"); 
         }
 
 

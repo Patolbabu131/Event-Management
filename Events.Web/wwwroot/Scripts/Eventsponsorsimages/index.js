@@ -25,20 +25,12 @@
                 {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
-<<<<<<< HEAD
-                        return '<img src="' + row.sponsorImage + '" width="300px">';
-=======
                         return '<img src="/Files/'+row.sponsorImage+'" width="300px">';
->>>>>>> origin/rujal
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
-<<<<<<< HEAD
-                        return '<a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
-=======
                         return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
->>>>>>> origin/rujal
                     }
                 }
             ]
@@ -47,19 +39,6 @@
 
 }
 
-function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "get",
-            url: '/Eventsponsorsimages/Delete/' + id,
-            success: function (responce) {
-                alert(responce);
-                window.location.reload();
-            }
-        })
-    }
-}
 
 function create_i(id) {
     $.ajax({
@@ -83,30 +62,6 @@ function save_image() {
     });
     if ($('#imageform').valid()) {
 
-<<<<<<< HEAD
-        var formData = new FormData();
-        var data = {
-            Id: $("#Id").val(),
-            EventId: $("#EventId").val(),
-            File: $("#File")[0].files[0]
-        }
-        formData.append("Id", $("#Id").val());
-        formData.append("EventId", $("#EventId").val());
-        formData.append("File", $("#File")[0].files[0]);
-
-        $.ajax({
-            type: "POST",
-            url: '/Eventsponsorsimages/Create',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-
-                alert(response);
-                window.location.reload();
-            }
-        })
-=======
     var formData = new FormData();
     var data = {
         EventId: $("#EventId").val(),
@@ -121,13 +76,33 @@ function save_image() {
         data: formData,
         processData: false,
         contentType: false,
-        success: function (response) {
-        
-            alert(response);
-            window.location.reload();
+        success: function ConfirmDialog(message) {
+            $("#Editimage").modal('hide');
+            $('#image').appendTo('body')
+                .html('<div><h6>' + message + '</h6></div>')
+                .dialog({
+                    modal: true,
+                    title: 'Save Message',
+                    zIndex: 10000,
+                    autoOpen: true,
+                    width: 'auto',
+                    icon: 'fa fa- close',
+                    click: function () {
+                        $(this).dialog("close");
+                    },
+                    buttons: [
+                        {
+                            text: "Ok",
+                            icon: "ui-icon-heart",
+                            click: function () {
+                                $(this).dialog("close");
+                                window.location.reload();
+                            }
+                        }
+                    ]
+                });
         }
     })
->>>>>>> origin/rujal
     }
 }
 
@@ -141,11 +116,7 @@ function Edit_i(id) {
             $("#Editimage").modal('show');
 
             $.ajax({
-<<<<<<< HEAD
-                type: "get",
-=======
                 type:"get",
->>>>>>> origin/rujal
                 url: '/Eventsponsorsimages/Edit/' + id,
                 success: function (resonce) {
                     $("#Id").val(resonce.id);
@@ -155,4 +126,59 @@ function Edit_i(id) {
             })
         }
     })
+}
+
+
+
+function Delete(id) {
+    $('#image').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventsponsorsimages/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
+            }
+        });
 }

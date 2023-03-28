@@ -99,9 +99,6 @@
             },
         });
     },
-
-
-
 }
 
 
@@ -110,12 +107,14 @@ function save_event() {
         rules: {
             addEventName: {
                 required: true,
+                maxlength: 100
             },
             addEventDate: {
                 required: true
             },
             addEventVenue: {
-                required: true
+                required: true,
+                maxlength: 500
             },
             addStartTime: {
                 required: true
@@ -162,11 +161,36 @@ function save_event() {
             type: "post",
             url: '/Events/CreateEvents',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
-        })
+            success: function ConfirmDialog(message)
+            {                
+                $("#addEventModal").modal('hide');
+                $('#CreateContainer').appendTo('body')
+                    .html('<div><h6>' + message + '</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Save Message',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        icon: 'fa fa- close',
+                        click: function ()
+                        {
+                            $(this).dialog("close");
+                        },
+                        buttons: [
+                            {
+                                text: "Ok",
+                                icon: "ui-icon-heart",
+                                click: function()
+                                {
+                                    $(this).dialog("close");
+                                    window.location.reload();
+                                }
+                            }
+                        ]
+                    });                  
+            }             
+        })         
     }
 }
 
@@ -189,12 +213,6 @@ function bindDatatable() {
             "columns": [
                
                 {
-<<<<<<< HEAD
-=======
-                    "data": "id"
-                },
-                {
->>>>>>> origin/rujal
                     "data": "eventName",
                 },
                 {
@@ -218,23 +236,7 @@ function bindDatatable() {
                     }
                 },
                 {
-<<<<<<< HEAD
                     "data": "eventVenue",
-=======
-
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.eventDate);
-                        var month = date.getMonth();
-                        return date.getFullYear();
-                    }
-                },
-                {
-                    "data": "foodMenu",
-                    //render: function (data, type, row, meta) {
-
-                    //    return row.eventEndTime
-                    //}
->>>>>>> origin/rujal
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -243,15 +245,9 @@ function bindDatatable() {
                 },
                 {
                     render: function (data, type, row, meta) {
-<<<<<<< HEAD
                         return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
                     }
                 },
-=======
-                        return '<table><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td>  <td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
-                    }
-                }
->>>>>>> origin/rujal
             ]
         });
 
@@ -259,10 +255,8 @@ function bindDatatable() {
 
 
 
-
-
 $(document).ready(function () {
-
+     
     $('#create_event').click(function () {
 
         $.ajax({
@@ -298,31 +292,8 @@ $(document).ready(function () {
                     ]
                 });
             }
-<<<<<<< HEAD
-
         })
-
-
-    });
-    bindDatatable();
-
-    function ok() {
-        $('#addStartTime').timepicker({
-            timeFormat: 'h:mm p',
-            interval: 60,
-            minTime: '10',
-            maxTime: '6:00pm',
-            defaultTime: '11',
-            startTime: '10:00',
-            dynamic: false,
-            dropdown: true,
-            scrollbar: true
-        });
-
-    }
-
-=======
-        })
+       
     });
     bindDatatable();
  
@@ -330,13 +301,10 @@ $(document).ready(function () {
         $(".ui-timepicker-container").css("z-index", "33442");
     }, 100);
 
->>>>>>> origin/rujal
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
     });
-
-
 
 });
 
@@ -348,7 +316,6 @@ function details_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#DetailsEventsModal").modal('show');
-    
         }
     })
 }
@@ -403,18 +370,7 @@ function edit_event(id) {
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
-<<<<<<< HEAD
-            //var strTime = start.getHours() + ':' + caches.getMinutes();
-            var strTime = (start.getHours || '00') + ':' + (start.getMinutess || '00');
-            var ampm = "am";
-            if (start.getHours > 12) {
-                start.getHours -= 12;
-                ampm = "pm";
-            }
-            // = end.getHours() + ':' + end.getMinutes() + ampm;
-=======
             var strTime = start.getHours() + ':' + start.getMinutes();
->>>>>>> origin/rujal
             var endtime = (end.getHours() || '00') + ':' + (end.getMinutes() || '00');
 
             $('#EventID').val(resonce.id);
@@ -423,82 +379,75 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
-<<<<<<< HEAD
-
-
-
-=======
             $('#FoodMenu').val(resonce.foodMenu);
->>>>>>> origin/rujal
         }
     })
 }
 
-function delete_event(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "post",
-            url: '/Events/DeteleEvent/' + id,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
+//function delete_event(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "post",
+//            url: '/Events/DeteleEvent/' + id,
+//            success: function (resonce) {
+//                alert("Record Deleted Successfuly..");
+//                window.location.reload();
+//            }
+//        })
+//    }
+//}
+
+
+function Delete(id) {
+    $('#CreateContainer').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Events/DeteleEvent/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }
-
-
-<<<<<<< HEAD
-=======
-//function eventattendeestable() {
-//      $.ajax({
-
-//        url: '/Eventattendees/Index',
-
-//    });
-
-
-    //datatable = $('#Eventattendeestable')
-    //    .DataTable
-    //    ({
-    //        "sAjaxSource": "/Events/GetEventattendees/" + EID,
-    //        "bServerSide": true,
-    //        "bProcessing": true,
-    //        "bSearchable": true,
-    //        "filter": true,
-    //        "language": {
-    //            "emptyTable": "No record found.",
-    //            "processing":
-    //                '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
-    //        },
-    //        "columns": [
-    //            {
-    //                "data": "id",
-
-    //            },
-    //            {
-    //                "data": "eventId",
-
-    //            },
-    //            {
-    //                "data": 'sponsorImage',
-    //                "render": function (data, type, row, meta) {
-    //                    return '<img src="' + row.sponsorImage + '" width="40px">';
-    //                }
-    //            }
-    //            //{
-    //            //    "data": "duties",
-    //            //    render: function (data, type, row, meta) {
-    //            //        return row.duties
-    //            //    }
-    //            //},
-    //            //{
-    //            //    render: function (data, type, row, meta) {
-    //            //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
-    //            //    }
-    //            //}
-    //        ]
-    //    });
->>>>>>> origin/rujal
-

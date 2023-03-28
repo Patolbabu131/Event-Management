@@ -36,13 +36,9 @@
                         return ' <a class="btn btn-info"  onclick="edit_ct(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 },
-
             ]
         });
-
 }
-
-
 
 function create_Ctype(id) {
     $.ajax({
@@ -57,13 +53,13 @@ function create_Ctype(id) {
 }
 
 
-
 function save_ctype() {
 
     $("#ctypeform").validate({
         rules: {
             CouponName: {
                 required: true,
+                maxlength: 100
             },
             CouponPrice: {
                 required: true,
@@ -80,15 +76,15 @@ function save_ctype() {
             },
         }
     });
-
-    if ($("#Active").is(':checked')) {
-        $("#Active").attr('value', 'true');
-    } else {
-        $("#Active").attr('value', 'false');
-    }
-
+     
 
     if ($('#ctypeform').valid()) {
+        if ($("#Active").is(':checked')) {
+            $("#Active").attr('value', 'true');
+        } else {
+            $("#Active").attr('value', 'false');
+        }
+
         var data = {
             Id: $("#Coupontype").val(),
             EventId: $("#EventId").val(),
@@ -100,10 +96,32 @@ function save_ctype() {
             type: "post",
             url: '/Eventcoupontypes/CreateCType',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
+            success: function ConfirmDialog(message) {
+                $("#addCTypee").modal('hide');
+                $('#Ctype').appendTo('body')
+                    .html('<div><h6>' + message + '</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Save Message',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        icon: 'fa fa- close',
+                        click: function () {
+                            $(this).dialog("close");
+                        },
+                        buttons: [
+                            {
+                                text: "Ok",
+                                icon: "ui-icon-heart",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    window.location.reload();
+                                }
+                            }
+                        ]
+                    });
+            }             
         })
     }
 }
@@ -132,16 +150,71 @@ function edit_ct(id) {
     })
 
 }
+
+//function Delete(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "get",
+//            url: '/Eventcoupontypes/Delete/' + id,
+//            success: function (resonce) {
+//                alert("Record Deleted Successfuly..");
+//                window.location.reload();
+//            }
+//        })
+//    }
+//}
+
+
 function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "get",
-            url: '/Eventcoupontypes/Delete/' + id,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
+    $('#Ctype').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventcoupontypes/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }

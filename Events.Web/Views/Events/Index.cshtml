@@ -1,5 +1,5 @@
-﻿@*    @model Events.Models.EventViewModel
-*@
+﻿@*    @model Events.Models.EventViewModel *@
+
 @{
     ViewData["Title"] = "Events";
 }
@@ -41,7 +41,7 @@
                     <th>Ending Time</th>
                     <th>Venue</th>
                     <th>Action</th>
-                    <th></th>
+                    <th><i class="fa fa-bars"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -78,11 +78,11 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="editStartTime" class="form-label">Start Time</label>
-                            <input class="form-control" type="time" name="editStartTime" id="editStartTime" value="18:00" />
+                            <input class="form-control" type="text" name="editStartTime" id="editStartTime" value="18:00" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="editEndTime" class="form-label">End Time</label>
-                            <input class="form-control" type="time" id="editEndTime" name="editEndTime" value="20:00" />
+                            <input class="form-control" type="text" name="editEndTime" id="editEndTime" value="20:00" />
                         </div>
                         <div class="col-md-12">
                             <label for="editFoodCouponRate" class="form-label">Food Coupon Rate</label>
@@ -131,6 +131,7 @@
         </div>
     </div>
 </div>
+
 
 @section Scripts
     {

@@ -78,20 +78,16 @@ function save_Sponsors() {
         rules: {
             SponsorName: {
                 required: true,
+                maxlength: 200
             },
             SponsorOrganization: {
 <<<<<<< HEAD
                 required: true,
+                maxlength: 200
             },
             AmountSponsored: {
                 required: true,
-                number: true,
-=======
-                required: true
-            },
-            AmountSponsored: {
-                required: true
->>>>>>> origin/rujal
+                number: true
             },
         },
         messages: {
@@ -120,10 +116,35 @@ function save_Sponsors() {
             type: "post",
             url: '/Eventsponsors/CreateEdit',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
+            success: function ConfirmDialog(message)
+            {
+                $("#addsponsors").modal('hide');
+                $('#sponsors').appendTo('body')
+                    .html('<div><h6>' + message + '</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Save Message',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        icon: 'fa fa- close',
+                        click: function ()
+                        {
+                            $(this).dialog("close");
+                        },
+                        buttons: [
+                            {
+                                text: "Ok",
+                                icon: "ui-icon-heart",
+                                click: function ()
+                                {
+                                    $(this).dialog("close");
+                                    window.location.reload();
+                                }
+                            }
+                        ]
+                    });
+            }  
         })
     }
 }
@@ -156,15 +177,57 @@ function edit_sponsors(id) {
 }
 
 
-function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            url: '/Eventsponsors/Delete/    ' + id,
-            success: function (resonce) {
-                alert("Record Deleted Successfuly..");
-                window.location.reload();
-            }
-        })
+
+function Delete(id) {   
+    $('#sponsors').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+                .dialog({
+                    modal: true,
+                    title: 'Delete Message',                    
+                    zIndex: 10000,
+                    autoOpen: true,
+                    width: 'auto',
+                    icon: 'fa fa- close',
+                    click: function () {
+                        $(this).dialog("close");
+                    },
+                    buttons: {
+                        Yes: function () {
+                            $.ajax({
+                                url: '/Eventsponsors/Delete/' + id,
+                                success: function ()
+                                {
+                                    $('#dailog').appendTo('body')
+                                        .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                        .dialog({
+                                            modal: true,
+                                            title: 'Delete Message',
+                                            zIndex: 10000,
+                                            autoOpen: true,
+                                            width: 'auto',
+                                            icon: 'fa fa- close',
+                                            click: function () {
+                                                $(this).dialog("close");
+                                            },
+                                            buttons: [
+                                                {
+                                                    text: "Ok",
+                                                    icon: "ui-icon-heart",
+                                                    click: function () {
+                                                        $(this).dialog("close");
+                                                        window.location.reload();
+                                                    }
+                                                }
+                                            ]
+                                        });
+                                 }            
+
+                            })
+                        },
+                        No: function () {
+
+                            $(this).dialog("close");
+                        }
+                    } 
+                });
     }
-}

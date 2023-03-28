@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/bin/Debug/net6.0/Events.DomainObjects.deps.json
 /Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/bin/Debug/net6.0/Events.DomainObjects.dll
 /Users/kevinwhite/Documents/Projects/EventsPSV/SourceCode/Events/Events.DomainObjects/bin/Debug/net6.0/Events.DomainObjects.pdb
@@ -43,6 +44,8 @@ C:\Projects\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\ref\Events.DomainObj
 =======
 =======
 >>>>>>> 5b05eb92e049a81407963d19725207543b319133
+=======
+>>>>>>> origin/rujal
 C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.deps.json
 C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.runtimeconfig.json
 C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.dll
@@ -58,8 +61,11 @@ C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Even
 C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.genruntimeconfig.cache
 C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\ref\Events.DomainObjects.dll
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> origin/Vraj_Shah
 =======
 >>>>>>> origin/rujal
 >>>>>>> 5b05eb92e049a81407963d19725207543b319133
+=======
+>>>>>>> origin/rujal
