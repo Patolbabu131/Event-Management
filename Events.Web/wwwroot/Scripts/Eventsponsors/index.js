@@ -15,12 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "eventId",
-                },
-                {
                     "data": "sponsorName",
                 },
                 {
@@ -28,29 +22,6 @@
                 },
                 {
                     "data": "amountSponsored",
-                },
-                {
-                 
-                    "data": "createdOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-                {
-                    "data": "modifiedBy",
-                },
-                {
-                    "data": "modifiedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -91,9 +62,6 @@ function save_Sponsors() {
                 required: true,
                 number: true
             },
-            CreatedOn: {
-                required: true
-            },
         },
         messages: {
             SponsorName: {
@@ -105,11 +73,9 @@ function save_Sponsors() {
             AmountSponsored: {
                 required: "Amount Sponsored is a required field!!!"
             },
-            CreatedOn: {
-                required: "Created On is a required field!!!"
-            },
         }
     });
+
 
     if ($('#formAddEvent').valid()) {
         var data = {
@@ -118,8 +84,6 @@ function save_Sponsors() {
             SponsorName: $("#SponsorName").val(),
             SponsorOrganization: $("#SponsorOrganization").val(),
             AmountSponsored: $("#AmountSponsored").val(),
-            CreatedOn: $("#CreatedOn").val(),
-            CreatedBy: $("#CreatedBy").val(),
         }
         $.ajax({
             type: "post",
@@ -166,24 +130,18 @@ function edit_sponsors(id) {
         success: function (resonce) {
             $('#sponsors').html(resonce);
             $("#addsponsors").modal('show');
-
+            $('.modal-title').text('Edit Sponsor Details');
 
             $.ajax({
                 type: "get",
                 url: '/Eventsponsors/Edit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
 
                     $("#ID").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#SponsorName").val(resonce.sponsorName);
                     $("#SponsorOrganization").val(resonce.sponsorOrganization);
-                    $("#AmountSponsored").val(resonce.amountSponsored);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);     
+                    $("#AmountSponsored").val(resonce.amountSponsored);    
                 }
             })
         }
@@ -191,20 +149,6 @@ function edit_sponsors(id) {
 
 }
 
-// original
-
-//function Delete(id) {
-//    var confirmation = confirm("Are you sure to delete this Member...");
-//    if (confirmation) {
-//        $.ajax({
-//            url: '/Eventsponsors/Delete/    ' + id,
-//            success: function (resonce) {
-//                alert("Record Deleted Successfuly..");
-//                window.location.reload();
-//            }
-//        })
-//    }
-//}
 
 
 function Delete(id) {   

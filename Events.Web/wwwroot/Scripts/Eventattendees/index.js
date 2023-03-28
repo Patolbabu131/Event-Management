@@ -16,12 +16,6 @@ function functionToCall(id) {
             },
             columns: [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "eventId",
-                },
-                {
                     "data": "attendeeName",
                 },
                 {
@@ -31,7 +25,6 @@ function functionToCall(id) {
                     "data": "couponsPurchased",
                 },
                 {
-
                     "data": "purchasedOn",
                     "render": function (data) {
                         var date = new Date(data);
@@ -39,9 +32,6 @@ function functionToCall(id) {
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
 
-                },
-                {
-                    "data": "couponTypeId",
                 },
                 {
 
@@ -57,28 +47,6 @@ function functionToCall(id) {
                 },
                 {
                     "data": "remarks",
-                },
-                {
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.createdOn);
-                        var month = date.getMonth();
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-
-                {
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.modifiedOn);
-                        var month = date.getMonth();
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
-                    }
-
-                },
-                {
-                    "data": "modifiedBy"
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -101,11 +69,21 @@ function create_attendee(id) {
         url: '/Eventattendees/CreateEdit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
-            $("#addeditattendee").modal('show');            
+            $("#addeditattendee").modal('show');
+            onlynumber();
+            $("#PurchasedOn").datepicker();
         }
     })
 }
+function onlynumber() {
+    $('.numberonly').keypress(function (e) {
 
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            return false;
+    });
+}
 
 function save_Attendee() {
     $("#formAddAttendees").validate({
@@ -180,8 +158,6 @@ function save_Attendee() {
             Remarks: $("#Remarks").val(),
             CouponTypeId: $("#CouponTypeId").val(),
             RemainingCoupons: $("#RemainingCoupons").val(),
-            CreatedBy: $("#Createdby").val(),
-            CreatedOn: $("#crearedon").val()
         }
         $.ajax({
             type: "post",
@@ -195,31 +171,12 @@ function save_Attendee() {
     }
 }
 
-function CallDialog(message) {
-    $('#Attendees').appendTo('body')
-        .html('<div><h6>' + message + '</h6></div>')
-        .dialog({
-            modal: true,
-            title: 'Save Message',
-            zIndex: 10000,
-            autoOpen: true,
-            width: 'auto',
-            icon: 'fa fa- close',
-            click: function () {
-                $(this).dialog("close");
-            },
-            buttons: [
-                {
-                    text: "Ok",
-                    icon: "ui-icon-heart",
-                    click: function () {
-                        $(this).dialog("close");
-                        window.location.reload();
-                    }
-                }
-            ]
-        });
+function selectcoupon(cname) {
+
+    $("#CouponTypeId select").val(cname);
+
 }
+
 
 
 function details_event(id) {
@@ -237,27 +194,26 @@ function details_event(id) {
 function edit_attendee(id) {
     $.ajax({
         type: "get",
-        url: '/Eventattendees/CreateEdit/' + id,
+        url: '/Eventattendees/Edit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-            document.getElementById("attendeestitle").innerHTML = text.replace("Add", "Edit");
+            $("#PurchasedOn").datepicker();
+            $('#attendeestitle').text('Edit Attendee Detail');
+            onlynumber();
+
             $.ajax({
                 type: "get",
-                url: '/Eventattendees/Edit/' + id,
+                url: '/Eventattendees/Edit1/' + id,
                 success: function (resonce) {
                     var now = new Date(resonce.purchasedOn);
                     var day = ("0" + now.getDate()).slice(-2);
                     var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
+                    var today = day + "/" + month + "/" + now.getFullYear() ;
 
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var todayq = now.getFullYear() + "-" + month + "-" + day;
 
                     $("#attenid").val(resonce.id);
-                    $("#EventId").val(resonce.eventId);
+                    $("#EventId").val(resonce.id);
                     $("#AttendeeName").val(resonce.attendeeName);
                     $("#ContactNo").val(resonce.contactNo);
                     $("#CouponsPurchased").val(resonce.couponsPurchased);
@@ -266,8 +222,6 @@ function edit_attendee(id) {
                     $("#Remarks").val(resonce.remarks);
                     $("#CouponTypeId").val(resonce.couponTypeId);
                     $("#RemainingCoupons").val(resonce.remainingCoupons);
-                    $("#Createdby").val(resonce.createdBy);
-                    $("#crearedon").val(todayq);
 
                 }
             })

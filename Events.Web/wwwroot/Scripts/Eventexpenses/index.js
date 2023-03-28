@@ -15,12 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "eventId",
-                },
-                {
                     "data": "expenseName",
                 },
                 {
@@ -30,31 +24,7 @@
                     "data": "amountSpent",
                 },
                 {
-                           "data": "createdOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-                {
                     "data": "remarks",
-                },
-               
-                {
-                    "data": "modifiedBy",
-                },
-                {
-                    "data": "modifiedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -66,13 +36,14 @@
 }
 
 
-function addEventListener_expenses(id) {
+function addEventListener_expenses(id) {    
     $.ajax({
         type: "get",
         url: '/Eventexpenses/CreateEdit/'+id,
         success: function (resonce) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
+            onlynumber();
         }
     })
 }
@@ -92,7 +63,8 @@ function save_eexpenses() {
             },
             AmountSpent: {
                 required: true,
-                number: true
+                number: true,
+
             },
             Remarks: {
                 required: true,
@@ -163,6 +135,15 @@ function save_eexpenses() {
     }
 }
 
+function onlynumber() {
+    $('.numberonly').keypress(function (e) {
+
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            return false;
+    });
+}
 
 function edit_expenses(id) {
     $.ajax({
@@ -171,45 +152,24 @@ function edit_expenses(id) {
         success: function (resonce) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
-
+            $('.modal-title').text('Edit Expenese');
+            onlynumber();
             $.ajax({
                 type: "get",
                 url: '/Eventexpenses/Edit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
-
                     $("#expensesid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#ExpenseName").val(resonce.expenseName);
                     $("#ExpenseSubject").val(resonce.expenseSubject);
                     $("#AmountSpent").val(resonce.amountSpent);
                     $("#Remarks").val(resonce.remarks);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);
                 }
             })
         }
     })
 
 }
-
-//function Delete(id) {
-//    var confirmation = confirm("Are you sure to delete this Member...");
-//    if (confirmation) {
-//        $.ajax({
-//            type: "get",
-//            url: '/Eventexpenses/Delete/' + id,
-//            success: function (resonce) {
-//                alert("Record Deleted Successfuly..");
-//                window.location.reload();
-//            }
-//        })
-//    }
-//}
-
 
 function Delete(id) {
     $('#expenses').appendTo('body')

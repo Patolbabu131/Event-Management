@@ -15,15 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id"
-                },
-                {
-                    "data": "eventId",
-                },
-                {
-                    "data": "executiveMemberId",
-                },
-                {
                     "data": "couponsFrom",
                 },
                 {
@@ -31,30 +22,6 @@
                 },
                 {
                     "data": "totalCoupons",
-                },
-                {
-                    "data": "createdOn",
-                    "render": function (data)
-                    {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-               
-                {
-                    "data": "modifiedBy",
-                },
-                {
-                    "data": "modifiedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -119,8 +86,6 @@ function save_Cassign() {
             CouponsFrom: $("#CouponsFrom").val(),
             CouponsTo: $("#CouponsTo").val(),
             TotalCoupons: $("#TotalCoupons").val(),
-            CreatedOn: $("#CreatedOn").val(),
-            CreatedBy: $("#CreatedBy").val(),
         }
         $.ajax({
             type: "post",
@@ -164,46 +129,24 @@ function edit_cassign(id) {
         success: function (resonce) {
             $('#Cassign').html(resonce);
             $("#addCAssign").modal('show');
-
+            $('.modal-title').text('Edit Assigned coupon');
 
             $.ajax({
                 type: "get",
                 url: '/Eventcouponassignments/getEdit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
-
                     $("#Cassignid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#ExecutiveMemberId").val(resonce.executiveMemberId);
                     $("#CouponsFrom").val(resonce.couponsFrom);
                     $("#CouponsTo").val(resonce.couponsTo);
                     $("#TotalCoupons").val(resonce.totalCoupons);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);
                 }
             })
         }
     })
 
 }
-
-//function Delete(id) {
-//    var confirmation = confirm("Are you sure to delete this Member...");
-//    if (confirmation) {
-//        $.ajax({
-//            type: "get",
-//            url: '/Eventcouponassignments/Delete/' + id,
-//            success: function (resonce) {
-//                alert("Record Deleted Successfuly..");
-//                window.location.reload();
-//            }
-//        })
-//    }
-//}
-
 
 function Delete(id) {
     $('#Cassign').appendTo('body')

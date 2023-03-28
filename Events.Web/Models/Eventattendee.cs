@@ -57,6 +57,7 @@ public partial class Eventattendee
     public string? ModeOfPayment { get; set; }
 
     public virtual Eventcoupontype CouponType { get; set; } = null!;
+   
 
     public virtual Executivemember CreatedByNavigation { get; set; } = null!;
 

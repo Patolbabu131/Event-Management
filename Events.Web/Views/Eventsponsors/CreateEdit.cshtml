@@ -8,16 +8,16 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">App Sponsor</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="formAddEvent">
 
                 <div class="modal-body">
                     <input type="text" id="ID" value="" hidden>
-                    <div class="form-group">
+                    <div class="form-group" hidden>
                         <label asp-for="EventId" class="control-label"></label>
-                       <input type="text" id="EventId" value="@id" class="form-control" readonly>
+                       <input type="text" id="EventId" value="@id" class="form-control" hidden>
                     </div>
                     <div class="form-group">
                         <label asp-for="SponsorName" class="control-label"></label>
@@ -34,15 +34,6 @@
                         <input type="number" class="form-control" id="AmountSponsored" name="AmountSponsored" />
                         <span asp-validation-for="AmountSponsored" class="text-danger"></span>
                     </div>
-                    <div class="form-group" hidden>
-                        <label asp-for="CreatedOn" class="control-label"></label>
-                        <input type="date" class="form-control" id="CreatedOn" name="CreatedOn" />
-                        <span asp-validation-for="CreatedOn" class="text-danger"></span>
-                    </div>
-                    <div class="form-group" hidden>
-                        <label asp-for="CreatedBy" class="control-label"></label>
-                        <select asp-for="CreatedBy" id="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
-                </div>
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                     <button type="button" onclick="save_Sponsors()" class="btn btn-primary">Save</button>

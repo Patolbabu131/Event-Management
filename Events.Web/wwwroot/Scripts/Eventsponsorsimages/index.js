@@ -1,9 +1,9 @@
-﻿function imgtable(id) { 
+﻿function imgtable(id) {
     datatable = $('#Eventsponsorsimagestable')
         .DataTable
         ({
 
-            "sAjaxSource": "/Eventsponsorsimages/GetEventsponsorsimages/"+id,
+            "sAjaxSource": "/Eventsponsorsimages/GetEventsponsorsimages/" + id,
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
@@ -16,53 +16,29 @@
             "columns": [
                 {
                     "data": "id",
-                   
+
                 },
                 {
-                    "data": "eventId",  
-                    
+                    "data": "eventId",
+
                 },
                 {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
-                        return '<img src="'+row.sponsorImage+'" width="300px">';
+                        return '<img src="/Files/'+row.sponsorImage+'" width="300px">';
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return '<a class="btn btn-info" onclick="Edit_i(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 }
-                //{
-                //    "data": "duties",
-                //    render: function (data, type, row, meta) {
-                //        return row.duties
-                //    }
-                //},
-                //{
-                //    render: function (data, type, row, meta) {
-                //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
-                //    }
-                //}
             ]
         });
 
 
 }
 
-//function Delete(id) {
-//    var confirmation = confirm("Are you sure to delete this Member...");
-//    if (confirmation) {
-//        $.ajax({
-//            type: "get",
-//            url: '/Eventsponsorsimages/Delete/' + id,
-//            success: function (responce) {
-//                alert(responce);
-//                window.location.reload();
-//            }
-//        })
-//    }
-//}
 
 function create_i(id) {
     $.ajax({
@@ -88,11 +64,9 @@ function save_image() {
 
     var formData = new FormData();
     var data = {
-        Id: $("#Id").val(),
         EventId: $("#EventId").val(),
         File: $("#File")[0].files[0]
     }
-    formData.append("Id", $("#Id").val());
     formData.append("EventId", $("#EventId").val());
     formData.append("File", $("#File")[0].files[0]);
 

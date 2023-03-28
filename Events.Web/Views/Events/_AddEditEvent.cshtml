@@ -22,7 +22,7 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addEventDate" class="form-label">Event Date</label>
-                            <input type="date" class="form-control" name="addEventDate" id="addEventDate" />
+                            <input class="form-control" type="text" name="addEventDate" placeholder="DD/MM/YYYY" id="addEventDate" />
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="addEventVenue" class="form-label">Event Venue</label>
@@ -30,13 +30,16 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addStartTime" class="form-label">Start Time</label>
-                            <input type ="text" class="form-control" name="addStartTime" id="addStartTime" />
+                            <input class="form-control" type="text" name="addStartTime" id="addStartTime" placeholder="HH:MM" autocomplete="off" />
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="addEndTime" class="form-label">End Time</label>
-                            <input type="text" class="form-control" id="addEndTime" name="addEndTime" placeholder="5:0" autocomplete="off" />
+                            <label for="addEndTime" class="form-label addEndTime">End Time</label>
+                            <input class="form-control" type="text" id="addEndTime" name="addEndTime" placeholder="HH:MM" autocomplete="off" />
                         </div>
-
+                         <div class="mb-3 col-md-12">
+                           <label  class="form-label">Food Menu</label>
+                            <textarea class="form-control" id="FoodMenu" name="FoodMenu"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
