@@ -403,7 +403,7 @@ function edit_event(id) {
 //}
 
 
-function Delete(id) {
+function delete_event(id) {
     $('#CreateContainer').appendTo('body')
         .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
         .dialog({
