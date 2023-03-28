@@ -104,13 +104,12 @@
 
 }
 
+
 function save_event() {
     $("#formAddEvent").validate({
         rules: {
             addEventName: {
                 required: true,
-                maximum: 50,
-                minimum: 05,
             },
             addEventDate: {
                 required: true
@@ -143,7 +142,13 @@ function save_event() {
             },
         }
     });
+
+    
     if ($('#formAddEvent').valid()) {
+                    
+        CKEDITOR.instances.FoodMenu.updateElement();
+        var descProduct = document.getElementById('FoodMenu').value;
+
         var data = {
             Id: $("#EventID").val(),
             EventName: $("#addEventName").val(),
@@ -151,7 +156,7 @@ function save_event() {
             EventVenue: $("#addEventVenue").val(),
             EventStartTime: $("#addStartTime").val(),
             EventEndTime: $("#addEndTime").val(),
-            FoodMenu: $("").val(),
+            FoodMenu:descProduct
         }
         $.ajax({
             type: "post",
@@ -175,13 +180,21 @@ function bindDatatable() {
             "bSearchable": true,
             "filter": true,
             "autoWidth": true,
+            "order": [[2, 'asc']],
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
+               
                 {
+<<<<<<< HEAD
+=======
+                    "data": "id"
+                },
+                {
+>>>>>>> origin/rujal
                     "data": "eventName",
                 },
                 {
@@ -195,17 +208,33 @@ function bindDatatable() {
                 {
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventStartTime);
-                        return Time.getHours() + ":" + Time.getMinutes();
+                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
                 {
                     "render": function (data, type, row, meta) {
-                        var Time = new Date(row.eventEndTime);
-                        return Time.getHours() + ":" + Time.getMinutes();
+                        var Time = new Date(row.eventEndTime)
+                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() +":"+(Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
                 {
+<<<<<<< HEAD
                     "data": "eventVenue",
+=======
+
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.eventDate);
+                        var month = date.getMonth();
+                        return date.getFullYear();
+                    }
+                },
+                {
+                    "data": "foodMenu",
+                    //render: function (data, type, row, meta) {
+
+                    //    return row.eventEndTime
+                    //}
+>>>>>>> origin/rujal
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -214,9 +243,15 @@ function bindDatatable() {
                 },
                 {
                     render: function (data, type, row, meta) {
+<<<<<<< HEAD
                         return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
                     }
                 },
+=======
+                        return '<table><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td>  <td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                    }
+                }
+>>>>>>> origin/rujal
             ]
         });
 
@@ -236,7 +271,34 @@ $(document).ready(function () {
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
+                $("#addEventDate").datepicker();
+                $('#addStartTime').timepicker({
+                    timeFormat: 'HH:mm',
+                    dynamic: true,
+                    dropdown: true,
+                    scrollbar: true
+                });
+                $('#addEndTime').timepicker({
+                    timeFormat: 'HH:mm',
+                    dynamic: true,
+                    dropdown: true,
+                    scrollbar: true
+                });
+                CKEDITOR.replace('FoodMenu', {
+                    toolbar: [
+                     
+                        { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                        { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+                        { name: 'links', items: ['Link', 'Anchor'] },
+                        { name: 'insert', items: ['Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                        { name: 'others', items: ['-'] }
+                    ]
+                });
             }
+<<<<<<< HEAD
 
         })
 
@@ -259,6 +321,16 @@ $(document).ready(function () {
 
     }
 
+=======
+        })
+    });
+    bindDatatable();
+ 
+    setInterval(function () {
+        $(".ui-timepicker-container").css("z-index", "33442");
+    }, 100);
+
+>>>>>>> origin/rujal
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
@@ -276,6 +348,7 @@ function details_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#DetailsEventsModal").modal('show');
+    
         }
     })
 }
@@ -287,6 +360,34 @@ function edit_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#addEventModal").modal('show');
+            $('.modal-title').text('Edit Event Details');
+            $("#addEventDate").datepicker();
+            $('#addStartTime').timepicker({
+                timeFormat: 'HH:mm',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+            $('#addEndTime').timepicker({
+                timeFormat: 'HH:mm',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+            CKEDITOR.replace('FoodMenu', {
+                toolbar: [
+
+                    { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                    { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+                    { name: 'links', items: ['Link', 'Anchor'] },
+                    { name: 'insert', items: ['Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+
+                    { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                    { name: 'colors', items: ['TextColor', 'BGColor'] },
+                    { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                    { name: 'others', items: ['-'] }
+                ]
+            });
         }
     })
 
@@ -298,10 +399,11 @@ function edit_event(id) {
             var now = new Date(resonce.eventDate);
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            var today = now.getFullYear() + "/" + (month) + "/" + (day);
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
+<<<<<<< HEAD
             //var strTime = start.getHours() + ':' + caches.getMinutes();
             var strTime = (start.getHours || '00') + ':' + (start.getMinutess || '00');
             var ampm = "am";
@@ -310,6 +412,9 @@ function edit_event(id) {
                 ampm = "pm";
             }
             // = end.getHours() + ':' + end.getMinutes() + ampm;
+=======
+            var strTime = start.getHours() + ':' + start.getMinutes();
+>>>>>>> origin/rujal
             var endtime = (end.getHours() || '00') + ':' + (end.getMinutes() || '00');
 
             $('#EventID').val(resonce.id);
@@ -318,9 +423,13 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
+<<<<<<< HEAD
 
 
 
+=======
+            $('#FoodMenu').val(resonce.foodMenu);
+>>>>>>> origin/rujal
         }
     })
 }
@@ -332,7 +441,7 @@ function delete_event(id) {
             type: "post",
             url: '/Events/DeteleEvent/' + id,
             success: function (resonce) {
-                alert("Record Deleted Successfuly..");
+                alert(resonce);
                 window.location.reload();
             }
         })
@@ -340,4 +449,56 @@ function delete_event(id) {
 }
 
 
+<<<<<<< HEAD
+=======
+//function eventattendeestable() {
+//      $.ajax({
+
+//        url: '/Eventattendees/Index',
+
+//    });
+
+
+    //datatable = $('#Eventattendeestable')
+    //    .DataTable
+    //    ({
+    //        "sAjaxSource": "/Events/GetEventattendees/" + EID,
+    //        "bServerSide": true,
+    //        "bProcessing": true,
+    //        "bSearchable": true,
+    //        "filter": true,
+    //        "language": {
+    //            "emptyTable": "No record found.",
+    //            "processing":
+    //                '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+    //        },
+    //        "columns": [
+    //            {
+    //                "data": "id",
+
+    //            },
+    //            {
+    //                "data": "eventId",
+
+    //            },
+    //            {
+    //                "data": 'sponsorImage',
+    //                "render": function (data, type, row, meta) {
+    //                    return '<img src="' + row.sponsorImage + '" width="40px">';
+    //                }
+    //            }
+    //            //{
+    //            //    "data": "duties",
+    //            //    render: function (data, type, row, meta) {
+    //            //        return row.duties
+    //            //    }
+    //            //},
+    //            //{
+    //            //    render: function (data, type, row, meta) {
+    //            //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
+    //            //    }
+    //            //}
+    //        ]
+    //    });
+>>>>>>> origin/rujal
 

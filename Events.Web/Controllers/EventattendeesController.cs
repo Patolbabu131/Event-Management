@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-
+using Events.Database;
+using NuGet.Common;
 
 namespace Events.Web.Controllers
 {
@@ -14,6 +15,7 @@ namespace Events.Web.Controllers
     {
         private readonly EventDbContext _context;
         private readonly IHttpContextAccessor cd;
+       
         public EventattendeesController(EventDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
@@ -111,8 +113,6 @@ namespace Events.Web.Controllers
             });
         }
 
-
-
         // GET: Eventattendees/Details/5
         public async Task<IActionResult> Details(long? id)
         {
@@ -139,10 +139,33 @@ namespace Events.Web.Controllers
     
         public IActionResult CreateEdit(Int64 id)
         {
-            ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id");
+            ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == id && c.Active==true), "Id", "CouponName");
             ViewBag.eid = id;
             ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id");
+            
             return PartialView("CreateEdit");
+        }
+        public IActionResult Edit(Int64 id)
+        {
+            var Eventattendees = _context.Eventattendees.Where(inc => inc.Id == id).FirstOrDefault();
+
+
+            ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Eventattendees.EventId), "Id", "CouponName");
+            ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id");
+
+          
+            var s = _context.Eventcoupontypes.Where(e => e.Id == Eventattendees.CouponTypeId).FirstOrDefault();
+
+            ViewBag.couponname = s.CouponName;
+
+
+            return PartialView("CreateEdit");
+        }
+
+        public IActionResult Edit1(Int64 id)
+        {
+            var Eventattendees = _context.Eventattendees.Where(inc => inc.Id == id).FirstOrDefault();
+            return Json(Eventattendees);
         }
         [HttpPost]
         public IActionResult CreateEdit1(Eventattendee eventattendee)
@@ -177,26 +200,22 @@ namespace Events.Web.Controllers
             }
             else
             {
+                var attendees = _context.Eventattendees.Where(m => m.Id == eventattendee.Id).FirstOrDefault();
 
-                var member = new Eventattendee()
-                {
-                    Id = eventattendee.Id,
-                    EventId = eventattendee.EventId,
-                    AttendeeName = eventattendee.AttendeeName,
-                    ContactNo = eventattendee.ContactNo,
-                    CouponsPurchased = eventattendee.CouponsPurchased,
-                    PurchasedOn = eventattendee.PurchasedOn,
-                    TotalAmount = eventattendee.TotalAmount,
-                    Remarks = eventattendee.Remarks,
-                    CouponTypeId = eventattendee.CouponTypeId,
-                    RemainingCoupons = eventattendee.RemainingCoupons,
-                    CreatedOn = eventattendee.CreatedOn,
-                    CreatedBy = eventattendee.CreatedBy,
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                    ModeOfPayment = eventattendee.ModeOfPayment
-                };
-                _context.Eventattendees.Update(member);
+
+                attendees.AttendeeName = eventattendee.AttendeeName;
+                attendees.ContactNo = eventattendee.ContactNo;
+                attendees.CouponsPurchased = eventattendee.CouponsPurchased;
+                attendees.PurchasedOn= eventattendee.PurchasedOn;
+                attendees.TotalAmount= eventattendee.TotalAmount;
+                attendees.Remarks= eventattendee.Remarks;
+                attendees.CouponTypeId= eventattendee.CouponTypeId;
+                attendees.RemainingCoupons = eventattendee.RemainingCoupons;
+                attendees.ModifiedBy = Convert.ToInt64(mid);
+                attendees.ModifiedOn = DateTime.Now;
+                attendees.ModeOfPayment = eventattendee.ModeOfPayment;
+
+                _context.Eventattendees.Update(attendees);
                 _context.SaveChanges();
 
                 return Json("Event updated...");
@@ -205,13 +224,7 @@ namespace Events.Web.Controllers
         }
      
         // GET: Eventattendees/Edit/5
-        public async Task<IActionResult> Edit(long? id)
-        {
-            
-            var attendee = _context.Eventattendees.Where(x => x.Id == id).FirstOrDefault();
-            return Json(attendee);
-        }
-
+  
         // POST: Eventattendees/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -255,8 +268,9 @@ namespace Events.Web.Controllers
         // GET: Eventattendees/Delete/5
         public  IActionResult Delete(long? id)
         {
-            var data = _context.Eventattendees.Where(e => e.Id == id).SingleOrDefault();
-            _context.Eventattendees.Remove(data);
+            var attendees = _context.Eventattendees.Where(e => e.EventId == id).FirstOrDefault();
+          
+            _context.Eventattendees.Remove(attendees);
             _context.SaveChanges();
             return Json("success");
 

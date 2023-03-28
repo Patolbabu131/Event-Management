@@ -10,6 +10,7 @@ $('#create_member').click(function () {
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
+            $("#PurchasedOn").datepicker();
         }
     })
 });
@@ -150,6 +151,7 @@ function edit_member(id) {
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
+            $("#PurchasedOn").datepicker();
         }
     })
 

@@ -25,12 +25,20 @@
                 {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
+<<<<<<< HEAD
                         return '<img src="' + row.sponsorImage + '" width="300px">';
+=======
+                        return '<img src="/Files/'+row.sponsorImage+'" width="300px">';
+>>>>>>> origin/rujal
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
+<<<<<<< HEAD
                         return '<a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+=======
+                        return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+>>>>>>> origin/rujal
                     }
                 }
             ]
@@ -75,6 +83,7 @@ function save_image() {
     });
     if ($('#imageform').valid()) {
 
+<<<<<<< HEAD
         var formData = new FormData();
         var data = {
             Id: $("#Id").val(),
@@ -97,6 +106,28 @@ function save_image() {
                 window.location.reload();
             }
         })
+=======
+    var formData = new FormData();
+    var data = {
+        EventId: $("#EventId").val(),
+        File: $("#File")[0].files[0]
+    }
+    formData.append("EventId", $("#EventId").val());
+    formData.append("File", $("#File")[0].files[0]);
+
+    $.ajax({
+        type: "POST",
+        url: '/Eventsponsorsimages/Create',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+        
+            alert(response);
+            window.location.reload();
+        }
+    })
+>>>>>>> origin/rujal
     }
 }
 
@@ -110,7 +141,11 @@ function Edit_i(id) {
             $("#Editimage").modal('show');
 
             $.ajax({
+<<<<<<< HEAD
                 type: "get",
+=======
+                type:"get",
+>>>>>>> origin/rujal
                 url: '/Eventsponsorsimages/Edit/' + id,
                 success: function (resonce) {
                     $("#Id").val(resonce.id);

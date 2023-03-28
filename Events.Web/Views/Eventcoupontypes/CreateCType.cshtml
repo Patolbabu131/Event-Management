@@ -10,16 +10,24 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">Type of Coupon</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="ctypeform">
+<<<<<<< HEAD
+=======
+                
+>>>>>>> origin/rujal
                 <div class="modal-body">
                 @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
                 <input type="text" id="Coupontype" value="" hidden/>
-                <div class="form-group">
+                    <div class="form-group" hidden>
                     <label asp-for="EventId" class="control-label"></label>
+<<<<<<< HEAD
                     <input type="text" value="@id" id="EventId" class="form-control" readonly>
+=======
+                    <input type="text" value="@id" id="EventId" class="form-control" >
+>>>>>>> origin/rujal
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponName" class="control-label"></label>
@@ -30,11 +38,18 @@
                     <label asp-for="CouponPrice" class="control-label"></label>
                     <input class="form-control" type="text" id="CouponPrice" name="CouponPrice" />                    
                     <span asp-validation-for="CouponPrice" class="text-danger"></span>
+<<<<<<< HEAD
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
                     <input class="checkbox" id="Active" asp-for="Active" value="" />Active
                     </label>
+=======
+                </div><br>
+                <div class="form-group">
+                        <label class="form-label">Is Active?</label>
+                        <input type="checkbox" id="Active" value=""/>
+>>>>>>> origin/rujal
                 </div>
                 <div class="form-group" hidden>
                     <label asp-for="CreatedBy" class="control-label" ></label>

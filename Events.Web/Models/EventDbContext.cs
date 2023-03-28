@@ -17,11 +17,11 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Event> Events { get; set; }
 
-    public virtual DbSet<Eventattendee> Eventattendees { get; set; }
+    public virtual DbSet<Eventattendee> Eventattendees { get; set; } = null;
 
     public virtual DbSet<Eventcouponassignment> Eventcouponassignments { get; set; }
 
-    public virtual DbSet<Eventcoupontype> Eventcoupontypes { get; set; }
+    public virtual DbSet<Eventcoupontype> Eventcoupontypes { get; set; } = null;
 
     public virtual DbSet<Eventexpense> Eventexpenses { get; set; }
 
@@ -124,7 +124,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventattendees)
                 .HasForeignKey(d => d.CouponTypeId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventattendees_ibfk_4");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.EventattendeeCreatedByNavigations)
@@ -134,7 +134,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventattendees)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventattendees_ibfk_1");
 
             entity.HasOne(d => d.InvitedByNavigation).WithMany(p => p.InverseInvitedByNavigation)
@@ -240,7 +240,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventcoupontypes)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventcoupontype_ibfk_3");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventcoupontypeModifiedByNavigations)
@@ -286,7 +286,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventexpenses)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventexpenses_ibfk_1");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventexpenseModifiedByNavigations)
@@ -332,7 +332,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventsponsors)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventsponsors_ibfk_1");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventsponsorModifiedByNavigations)
@@ -359,7 +359,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventsponsorsimages)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventsponsorsimage_ibfk_1");
         });
 

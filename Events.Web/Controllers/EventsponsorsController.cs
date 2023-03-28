@@ -137,18 +137,14 @@ namespace Events.Web.Controllers
             else
             {
                 string mid = cd.HttpContext.Session.GetString("MID");
-                var sponsor = new Eventsponsor()
-                {
-                    Id = eventsponsor.Id,
-                    EventId = eventsponsor.EventId,
-                    SponsorName = eventsponsor.SponsorName,
-                    SponsorOrganization = eventsponsor.SponsorOrganization,
-                    AmountSponsored = eventsponsor.AmountSponsored,
-                    CreatedOn = eventsponsor.CreatedOn,
-                    CreatedBy = eventsponsor.CreatedBy,
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                };
+                var sponsor = _context.Eventsponsors.Where(m => m.Id == eventsponsor.Id).FirstOrDefault();
+
+                sponsor.SponsorName = eventsponsor.SponsorName;
+                sponsor.SponsorOrganization = eventsponsor.SponsorOrganization;
+                sponsor.AmountSponsored = eventsponsor.AmountSponsored;
+                sponsor.ModifiedBy = Convert.ToInt64(mid);
+                sponsor.ModifiedOn = DateTime.Now;
+               
                 _context.Eventsponsors.Update(sponsor);
                 _context.SaveChanges();
                 return Json("Sponsor Updated");

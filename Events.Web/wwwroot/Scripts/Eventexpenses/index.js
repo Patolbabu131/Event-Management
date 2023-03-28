@@ -43,6 +43,7 @@ function addEventListener_expenses(id) {
         success: function (resonce) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
+            onlynumber();
         }
     })
 }
@@ -56,6 +57,7 @@ function save_eexpenses() {
             ExpenseName: "required",
             ExpenseSubject: {
                 required: true,
+<<<<<<< HEAD
 
             },
             PurchasedOn: {
@@ -114,7 +116,66 @@ function save_eexpenses() {
         })
     }
 }
+=======
+>>>>>>> origin/rujal
 
+            },
+            PurchasedOn: {
+                required: true,
+            },
+            AmountSpent: {
+                required: true,
+                number: true
+            },
+            Remarks: {
+                required: true,
+            },
+        },
+        messages: {
+            ExpenseName: " Please enter ExpenseName",
+            ContactNo: " Please enter valid Contact Number",
+            ExpenseSubject: {
+                required: " Please enter ExpenseSubject",
+            },
+            AmountSpent: {
+                required: " Please enter Amount ",
+                number: "Invalid input"
+            },
+            AmountSpent: {
+                required: " Please AmountSpent ",
+            },
+            Remarks: "Please enter Remark",
+        }
+    });
+    if ($('#formAddExpenses').valid()) {
+        var data = {
+            Id: $("#expensesid").val(),
+            EventId: $("#EventId").val(),
+            ExpenseName: $("#ExpenseName").val(),
+            ExpenseSubject: $("#ExpenseSubject").val(),
+            AmountSpent: $("#AmountSpent").val(),
+            Remarks: $("#Remarks").val(),
+        }
+        $.ajax({
+            type: "post",
+            url: '/Eventexpenses/CreateEdit',
+            data: data,
+            success: function (resonce) {
+                alert(resonce);
+                window.location.reload();
+            }
+        })
+    }
+}
+function onlynumber() {
+    $('.numberonly').keypress(function (e) {
+
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            return false;
+    });
+}
 
 
 
@@ -126,25 +187,18 @@ function edit_expenses(id) {
         success: function (resonce) {
             $('#expenses').html(resonce);
             $("#createexpenses").modal('show');
-
-
+            $('.modal-title').text('Edit Expenese');
+            onlynumber();
             $.ajax({
                 type: "get",
                 url: '/Eventexpenses/Edit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
-
                     $("#expensesid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#ExpenseName").val(resonce.expenseName);
                     $("#ExpenseSubject").val(resonce.expenseSubject);
                     $("#AmountSpent").val(resonce.amountSpent);
                     $("#Remarks").val(resonce.remarks);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);
                 }
             })
         }

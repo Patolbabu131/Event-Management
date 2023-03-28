@@ -334,20 +334,19 @@ window.StaxZax = (function () {
     }
 }());
 
+function onlynumber() {
+    $('.numberonly').keypress(function (e) {
 
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            return false;
+    });
+}
 $(document).ready(function () {
 
-    //var serverMessage = $('#hdnStickyMessage').val();
 
-    //if (serverMessage != undefined && serverMessage.length > 0) {
-    //    var hdnStickyNote = $('#hdnStickyNoteHeader').val();
-    //    new PNotify({
-    //        title: hdnStickyNote,
-    //        text: serverMessage,
-    //        hide: true
-    //    });
-    //}
-   
+ 
     $('#fileFormatValidation').hide();
     var m_names = ['January', 'February', 'March',
         'April', 'May', 'June', 'July',

@@ -1,4 +1,9 @@
 ﻿<!-- Add Event Modal -->
+    @*<style>
+        .ui-timepicker-container {
+            z-index: 33442;
+        }
+    </style>*@
 <div class="modal fade" id="addEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -16,7 +21,7 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addEventDate" class="form-label">Event Date</label>
-                            <input class="form-control" type="date" name="addEventDate" id="addEventDate" />
+                            <input class="form-control" type="text" name="addEventDate" placeholder="DD/MM/YYYY" id="addEventDate" />
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="addEventVenue" class="form-label">Event Venue</label>
@@ -24,13 +29,16 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addStartTime" class="form-label">Start Time</label>
-                            <input class="form-control" type="time" name="addStartTime" id="addStartTime" />
+                            <input class="form-control" type="text" name="addStartTime" id="addStartTime" placeholder="HH:MM" autocomplete="off" />
                         </div>
                         <div class="mb-3 col-md-6">
-                            <label for="addEndTime" class="form-label">End Time</label>
-                            <input class="form-control" type="time" id="addEndTime" name="addEndTime" />
+                            <label for="addEndTime" class="form-label addEndTime">End Time</label>
+                            <input class="form-control" type="text" id="addEndTime" name="addEndTime" placeholder="HH:MM" autocomplete="off" />
                         </div>
-                    
+                         <div class="mb-3 col-md-12">
+                           <label  class="form-label">Food Menu</label>
+                            <textarea class="form-control" id="FoodMenu" name="FoodMenu"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -24,6 +24,32 @@
                     "data": "amountSponsored",
                 },
                 {
+<<<<<<< HEAD
+=======
+                 
+                    "data": "createdOn",
+                    "render": function (data) {
+                        var date = new Date(data);
+                        var month = date.getMonth() + 1;
+                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
+                    }
+                },
+                {
+                    "data": "createdBy",
+                },
+                {
+                    "data": "modifiedBy",
+                },
+                {
+                    "data": "modifiedOn",
+                    "render": function (data) {
+                        var date = new Date(data);
+                        var month = date.getMonth() + 1;
+                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
+                    }
+                },
+                {
+>>>>>>> origin/rujal
                     render: function (data, type, row, meta) {
                         return ' <a class="btn btn-info" onclick="edit_sponsors(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
@@ -54,11 +80,18 @@ function save_Sponsors() {
                 required: true,
             },
             SponsorOrganization: {
+<<<<<<< HEAD
                 required: true,
             },
             AmountSponsored: {
                 required: true,
                 number: true,
+=======
+                required: true
+            },
+            AmountSponsored: {
+                required: true
+>>>>>>> origin/rujal
             },
         },
         messages: {
@@ -70,10 +103,18 @@ function save_Sponsors() {
             },
             AmountSponsored: {
                 required: "Amount Sponsored is a required field!!!"
+<<<<<<< HEAD
             },
         }
     });
 
+=======
+            },  
+        }
+    });
+
+
+>>>>>>> origin/rujal
     if ($('#formAddEvent').valid()) {
         var data = {
             Id: $("#ID").val(),
@@ -81,8 +122,11 @@ function save_Sponsors() {
             SponsorName: $("#SponsorName").val(),
             SponsorOrganization: $("#SponsorOrganization").val(),
             AmountSponsored: $("#AmountSponsored").val(),
+<<<<<<< HEAD
             CreatedOn: $("#CreatedOn").val(),
             CreatedBy: $("#CreatedBy").val(),
+=======
+>>>>>>> origin/rujal
         }
         $.ajax({
             type: "post",
@@ -104,24 +148,18 @@ function edit_sponsors(id) {
         success: function (resonce) {
             $('#sponsors').html(resonce);
             $("#addsponsors").modal('show');
-
+            $('.modal-title').text('Edit Sponsor Details');
 
             $.ajax({
                 type: "get",
                 url: '/Eventsponsors/Edit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
 
                     $("#ID").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#SponsorName").val(resonce.sponsorName);
                     $("#SponsorOrganization").val(resonce.sponsorOrganization);
-                    $("#AmountSponsored").val(resonce.amountSponsored);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);     
+                    $("#AmountSponsored").val(resonce.amountSponsored);    
                 }
             })
         }

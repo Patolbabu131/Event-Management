@@ -214,7 +214,7 @@ namespace Events.Web.Controllers
                     CreatedBy = Convert.ToInt64(mid),
                     ModifiedBy= Convert.ToInt64(mid),
                     ModifiedOn = DateTime.Now,
-                    FoodMenu = "nothing"
+                    FoodMenu = events.FoodMenu,
                 };
                 _db.Events.Add(eventt);
                 _db.SaveChanges();
@@ -223,21 +223,19 @@ namespace Events.Web.Controllers
             else
             {
                 string mid = cd.HttpContext.Session.GetString("MID");
-                var eventt = new Event()
-                {
-                    Id=events.Id,
-                    EventName = events.EventName,
-                    EventDate = events.EventDate,
-                    EventVenue = events.EventVenue,
-                    EventStartTime = events.EventStartTime,
-                    EventEndTime = events.EventEndTime,
-                    EventYear = events.EventDate,
-                    CreatedOn = DateTime.Now,
-                    CreatedBy = Convert.ToInt64(mid),
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                    FoodMenu = "nothing"
-                };
+                var eventt =_db.Events.Where(m => m.Id == events.Id).FirstOrDefault();
+
+
+                eventt.EventName = events.EventName;
+                eventt.EventDate = events.EventDate;
+                eventt.EventVenue = events.EventVenue;
+                eventt.EventStartTime = events.EventStartTime;
+                eventt.EventEndTime = events.EventEndTime;
+                eventt.EventYear = events.EventDate;
+                eventt.ModifiedBy = Convert.ToInt64(mid);
+                eventt.ModifiedOn = DateTime.Now;
+                eventt.FoodMenu = events.FoodMenu;
+                
                 _db.Events.Update(eventt);
                 _db.SaveChanges();
                 return Json("Event Updated");
