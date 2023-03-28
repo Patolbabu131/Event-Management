@@ -2,14 +2,57 @@
 @{
     ViewData["Title"] = "Index";
     var id = ViewBag.Eid;
+    var iid = ViewBag.VBFriend.EventName;
+    var edate = ViewBag.VBFriend.EventDate;
+    var evenue = ViewBag.VBFriend.EventVenue;
+    var estarttime = ViewBag.VBFriend.EventStartTime;
+    var eendtime = ViewBag.VBFriend.EventEndTime;
+    var eyear = ViewBag.VBFriend.EventYear;
+    var ecreatedon = ViewBag.VBFriend.CreatedOn;
+    var emodifiedon = ViewBag.VBFriend.ModifiedOn;
 }
 
 <html>
+        <style>
+        .leftside, .rightside {
+            hight: 50px;
+            width: 300px;
+        }
+
+        .box {
+            hight: 100px;
+            width: 800px;
+            border: 2px solid black;
+            padding: 10px;
+        }
+    </style>
 <body onload="LoadCtypetable(@id)">
+    <div class="box">
+        <div class="row">
+            <div class="col">
+                <div class="leftside">
+                    EventName:@ViewBag.VBFriend.EventName
+                    <br />
+                    EventDate:@ViewBag.VBFriend.EventDate
+                    <br />
+                    EventStartTime:@ViewBag.VBFriend.EventStartTime|EventEndTime:@ViewBag.VBFriend.EventEndTime
+                </div>
+            </div>
+            <div class="col-md-1">
+                <hr width="1" size="200" style="0 auto" />
+            </div>
+            <div class="col">
+                <div class="rightside">
+                    EventVenue:@ViewBag.VBFriend.EventVenue
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="Ctype"></div>
     <div class="row">
         <div class="col-6">
             <h2 class="fw-bold mb-4">Coupon Type</h2>
+            @Html.ActionLink("Back to List", "Index","Events")
         </div>
         <div class="col-6 text-end">
             <a class="btn btn-primary" id="create_attendee" onclick="create_Ctype(@id);">Add Coupon Cype</a>
@@ -23,20 +66,14 @@
             <table id="CtypeTable" class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Event Id</th>
                         <th>Coupon Name</th>
                         <th>Coupon Price</th>
                         <th>Active</th>
-                        <th>Created By</th>
-                        <th>Created On</th>
-                        <th>Modified By</th>
-                        <th>Modified On</th>
-  
-                        <th ></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
+
                 </tbody>
             </table>
         </div>

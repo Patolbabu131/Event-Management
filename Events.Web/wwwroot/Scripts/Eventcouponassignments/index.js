@@ -15,15 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id"
-                },
-                {
-                    "data": "eventId",
-                },
-                {
-                    "data": "executiveMemberId",
-                },
-                {
                     "data": "couponsFrom",
                 },
                 {
@@ -31,30 +22,6 @@
                 },
                 {
                     "data": "totalCoupons",
-                },
-                {
-                    "data": "createdOn",
-                    "render": function (data)
-                    {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-               
-                {
-                    "data": "modifiedBy",
-                },
-                {
-                    "data": "modifiedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -180,21 +147,6 @@ function edit_cassign(id) {
     })
 
 }
-
-//function Delete(id) {
-//    var confirmation = confirm("Are you sure to delete this Member...");
-//    if (confirmation) {
-//        $.ajax({
-//            type: "get",
-//            url: '/Eventcouponassignments/Delete/' + id,
-//            success: function (resonce) {
-//                alert("Record Deleted Successfuly..");
-//                window.location.reload();
-//            }
-//        })
-//    }
-//}
-
 
 function Delete(id) {
     $('#Cassign').appendTo('body')

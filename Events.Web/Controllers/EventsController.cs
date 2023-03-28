@@ -49,6 +49,7 @@ namespace Events.Web.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
+
             string mid= cd.HttpContext.Session.GetString("MID");
             MID=Convert.ToInt64(mid); 
             return View();
@@ -149,47 +150,34 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                events = events.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventName.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventVenue.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventYear.ToString().Contains(param.sSearch.ToLower())
+                events = events.Where(x => x.EventName.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventDate.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventStartTime.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventEndTime.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.EventEndTime.ToString().Contains(param.sSearch.ToLower())
+                                              || x.EventVenue.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
+
             ////Sorting
             if (param.iSortCol_0 == 0)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.Id).ToList() : events.OrderByDescending(c => c.Id).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventName).ToList() : events.OrderByDescending(c => c.EventName).ToList();
             }
             else if (param.iSortCol_0 == 1)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventName).ToList() : events.OrderByDescending(c => c.EventName).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventDate).ToList() : events.OrderByDescending(c => c.EventDate).ToList();
             }
             else if (param.iSortCol_0 == 2)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventDate).ToList() : events.OrderByDescending(c => c.EventDate).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventStartTime).ToList() : events.OrderByDescending(c => c.EventStartTime).ToList();
+
             }
             else if (param.iSortCol_0 == 3)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventVenue).ToList() : events.OrderByDescending(c => c.EventVenue).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventEndTime).ToList() : events.OrderByDescending(c => c.EventEndTime).ToList();
             }
             else if (param.iSortCol_0 == 4)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventStartTime).ToList() : events.OrderByDescending(c => c.EventStartTime).ToList();
-            }
-            else if (param.iSortCol_0 == 5)
-            {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventEndTime).ToList() : events.OrderByDescending(c => c.EventEndTime).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
-            {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventYear).ToList() : events.OrderByDescending(c => c.EventYear).ToList();
-            }
-            else if (param.iSortCol_0 == 7)
-            {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.FoodMenu).ToList() : events.OrderByDescending(c => c.FoodMenu).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventVenue).ToList() : events.OrderByDescending(c => c.EventVenue).ToList();
             }
 
             //TotalRecords

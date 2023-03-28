@@ -15,12 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "eventId",
-                },
-                {
                     "data": "expenseName",
                 },
                 {
@@ -30,31 +24,7 @@
                     "data": "amountSpent",
                 },
                 {
-                           "data": "createdOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-                {
                     "data": "remarks",
-                },
-               
-                {
-                    "data": "modifiedBy",
-                },
-                {
-                    "data": "modifiedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -66,7 +36,7 @@
 }
 
 
-function addEventListener_expenses(id) {
+function addEventListener_expenses(id) {    
     $.ajax({
         type: "get",
         url: '/Eventexpenses/CreateEdit/'+id,
@@ -93,7 +63,8 @@ function save_eexpenses() {
             },
             AmountSpent: {
                 required: true,
-                number: true
+                number: true,
+
             },
             Remarks: {
                 required: true,

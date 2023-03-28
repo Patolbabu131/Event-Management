@@ -213,9 +213,6 @@ function bindDatatable() {
             "columns": [
                
                 {
-                    "data": "id"
-                },
-                {
                     "data": "eventName",
                 },
                 {
@@ -225,9 +222,6 @@ function bindDatatable() {
                         var month = date.getMonth() + 1;
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
-                },
-                {
-                    "data": "eventVenue",
                 },
                 {
                     "render": function (data, type, row, meta) {
@@ -242,30 +236,18 @@ function bindDatatable() {
                     }
                 },
                 {
-
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.eventDate);
-                        var month = date.getMonth();
-                        return date.getFullYear();
-                    }
-                },
-                {
-                    "data": "foodMenu",
-                    //render: function (data, type, row, meta) {
-
-                    //    return row.eventEndTime
-                    //}
+                    "data": "eventVenue",
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
+                        return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return '<table><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td>  <td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                        return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
                     }
-                }
+                },
             ]
         });
 
@@ -334,7 +316,6 @@ function details_event(id) {
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
             $("#DetailsEventsModal").modal('show');
-    
         }
     })
 }

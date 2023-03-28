@@ -77,35 +77,30 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                eventattendees = eventattendees.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.FullName.ToString().Contains(param.sSearch.ToLower())
+                eventattendees = eventattendees.Where(x => x.FullName.ToString().Contains(param.sSearch.ToLower())
                                               || x.Designation.ToString().Contains(param.sSearch.ToLower())
                                               || x.Duties.ToString().Contains(param.sSearch.ToLower())
                                               || x.Active.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
-            else if (param.iSortCol_0 == 0)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Active).ToList() : eventattendees.OrderByDescending(c => c.Active).ToList();
-            }
-            if (param.iSortCol_0 == 1)
+            if (param.iSortCol_0 == 0)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.FullName).ToList() : eventattendees.OrderByDescending(c => c.FullName).ToList();
             }
-            else if (param.iSortCol_0 == 2)
+            else if (param.iSortCol_0 == 1)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Designation).ToList() : eventattendees.OrderByDescending(c => c.Designation).ToList();
             }
-            else if (param.iSortCol_0 == 3)
+            else if (param.iSortCol_0 == 2)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.AppointedOn).ToList() : eventattendees.OrderByDescending(c => c.AppointedOn).ToList();
 
             }
-            else if (param.iSortCol_0 == 4)
+            else if (param.iSortCol_0 == 3)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Duties).ToList() : eventattendees.OrderByDescending(c => c.Duties).ToList();
             }
-            else if (param.iSortCol_0 == 5)
+            else if (param.iSortCol_0 == 4)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Active).ToList() : eventattendees.OrderByDescending(c => c.Active).ToList();
             }

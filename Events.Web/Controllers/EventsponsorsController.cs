@@ -17,7 +17,7 @@ namespace Events.Web.Controllers
         public EventsponsorsController(EventDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
-            cd=httpContextAccessor;
+            cd = httpContextAccessor;
         }
 
         // GET: Eventsponsors
@@ -29,12 +29,13 @@ namespace Events.Web.Controllers
             }
             else
             {
+                ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.Eid = Id;
                 return View();
             }
 
         }
-        
+
 
         public ActionResult Getsponsors(JqueryDatatableParam param, Int64 Id)
         {
@@ -51,25 +52,11 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                sponsors = sponsors.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.SponsorName.ToString().Contains(param.sSearch.ToLower())
+                sponsors = sponsors.Where(x => x.SponsorName.ToString().Contains(param.sSearch.ToLower())
                                               || x.SponsorOrganization.ToString().Contains(param.sSearch.ToLower())
-                                              || x.AmountSponsored.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedOn.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.AmountSponsored.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
-            if (param.iSortCol_0 == 0)
-            {
-                sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.Id).ToList() : sponsors.OrderByDescending(c => c.Id).ToList();
-            }
-            else if (param.iSortCol_0 == 1)
-            {
-                sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.EventId).ToList() : sponsors.OrderByDescending(c => c.EventId).ToList();
-            }
             else if (param.iSortCol_0 == 2)
             {
                 sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.SponsorName).ToList() : sponsors.OrderByDescending(c => c.SponsorName).ToList();
@@ -83,35 +70,19 @@ namespace Events.Web.Controllers
             {
                 sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.AmountSponsored).ToList() : sponsors.OrderByDescending(c => c.AmountSponsored).ToList();
             }
-            else if (param.iSortCol_0 == 5)
-            {
-                sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.CreatedOn).ToList() : sponsors.OrderByDescending(c => c.CreatedOn).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
-            {
-                sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.CreatedBy).ToList() : sponsors.OrderByDescending(c => c.CreatedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 7)
-            {
-                sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.ModifiedBy).ToList() : sponsors.OrderByDescending(c => c.ModifiedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 8)
-            {
-                sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.ModifiedOn).ToList() : sponsors.OrderByDescending(c => c.ModifiedOn).ToList();
-            }
 
 
-                //TotalRecords
-                var displayResult = sponsors.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
-                var totalRecords = sponsors.Count();
-                return Json(new
-                {
-                    param.sEcho,
-                    iTotalRecords = totalRecords,
-                    iTotalDisplayRecords = totalRecords,
-                    aaData = displayResult
-                });
-            
+            //TotalRecords
+            var displayResult = sponsors.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+            var totalRecords = sponsors.Count();
+            return Json(new
+            {
+                param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalRecords,
+                aaData = displayResult
+            });
+
         }
         // GET: Eventsponsors/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -178,7 +149,7 @@ namespace Events.Web.Controllers
                 _context.SaveChanges();
                 return Json("Sponsor Updated");
             }
-           
+
         }
 
 
@@ -205,7 +176,7 @@ namespace Events.Web.Controllers
         // GET: Eventsponsors/Edit/5
         public IActionResult Edit(int? id)
         {
-            var Edit =  _context.Eventsponsors.Find(id);
+            var Edit = _context.Eventsponsors.Find(id);
             return Json(Edit);
         }
 
@@ -270,14 +241,14 @@ namespace Events.Web.Controllers
             {
                 _context.Eventsponsors.Remove(eventsponsor);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EventsponsorExists(int id)
         {
-          return _context.Eventsponsors.Any(e => e.Id == id);
+            return _context.Eventsponsors.Any(e => e.Id == id);
         }
     }
 }
