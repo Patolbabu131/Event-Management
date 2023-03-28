@@ -11,7 +11,6 @@
           "HttpPostedFileHelper": "1.2.0",
           "Microsoft.EntityFrameworkCore": "7.0.2",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.2",
-          "Microsoft.jQuery.Unobtrusive.Validation": "4.0.0",
           "MySql.Data.EntityFramework": "8.0.32"
         },
         "runtime": {
@@ -63,12 +62,6 @@
             "assemblyVersion": "2.14.0.0",
             "fileVersion": "2.14.1.48190"
           }
-        }
-      },
-      "jQuery/1.8.0": {},
-      "jQuery.Validation/1.8.0.1": {
-        "dependencies": {
-          "jQuery": "1.8.0"
         }
       },
       "K4os.Compression.LZ4/1.2.6": {
@@ -350,12 +343,6 @@
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.0.22.51805"
           }
-        }
-      },
-      "Microsoft.jQuery.Unobtrusive.Validation/4.0.0": {
-        "dependencies": {
-          "jQuery": "1.8.0",
-          "jQuery.Validation": "1.8.0.1"
         }
       },
       "Microsoft.NETCore.Platforms/3.1.0": {},
@@ -1448,20 +1435,6 @@
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
     },
-    "jQuery/1.8.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-laDFQRJrIRHT0Z0GVYklMt3bE0iu0MZFJwHwg21kt3SHb7Bj8TdNiM3K+ZdK1DzB8ZxKy8z7NkJvwMas+dmHBw==",
-      "path": "jquery/1.8.0",
-      "hashPath": "jquery.1.8.0.nupkg.sha512"
-    },
-    "jQuery.Validation/1.8.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-cSBTW8FiNcFYy7h8jY38ffnJGia25HQH/z1TP3f8OKZhn1ZSGS7Bebz9nMevKbtsAjzHhDFp/Cq0cT+ixwiB5A==",
-      "path": "jquery.validation/1.8.0.1",
-      "hashPath": "jquery.validation.1.8.0.1.nupkg.sha512"
-    },
     "K4os.Compression.LZ4/1.2.6": {
       "type": "package",
       "serviceable": true,
@@ -1615,13 +1588,6 @@
       "sha512": "sha512-um1KU5kxcRp3CNuI8o/GrZtD4AIOXDk+RLsytjZ9QPok3ttLUelLKpilVPuaFT3TFjOhSibUAso0odbOaCDj3Q==",
       "path": "microsoft.extensions.primitives/7.0.0",
       "hashPath": "microsoft.extensions.primitives.7.0.0.nupkg.sha512"
-    },
-    "Microsoft.jQuery.Unobtrusive.Validation/4.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-RJ1eBcFIwHINVocYtOlmBQd21jGgHOHGe7TLzmQ9VMRMUqAlJoxyCw1AayBkdExqrEZt0Wz9uaZiDX75NHQmSw==",
-      "path": "microsoft.jquery.unobtrusive.validation/4.0.0",
-      "hashPath": "microsoft.jquery.unobtrusive.validation.4.0.0.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
       "type": "package",
