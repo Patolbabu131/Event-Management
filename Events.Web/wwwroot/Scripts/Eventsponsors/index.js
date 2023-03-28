@@ -15,12 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "eventId",
-                },
-                {
                     "data": "sponsorName",
                 },
                 {
@@ -30,6 +24,8 @@
                     "data": "amountSponsored",
                 },
                 {
+<<<<<<< HEAD
+=======
                  
                     "data": "createdOn",
                     "render": function (data) {
@@ -53,6 +49,7 @@
                     }
                 },
                 {
+>>>>>>> origin/rujal
                     render: function (data, type, row, meta) {
                         return ' <a class="btn btn-info" onclick="edit_sponsors(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
@@ -81,17 +78,20 @@ function save_Sponsors() {
         rules: {
             SponsorName: {
                 required: true,
-                maximum: 50,
-                minimum: 05,
             },
             SponsorOrganization: {
+<<<<<<< HEAD
+                required: true,
+            },
+            AmountSponsored: {
+                required: true,
+                number: true,
+=======
                 required: true
             },
             AmountSponsored: {
                 required: true
-            },
-            CreatedOn: {
-                required: true
+>>>>>>> origin/rujal
             },
         },
         messages: {
@@ -103,9 +103,6 @@ function save_Sponsors() {
             },
             AmountSponsored: {
                 required: "Amount Sponsored is a required field!!!"
-            },
-            CreatedOn: {
-                required: "Created On is a required field!!!"
             },
         }
     });
