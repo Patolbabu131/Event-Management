@@ -9,6 +9,13 @@
                 <h5 class="modal-title">Add Sponsor Image</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+<<<<<<< HEAD
+            <div class="modal-body">
+                <form id="imageform">
+                    <div class="form-group">
+                        <label asp-for="EventId" class="control-label"></label>
+                        <input asp-for="EventId" type="text" id="EventId" value="@id" class="form-control" readonly>
+=======
                 <div class="modal-body">
                     <form id="imageform" >
                     <div class="form-group" hidden>
@@ -25,9 +32,20 @@
                         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                     <button type="button" onclick="save_image()" class="btn btn-primary">Submit</button>
                     </form>
+>>>>>>> origin/rujal
                     </div>
+                    <div class="form-group">
+                        <label asp-for="SponsorImage" class="control-label"></label>
+                        <input name="File" type="file" id="File" class="form-control" />
+                        @*<input type="file" class="form-control" />*@
+                        <span asp-validation-for="SponsorImage" class="text-danger"></span>
+                    </div>
+                    <hr>
+                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button type="button" onclick="save_image()" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
             <div class="modal-footer">
-         
             </div>
         </div>
     </div>

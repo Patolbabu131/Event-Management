@@ -189,9 +189,12 @@ function bindDatatable() {
             "columns": [
                
                 {
+<<<<<<< HEAD
+=======
                     "data": "id"
                 },
                 {
+>>>>>>> origin/rujal
                     "data": "eventName",
                 },
                 {
@@ -201,9 +204,6 @@ function bindDatatable() {
                         var month = date.getMonth() + 1;
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
-                },
-                {
-                    "data": "eventVenue",
                 },
                 {
                     "render": function (data, type, row, meta) {
@@ -218,6 +218,9 @@ function bindDatatable() {
                     }
                 },
                 {
+<<<<<<< HEAD
+                    "data": "eventVenue",
+=======
 
                     "render": function (data, type, row, meta) {
                         var date = new Date(row.eventDate);
@@ -231,17 +234,24 @@ function bindDatatable() {
 
                     //    return row.eventEndTime
                     //}
+>>>>>>> origin/rujal
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
+                        return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
+<<<<<<< HEAD
+                        return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                    }
+                },
+=======
                         return '<table><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th> <th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr>  <tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td>  <td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
                     }
                 }
+>>>>>>> origin/rujal
             ]
         });
 
@@ -288,6 +298,30 @@ $(document).ready(function () {
                     ]
                 });
             }
+<<<<<<< HEAD
+
+        })
+
+
+    });
+    bindDatatable();
+
+    function ok() {
+        $('#addStartTime').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '10',
+            maxTime: '6:00pm',
+            defaultTime: '11',
+            startTime: '10:00',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+        });
+
+    }
+
+=======
         })
     });
     bindDatatable();
@@ -296,6 +330,7 @@ $(document).ready(function () {
         $(".ui-timepicker-container").css("z-index", "33442");
     }, 100);
 
+>>>>>>> origin/rujal
     $('#selectEl').change(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
@@ -368,7 +403,18 @@ function edit_event(id) {
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
+<<<<<<< HEAD
+            //var strTime = start.getHours() + ':' + caches.getMinutes();
+            var strTime = (start.getHours || '00') + ':' + (start.getMinutess || '00');
+            var ampm = "am";
+            if (start.getHours > 12) {
+                start.getHours -= 12;
+                ampm = "pm";
+            }
+            // = end.getHours() + ':' + end.getMinutes() + ampm;
+=======
             var strTime = start.getHours() + ':' + start.getMinutes();
+>>>>>>> origin/rujal
             var endtime = (end.getHours() || '00') + ':' + (end.getMinutes() || '00');
 
             $('#EventID').val(resonce.id);
@@ -377,7 +423,13 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
+<<<<<<< HEAD
+
+
+
+=======
             $('#FoodMenu').val(resonce.foodMenu);
+>>>>>>> origin/rujal
         }
     })
 }
@@ -397,6 +449,8 @@ function delete_event(id) {
 }
 
 
+<<<<<<< HEAD
+=======
 //function eventattendeestable() {
 //      $.ajax({
 
@@ -446,4 +500,5 @@ function delete_event(id) {
     //            //}
     //        ]
     //    });
+>>>>>>> origin/rujal
 

@@ -30,6 +30,7 @@ namespace Events.Web.Controllers
             }
             else
             {
+                ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.Eid = Id;
                 return View();
             }
@@ -52,55 +53,24 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                Ctype = Ctype.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CouponName.ToString().Contains(param.sSearch.ToLower())
+                Ctype = Ctype.Where(x => x.CouponName.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponPrice.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Active.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedOn.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.Active.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
-            else if (param.iSortCol_0 == 0)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
-            }
-            if (param.iSortCol_0 == 1)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.EventId).ToList() : Ctype.OrderByDescending(c => c.EventId).ToList();
-            }
-            else if (param.iSortCol_0 == 2)
+            if (param.iSortCol_0 == 0)
             {
                 Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponName).ToList() : Ctype.OrderByDescending(c => c.CouponName).ToList();
             }
-            else if (param.iSortCol_0 == 3)
+            else if (param.iSortCol_0 == 1)
             {
                 Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponPrice).ToList() : Ctype.OrderByDescending(c => c.CouponPrice).ToList();
-
             }
-            else if (param.iSortCol_0 == 4)
+            else if (param.iSortCol_0 == 2)
             {
                 Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Active).ToList() : Ctype.OrderByDescending(c => c.Active).ToList();
             }
-            else if (param.iSortCol_0 == 5)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CreatedBy).ToList() : Ctype.OrderByDescending(c => c.CreatedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CreatedOn).ToList() : Ctype.OrderByDescending(c => c.CreatedOn).ToList();
-            }
-            else if (param.iSortCol_0 == 7)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.ModifiedBy).ToList() : Ctype.OrderByDescending(c => c.ModifiedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 8)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.ModifiedOn).ToList() : Ctype.OrderByDescending(c => c.ModifiedOn).ToList();
-
-            }
+           
             //TotalRecords
             var displayResult = Ctype.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
             var totalRecords = Ctype.Count();
@@ -188,7 +158,7 @@ namespace Events.Web.Controllers
             }
        
             
-            }
+        }
 
         // GET: Eventcoupontypes/Edit/5
         public async Task<IActionResult> Edit(long? id)

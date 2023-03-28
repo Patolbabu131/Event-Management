@@ -16,12 +16,6 @@ function functionToCall(id) {
             },
             columns: [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "eventId",
-                },
-                {
                     "data": "attendeeName",
                 },
                 {
@@ -40,9 +34,6 @@ function functionToCall(id) {
 
                 },
                 {
-                    "data": "couponTypeId",
-                },
-                {
 
                     "data": "totalAmount",
                 },
@@ -56,28 +47,6 @@ function functionToCall(id) {
                 },
                 {
                     "data": "remarks",
-                },
-                {
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.createdOn);
-                        var month = date.getMonth();
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-
-                {
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.modifiedOn);
-                        var month = date.getMonth();
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
-                    }
-
-                },
-                {
-                    "data": "modifiedBy"
                 },
                 {
                     render: function (data, type, row, meta) {
