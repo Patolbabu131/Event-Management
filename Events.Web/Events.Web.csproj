@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\File\**" />
+    <Compile Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+    <Content Remove="wwwroot\File\**" />
+    <Content Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+    <EmbeddedResource Remove="wwwroot\File\**" />
+    <EmbeddedResource Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+    <None Remove="wwwroot\File\**" />
+    <None Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Events.Business\Events.Business.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
@@ -20,9 +31,7 @@
     <None Remove="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\File\" />
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\Scripts\ExecutiveMembers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grpc.Core" Version="2.46.6" />
@@ -45,7 +54,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\File\Screenshot.png" />
     <Content Remove="wwwroot\Scripts\" />
     <Content Remove="wwwroot\Scripts\Events\" />
   </ItemGroup>
