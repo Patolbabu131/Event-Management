@@ -31,7 +31,7 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Executivemember> Executivemembers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=85.27.134.10;user id=sql307.ezyro.com                                                          ;Password=s7ofcadukdbv;database=ezyro_33796038_event_db;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -190,7 +190,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventcouponassignments)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventcouponassignments_ibfk_1");
 
             entity.HasOne(d => d.ExecutiveMember).WithMany(p => p.EventcouponassignmentExecutiveMembers)

@@ -1,105 +1,4 @@
-﻿var Events = {
-
-    variables: {
-        oTable: null,
-        srcGetEventsList: '/Events/GetEventList'
-    },
-    controls: {
-        tblevents: '#tblevents',
-        txteventsearchbox: "#txteventsearchbox",
-        tblevents_Rows: '#tblevents tbody tr',
-    },
-
-    IntializeEventExpenseTable: function () {
-
-        Events.variables.oTable = $(Events.controls.tblevents).dataTableEvents({
-            "sAjaxSource": Events.variables.srcGetEventsList,
-            "aaSorting": [[1, "desc"]],// default sorting
-            "sDom": "frtlip",
-            "autoWidth": false,
-            "bLengthChange": true,
-            "fixedHeader": true,
-            "aoColumnDefs": [
-                {
-                    "aTargets": [0],
-                    "className": "text-center",
-                    "bSortable": false,
-                    //"mRender": function (data, type, row, meta) {
-                    //    return '<span data-ExpenseId=' + row[3] + '>' + parseInt(meta.row + meta.settings._iDisplayStart + 1) + '</span';
-                    //},
-                },
-                {
-                    "aTargets": [1],
-                    "className": "text-center",
-                },
-                {
-                    "aTargets": [2],
-                    "className": "text-center",
-                    //"mRender": function (data, type, full) {
-                    //    return '<div>' + full[2] + '</div>';
-                    //},
-                },
-                {
-                    "aTargets": [3],
-                    "className": "text-center",
-                },
-                {
-                    "aTargets": [4],
-                    "className": "text-center",
-                },
-                {
-                    "aTargets": [5],
-                    "className": "text-center",
-                },
-                {
-                    "aTargets": [6],
-                    "className": "text-center",
-                },
-                {
-                    "aTargets": [7],
-                    "className": "text-center",
-                    //"mRender": function (data, type, full) {
-                    //    var row = '';
-                    //    row += '<a href= "javascript:void(0);" title="Remove Expense Details" onclick=Expenses.DeleteExpenseDetails(' + full[3] + ')> <i class="fa fa-times red"></i></a >';
-
-                    //    return row;
-                    //},
-                    "bSortable": false,
-
-                }
-            ],
-
-            "oLanguage": {
-                "sEmptyTable": $('#hdnNodataavailable').val(),
-                "sLengthMenu": "Page Size: _MENU_",
-                "oPaginate": {
-                    "sNext": $('#hdnNext').val(),
-                    "sPrevious": $('#hdnPrevious').val()
-                }
-            },
-            "fnServerParams": function (aoData) {
-
-                $("div").data("srchParams",
-                    [
-                        { name: 'iDisplayLength', value: $("#hdnGeneralPageSize").val() },
-                        { name: 'srchTxt', value: encodeURIComponent($(Events.controls.txteventsearchbox).val().trim() == '' ? '' : $(Events.controls.txteventsearchbox).val().trim()) },
-                        { name: 'srchBy', value: 'ALL' },
-                    ]);
-
-                var srchParams = $("div").data("srchParams");
-                if (srchParams) {
-                    for (var i = 0; i < srchParams.length; i++) {
-                        aoData.push({ "name": "" + srchParams[i].name + "", "value": "" + srchParams[i].value + "" });
-                    }
-                }
-            },
-            "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-                //smallTable();
-                return common.pagingText(iStart, iEnd, iTotal, $('#hdnRecordsText').val(), oSettings._iDisplayLength);
-            },
-        });
-    },
-}
+﻿
 
 
 function save_event() {
@@ -142,9 +41,9 @@ function save_event() {
         }
     });
 
-    
+
     if ($('#formAddEvent').valid()) {
-                    
+
         CKEDITOR.instances.FoodMenu.updateElement();
         var descProduct = document.getElementById('FoodMenu').value;
 
@@ -155,14 +54,13 @@ function save_event() {
             EventVenue: $("#addEventVenue").val(),
             EventStartTime: $("#addStartTime").val(),
             EventEndTime: $("#addEndTime").val(),
-            FoodMenu:descProduct
+            FoodMenu: descProduct
         }
         $.ajax({
             type: "post",
             url: '/Events/CreateEvents',
             data: data,
-            success: function ConfirmDialog(message)
-            {                
+            success: function ConfirmDialog(message) {
                 $("#addEventModal").modal('hide');
                 $('#CreateContainer').appendTo('body')
                     .html('<div><h6>' + message + '</h6></div>')
@@ -173,28 +71,30 @@ function save_event() {
                         autoOpen: true,
                         width: 'auto',
                         icon: 'fa fa- close',
-                        click: function ()
-                        {
+                        click: function () {
                             $(this).dialog("close");
                         },
                         buttons: [
                             {
                                 text: "Ok",
                                 icon: "ui-icon-heart",
-                                click: function()
-                                {
+                                click: function () {
                                     $(this).dialog("close");
                                     window.location.reload();
                                 }
                             }
                         ]
-                    });                  
-            }             
-        })         
+                    });
+            }
+        })
     }
 }
 
 function bindDatatable() {
+    //if($.fn.dataTable.isDataTable('#tblevents')) {
+    //    $('#tblevents').DataTable().destroy();
+    //}
+    $("#tblevents").empty();
     datatable = $('#tblevents')
         .DataTable
         ({
@@ -211,20 +111,20 @@ function bindDatatable() {
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
-               
+
                 {
                     "data": "eventName",
                 },
                 {
                     "render": function (data, type, row, meta) {
-                      
-                                var date = new Date(row.eventDate);
-                                const year = date.getFullYear();
-                                const month = String(date.getMonth() + 1).padStart(2, '0');
-                                const day = String(date.getDate()).padStart(2, '0');
-                                const joined = [day, month, year].join('/');
-                                return joined;
-                            
+
+                        var date = new Date(row.eventDate);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const joined = [day, month, year].join('/');
+                        return joined;
+
                     }
                 },
                 {
@@ -236,13 +136,15 @@ function bindDatatable() {
                 {
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventEndTime)
-                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() +":"+(Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
+                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
                 {
-                    
+
                     "render": function (data, type, row) {
-                        return row.eventVenue;
+                       
+                        //return "<span> 820, </br> Siddharth Complex, </br> R.C Datt road, Alkapuri, </br> Vadodara</span>";
+                        return "<span> " + row.eventVenue.replaceAll("\n", "</br>") + "</span>";
                     }
                 },
                 {
@@ -257,13 +159,12 @@ function bindDatatable() {
                 },
             ]
         });
-
 }
 
 
 
 $(document).ready(function () {
-     
+
     $('#create_event').click(function () {
 
         $.ajax({
@@ -287,7 +188,7 @@ $(document).ready(function () {
                 });
                 CKEDITOR.replace('FoodMenu', {
                     toolbar: [
-                     
+
                         { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
                         { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
                         { name: 'links', items: ['Link', 'Anchor'] },
@@ -300,10 +201,9 @@ $(document).ready(function () {
                 });
             }
         })
-       
+
     });
-    bindDatatable();
- 
+
     setInterval(function () {
         $(".ui-timepicker-container").css("z-index", "33442");
     }, 100);
@@ -314,6 +214,7 @@ $(document).ready(function () {
     });
 
 });
+bindDatatable();
 
 function details_event(id) {
     $.ajax({
@@ -382,7 +283,7 @@ function edit_event(id) {
             var endtime = String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0');
 
 
-            $('#EventID').val(resonce.id);  
+            $('#EventID').val(resonce.id);
             $('#addEventName').val(resonce.eventName);
             $('#addEventDate').val(today);
             $('#addEventVenue').val(resonce.eventVenue);
