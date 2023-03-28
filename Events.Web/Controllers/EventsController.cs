@@ -49,6 +49,7 @@ namespace Events.Web.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
+
             string mid= cd.HttpContext.Session.GetString("MID");
             MID=Convert.ToInt64(mid); 
             return View();
@@ -149,46 +150,34 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                events = events.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventName.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventYear.ToString().Contains(param.sSearch.ToLower())
+                events = events.Where(x => x.EventName.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventDate.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventStartTime.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventEndTime.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.EventEndTime.ToString().Contains(param.sSearch.ToLower())
+                                              || x.EventVenue.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
+
             ////Sorting
             if (param.iSortCol_0 == 0)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.Id).ToList() : events.OrderByDescending(c => c.Id).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventName).ToList() : events.OrderByDescending(c => c.EventName).ToList();
             }
             else if (param.iSortCol_0 == 1)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventName).ToList() : events.OrderByDescending(c => c.EventName).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventDate).ToList() : events.OrderByDescending(c => c.EventDate).ToList();
             }
             else if (param.iSortCol_0 == 2)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventDate).ToList() : events.OrderByDescending(c => c.EventDate).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventStartTime).ToList() : events.OrderByDescending(c => c.EventStartTime).ToList();
+
             }
             else if (param.iSortCol_0 == 3)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventVenue).ToList() : events.OrderByDescending(c => c.EventVenue).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventEndTime).ToList() : events.OrderByDescending(c => c.EventEndTime).ToList();
             }
             else if (param.iSortCol_0 == 4)
             {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventStartTime).ToList() : events.OrderByDescending(c => c.EventStartTime).ToList();
-            }
-            else if (param.iSortCol_0 == 5)
-            {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventEndTime).ToList() : events.OrderByDescending(c => c.EventEndTime).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
-            {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventYear).ToList() : events.OrderByDescending(c => c.EventYear).ToList();
-            }
-            else if (param.iSortCol_0 == 7)
-            {
-                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.FoodMenu).ToList() : events.OrderByDescending(c => c.FoodMenu).ToList();
+                events = param.sSortDir_0 == "asc" ? events.OrderBy(c => c.EventVenue).ToList() : events.OrderByDescending(c => c.EventVenue).ToList();
             }
 
             //TotalRecords
@@ -225,7 +214,7 @@ namespace Events.Web.Controllers
                     CreatedBy = Convert.ToInt64(mid),
                     ModifiedBy= Convert.ToInt64(mid),
                     ModifiedOn = DateTime.Now,
-                    FoodMenu = "nothing"
+                    FoodMenu = events.FoodMenu,
                 };
                 _db.Events.Add(eventt);
                 _db.SaveChanges();
@@ -234,21 +223,19 @@ namespace Events.Web.Controllers
             else
             {
                 string mid = cd.HttpContext.Session.GetString("MID");
-                var eventt = new Event()
-                {
-                    Id=events.Id,
-                    EventName = events.EventName,
-                    EventDate = events.EventDate,
-                    EventVenue = events.EventVenue,
-                    EventStartTime = events.EventStartTime,
-                    EventEndTime = events.EventEndTime,
-                    EventYear = events.EventDate,
-                    CreatedOn = DateTime.Now,
-                    CreatedBy = Convert.ToInt64(mid),
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                    FoodMenu = "nothing"
-                };
+                var eventt =_db.Events.Where(m => m.Id == events.Id).FirstOrDefault();
+
+
+                eventt.EventName = events.EventName;
+                eventt.EventDate = events.EventDate;
+                eventt.EventVenue = events.EventVenue;
+                eventt.EventStartTime = events.EventStartTime;
+                eventt.EventEndTime = events.EventEndTime;
+                eventt.EventYear = events.EventDate;
+                eventt.ModifiedBy = Convert.ToInt64(mid);
+                eventt.ModifiedOn = DateTime.Now;
+                eventt.FoodMenu = events.FoodMenu;
+                
                 _db.Events.Update(eventt);
                 _db.SaveChanges();
                 return Json("Event Updated");

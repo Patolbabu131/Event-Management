@@ -10,20 +10,61 @@ $('#create_member').click(function () {
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
+            $("#PurchasedOn").datepicker();
         }
     })
 });
+ 
+
+
+
 
 function save_member() {
-    var data = {
-        Id: $("#EventId").val(),
-        FullName: $("#addrName").val(),
-        Designation: $("#addDesignation").val(),
-        AppointedOn: $("#addAppointedOn").val(),
-        Duties: $("#addDuties").val(),
+    $("#formAddECMember").validate({
+        rules: {
+            addName: "required",
+            addDesignation: {
+                required: true,
+
+            },
+            PurchasedOn: {
+                required: true,
+            },
+            addAppointedOn: {
+                required: true,
+            },
+            addDuties: {
+                required: true,
+            },
+        },
+        messages: {
+            addName: " Please enter Name",
+            addDesignation: {
+                required: " Please enter Designation",
+            },
+            addAppointedOn: {
+                required: " Please AppointedOn ",
+            },
+            addDuties: "Please enter Duties",
+        },
+        highlight: function (element) {
+            $(element).parent().addClass('error')
+        },
+        unhighlight: function (element) {
+            $(element).parent().removeClass('error')
+        }
+    });
+    if ($('#formAddECMember').valid()) {
+        var data = {
+            Id: $("#EventId").val(),
+            FullName: $("#addrName").val(),
+            Designation: $("#addDesignation").val(),
+            AppointedOn: $("#addAppointedOn").val(),
+            Duties: $("#addDuties").val(),
         CreatedOn:$("#createon").val()
+        }
+        savemember(data);
     }
-    savemember(data);
 }
 
 function savemember(data) {
@@ -31,11 +72,30 @@ function savemember(data) {
         type: "post",
         data: data,
         url: '/ExecutiveMembers/CreateMembers',
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
-        }
+        success: //function (resonce) {
+            //alert(resonce);
+
+           // ConfirmDialog('Are you sure');
+
+            function ConfirmDialog(message)
+            {
+            $('<div></div>').appendTo('body')
+                .html('<div><h6>' + message + '?</h6></div>')
+                .dialog({
+                    modal: true,
+                    title: 'Events Data Is Saved...',
+                    zIndex: 10000,
+                    autoOpen: true,
+                    width: 'auto',
+                    resizable: false,
+                    close: function (event, ui) {
+                        $(this).remove();
+                    }
+                })
+           }
+            //window.location.reload();        
     })
+    window.location.reload();
 }
 
 function bindmember() {
@@ -54,9 +114,6 @@ function bindmember() {
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
-                {
-                    "data": "id",
-                },
                 {
                     "data": "fullname",
                     render: function (data, type, row, meta) {
@@ -113,6 +170,7 @@ function edit_member(id) {
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
+            $("#PurchasedOn").datepicker();
         }
     })
 

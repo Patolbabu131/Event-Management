@@ -15,15 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id"
-                },
-                {
-                    "data": "eventId",
-                },
-                {
-                    "data": "executiveMemberId",
-                },
-                {
                     "data": "couponsFrom",
                 },
                 {
@@ -31,32 +22,6 @@
                 },
                 {
                     "data": "totalCoupons",
-                },
-                {
-                    "data": "createdOn",
-                    "render": function (data)
-                    {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-
-                },
-                {
-                    "data": "createdBy",
-                },
-               
-                {
-                    "data": "modifiedBy",
-                },
-                {
-                    "data": "modifiedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -80,25 +45,80 @@ function create_cassign(id) {
 }
 
 function save_Cassign() {
-    var data = {
-        Id: $("#Cassignid").val(),
-        EventId: $("#EventId").val(),
-        ExecutiveMemberId: $("#ExecutiveMemberId").val(),
-        CouponsFrom: $("#CouponsFrom").val(),
-        CouponsTo: $("#CouponsTo").val(),
-        TotalCoupons: $("#TotalCoupons").val(),
-        CreatedOn: $("#CreatedOn").val(),
-        CreatedBy: $("#CreatedBy").val(),
-    }
-    $.ajax({
-        type: "post",
-        url: '/Eventcouponassignments/CreateCAssign',
-        data: data,
-        success: function (resonce) {
-            alert(resonce);
-            window.location.reload();
+    $("#CAssignform").validate({
+        rules: {
+            
+            CouponsFrom: {
+                required: true,
+                number: true
+            },
+            CouponsTo: {
+                required: true,
+                number: true
+            },
+            TotalCoupons: {
+                required: true,
+                number: true
+            },
+        },
+        messages: {
+            CouponsFrom: {
+                required: " Please enter Coupons From",
+                number: "Invalid input"
+            },
+            CouponsTo: {
+                required: " Please enter Coupons To ",
+                number: "Invalid input"
+            },
+            TotalCoupons: {
+                required: " Please enter Total Coupons",
+                number: "Invalid input"
+            }
+            
+        },
+    });
+    if ($('#CAssignform').valid())
+    {
+        var data = {
+            Id: $("#Cassignid").val(),
+            EventId: $("#EventId").val(),
+            ExecutiveMemberId: $("#ExecutiveMemberId").val(),
+            CouponsFrom: $("#CouponsFrom").val(),
+            CouponsTo: $("#CouponsTo").val(),
+            TotalCoupons: $("#TotalCoupons").val(),
         }
-    })
+        $.ajax({
+            type: "post",
+            url: '/Eventcouponassignments/CreateCAssign',
+            data: data,
+            success: function ConfirmDialog(message) {
+                $("#addCAssign").modal('hide');
+                $('#Cassign').appendTo('body')
+                    .html('<div><h6>' + message + '</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Save Message',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        icon: 'fa fa- close',
+                        click: function () {
+                            $(this).dialog("close");
+                        },
+                        buttons: [
+                            {
+                                text: "Ok",
+                                icon: "ui-icon-heart",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    window.location.reload();
+                                }
+                            }
+                        ]
+                    });
+            }             
+        })
+    }    
 }
 
 
@@ -109,25 +129,18 @@ function edit_cassign(id) {
         success: function (resonce) {
             $('#Cassign').html(resonce);
             $("#addCAssign").modal('show');
-
+            $('.modal-title').text('Edit Assigned coupon');
 
             $.ajax({
                 type: "get",
                 url: '/Eventcouponassignments/getEdit/' + id,
                 success: function (resonce) {
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
-
                     $("#Cassignid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
                     $("#ExecutiveMemberId").val(resonce.executiveMemberId);
                     $("#CouponsFrom").val(resonce.couponsFrom);
                     $("#CouponsTo").val(resonce.couponsTo);
                     $("#TotalCoupons").val(resonce.totalCoupons);
-                    $("#CreatedOn").val(today);
-                    $("#CreatedBy").val(resonce.createdBy);
                 }
             })
         }
@@ -136,15 +149,54 @@ function edit_cassign(id) {
 }
 
 function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "get",
-            url: '/Eventcouponassignments/Delete/' + id,
-            success: function (resonce) {
-                alert("Record Deleted Successfuly..");
-                window.location.reload();
+    $('#Cassign').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventcouponassignments/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }

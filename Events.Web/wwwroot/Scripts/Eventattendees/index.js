@@ -16,12 +16,6 @@ function functionToCall(id) {
             },
             columns: [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "eventId",
-                },
-                {
                     "data": "attendeeName",
                 },
                 {
@@ -31,7 +25,6 @@ function functionToCall(id) {
                     "data": "couponsPurchased",
                 },
                 {
-
                     "data": "purchasedOn",
                     "render": function (data) {
                         var date = new Date(data);
@@ -39,9 +32,6 @@ function functionToCall(id) {
                         return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
                     }
 
-                },
-                {
-                    "data": "couponTypeId",
                 },
                 {
 
@@ -59,39 +49,16 @@ function functionToCall(id) {
                     "data": "remarks",
                 },
                 {
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.createdOn);
-                        var month = date.getMonth();
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-
-                {
-                    "render": function (data, type, row, meta) {
-                        var date = new Date(row.modifiedOn);
-                        var month = date.getMonth();
-                        return date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
-                    }
-
-                },
-                {
-                    "data": "modifiedBy"
-                },
-                {
                     render: function (data, type, row, meta) {
                         return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a> | <a class="btn btn-primary" onclick="edit_attendee(' + row.id + ')" >Edit</a>';
                     }
                 },
-
             ]
         });
-
 }
 
-$(document).ready(function () {
+$(document).ready(function ()
+{
    
 });
 
@@ -99,25 +66,34 @@ $(document).ready(function () {
 
 function create_attendee(id) {
     $.ajax({
-
         url: '/Eventattendees/CreateEdit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-            
-           
+            onlynumber();
+            $("#PurchasedOn").datepicker();
         }
     })
 }
+function onlynumber() {
+    $('.numberonly').keypress(function (e) {
 
+        var charCode = (e.which) ? e.which : event.keyCode
+
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+            return false;
+    });
+}
 
 function save_Attendee() {
     $("#formAddAttendees").validate({
         rules: {
-            AttendeeName: "required",
+            AttendeeName: {
+                required: true,
+                maxlength: 200
+            },
             ContactNo: {
                 required: true,
-                minlength: 10,
                 maxlength: 10
             },
             CouponsPurchased: {
@@ -133,6 +109,7 @@ function save_Attendee() {
             },
             Remarks: {
                 required: true,
+                maxlength:500
             },
             CouponTypeId: {
                 required: true,
@@ -149,7 +126,7 @@ function save_Attendee() {
             ContactNo: " Please enter valid Contact Number",
             CouponsPurchased: {
                 required: " Please enter Purchased Coupons",
-                number:"Invalid input"
+                number: "Invalid input"
             },
             PurchasedOn: {
                 required: "Please enter Date",
@@ -168,40 +145,37 @@ function save_Attendee() {
                 number: "Invalid input"
             }
         },
-        highlight: function (element) { 
-            $(element).parent().addClass('error')
-        },
-        unhighlight: function (element) {
-            $(element).parent().removeClass('error')
-        }
     });
     if ($('#formAddAttendees').valid()) {
-       var data = {
-        Id: $("#attenid").val(),
-        EventId: $("#EventId").val(),
-        AttendeeName: $("#AttendeeName").val(),
-        ContactNo: $("#ContactNo").val(),
-        CouponsPurchased: $("#CouponsPurchased").val(),
-        PurchasedOn: $("#PurchasedOn").val(),
-        TotalAmount: $("#TotalAmount").val(),
-        Remarks: $("#Remarks").val(),
-        CouponTypeId: $("#CouponTypeId").val(),
-        RemainingCoupons: $("#RemainingCoupons").val(),
-        CreatedBy: $("#Createdby").val(),
-        CreatedOn: $("#crearedon").val()
+        var data = {
+            Id: $("#attenid").val(),
+            EventId: $("#EventId").val(),
+            AttendeeName: $("#AttendeeName").val(),
+            ContactNo: $("#ContactNo").val(),
+            CouponsPurchased: $("#CouponsPurchased").val(),
+            PurchasedOn: $("#PurchasedOn").val(),
+            TotalAmount: $("#TotalAmount").val(),
+            Remarks: $("#Remarks").val(),
+            CouponTypeId: $("#CouponTypeId").val(),
+            RemainingCoupons: $("#RemainingCoupons").val(),
         }
         $.ajax({
             type: "post",
             url: '/Eventattendees/CreateEdit1',
             data: data,
-            success: function (resonce) {
-                alert(resonce);
-                window.location.reload();
-            }
+            success: function ConfirmDialog(message) {
+                $("#addeditattendee").modal('hide');
+                CallDialog(message);                                   
+            }             
         })
     }
 }
 
+function selectcoupon(cname) {
+
+    $("#CouponTypeId select").val(cname);
+
+}
 
 
 
@@ -220,27 +194,26 @@ function details_event(id) {
 function edit_attendee(id) {
     $.ajax({
         type: "get",
-        url: '/Eventattendees/CreateEdit/' + id,
+        url: '/Eventattendees/Edit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
+            $("#PurchasedOn").datepicker();
+            $('#attendeestitle').text('Edit Attendee Detail');
+            onlynumber();
 
             $.ajax({
                 type: "get",
-                url: '/Eventattendees/Edit/' + id,
+                url: '/Eventattendees/Edit1/' + id,
                 success: function (resonce) {
                     var now = new Date(resonce.purchasedOn);
                     var day = ("0" + now.getDate()).slice(-2);
                     var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = now.getFullYear() + "-" + month + "-" + day;
+                    var today = day + "/" + month + "/" + now.getFullYear() ;
 
-                    var now = new Date(resonce.createdOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var todayq = now.getFullYear() + "-" + month + "-" + day;
 
                     $("#attenid").val(resonce.id);
-                    $("#EventId").val(resonce.eventId);
+                    $("#EventId").val(resonce.id);
                     $("#AttendeeName").val(resonce.attendeeName);
                     $("#ContactNo").val(resonce.contactNo);
                     $("#CouponsPurchased").val(resonce.couponsPurchased);
@@ -249,8 +222,6 @@ function edit_attendee(id) {
                     $("#Remarks").val(resonce.remarks);
                     $("#CouponTypeId").val(resonce.couponTypeId);
                     $("#RemainingCoupons").val(resonce.remainingCoupons);
-                    $("#Createdby").val(resonce.createdBy);
-                    $("#crearedon").val(todayq);
 
                 }
             })
@@ -259,16 +230,75 @@ function edit_attendee(id) {
 
 }
 
+//function Delete(id) {
+//    var confirmation = confirm("Are you sure to delete this Member...");
+//    if (confirmation) {
+//        $.ajax({
+//            type: "post",
+//            url: '/Eventattendees/Delete/' + id,
+//            //success: function (resonce) {
+//            //    alert("Record Deleted Successfuly..");
+//            //    window.location.reload();
+
+//            success: function ConfirmDialog(message) {
+//                    //$("#addeditattendee").modal('hide');
+//                    CallDialog(message);
+//                }
+
+//        })
+//    }
+//}
+
+
 function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "post",
-            url: '/Eventattendees/Delete/' + id,
-            success: function (resonce) {
-                alert("Record Deleted Successfuly..");
-                window.location.reload();
+    $('#Attendees').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?..." + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',            
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventattendees/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
             }
-        })
-    }
+        });
 }

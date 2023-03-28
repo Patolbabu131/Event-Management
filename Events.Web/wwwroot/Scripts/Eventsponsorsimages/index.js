@@ -1,9 +1,9 @@
-﻿function imgtable(id) { 
+﻿function imgtable(id) {
     datatable = $('#Eventsponsorsimagestable')
         .DataTable
         ({
 
-            "sAjaxSource": "/Eventsponsorsimages/GetEventsponsorsimages/"+id,
+            "sAjaxSource": "/Eventsponsorsimages/GetEventsponsorsimages/" + id,
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
@@ -16,53 +16,29 @@
             "columns": [
                 {
                     "data": "id",
-                   
+
                 },
                 {
-                    "data": "eventId",  
-                    
+                    "data": "eventId",
+
                 },
                 {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
-                        return '<img src="'+row.sponsorImage+'" width="300px">';
+                        return '<img src="/Files/'+row.sponsorImage+'" width="300px">';
                     }
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return '<a class="btn btn-info" onclick="Edit_i(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 }
-                //{
-                //    "data": "duties",
-                //    render: function (data, type, row, meta) {
-                //        return row.duties
-                //    }
-                //},
-                //{
-                //    render: function (data, type, row, meta) {
-                //        return ' <a class="btn btn-primary" onclick="details_member(' + row.id + ')" >Details</a> |  <a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
-                //    }
-                //}
             ]
         });
 
 
 }
 
-function Delete(id) {
-    var confirmation = confirm("Are you sure to delete this Member...");
-    if (confirmation) {
-        $.ajax({
-            type: "get",
-            url: '/Eventsponsorsimages/Delete/' + id,
-            success: function (responce) {
-                alert(responce);
-                window.location.reload();
-            }
-        })
-    }
-}
 
 function create_i(id) {
     $.ajax({
@@ -70,19 +46,139 @@ function create_i(id) {
         success: function (resonce) {
             $('#image').html(resonce);
             $("#addimage").modal('show');
+        }
+    })
+}
 
+function save_image() {
+
+    $("#imageform").validate({
+        rules: {
+            File: "required",
+        },
+        messages: {
+            File: " Please Select An Image",
+        },
+    });
+    if ($('#imageform').valid()) {
+
+    var formData = new FormData();
+    var data = {
+        EventId: $("#EventId").val(),
+        File: $("#File")[0].files[0]
+    }
+    formData.append("EventId", $("#EventId").val());
+    formData.append("File", $("#File")[0].files[0]);
+
+    $.ajax({
+        type: "POST",
+        url: '/Eventsponsorsimages/Create',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function ConfirmDialog(message) {
+            $("#Editimage").modal('hide');
+            $('#image').appendTo('body')
+                .html('<div><h6>' + message + '</h6></div>')
+                .dialog({
+                    modal: true,
+                    title: 'Save Message',
+                    zIndex: 10000,
+                    autoOpen: true,
+                    width: 'auto',
+                    icon: 'fa fa- close',
+                    click: function () {
+                        $(this).dialog("close");
+                    },
+                    buttons: [
+                        {
+                            text: "Ok",
+                            icon: "ui-icon-heart",
+                            click: function () {
+                                $(this).dialog("close");
+                                window.location.reload();
+                            }
+                        }
+                    ]
+                });
+        }
+    })
+    }
+}
+
+
+
+function Edit_i(id) {
+    $.ajax({
+        url: '/Eventsponsorsimages/Edit1',
+        success: function (resonce) {
+            $('#image').html(resonce);
+            $("#Editimage").modal('show');
+
+            $.ajax({
+                type:"get",
+                url: '/Eventsponsorsimages/Edit/' + id,
+                success: function (resonce) {
+                    $("#Id").val(resonce.id);
+                    $("#EventId").val(resonce.eventId);
+                    $("#simage").attr('src', resonce.sponsorImage);
+                }
+            })
         }
     })
 }
 
 
-function Edit_i(id) {
-    $.ajax({
-        url: '/Eventsponsorsimages/Edit/' + id,
-        success: function (resonce) {
-            $('#image').html(resonce);
-            $("#Editimage").modal('show');
 
-        }
-    })
+function Delete(id) {
+    $('#image').appendTo('body')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: {
+                Yes: function () {
+                    $.ajax({
+                        url: '/Eventsponsorsimages/Delete/' + id,
+                        success: function () {
+                            $('#dailog').appendTo('body')
+                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .dialog({
+                                    modal: true,
+                                    title: 'Delete Message',
+                                    zIndex: 10000,
+                                    autoOpen: true,
+                                    width: 'auto',
+                                    icon: 'fa fa- close',
+                                    click: function () {
+                                        $(this).dialog("close");
+                                    },
+                                    buttons: [
+                                        {
+                                            text: "Ok",
+                                            icon: "ui-icon-heart",
+                                            click: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    ]
+                                });
+                        }
+
+                    })
+                },
+                No: function () {
+
+                    $(this).dialog("close");
+                }
+            }
+        });
 }

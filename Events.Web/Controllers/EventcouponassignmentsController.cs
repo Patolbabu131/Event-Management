@@ -29,6 +29,7 @@ namespace Events.Web.Controllers
             }
             else
             {
+                ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.Eid = Id;
                 return View();
             }
@@ -39,6 +40,7 @@ namespace Events.Web.Controllers
 
 
             IEnumerable<dynamic> Cassign = null;
+
             if (Id == null || Id == 0)
             {
                 Cassign = _context.Eventcouponassignments.ToList();
@@ -50,60 +52,25 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                Cassign = Cassign.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ExecutiveMemberId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CouponsFrom.ToString().Contains(param.sSearch.ToLower())
+                Cassign = Cassign.Where(x => x.CouponsFrom.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponsTo.ToString().Contains(param.sSearch.ToLower())
-                                              || x.TotalCoupons.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CreatedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedBy.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModifiedOn.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.TotalCoupons.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
-            else if (param.iSortCol_0 == 0)
-            {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.Id).ToList() : Cassign.OrderByDescending(c => c.Id).ToList();
-            }
-            if (param.iSortCol_0 == 1)
-            {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.EventId).ToList() : Cassign.OrderByDescending(c => c.EventId).ToList();
-            }
-            else if (param.iSortCol_0 == 2)
-            {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.ExecutiveMemberId).ToList() : Cassign.OrderByDescending(c => c.ExecutiveMemberId).ToList();
-            }
-            else if (param.iSortCol_0 == 3)
+            if (param.iSortCol_0 == 0)
             {
                 Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.CouponsFrom).ToList() : Cassign.OrderByDescending(c => c.CouponsFrom).ToList();
-
             }
-            else if (param.iSortCol_0 == 4)
+            else if (param.iSortCol_0 == 1)
             {
                 Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.CouponsTo).ToList() : Cassign.OrderByDescending(c => c.CouponsTo).ToList();
             }
-            else if (param.iSortCol_0 == 5)
+            else if (param.iSortCol_0 == 2)
             {
                 Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.TotalCoupons).ToList() : Cassign.OrderByDescending(c => c.TotalCoupons).ToList();
             }
-            else if (param.iSortCol_0 == 6)
-            {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.CreatedOn).ToList() : Cassign.OrderByDescending(c => c.CreatedOn).ToList();
-            }
-            else if (param.iSortCol_0 == 7)
-            {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.CreatedBy).ToList() : Cassign.OrderByDescending(c => c.CreatedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 8)
-            {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.ModifiedBy).ToList() : Cassign.OrderByDescending(c => c.ModifiedBy).ToList();
-            }
-            else if (param.iSortCol_0 == 9)
-            {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.ModifiedOn).ToList() : Cassign.OrderByDescending(c => c.ModifiedOn).ToList();
 
-            }
+            
             //TotalRecords
             var displayResult = Cassign.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
             var totalRecords = Cassign.Count();
@@ -176,19 +143,15 @@ namespace Events.Web.Controllers
             {
 
 
-                var member = new Eventcouponassignment()
-                {
-                    Id=eventcouponassignment.Id,
-                    EventId = eventcouponassignment.EventId,
-                    ExecutiveMemberId = Convert.ToInt64(mid),
-                    CouponsFrom = eventcouponassignment.CouponsFrom,
-                    CouponsTo = eventcouponassignment.CouponsTo,
-                    TotalCoupons = eventcouponassignment.TotalCoupons,
-                    CreatedOn = eventcouponassignment.CreatedOn,
-                    CreatedBy = eventcouponassignment.CreatedBy,
-                    ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-                };
+                var member = _context.Eventcouponassignments.Where(m => m.Id == eventcouponassignment.Id).FirstOrDefault();
+
+                member.ExecutiveMemberId = Convert.ToInt64(mid);
+                member.CouponsFrom = eventcouponassignment.CouponsFrom;
+                member.CouponsTo = eventcouponassignment.CouponsTo;
+                member.TotalCoupons = eventcouponassignment.TotalCoupons;
+                member.ModifiedBy = Convert.ToInt64(mid);
+                member.ModifiedOn = DateTime.Now;
+
                 _context.Eventcouponassignments.Update(member);
                 _context.SaveChanges();
 
