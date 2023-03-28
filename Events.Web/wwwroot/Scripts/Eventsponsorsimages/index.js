@@ -103,7 +103,7 @@ function save_image() {
         processData: false,
         contentType: false,
         success: function ConfirmDialog(message) {
-            $("#Editimage").modal('hide');
+            $("#addimage").modal('hide');
             $('#image').appendTo('body')
                 .html('<div><h6>' + message + '</h6></div>')
                 .dialog({
