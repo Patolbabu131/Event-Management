@@ -77,7 +77,7 @@ function save_image() {
         processData: false,
         contentType: false,
         success: function ConfirmDialog(message) {
-            $("#Editimage").modal('hide');
+            $("#addimage").modal('hide');
             $('#image').appendTo('body')
                 .html('<div><h6>' + message + '</h6></div>')
                 .dialog({
@@ -104,28 +104,6 @@ function save_image() {
         }
     })
     }
-}
-
-
-
-function Edit_i(id) {
-    $.ajax({
-        url: '/Eventsponsorsimages/Edit1',
-        success: function (resonce) {
-            $('#image').html(resonce);
-            $("#Editimage").modal('show');
-
-            $.ajax({
-                type:"get",
-                url: '/Eventsponsorsimages/Edit/' + id,
-                success: function (resonce) {
-                    $("#Id").val(resonce.id);
-                    $("#EventId").val(resonce.eventId);
-                    $("#simage").attr('src', resonce.sponsorImage);
-                }
-            })
-        }
-    })
 }
 
 

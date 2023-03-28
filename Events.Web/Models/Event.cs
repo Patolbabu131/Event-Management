@@ -19,8 +19,8 @@ public partial class Event
 
     [DisplayName("Event Date")]
     public DateTime EventDate { get; set; }
-    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-    //[Required(ErrorMessage = "Event Date is required...")]
+    
+    
 
     [DisplayName("Event Venue")]
     public string EventVenue { get; set; } = null!;

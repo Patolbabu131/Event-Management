@@ -118,7 +118,11 @@ function save_Attendee() {
             RemainingCoupons: {
                 required: true,
                 number: true
-            }
+            },
+            Remarks:{
+                 required: true,
+                 number: true
+            },
 
         },
         messages: {
@@ -143,7 +147,10 @@ function save_Attendee() {
             RemainingCoupons: {
                 required: " Please Remaining Coupons ",
                 number: "Invalid input"
-            }
+            },
+            Remarks: {
+                required: " Please Enter Remarks ",
+            },
         },
     });
     if ($('#formAddAttendees').valid()) {
