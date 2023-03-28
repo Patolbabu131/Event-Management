@@ -190,7 +190,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventcouponassignments)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventcouponassignments_ibfk_1");
 
             entity.HasOne(d => d.ExecutiveMember).WithMany(p => p.EventcouponassignmentExecutiveMembers)
