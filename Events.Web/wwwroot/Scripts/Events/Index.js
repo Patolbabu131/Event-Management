@@ -204,7 +204,7 @@ function bindDatatable() {
             "bSearchable": true,
             "filter": true,
             "autoWidth": true,
-            "order": [[2, 'asc']],
+            "order": [[1, 'asc']],
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
@@ -216,11 +216,15 @@ function bindDatatable() {
                     "data": "eventName",
                 },
                 {
-                    "data": "eventDate",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
+                    "render": function (data, type, row, meta) {
+                      
+                                var date = new Date(row.eventDate);
+                                const year = date.getFullYear();
+                                const month = String(date.getMonth() + 1).padStart(2, '0');
+                                const day = String(date.getDate()).padStart(2, '0');
+                                const joined = [day, month, year].join('/');
+                                return joined;
+                            
                     }
                 },
                 {
@@ -236,7 +240,10 @@ function bindDatatable() {
                     }
                 },
                 {
-                    "data": "eventVenue",
+                    
+                    "render": function (data, type, row) {
+                        return row.eventVenue;
+                    }
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -264,7 +271,7 @@ $(document).ready(function () {
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
-                $("#addEventDate").datepicker();
+                $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yyyy' });
                 $('#addStartTime').timepicker({
                     timeFormat: 'HH:mm',
                     dynamic: true,
@@ -327,7 +334,7 @@ function edit_event(id) {
             $('#CreateContainer').html(resonce);
             $("#addEventModal").modal('show');
             $('.modal-title').text('Edit Event Details');
-            $("#addEventDate").datepicker();
+            $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yy' });
             $('#addStartTime').timepicker({
                 timeFormat: 'HH:mm',
                 dynamic: true,
@@ -365,14 +372,16 @@ function edit_event(id) {
             var now = new Date(resonce.eventDate);
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var today = now.getFullYear() + "/" + (month) + "/" + (day);
+            var today = (day) + "/" + (month) + "/" + now.getFullYear();
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
-            var strTime = start.getHours() + ':' + start.getMinutes();
-            var endtime = (end.getHours() || '00') + ':' + (end.getMinutes() || '00');
+            var strTime = String(start.getHours()).padStart(2, '0') + ':' + String(start.getMinutes()).padStart(2, '0');
 
-            $('#EventID').val(resonce.id);
+            var endtime = String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0');
+
+
+            $('#EventID').val(resonce.id);  
             $('#addEventName').val(resonce.eventName);
             $('#addEventDate').val(today);
             $('#addEventVenue').val(resonce.eventVenue);
@@ -383,19 +392,6 @@ function edit_event(id) {
     })
 }
 
-//function delete_event(id) {
-//    var confirmation = confirm("Are you sure to delete this Member...");
-//    if (confirmation) {
-//        $.ajax({
-//            type: "post",
-//            url: '/Events/DeteleEvent/' + id,
-//            success: function (resonce) {
-//                alert("Record Deleted Successfuly..");
-//                window.location.reload();
-//            }
-//        })
-//    }
-//}
 
 
 function delete_event(id) {
