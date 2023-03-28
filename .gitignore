@@ -403,3 +403,5 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+/Events.DomainObjects/bin/Debug/net6.0/Events.DomainObjects.dll
+/Events.DomainObjects/obj/Debug/net6.0/Events.DomainObjects.pdb
