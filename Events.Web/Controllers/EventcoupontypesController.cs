@@ -219,7 +219,7 @@ namespace Events.Web.Controllers
             else
             {
                 _context.Eventcoupontypes.Remove(eventcoupontype);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return Json("Coupon Deleted");
             }
           

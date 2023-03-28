@@ -216,18 +216,18 @@ function bindDatatable() {
                     "data": "eventName",
                 },
                 {
-                    "render": function (data, type, row, meta) {
-                      
+                    "data": "eventDate",
+                    "render": function (data, type, row, meta) {                      
                                 var date = new Date(row.eventDate);
                                 const year = date.getFullYear();
                                 const month = String(date.getMonth() + 1).padStart(2, '0');
                                 const day = String(date.getDate()).padStart(2, '0');
                                 const joined = [day, month, year].join('/');
-                                return joined;
-                            
+                                return joined;                            
                     }
                 },
                 {
+                    
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventStartTime);
                         return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
@@ -240,24 +240,23 @@ function bindDatatable() {
                     }
                 },
                 {
-                    
+                    "data": "eventVenue",
                     "render": function (data, type, row) {
-                        return row.eventVenue;
+                        return "<span> " + row.eventVenue.replaceAll("\n", "</br>") + "</span>";
                     }
                 },
                 {
-                    render: function (data, type, row, meta) {
+                    "render": function (data, type, row, meta) {
                         return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
                     }
                 },
                 {
-                    render: function (data, type, row, meta) {
+                    "render": function (data, type, row, meta) {
                         return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
                     }
                 },
             ]
         });
-
 }
 
 
@@ -439,8 +438,8 @@ function delete_event(id) {
 
                     })
                 },
-                No: function () {
-
+                No: function ()
+                {
                     $(this).dialog("close");
                 }
             }
