@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "3xO/kI9l5jq7i6RtU01B771hHHqULQH8WFX8IDm1EUIswuBZTgWA8bFBuGTGB6wlpXa3AGHysrvHI+Zn0Z8XsA==",
   "success": true,
   "projectFilePath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+=======
+  "dgSpecHash": "fTkSQ6lx3Z87uR/SuxCaQ2L0VfVEkFOo20U3QNOijNBvvsvex4nI2KVemWhu/CgLEiyukox0ns0rVq6mzFi03g==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+>>>>>>> origin/Deepti_Joshi
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
@@ -146,6 +152,15 @@
   ],
   "logs": [
     {
+<<<<<<< HEAD
+=======
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\HP\\source\\repos\\EventsPSV\\Events.DomainObjects\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
+    {
+>>>>>>> origin/Deepti_Joshi
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,

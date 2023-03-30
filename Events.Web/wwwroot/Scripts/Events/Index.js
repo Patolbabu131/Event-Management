@@ -148,9 +148,9 @@ function save_event() {
         }
     });
 
-    
+
     if ($('#formAddEvent').valid()) {
-                    
+
         CKEDITOR.instances.FoodMenu.updateElement();
         var descProduct = document.getElementById('FoodMenu').value;
 
@@ -168,8 +168,7 @@ function save_event() {
             type: "post",
             url: '/Events/CreateEvents',
             data: data,
-            success: function ConfirmDialog(message)
-            {                
+            success: function ConfirmDialog(message) {
                 $("#addEventModal").modal('hide');
                 $('#CreateContainer').appendTo('body')
                     .html('<div><h6>' + message + '</h6></div>')
@@ -180,24 +179,22 @@ function save_event() {
                         autoOpen: true,
                         width: 'auto',
                         icon: 'fa fa- close',
-                        click: function ()
-                        {
+                        click: function () {
                             $(this).dialog("close");
                         },
                         buttons: [
                             {
                                 text: "Ok",
                                 icon: "ui-icon-heart",
-                                click: function()
-                                {
+                                click: function () {
                                     $(this).dialog("close");
                                     window.location.reload();
                                 }
                             }
                         ]
-                    });                  
-            }             
-        })         
+                    });
+            }
+        })
     }
 }
 
@@ -211,7 +208,7 @@ function bindDatatable() {
             "bSearchable": true,
             "filter": true,
             "autoWidth": true,
-            "order": [[2, 'asc']],
+            "order": [[1, 'desc']],
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
@@ -224,13 +221,17 @@ function bindDatatable() {
                 },
                 {
                     "data": "eventDate",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.eventDate);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const joined = [day, month, year].join('/');
+                        return joined;
                     }
                 },
                 {
+
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventStartTime);
                         return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
@@ -257,10 +258,25 @@ function bindDatatable() {
                         return '<a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a>';
                     }
                 },
+                //{
+                //    "render": function (data, type, row, meta) {
+                //        return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                //    }
+                //},
+
                 {
                     "render": function (data, type, row, meta) {
-                        return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                        var drop = '<select name = "list" class="btnlist">'
+                        drop += '<option value = "">Action</option>'
+                        drop += '<option value = "/Eventsponsors/Index/' + row.id + '">Sponser</option>'
+                        drop += '<option value = "/Eventsponsorsimages/Index/' + row.id + '">Sponsors Images</option>'
+                        drop += '<option value = "/Eventcouponassignments/Index/' + row.id + '">Coupon</option>'
+                        drop += '<option value = "/Eventcoupontypes/Index/' + row.id + '">Coupon Type</option>'
+                        drop += '<option value = "/Eventattendees/Index/' + row.id + '">Attendees</option>'
+                        drop += '<option value = "/Eventexpenses/Index/' + row.id + '">Expenses</option></select>'
+                        return drop;
                     }
+
                 },
                 
             ]
@@ -268,9 +284,9 @@ function bindDatatable() {
 }
 
 
-
 $(document).ready(function () {
-     
+
+
     $('#create_event').click(function () {
 
         $.ajax({
@@ -279,7 +295,7 @@ $(document).ready(function () {
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
-                $("#addEventDate").datepicker();
+                $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yyyy' });
                 $('#addStartTime').timepicker({
                     timeFormat: 'HH:mm',
                     dynamic: true,
@@ -294,7 +310,7 @@ $(document).ready(function () {
                 });
                 CKEDITOR.replace('FoodMenu', {
                     toolbar: [
-                     
+
                         { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
                         { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
                         { name: 'links', items: ['Link', 'Anchor'] },
@@ -307,12 +323,21 @@ $(document).ready(function () {
                 });
             }
         })
-       
+
     });
     bindDatatable();
- 
+
+    //$(".btnlist").change(function () {
+    //    window.location.href = $(this).val();
+    //});
+
     setInterval(function () {
         $(".ui-timepicker-container").css("z-index", "33442");
+
+        $(".btnlist").change(function () {
+            window.location.href = $(this).val();
+        });
+
     }, 100);
 
     $('#selectEl').change(function () {
@@ -320,7 +345,18 @@ $(document).ready(function () {
         window.location = $(this).val();
     });
 
+
+
+
+
+
+
 });
+
+
+
+
+
 
 function details_event(id) {
     $.ajax({
@@ -342,7 +378,7 @@ function edit_event(id) {
             $('#CreateContainer').html(resonce);
             $("#addEventModal").modal('show');
             $('.modal-title').text('Edit Event Details');
-            $("#addEventDate").datepicker();
+            $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yy' });
             $('#addStartTime').timepicker({
                 timeFormat: 'HH:mm',
                 dynamic: true,
@@ -380,12 +416,14 @@ function edit_event(id) {
             var now = new Date(resonce.eventDate);
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var today = now.getFullYear() + "/" + (month) + "/" + (day);
+            var today = (day) + "/" + (month) + "/" + now.getFullYear();
 
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
-            var strTime = start.getHours() + ':' + start.getMinutes();
-            var endtime = (end.getHours() || '00') + ':' + (end.getMinutes() || '00');
+            var strTime = String(start.getHours()).padStart(2, '0') + ':' + String(start.getMinutes()).padStart(2, '0');
+
+            var endtime = String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0');
+
 
             $('#EventID').val(resonce.id);
             $('#addEventName').val(resonce.eventName);
@@ -447,9 +485,13 @@ function delete_event(id) {
                     })
                 },
                 No: function () {
-
                     $(this).dialog("close");
                 }
             }
         });
 }
+
+
+$(function () {
+    $("#Pages").selectmenu();
+});

@@ -98,28 +98,6 @@ function save_image() {
 
 
 
-function Edit_i(id) {
-    $.ajax({
-        url: '/Eventsponsorsimages/Edit1',
-        success: function (resonce) {
-            $('#image').html(resonce);
-            $("#Editimage").modal('show');
-
-            $.ajax({
-                type:"get",
-                url: '/Eventsponsorsimages/Edit/' + id,
-                success: function (resonce) {
-                    $("#Id").val(resonce.id);
-                    $("#EventId").val(resonce.eventId);
-                    $("#simage").attr('src', resonce.sponsorImage);
-                }
-            })
-        }
-    })
-}
-
-
-
 function Delete(id) {
     $('#image').appendTo('body')
         .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')

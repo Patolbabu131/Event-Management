@@ -27,22 +27,14 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CouponPrice" class="control-label"></label>
-                    <input class="form-control" type="text" id="CouponPrice" name="CouponPrice" />                    
+                    <input class="form-control" type="number" id="CouponPrice" name="CouponPrice" />                    
                     <span asp-validation-for="CouponPrice" class="text-danger"></span>
                 </div><br>
                 <div class="form-group">
                         <label class="form-label">Is Active?</label>
                         <input type="checkbox" id="Active" value=""/>
                 </div>
-                <div class="form-group" hidden>
-                    <label asp-for="CreatedBy" class="control-label" ></label>
-                    <select asp-for="CreatedBy" id="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
-                </div>
-                <div class="form-group" hidden>
-                    <label asp-for="CreatedOn" class="control-label"></label>
-                    <input type="date" id="CreatedOn" value="" class="form-control" />
-                    <span asp-validation-for="CreatedOn" class="text-danger"></span>
-                </div>
+  
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                         <button type="button" onclick="save_ctype()" class="btn btn-primary">Save</button>
