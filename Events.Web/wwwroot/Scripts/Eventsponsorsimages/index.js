@@ -15,14 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id",
-
-                },
-                {
-                    "data": "eventId",
-
-                },
-                {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
                         return '<img src="/Files/'+row.sponsorImage+'" width="300px">';
@@ -35,8 +27,6 @@
                 }
             ]
         });
-
-
 }
 
 

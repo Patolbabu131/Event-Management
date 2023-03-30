@@ -34,6 +34,9 @@ public partial class Event
     public DateTime EventEndTime { get; set; }
     [DisplayFormat(DataFormatString = "{0:yyyy}")]
     //[Required(ErrorMessage = "Eventg End Time is required...")]
+    
+    [DisplayName("Event Status")]
+    public string EventStatus { get; set; } = null!;
 
     [DisplayName("Event Year")]
     public DateTime EventYear { get; set; }

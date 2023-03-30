@@ -122,6 +122,9 @@ function save_event() {
             addEndTime: {
                 required: true
             },
+            eventStatus: {
+                required: true
+            },
         },
         messages: {
             addEventName: {
@@ -139,6 +142,9 @@ function save_event() {
             addEndTime: {
                 required: "End Time is a required field!!!"
             },
+            eventStatus: {
+                required: "Event Status is a required field!!!"
+            },
         }
     });
 
@@ -155,7 +161,8 @@ function save_event() {
             EventVenue: $("#addEventVenue").val(),
             EventStartTime: $("#addStartTime").val(),
             EventEndTime: $("#addEndTime").val(),
-            FoodMenu: descProduct
+            EventStatus: $("#eventStatus").val(),
+            FoodMenu:descProduct
         }
         $.ajax({
             type: "post",
@@ -236,6 +243,7 @@ function bindDatatable() {
                         return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
+
                 {
                     "data": "eventVenue",
                     "render": function (data, type, row, meta) {
@@ -243,8 +251,11 @@ function bindDatatable() {
                     }
                 },
                 {
+                    "data": "eventStatus",
+                },
+                {
                     "render": function (data, type, row, meta) {
-                        return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
+                        return '<a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a>';
                     }
                 },
                 //{
@@ -267,6 +278,7 @@ function bindDatatable() {
                     }
 
                 },
+                
             ]
         });
 }
@@ -419,6 +431,7 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
+            $('#eventStatus').val(resonce.eventStatus);
             $('#FoodMenu').val(resonce.foodMenu);
         }
     })
