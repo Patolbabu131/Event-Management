@@ -24,32 +24,6 @@
                     "data": "amountSponsored",
                 },
                 {
-<<<<<<< HEAD
-=======
-                 
-                    "data": "createdOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-                },
-                {
-                    "data": "createdBy",
-                },
-                {
-                    "data": "modifiedBy",
-                },
-                {
-                    "data": "modifiedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
-                    }
-                },
-                {
->>>>>>> origin/rujal
                     render: function (data, type, row, meta) {
                         return ' <a class="btn btn-info" onclick="edit_sponsors(' + row.id + ')" >Edit</a> | <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
@@ -70,7 +44,6 @@ function create_sponsors(id) {
     })
 }
 
-/*---Deepti---*/
 
 function save_Sponsors() {
 
@@ -81,7 +54,6 @@ function save_Sponsors() {
                 maxlength: 200
             },
             SponsorOrganization: {
-<<<<<<< HEAD
                 required: true,
                 maxlength: 200
             },

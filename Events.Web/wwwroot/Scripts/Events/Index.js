@@ -122,6 +122,9 @@ function save_event() {
             addEndTime: {
                 required: true
             },
+            eventStatus: {
+                required: true
+            },
         },
         messages: {
             addEventName: {
@@ -139,6 +142,9 @@ function save_event() {
             addEndTime: {
                 required: "End Time is a required field!!!"
             },
+            eventStatus: {
+                required: "Event Status is a required field!!!"
+            },
         }
     });
 
@@ -155,6 +161,7 @@ function save_event() {
             EventVenue: $("#addEventVenue").val(),
             EventStartTime: $("#addStartTime").val(),
             EventEndTime: $("#addEndTime").val(),
+            EventStatus: $("#eventStatus").val(),
             FoodMenu:descProduct
         }
         $.ajax({
@@ -211,7 +218,7 @@ function bindDatatable() {
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
-               
+
                 {
                     "data": "eventName",
                 },
@@ -232,25 +239,32 @@ function bindDatatable() {
                 {
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventEndTime)
-                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() +":"+(Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
+                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
+
                 {
                     "data": "eventVenue",
-                },
-                {
-                    render: function (data, type, row, meta) {
-                        return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
+                    "render": function (data, type, row, meta) {
+                        return "<span> " + row.eventVenue.replaceAll("\n", "</br>") + "</span>";
                     }
                 },
                 {
-                    render: function (data, type, row, meta) {
+                    "data": "eventStatus",
+                },
+                {
+                    "render": function (data, type, row, meta) {
+                        return '<a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a>';
+                    }
+                },
+                {
+                    "render": function (data, type, row, meta) {
                         return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
                     }
                 },
+                
             ]
         });
-
 }
 
 
@@ -379,27 +393,15 @@ function edit_event(id) {
             $('#addEventVenue').val(resonce.eventVenue);
             $('#addStartTime').val(strTime);
             $('#addEndTime').val(endtime);
+            $('#eventStatus').val(resonce.eventStatus);
             $('#FoodMenu').val(resonce.foodMenu);
         }
     })
 }
 
-//function delete_event(id) {
-//    var confirmation = confirm("Are you sure to delete this Member...");
-//    if (confirmation) {
-//        $.ajax({
-//            type: "post",
-//            url: '/Events/DeteleEvent/' + id,
-//            success: function (resonce) {
-//                alert("Record Deleted Successfuly..");
-//                window.location.reload();
-//            }
-//        })
-//    }
-//}
 
 
-function Delete(id) {
+function delete_event(id) {
     $('#CreateContainer').appendTo('body')
         .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
         .dialog({

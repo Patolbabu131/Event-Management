@@ -15,14 +15,6 @@
             },
             "columns": [
                 {
-                    "data": "id",
-
-                },
-                {
-                    "data": "eventId",
-
-                },
-                {
                     "data": 'sponsorImage',
                     "render": function (data, type, row, meta) {
                         return '<img src="/Files/'+row.sponsorImage+'" width="300px">';
@@ -35,8 +27,6 @@
                 }
             ]
         });
-
-
 }
 
 
@@ -77,7 +67,7 @@ function save_image() {
         processData: false,
         contentType: false,
         success: function ConfirmDialog(message) {
-            $("#Editimage").modal('hide');
+            $("#addimage").modal('hide');
             $('#image').appendTo('body')
                 .html('<div><h6>' + message + '</h6></div>')
                 .dialog({
