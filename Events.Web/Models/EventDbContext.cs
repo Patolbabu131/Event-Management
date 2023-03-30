@@ -31,7 +31,7 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Executivemember> Executivemembers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=85.27.134.10;user id=sql307.ezyro.com                                                          ;Password=s7ofcadukdbv;database=ezyro_33796038_event_db;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
