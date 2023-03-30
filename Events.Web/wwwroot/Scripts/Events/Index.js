@@ -142,9 +142,9 @@ function save_event() {
         }
     });
 
-    
+
     if ($('#formAddEvent').valid()) {
-                    
+
         CKEDITOR.instances.FoodMenu.updateElement();
         var descProduct = document.getElementById('FoodMenu').value;
 
@@ -155,14 +155,13 @@ function save_event() {
             EventVenue: $("#addEventVenue").val(),
             EventStartTime: $("#addStartTime").val(),
             EventEndTime: $("#addEndTime").val(),
-            FoodMenu:descProduct
+            FoodMenu: descProduct
         }
         $.ajax({
             type: "post",
             url: '/Events/CreateEvents',
             data: data,
-            success: function ConfirmDialog(message)
-            {                
+            success: function ConfirmDialog(message) {
                 $("#addEventModal").modal('hide');
                 $('#CreateContainer').appendTo('body')
                     .html('<div><h6>' + message + '</h6></div>')
@@ -173,24 +172,22 @@ function save_event() {
                         autoOpen: true,
                         width: 'auto',
                         icon: 'fa fa- close',
-                        click: function ()
-                        {
+                        click: function () {
                             $(this).dialog("close");
                         },
                         buttons: [
                             {
                                 text: "Ok",
                                 icon: "ui-icon-heart",
-                                click: function()
-                                {
+                                click: function () {
                                     $(this).dialog("close");
                                     window.location.reload();
                                 }
                             }
                         ]
-                    });                  
-            }             
-        })         
+                    });
+            }
+        })
     }
 }
 
@@ -204,30 +201,30 @@ function bindDatatable() {
             "bSearchable": true,
             "filter": true,
             "autoWidth": true,
-            "order": [[1, 'asc']],
+            "order": [[1, 'desc']],
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
                     '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
-               
+
                 {
                     "data": "eventName",
                 },
                 {
                     "data": "eventDate",
-                    "render": function (data, type, row, meta) {                      
-                                var date = new Date(row.eventDate);
-                                const year = date.getFullYear();
-                                const month = String(date.getMonth() + 1).padStart(2, '0');
-                                const day = String(date.getDate()).padStart(2, '0');
-                                const joined = [day, month, year].join('/');
-                                return joined;                            
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.eventDate);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const joined = [day, month, year].join('/');
+                        return joined;
                     }
                 },
                 {
-                    
+
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventStartTime);
                         return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
@@ -236,12 +233,12 @@ function bindDatatable() {
                 {
                     "render": function (data, type, row, meta) {
                         var Time = new Date(row.eventEndTime)
-                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() +":"+(Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
+                        return (Time.getHours() < 10 ? '0' : '') + Time.getHours() + ":" + (Time.getMinutes() < 10 ? '0' : '') + Time.getMinutes();
                     }
                 },
                 {
                     "data": "eventVenue",
-                    "render": function (data, type, row) {
+                    "render": function (data, type, row, meta) {
                         return "<span> " + row.eventVenue.replaceAll("\n", "</br>") + "</span>";
                     }
                 },
@@ -250,10 +247,25 @@ function bindDatatable() {
                         return ' <table><tr><td> <a class="btn btn-primary" onclick="details_event(' + row.id + ')" >Details</a></td></tr>  <tr><th> <a class="btn btn-info" onclick="edit_event(' + row.id + ')" >Edit</a></th></tr>  <tr><th> <a class="btn btn-danger" onclick="delete_event(' + row.id + ')" >Delete</a></th></tr></table>';
                     }
                 },
+                //{
+                //    "render": function (data, type, row, meta) {
+                //        return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                //    }
+                //},
+
                 {
                     "render": function (data, type, row, meta) {
-                        return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                        var drop = '<select name = "list" class="btnlist">'
+                        drop += '<option value = "">Action</option>'
+                        drop += '<option value = "/Eventsponsors/Index/' + row.id + '">Sponser</option>'
+                        drop += '<option value = "/Eventsponsorsimages/Index/' + row.id + '">Sponsors Images</option>'
+                        drop += '<option value = "/Eventcouponassignments/Index/' + row.id + '">Coupon</option>'
+                        drop += '<option value = "/Eventcoupontypes/Index/' + row.id + '">Coupon Type</option>'
+                        drop += '<option value = "/Eventattendees/Index/' + row.id + '">Attendees</option>'
+                        drop += '<option value = "/Eventexpenses/Index/' + row.id + '">Expenses</option></select>'
+                        return drop;
                     }
+
                 },
             ]
         });
@@ -261,7 +273,8 @@ function bindDatatable() {
 
 
 $(document).ready(function () {
-     
+
+
     $('#create_event').click(function () {
 
         $.ajax({
@@ -285,7 +298,7 @@ $(document).ready(function () {
                 });
                 CKEDITOR.replace('FoodMenu', {
                     toolbar: [
-                     
+
                         { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
                         { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
                         { name: 'links', items: ['Link', 'Anchor'] },
@@ -298,12 +311,21 @@ $(document).ready(function () {
                 });
             }
         })
-       
+
     });
     bindDatatable();
- 
+
+    //$(".btnlist").change(function () {
+    //    window.location.href = $(this).val();
+    //});
+
     setInterval(function () {
         $(".ui-timepicker-container").css("z-index", "33442");
+
+        $(".btnlist").change(function () {
+            window.location.href = $(this).val();
+        });
+
     }, 100);
 
     $('#selectEl').change(function () {
@@ -311,7 +333,18 @@ $(document).ready(function () {
         window.location = $(this).val();
     });
 
+
+
+
+
+
+
 });
+
+
+
+
+
 
 function details_event(id) {
     $.ajax({
@@ -380,7 +413,7 @@ function edit_event(id) {
             var endtime = String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0');
 
 
-            $('#EventID').val(resonce.id);  
+            $('#EventID').val(resonce.id);
             $('#addEventName').val(resonce.eventName);
             $('#addEventDate').val(today);
             $('#addEventVenue').val(resonce.eventVenue);
@@ -438,10 +471,14 @@ function delete_event(id) {
 
                     })
                 },
-                No: function ()
-                {
+                No: function () {
                     $(this).dialog("close");
                 }
             }
         });
 }
+
+
+$(function () {
+    $("#Pages").selectmenu();
+});

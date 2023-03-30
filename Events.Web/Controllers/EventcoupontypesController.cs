@@ -39,8 +39,6 @@ namespace Events.Web.Controllers
 
         public ActionResult Getctype(JqueryDatatableParam param, Int64 Id)
         {
-
-
             IEnumerable<dynamic> Ctype = null;
             if (Id == null || Id == 0)
             {
@@ -82,8 +80,6 @@ namespace Events.Web.Controllers
                 aaData = displayResult
             });
         }
-
-
 
         // GET: Eventcoupontypes/Details/5
         public async Task<IActionResult> Details(long? id)
@@ -140,10 +136,7 @@ namespace Events.Web.Controllers
             }
             else
             {
-
-
                 var Coupontype = _context.Eventcoupontypes.Where(m => m.Id == eventcoupontype.Id).FirstOrDefault();
-
 
                     Coupontype.CouponName = eventcoupontype.CouponName;
                     Coupontype.CouponPrice = eventcoupontype.CouponPrice;
@@ -158,7 +151,7 @@ namespace Events.Web.Controllers
             }
        
             
-            }
+        }
 
         // GET: Eventcoupontypes/Edit/5
         public async Task<IActionResult> Edit(long? id)
@@ -223,7 +216,23 @@ namespace Events.Web.Controllers
                 return Json("Coupon Deleted");
             }
           
-        } 
+        }
+
+        public async Task<IActionResult> DeleteConfirmed(long id)
+        {
+            if (_context.Eventcoupontypes == null)
+            {
+                return Problem("Entity set 'EventDbContext.Eventattendees'  is null.");
+            }
+            var eventattendee = await _context.Eventattendees.FindAsync(id);
+            if (eventattendee != null)
+            {
+                _context.Eventattendees.Remove(eventattendee);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
 
         private bool EventcoupontypeExists(long id)
