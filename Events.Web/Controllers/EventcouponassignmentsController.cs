@@ -150,6 +150,7 @@ namespace Events.Web.Controllers
                 var member = _context.Eventcouponassignments.Where(m => m.Id == eventcouponassignment.Id).FirstOrDefault();
 
                 member.ExecutiveMemberId = Convert.ToInt64(mid);
+                member.CouponTypeId = eventcouponassignment.CouponTypeId;
                 member.CouponsFrom = eventcouponassignment.CouponsFrom;
                 member.CouponsTo = eventcouponassignment.CouponsTo;
                 member.TotalCoupons = eventcouponassignment.TotalCoupons;
