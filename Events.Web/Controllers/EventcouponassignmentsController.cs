@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
+using Org.BouncyCastle.Asn1.X500;
+using System.Collections;
 
 
 namespace Events.Web.Controllers
@@ -109,8 +111,9 @@ namespace Events.Web.Controllers
         public IActionResult CreateCAssign(Int64 id)
         {
             ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "CouponName");
             ViewBag.eid = id;
-            ViewData["ExecutiveMemberId"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["ExecutiveMemberId"] = new SelectList(_context.Executivemembers, "Id", "FullName");
             ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
             return PartialView("Create");
         }
@@ -120,14 +123,15 @@ namespace Events.Web.Controllers
             string mid = cd.HttpContext.Session.GetString("MID");
             if (eventcouponassignment.Id == null || eventcouponassignment.Id == 0)
             {
-
+               
                 var member = new Eventcouponassignment()
                 {
                     EventId = eventcouponassignment.EventId,
-                    ExecutiveMemberId = Convert.ToInt64(mid),
+                    CouponTypeId=eventcouponassignment.CouponTypeId,
+                    ExecutiveMemberId = eventcouponassignment.ExecutiveMemberId,
                     CouponsFrom = eventcouponassignment.CouponsFrom,
                     CouponsTo = eventcouponassignment.CouponsTo,
-                    TotalCoupons = eventcouponassignment.TotalCoupons,
+                    TotalCoupons =eventcouponassignment.TotalCoupons,
                     CreatedOn = DateTime.Now,
                     CreatedBy = Convert.ToInt64(mid),
                     ModifiedBy = Convert.ToInt64(mid),

@@ -26,27 +26,29 @@
     }
 </style>
 <body onload="functionToCall(@id)">
-    <div class="box">
-        <div class="row">
-            <div class="col">
-                <div class="leftside"> 
-                    EventName:@ViewBag.VBFriend.EventName
-                    <br />
-                    EventDate:@ViewBag.VBFriend.EventDate
-                    <br />
-                    EventStartTime:@ViewBag.VBFriend.EventStartTime|EventEndTime:@ViewBag.VBFriend.EventEndTime
+        <div class="card">
+            <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="leftside"> 
+                        EventName:@ViewBag.VBFriend.EventName
+                        <br />
+                        EventDate:@ViewBag.VBFriend.EventDate
+                        <br />
+                        EventStartTime:@ViewBag.VBFriend.EventStartTime|EventEndTime:@ViewBag.VBFriend.EventEndTime
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <hr width="1" size="75" style="0 auto" />
+                </div>
+                <div class="col">
+                    <div class="rightside">
+                        EventVenue:@ViewBag.VBFriend.EventVenue
+                    </div>
                 </div>
             </div>
-            <div class="col-md-1">
-                <hr width="1" size="200" style="0 auto" />
-            </div>
-            <div class="col">
-                <div class="rightside">
-                    EventVenue:@ViewBag.VBFriend.EventVenue
-                </div>
             </div>
         </div>
-    </div>
 
 
 

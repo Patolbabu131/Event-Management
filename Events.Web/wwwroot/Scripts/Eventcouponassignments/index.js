@@ -56,10 +56,6 @@ function save_Cassign() {
                 required: true,
                 number: true
             },
-            TotalCoupons: {
-                required: true,
-                number: true
-            },
         },
         messages: {
             CouponsFrom: {
@@ -70,22 +66,22 @@ function save_Cassign() {
                 required: " Please enter Coupons To ",
                 number: "Invalid input"
             },
-            TotalCoupons: {
-                required: " Please enter Total Coupons",
-                number: "Invalid input"
-            }
             
         },
     });
     if ($('#CAssignform').valid())
     {
+
+          
         var data = {
             Id: $("#Cassignid").val(),
             EventId: $("#EventId").val(),
+            CouponTypeId: $("#CouponTypeId").val(),
             ExecutiveMemberId: $("#ExecutiveMemberId").val(),
             CouponsFrom: $("#CouponsFrom").val(),
             CouponsTo: $("#CouponsTo").val(),
-            TotalCoupons: $("#TotalCoupons").val(),
+          
+         
         }
         $.ajax({
             type: "post",
@@ -140,7 +136,7 @@ function edit_cassign(id) {
                     $("#ExecutiveMemberId").val(resonce.executiveMemberId);
                     $("#CouponsFrom").val(resonce.couponsFrom);
                     $("#CouponsTo").val(resonce.couponsTo);
-                    $("#TotalCoupons").val(resonce.totalCoupons);
+                    
                 }
             })
         }
