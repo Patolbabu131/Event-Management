@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Events.DomainObjects
-build_property.ProjectDir = C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\
+build_property.ProjectDir = C:\Users\HP\source\repos\Event\Events.DomainObjects\

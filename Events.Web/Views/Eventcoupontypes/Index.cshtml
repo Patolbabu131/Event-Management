@@ -25,9 +25,13 @@
             border: 2px solid black;
             padding: 10px;
         }
+        .color{
+        color: black;
+        }
     </style>
 <body onload="LoadCtypetable(@id)">
-    <div class="box">
+    <div class="card">
+        <div class="card-body">
         <div class="row">
             <div class="col">
                 <div class="leftside">
@@ -39,13 +43,14 @@
                 </div>
             </div>
             <div class="col-md-1">
-                <hr width="1" size="200" style="0 auto" />
+                <hr width="1" size="70" style="0 auto" />
             </div>
             <div class="col">
                 <div class="rightside">
                     EventVenue:@ViewBag.VBFriend.EventVenue
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <div id="Ctype"></div>
