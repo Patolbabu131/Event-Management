@@ -55,6 +55,7 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.EventDate).HasColumnType("datetime");
             entity.Property(e => e.EventEndTime).HasColumnType("datetime");
             entity.Property(e => e.EventName).HasMaxLength(100);
+            entity.Property(e => e.EventStatus).HasMaxLength(100);
             entity.Property(e => e.EventStartTime).HasColumnType("datetime");
             entity.Property(e => e.EventVenue).HasMaxLength(500);
             entity.Property(e => e.EventYear).HasColumnType("date");
@@ -202,6 +203,7 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignments_ibfk_4");
+
         });
 
         modelBuilder.Entity<Eventcoupontype>(entity =>

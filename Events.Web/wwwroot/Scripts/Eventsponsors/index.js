@@ -44,7 +44,6 @@ function create_sponsors(id) {
     })
 }
 
-/*---Deepti---*/
 
 function save_Sponsors() {
 

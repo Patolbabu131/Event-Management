@@ -54,7 +54,7 @@ public partial class Eventattendee
     public DateTime? ModifiedOn { get; set; }
 
     [DisplayName("Mode Of Payment")]
-    public string? ModeOfPayment { get; set; }
+    public ModeOfPayment ModeOfPayment { get; set; }
 
     public virtual Eventcoupontype CouponType { get; set; } = null!;
    
@@ -68,4 +68,14 @@ public partial class Eventattendee
     public virtual Eventattendee? InvitedByNavigation { get; set; }
 
     public virtual Executivemember? ModifiedByNavigation { get; set; }
+}
+
+public enum ModeOfPayment
+{
+    UPI = 1,
+    NetBanking = 2,
+    Cash=3,
+        Cards =4,
+
+
 }

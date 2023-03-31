@@ -23,7 +23,7 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventattendees
-        public ActionResult Index(Int64 Id)
+        public async Task<IActionResult> Index(Int64 Id)
         {
 
             if (Id == null || Id == 0)
@@ -41,7 +41,7 @@ namespace Events.Web.Controllers
 
         public ActionResult GetEventattendees(JqueryDatatableParam param, Int64 Id)
         {
-            var list = _context.Eventattendees.ToList();
+           // var list = _context.Eventattendees.ToList();
             IEnumerable<dynamic> eventattendees = null;
             if (Id == null || Id == 0)
             {
@@ -50,7 +50,7 @@ namespace Events.Web.Controllers
             else
             {
                 eventattendees = _context.Eventattendees.Where(m => m.EventId == Id);
-            }
+            }                                               
 
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
@@ -60,7 +60,6 @@ namespace Events.Web.Controllers
                                               || x.CouponsPurchased.ToString().Contains(param.sSearch.ToLower())
                                               || x.PurchasedOn.ToString().Contains(param.sSearch.ToLower())
                                               || x.TotalAmount.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModeOfPayment.ToString().Contains(param.sSearch.ToLower())
                                               || x.RemainingCoupons.ToString().Contains(param.sSearch.ToLower())
                                               || x.Remarks.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
@@ -86,20 +85,18 @@ namespace Events.Web.Controllers
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.TotalAmount).ToList() : eventattendees.OrderByDescending(c => c.TotalAmount).ToList();
             }
+            //else if (param.iSortCol_0 == 5)
+            //{
+            //    eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
+            //}
             else if (param.iSortCol_0 == 5)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.RemainingCoupons).ToList() : eventattendees.OrderByDescending(c => c.RemainingCoupons).ToList();
             }
-            else if (param.iSortCol_0 == 7)
+            else if (param.iSortCol_0 == 6)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
             }
-
-
 
             //TotalRecords
             var displayResult = eventattendees.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
@@ -112,8 +109,6 @@ namespace Events.Web.Controllers
                 aaData = displayResult
             });
         }
-
-
 
         // GET: Eventattendees/Details/5
         public async Task<IActionResult> Details(long? id)
@@ -138,7 +133,7 @@ namespace Events.Web.Controllers
             return View(eventattendee);
         }
 
-    
+       
         public IActionResult CreateEdit(Int64 id)
         {
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == id && c.Active==true), "Id", "CouponName");
@@ -291,7 +286,7 @@ namespace Events.Web.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+          
         private bool EventattendeeExists(long id)
         {
           return _context.Eventattendees.Any(e => e.Id == id);

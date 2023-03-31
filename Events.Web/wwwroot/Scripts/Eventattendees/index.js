@@ -38,9 +38,6 @@ function functionToCall(id) {
                     "data": "totalAmount",
                 },
 
-                {
-                    "data": "modeOfPayment"
-                },
 
                 {
                     "data": "remainingCoupons"

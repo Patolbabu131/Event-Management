@@ -3680,7 +3680,8 @@ function adoptValue( value, resolve, reject, noValue ) {
 	} catch ( value ) {
 
 		// Support: Android 4.0 only
-		// Strict mode functions invoked without .call/.apply get global-object context
+		// Strict 
+ functions invoked without .call/.apply get global-object context
 		reject.apply( undefined, [ value ] );
 	}
 }
