@@ -121,7 +121,6 @@ function save_Attendee() {
             },
             Remarks:{
                  required: true,
-                 number: true
             },
 
         },

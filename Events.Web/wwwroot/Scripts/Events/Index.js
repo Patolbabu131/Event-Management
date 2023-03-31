@@ -153,8 +153,16 @@ function bindDatatable() {
                     }
                 },
                 {
-                    render: function (data, type, row, meta) {
-                        return '<table><tr><td> <a class="btn btn-primary"  href="/Eventsponsors/Index/' + row.id + '"  >Sponsors</a> </td><td> <a class="btn btn-primary"   href="/Eventsponsorsimages/Index/' + row.id + '"   >Sponsors Images</a> </td></tr><tr><th> <a class="btn btn-primary"  href="/Eventcouponassignments/Index/' + row.id + '"  >Coupon</a> </th><td> <a class="btn btn-primary"  href="/Eventcoupontypes/Index/' + row.id + '" >Coupon Type</a> </td></tr><tr><th> <a class="btn btn-primary"   href="/Eventattendees/Index/' + row.id + '" >Attendees</a> </th><td> <a class="btn btn-primary" href="/Eventexpenses/Index/' + row.id + '" >Expenses</a> </td></tr></table>';
+                    "render": function (data, type, row, meta) {
+                        var drop = '<select  name = "list" class="btnlist">'
+                        drop += '<option value = "">Action</option>'
+                        drop += '<option value = "/Eventsponsors/Index/' + row.id + '">Sponser</option>'
+                        drop += '<option value = "/Eventsponsorsimages/Index/' + row.id + '">Sponsors Images</option>'
+                        drop += '<option value = "/Eventcouponassignments/Index/' + row.id + '">Coupon</option>'
+                        drop += '<option value = "/Eventcoupontypes/Index/' + row.id + '">Coupon Type</option>'
+                        drop += '<option value = "/Eventattendees/Index/' + row.id + '">Attendees</option>'
+                        drop += '<option value = "/Eventexpenses/Index/' + row.id + '">Expenses</option></select>'
+                        return drop;
                     }
                 },
             ]

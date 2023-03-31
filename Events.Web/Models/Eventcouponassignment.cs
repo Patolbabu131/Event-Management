@@ -36,6 +36,9 @@ public partial class Eventcouponassignment
     [DisplayName("Modified On")]
     public DateTime? ModifiedOn { get; set; }
 
+    [DisplayName("Coupon Type ID")]
+    public long CouponTypeID { get; set; }
+
     public virtual Executivemember CreatedByNavigation { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
@@ -43,4 +46,7 @@ public partial class Eventcouponassignment
     public virtual Executivemember ExecutiveMember { get; set; } = null!;
 
     public virtual Executivemember? ModifiedByNavigation { get; set; }
+
+    public virtual Eventcoupontype CouponType { get; set; } = null!;
+
 }
