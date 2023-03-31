@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 C:\Projects\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.deps.json
 C:\Projects\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.runtimeconfig.json
 C:\Projects\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.dll
@@ -14,52 +12,3 @@ C:\Projects\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\refint\Events.Domain
 C:\Projects\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.pdb
 C:\Projects\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.genruntimeconfig.cache
 C:\Projects\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\ref\Events.DomainObjects.dll
-=======
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.deps.json
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.runtimeconfig.json
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.dll
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.pdb
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.csproj.AssemblyReference.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.AssemblyInfoInputs.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.AssemblyInfo.cs
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.csproj.CoreCompileInputs.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.dll
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\refint\Events.DomainObjects.dll
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.pdb
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.genruntimeconfig.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\ref\Events.DomainObjects.dll
-=======
->>>>>>> origin/rujal
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.deps.json
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.runtimeconfig.json
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.dll
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.pdb
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.csproj.AssemblyReference.cache
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.AssemblyInfoInputs.cache
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.AssemblyInfo.cs
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.csproj.CoreCompileInputs.cache
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.dll
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\refint\Events.DomainObjects.dll
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.pdb
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.genruntimeconfig.cache
-C:\Users\HP\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\ref\Events.DomainObjects.dll
-<<<<<<< HEAD
->>>>>>> origin/Deepti_Joshi
-=======
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.deps.json
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.runtimeconfig.json
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.dll
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\bin\Debug\net6.0\Events.DomainObjects.pdb
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.csproj.AssemblyReference.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.AssemblyInfoInputs.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.AssemblyInfo.cs
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.csproj.CoreCompileInputs.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.dll
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\refint\Events.DomainObjects.dll
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.pdb
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\Events.DomainObjects.genruntimeconfig.cache
-C:\Users\admin\source\repos\EventsPSV\Events.DomainObjects\obj\Debug\net6.0\ref\Events.DomainObjects.dll
->>>>>>> origin/rujal

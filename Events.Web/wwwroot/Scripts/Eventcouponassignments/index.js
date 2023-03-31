@@ -2,7 +2,7 @@
     datatable = $('#Cassignmenttable')
         .DataTable
         ({
-            "sAjaxSource": "/Eventcouponassignments/GetCAssign/"+id,
+            "sAjaxSource": "/Eventcouponassignments/GetCAssign/" + id,
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
@@ -36,7 +36,7 @@
 function create_cassign(id) {
     $.ajax({
         type: "get",
-        url: '/Eventcouponassignments/CreateCAssign/'+id,
+        url: '/Eventcouponassignments/CreateCAssign/' + id,
         success: function (resonce) {
             $('#Cassign').html(resonce);
             $("#addCAssign").modal('show');
@@ -47,7 +47,7 @@ function create_cassign(id) {
 function save_Cassign() {
     $("#CAssignform").validate({
         rules: {
-            
+
             CouponsFrom: {
                 required: true,
                 number: true
@@ -74,11 +74,10 @@ function save_Cassign() {
                 required: " Please enter Total Coupons",
                 number: "Invalid input"
             }
-            
+
         },
     });
-    if ($('#CAssignform').valid())
-    {
+    if ($('#CAssignform').valid()) {
         var data = {
             Id: $("#Cassignid").val(),
             EventId: $("#EventId").val(),
@@ -116,16 +115,16 @@ function save_Cassign() {
                             }
                         ]
                     });
-            }             
+            }
         })
-    }    
+    }
 }
 
 
 function edit_cassign(id) {
     $.ajax({
         type: "get",
-        url: '/Eventcouponassignments/CreateCAssign' ,
+        url: '/Eventcouponassignments/CreateCAssign',
         success: function (resonce) {
             $('#Cassign').html(resonce);
             $("#addCAssign").modal('show');
@@ -200,3 +199,20 @@ function Delete(id) {
             }
         });
 }
+
+
+
+function myFunction(val) {
+    var from = $("#CouponsFrom").val();
+    var toval = $("#CouponsTo").val();
+    debugger
+    if (from < toval) {
+        var totlvl = toval - from + 1;
+        $("#TotalCoupons").val(totlvl);
+    }
+    else if (from && toval > 0 ) {
+
+        alert("Coupon From number Should be smaller than Coupon To");
+    }
+}
+
