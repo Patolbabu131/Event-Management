@@ -122,7 +122,7 @@ namespace Events.Web.Controllers
                 .Include(e => e.CouponType)
                 .Include(e => e.CreatedByNavigation)
                 .Include(e => e.Event)
-                .Include(e => e.InvitedByNavigation)
+                .Include(e => e.ExecutiveMemberNavigation)
                 .Include(e => e.ModifiedByNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (eventattendee == null)
@@ -138,7 +138,7 @@ namespace Events.Web.Controllers
         {
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == id && c.Active==true), "Id", "CouponName");
             ViewBag.eid = id;
-            ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id");
+            ViewData["ExecutiveMember"] = new SelectList(_context.Eventattendees.Where(c => c.EventId == id), "Id", "Id");
             
             return PartialView("CreateEdit");
         }
@@ -148,7 +148,7 @@ namespace Events.Web.Controllers
 
 
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Eventattendees.EventId), "Id", "CouponName");
-            ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id");
+            ViewData["ExecutiveMember"] = new SelectList(_context.Eventattendees, "Id", "Id");
 
           
             var s = _context.Eventcoupontypes.Where(e => e.Id == Eventattendees.CouponTypeId).FirstOrDefault();
@@ -255,7 +255,7 @@ namespace Events.Web.Controllers
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventattendee.CouponTypeId);
             ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventattendee.EventId);
-            ViewData["InvitedBy"] = new SelectList(_context.Eventattendees, "Id", "Id", eventattendee.InvitedBy);
+            ViewData["ExecutiveMember"] = new SelectList(_context.Eventattendees, "Id", "Id", eventattendee.ExecutiveMember);
             ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.ModifiedBy);
             return View(eventattendee);
         }
