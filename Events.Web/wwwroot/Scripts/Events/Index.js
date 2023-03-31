@@ -65,7 +65,6 @@
                     //    return row;
                     //},
                     "bSortable": false,
-
                 }
             ],
 
@@ -100,7 +99,6 @@
         });
     },
 }
-
 
 function save_event() {
     $("#formAddEvent").validate({
@@ -207,12 +205,12 @@ function bindDatatable() {
             "bProcessing": true,
             "bSearchable": true,
             "filter": true,
-            "autoWidth": true,
+            "autoWidth": true,            
             "order": [[1, 'desc']],
             "language": {
                 "emptyTable": "No record found.",
                 "processing":
-                    '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                    '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#060606;" font="color:#060606;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
 
@@ -266,8 +264,8 @@ function bindDatatable() {
 
                 {
                     "render": function (data, type, row, meta) {
-                        var drop = '<select name = "list" class="btnlist">'
-                        drop += '<option value = "">Action</option>'
+                        var drop = '<select name = "list" class="btnlist form-control">'
+                        drop += '<option value = "">Details</option>'
                         drop += '<option value = "/Eventsponsors/Index/' + row.id + '">Sponser</option>'
                         drop += '<option value = "/Eventsponsorsimages/Index/' + row.id + '">Sponsors Images</option>'
                         drop += '<option value = "/Eventcouponassignments/Index/' + row.id + '">Coupon</option>'
@@ -285,7 +283,6 @@ function bindDatatable() {
 
 
 $(document).ready(function () {
-
 
     $('#create_event').click(function () {
 
@@ -344,18 +341,7 @@ $(document).ready(function () {
         // set the window's location property to the value of the option the user has selected
         window.location = $(this).val();
     });
-
-
-
-
-
-
-
 });
-
-
-
-
 
 
 function details_event(id) {
@@ -393,7 +379,6 @@ function edit_event(id) {
             });
             CKEDITOR.replace('FoodMenu', {
                 toolbar: [
-
                     { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
                     { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
                     { name: 'links', items: ['Link', 'Anchor'] },
@@ -424,7 +409,6 @@ function edit_event(id) {
 
             var endtime = String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0');
 
-
             $('#EventID').val(resonce.id);
             $('#addEventName').val(resonce.eventName);
             $('#addEventDate').val(today);
@@ -436,8 +420,6 @@ function edit_event(id) {
         }
     })
 }
-
-
 
 function delete_event(id) {
     $('#CreateContainer').appendTo('body')
@@ -490,7 +472,6 @@ function delete_event(id) {
             }
         });
 }
-
 
 $(function () {
     $("#Pages").selectmenu();
