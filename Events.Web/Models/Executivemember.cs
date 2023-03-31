@@ -43,6 +43,7 @@ public partial class Executivemember
     public virtual ICollection<Event> EventModifiedByNavigations { get; } = new List<Event>();
 
     public virtual ICollection<Eventattendee> EventattendeeCreatedByNavigations { get; } = new List<Eventattendee>();
+    public virtual ICollection<Eventattendee> EventattendeeExecutiveMemberNavigations { get; } = new List<Eventattendee>();
 
     public virtual ICollection<Eventattendee> EventattendeeModifiedByNavigations { get; } = new List<Eventattendee>();
 

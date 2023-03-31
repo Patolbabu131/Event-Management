@@ -38,8 +38,8 @@ public partial class Eventattendee
     [DisplayName("Created By")]
     public long CreatedBy { get; set; }
 
-    [DisplayName("Invited By")]
-    public long? InvitedBy { get; set; }
+    [DisplayName("(Executive member)Invited By ")]
+    public long? ExecutiveMember { get; set; }
 
     [DisplayName("Coupon Type Id")]
     public long CouponTypeId { get; set; }
@@ -52,9 +52,13 @@ public partial class Eventattendee
 
     [DisplayName("Modified On")]
     public DateTime? ModifiedOn { get; set; }
+    [DisplayName("Payment Status")]
+    public bool PaymentStatus { get; set; }
 
     [DisplayName("Mode Of Payment")]
     public ModeOfPayment ModeOfPayment { get; set; }
+    [DisplayName("PaymentReference")]
+    public string PaymentReference { get; set; } = null!;
 
     public virtual Eventcoupontype CouponType { get; set; } = null!;
    
@@ -63,19 +67,19 @@ public partial class Eventattendee
 
     public virtual Event Event { get; set; } = null!;
 
-    public virtual ICollection<Eventattendee> InverseInvitedByNavigation { get; } = new List<Eventattendee>();
+  
+    public virtual Executivemember? ExecutiveMemberNavigation { get; set; }
 
-    public virtual Eventattendee? InvitedByNavigation { get; set; }
 
     public virtual Executivemember? ModifiedByNavigation { get; set; }
 }
 
 public enum ModeOfPayment
 {
-    UPI = 1,
-    NetBanking = 2,
-    Cash=3,
-        Cards =4,
+    Cash = 1,
+    UPI = 2,
+    Bank_Transfer = 3,
+    Others = 4,
 
 
 }

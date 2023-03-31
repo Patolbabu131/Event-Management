@@ -17,11 +17,11 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Event> Events { get; set; }
 
-    public virtual DbSet<Eventattendee> Eventattendees { get; set; } = null;
+    public virtual DbSet<Eventattendee> Eventattendees { get; set; }
 
     public virtual DbSet<Eventcouponassignment> Eventcouponassignments { get; set; }
 
-    public virtual DbSet<Eventcoupontype> Eventcoupontypes { get; set; } = null;
+    public virtual DbSet<Eventcoupontype> Eventcoupontypes { get; set; }
 
     public virtual DbSet<Eventexpense> Eventexpenses { get; set; }
 
@@ -31,7 +31,7 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Executivemember> Executivemembers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)=> optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,8 +55,8 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.EventDate).HasColumnType("datetime");
             entity.Property(e => e.EventEndTime).HasColumnType("datetime");
             entity.Property(e => e.EventName).HasMaxLength(100);
-            entity.Property(e => e.EventStatus).HasMaxLength(100);
             entity.Property(e => e.EventStartTime).HasColumnType("datetime");
+            entity.Property(e => e.EventStatus).HasMaxLength(100);
             entity.Property(e => e.EventVenue).HasMaxLength(500);
             entity.Property(e => e.EventYear).HasColumnType("date");
             entity.Property(e => e.ModifiedBy)
@@ -83,15 +83,15 @@ public partial class EventDbContext : DbContext
 
             entity.ToTable("eventattendees");
 
-            entity.HasIndex(e => e.CreatedBy, "CreatedBy");
+            entity.HasIndex(e => e.ExecutiveMember, "ExecutiveMember");
 
-            entity.HasIndex(e => e.EventId, "EventID");
+            entity.HasIndex(e => e.EventId, "eventattendees_ibfk_1");
 
-            entity.HasIndex(e => e.InvitedBy, "InvitedBy");
+            entity.HasIndex(e => e.CouponTypeId, "eventattendees_ibfk_4");
 
-            entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
+            entity.HasIndex(e => e.ModifiedBy, "eventattendees_ibfk_7");
 
-            entity.HasIndex(e => e.CouponTypeId, "  Coupon Type ID");
+            entity.HasIndex(e => e.CreatedBy, "eventattendees_ibfk_8");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -101,31 +101,31 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.CouponTypeId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("CouponTypeID");
-            entity.Property(e => e.CouponsPurchased).HasColumnType("int(11)");
+            entity.Property(e => e.CouponsPurchased).HasColumnType("bigint(20)");
             entity.Property(e => e.CreatedBy).HasColumnType("bigint(20)");
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.EventId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("EventID");
-            entity.Property(e => e.InvitedBy)
+            entity.Property(e => e.ExecutiveMember)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
             entity.Property(e => e.ModeOfPayment)
                 .HasDefaultValueSql("'NULL'")
-                .HasColumnType("enum('UPI','NetBanking','Wallet','Cards')");
+                .HasColumnType("enum('Cash','UPI','Bank Transfer','Others')");
             entity.Property(e => e.ModifiedBy)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
             entity.Property(e => e.ModifiedOn)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("datetime");
+            entity.Property(e => e.PaymentReference).HasMaxLength(255);
             entity.Property(e => e.PurchasedOn).HasColumnType("datetime");
             entity.Property(e => e.RemainingCoupons).HasColumnType("int(11)");
             entity.Property(e => e.TotalAmount).HasPrecision(10);
 
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventattendees)
                 .HasForeignKey(d => d.CouponTypeId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventattendees_ibfk_4");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.EventattendeeCreatedByNavigations)
@@ -135,13 +135,12 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventattendees)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventattendees_ibfk_1");
 
-            entity.HasOne(d => d.InvitedByNavigation).WithMany(p => p.InverseInvitedByNavigation)
-                .HasForeignKey(d => d.InvitedBy)
+            entity.HasOne(d => d.ExecutiveMemberNavigation).WithMany(p => p.EventattendeeExecutiveMemberNavigations)
+                .HasForeignKey(d => d.ExecutiveMember)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("eventattendees_ibfk_6");
+                .HasConstraintName("eventattendees_ibfk_9");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventattendeeModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
@@ -155,17 +154,22 @@ public partial class EventDbContext : DbContext
 
             entity.ToTable("eventcouponassignments");
 
-            entity.HasIndex(e => e.CreatedBy, "CreatedBy");
+            entity.HasIndex(e => e.CouponTypeId, "CouponTypeID");
 
-            entity.HasIndex(e => e.EventId, "EventID");
+            entity.HasIndex(e => e.CreatedBy, "CreatedBy");
 
             entity.HasIndex(e => e.ExecutiveMemberId, "ExecutiveMemberID");
 
             entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
 
+            entity.HasIndex(e => e.EventId, "eventcouponassignments_ibfk_1");
+
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("ID");
+            entity.Property(e => e.CouponTypeId)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("CouponTypeID");
             entity.Property(e => e.CouponsFrom).HasColumnType("int(11)");
             entity.Property(e => e.CouponsTo).HasColumnType("int(11)");
             entity.Property(e => e.CreatedBy).HasColumnType("bigint(20)");
@@ -182,7 +186,12 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.ModifiedOn)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("datetime");
-            entity.Property(e => e.TotalCoupons).HasColumnType("int(11)");
+            entity.Property(e => e.TotalCoupons).HasColumnType("bigint(20)");
+
+            entity.HasOne(d => d.CouponType).WithMany(p => p.Eventcouponassignments)
+                .HasForeignKey(d => d.CouponTypeId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("eventcouponassignments_ibfk_5");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.EventcouponassignmentCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
@@ -191,7 +200,6 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventcouponassignments)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventcouponassignments_ibfk_1");
 
             entity.HasOne(d => d.ExecutiveMember).WithMany(p => p.EventcouponassignmentExecutiveMembers)
@@ -203,7 +211,6 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignments_ibfk_4");
-
         });
 
         modelBuilder.Entity<Eventcoupontype>(entity =>
@@ -214,9 +221,9 @@ public partial class EventDbContext : DbContext
 
             entity.HasIndex(e => e.CreatedBy, "CreatedBy");
 
-            entity.HasIndex(e => e.EventId, "EventID");
-
             entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
+
+            entity.HasIndex(e => e.EventId, "eventcoupontype_ibfk_3");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -242,7 +249,6 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventcoupontypes)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventcoupontype_ibfk_3");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventcoupontypeModifiedByNavigations)
@@ -259,9 +265,9 @@ public partial class EventDbContext : DbContext
 
             entity.HasIndex(e => e.CreatedBy, "CreatedBy");
 
-            entity.HasIndex(e => e.EventId, "EventID");
-
             entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
+
+            entity.HasIndex(e => e.EventId, "eventexpenses_ibfk_1");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -288,7 +294,6 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventexpenses)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventexpenses_ibfk_1");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventexpenseModifiedByNavigations)
@@ -305,9 +310,9 @@ public partial class EventDbContext : DbContext
 
             entity.HasIndex(e => e.CreatedBy, "CreatedBy");
 
-            entity.HasIndex(e => e.EventId, "EventID");
-
             entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
+
+            entity.HasIndex(e => e.EventId, "eventsponsors_ibfk_1");
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
@@ -334,7 +339,6 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventsponsors)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventsponsors_ibfk_1");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventsponsorModifiedByNavigations)
@@ -349,7 +353,7 @@ public partial class EventDbContext : DbContext
 
             entity.ToTable("eventsponsorsimage");
 
-            entity.HasIndex(e => e.EventId, "EventID");
+            entity.HasIndex(e => e.EventId, "eventsponsorsimage_ibfk_1");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -361,7 +365,6 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventsponsorsimages)
                 .HasForeignKey(d => d.EventId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventsponsorsimage_ibfk_1");
         });
 

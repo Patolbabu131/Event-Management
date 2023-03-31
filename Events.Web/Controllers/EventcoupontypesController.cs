@@ -209,12 +209,12 @@ namespace Events.Web.Controllers
                 {
                     return Json("Unable To Delete Coupon. Because " + eventcoupontype.CouponName + " is already assigned to Attendee :" + data.AttendeeName);
                 }
-            else
-            {
-                _context.Eventcoupontypes.Remove(eventcoupontype);
-                await _context.SaveChangesAsync();
-                return Json("Coupon Deleted");
-            }
+                else
+                {
+                    _context.Eventcoupontypes.Remove(eventcoupontype);
+                    await _context.SaveChangesAsync();
+                    return Json("Coupon Deleted");
+                }
           
         }
 

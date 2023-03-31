@@ -38,6 +38,6 @@ public partial class Eventcoupontype
     public virtual Event Event { get; set; } = null!;
 
     public virtual ICollection<Eventattendee> Eventattendees { get; } = new List<Eventattendee>();
-
+    public virtual ICollection<Eventcouponassignment> Eventcouponassignments { get; } = new List<Eventcouponassignment>();
     public virtual Executivemember? ModifiedByNavigation { get; set; }
 }

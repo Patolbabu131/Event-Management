@@ -177,9 +177,9 @@ namespace Events.Web.Controllers
         }
 
         // GET: Eventexpenses/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public IActionResult Delete(long? id)
         {
-            var data = _context.Eventexpenses.Where(e => e.Id == id).SingleOrDefault();
+            var data = _context.Eventexpenses.Where(e => e.Id == id).FirstOrDefault();
             _context.Eventexpenses.Remove(data);
             _context.SaveChanges();
             return Json("success");
