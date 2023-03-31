@@ -54,20 +54,30 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                Cassign = Cassign.Where(x => x.CouponsFrom.ToString().Contains(param.sSearch.ToLower())
+                Cassign = Cassign.Where(x => x.ExecutiveMemberId.ToString().Contains(param.sSearch.ToLower())
+                                              || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
+                                              || x.CouponsFrom.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponsTo.ToString().Contains(param.sSearch.ToLower())
                                               || x.TotalCoupons.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
             if (param.iSortCol_0 == 0)
             {
+                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.ExecutiveMemberId).ToList() : Cassign.OrderByDescending(c => c.ExecutiveMemberId).ToList();
+            }
+            if (param.iSortCol_0 == 1)
+            {
+                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.CouponTypeId).ToList() : Cassign.OrderByDescending(c => c.CouponTypeId).ToList();
+            }
+            if (param.iSortCol_0 == 2)
+            {
                 Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.CouponsFrom).ToList() : Cassign.OrderByDescending(c => c.CouponsFrom).ToList();
             }
-            else if (param.iSortCol_0 == 1)
+            else if (param.iSortCol_0 == 3)
             {
                 Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.CouponsTo).ToList() : Cassign.OrderByDescending(c => c.CouponsTo).ToList();
             }
-            else if (param.iSortCol_0 == 2)
+            else if (param.iSortCol_0 == 4)
             {
                 Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.TotalCoupons).ToList() : Cassign.OrderByDescending(c => c.TotalCoupons).ToList();
             }

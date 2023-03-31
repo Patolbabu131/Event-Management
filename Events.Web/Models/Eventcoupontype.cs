@@ -8,8 +8,8 @@ public partial class Eventcoupontype
 {
     [DisplayName("ID")]
     public long Id { get; set; }
-
     [DisplayName("Event Id")]
+
     public long EventId { get; set; }
 
     [DisplayName("Coupon Name")]
