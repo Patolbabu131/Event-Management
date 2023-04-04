@@ -18,6 +18,9 @@ public partial class Eventcoupontype
     [DisplayName("Coupon Price")]
     public decimal CouponPrice { get; set; }
 
+    [DisplayName("Total Coupon")]
+    public double TotalCoupon { get; set; }
+
     [DisplayName("Active")]
     public bool Active { get; set; }
 
@@ -38,6 +41,7 @@ public partial class Eventcoupontype
     public virtual Event Event { get; set; } = null!;
 
     public virtual ICollection<Eventattendee> Eventattendees { get; } = new List<Eventattendee>();
+    public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
     public virtual ICollection<Eventcouponassignment> Eventcouponassignments { get; } = new List<Eventcouponassignment>();
     public virtual Executivemember? ModifiedByNavigation { get; set; }
 }
