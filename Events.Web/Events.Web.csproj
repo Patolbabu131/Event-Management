@@ -34,6 +34,7 @@
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="EcoCore" Version="7.0.0.14643" />
     <PackageReference Include="Grpc.Core" Version="2.46.6" />
     <PackageReference Include="HttpPostedFileHelper" Version="1.2.0" />
     <PackageReference Include="jQuery" Version="3.6.3" />
@@ -61,6 +62,7 @@
     <None Include="C:\Users\admin\source\repos\EventsPSV\Events.Web\.editorconfig" />
     <None Include="wwwroot\fonts\boxicons\boxicons.svg" />
     <None Include="wwwroot\fonts\boxicons\boxicons.woff2" />
+    <None Include="wwwroot\lib\myliselect-js\mobiscroll.javascript.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Abstractions">

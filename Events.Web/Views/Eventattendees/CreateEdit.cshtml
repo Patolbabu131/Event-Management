@@ -4,7 +4,13 @@
     var id = ViewBag.eid;
 }
 
-    <div class="modal fade" id="addeditattendee" tabindex="-1" aria-hidden="true">
+
+<html>
+<head>
+    <link href="~/lib/select2.min.css" rel="stylesheet" />
+</head>
+    <body>
+       <div class="modal fade" id="addeditattendee" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -12,19 +18,19 @@
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
- 
+
                 <form id="formAddAttendees">
                     <div class="modal-body">
                         <input id="attenid" value="" hidden>
-                    <input id="EventId" value="@id" hidden>
+                        <input id="EventId" value="@id" hidden>
                         <div class="form-group">
                             <label asp-for="AttendeeName" class="control-label"></label>
-                            <input  type="text"  name="AttendeeName" id="AttendeeName" class="form-control" value="" />
+                            <input type="text" name="AttendeeName" id="AttendeeName" class="form-control" value="" />
                             <span asp-validation-for="AttendeeName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="ContactNo" class="control-label"></label>
-                            <input type="number"  name="ContactNo" id="ContactNo" class="form-control" value="" />
+                            <input type="number" name="ContactNo" id="ContactNo" class="form-control" value="" />
                             <span asp-validation-for="ContactNo" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -34,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="PurchasedOn" class="control-label"></label>
-                            <input type="text" id="PurchasedOn" name="PurchasedOn" placeholder="DD/MM/YYYY" class="form-control" value="" autocomplete="off"/>
+                            <input type="text" id="PurchasedOn" name="PurchasedOn" placeholder="DD/MM/YYYY" class="form-control" value="" autocomplete="off" />
                             <span asp-validation-for="PurchasedOn" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -45,43 +51,50 @@
 
                         <div class="form-group">
                             <label asp-for="ExecutiveMember" class="control-label"></label>
-                        <select type="number" name="ExecutiveMember" id="ExecutiveMember" class="form-control" placeholder="Click to select Member Id" asp-items="ViewBag.ExecutiveMember" value="">
+                            <select type="number" name="ExecutiveMember" id="ExecutiveMember" class="ExecutiveMember form-control" placeholder="Click to select Member Id" as p-items="ViewBag.ExecutiveMember" value="">
                                 <option disabled selected value="">Select Member</option>
-                            </select>   
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="CouponTypeId" class="control-label"></label>
-                            <select type="number" name="CouponTypeId" id="CouponTypeId" class="form-control" placeholder="Click to select coupon " asp-items="ViewBag.CouponTypeId" value="">
-                            <option disabled selected value="">Select Coupon</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                        <label asp-for="CouponsPurchased" class="control-label"> Selection of Coupon Numbers</label>
-                        <input type="number" class="form-control" id="CouponsPurchased" name="CouponsPurchased">
-                        @*<select type="number" name="CouponsPurchased" id="CouponsPurchased" class="form-control" value="">
-                                <option disabled selected value="">Select No of Coupon</option>
-                            </select>*@
+                        <label asp-for="CouponTypeId" class="control-label ">
+                        </label>
+                        <select id="CouponTypeIdd">
+                        <option value="test">1</option>
+                        <option value="test">1</option>
+                        <option value="test">1</option>
+                        <option value="test">1</option>
+                        </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="CouponsPurchased" class="control-label"> Selection of Coupon Numbers</label>
+                            <select name="countries" id="countries">
+                            </select>
+
+                            @*<input type="number" class="form-control" id="CouponsPurchased" name="CouponsPurchased">*@
+                            <select type="number" name="CouponsPurchased" id="CouponsPurchased" class="form-control" value="">
+                            <option disabled selected value="">Select No of Coupon</option>
+                            </select>
                         </div>
 
 
                         <div class="form-group">
                             <label asp-for="ModeOfPayment" class="control-label"></label>
-                        <select asp-for="ModeOfPayment" class="form-control" asp-items="Html.GetEnumSelectList<ModeOfPayment>()">
-                            <option selected="selected" value="" >Please select</option>
-                        </select>
+                            <select asp-for="ModeOfPayment" class="form-control" asp-items="Html.GetEnumSelectList<ModeOfPayment>()">
+                                <option selected="selected" value="">Please select</option>
+                            </select>
                         </div>
 
                         <div class="form-group">
                             <label asp-for="PaymentReference" class="control-label"></label>
-                        <input type="text" class="form-control" id="PaymentReference" name="PaymentReference">
-                        
+                            <input type="text" class="form-control" id="PaymentReference" name="PaymentReference">
+
                         </div>
 
                         <div class="form-group">
                             <label asp-for="Remarks" class="control-label"></label>
-                            <textarea   type="text" name="Remarks" id="Remarks" class="form-control" value=""> </textarea>
+                            <textarea type="text" name="Remarks" id="Remarks" class="form-control" value=""> </textarea>
                             <span asp-validation-for="Remarks" class="text-danger"></span>
                         </div>
                         <div class="form-group" hidden>
@@ -97,14 +110,20 @@
                 </form>
             </div>
         </div>
+
     </div>
-
-
-@section Scripts {
+    </body>
+</html>
+   
+@*@section Scripts {
     @{
+        <script src="~/lib/select2.min.js"></script>
+     
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
     }
-    <script src="~/Scripts/Eventattendees/index.js"></script>
-
+   
+ 
     }
+
+*@

@@ -37,8 +37,6 @@ function functionToCall(id) {
 
                     "data": "totalAmount",
                 },
-
-
                 {
                     "data": "remainingCoupons"
                 },
@@ -56,7 +54,9 @@ function functionToCall(id) {
 
 $(document).ready(function ()
 {
-   
+    $('#CouponTypeIdd').select2({
+        'width': '100%'
+    });
 });
 
 
@@ -69,9 +69,45 @@ function create_attendee(id) {
             $("#addeditattendee").modal('show');
             onlynumber();
             $("#PurchasedOn").datepicker();
+
+            //for (let i = 0; i < 10; i++) {
+
+            //    $('#countries').append($('<option>').val(i).text(i));
+            //}
+         
+
+
+            //$(".ExecutiveMember").change(function () {
+                //$.ajax({
+                //type: "get",
+                //url: '/Eventattendees/fetchcoupon/' + id,
+                //success: function (resonce) {
+                //        for (let i = 0; i < resonce.length; i++) {
+
+                //            $('.CouponTypeId').append($('<optgroup id="' + resonce[i].couponName + '" label="' + resonce[i].couponName + '">'));
+
+                //            for (var j = 0; j < resonce[i].totalCoupons; j++) {
+
+                //                $('#' + resonce[i].couponName+'').append($('<option>').val(j).text(j));
+                //            }
+
+                //        }
+                //}
+
+            //})
+            //$('#CouponTypeId').multiselect();
+            $('#CouponTypeIdd').select2({
+                'width':'100%'
+            });
+            //var multipleCancelButton = new Choices('.CouponTypeId');
+
         }
+
     })
 }
+
+
+
 function onlynumber() {
     $('.numberonly').keypress(function (e) {
 

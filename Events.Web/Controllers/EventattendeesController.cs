@@ -8,11 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using Events.Database;
 using NuGet.Common;
+using System.Security.Cryptography;
+using Eco.ViewModel.Runtime;
 
 namespace Events.Web.Controllers
 {
     public class EventattendeesController : Controller
     {
+        public class ViewModel
+        {
+            public Eventcouponassignment eventcouponassignments { get; set; }
+            public Eventcoupontype coupontype { get; set; }
+        }
         private readonly EventDbContext _context;
         private readonly IHttpContextAccessor cd;
        
@@ -136,12 +143,19 @@ namespace Events.Web.Controllers
        
         public IActionResult CreateEdit(Int64 id)
         {
-            ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == id && c.Active==true), "Id", "CouponName");
-            ViewBag.eid = id;
-            ViewData["ExecutiveMember"] = new SelectList(_context.Eventattendees.Where(c => c.EventId == id), "Id", "Id");
             
+            ViewBag.eid = id;
+
+            var e = _context.Executivemembers.ToList();
+            var p = _context.Eventcouponassignments.Where(c => c.EventId == id).ToList();
+      
+           
+            //ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers)), "Id", "FullName");    
+
             return PartialView("CreateEdit");
         }
+    
+
         public IActionResult Edit(Int64 id)
         {
             var Eventattendees = _context.Eventattendees.Where(inc => inc.Id == id).FirstOrDefault();
@@ -163,6 +177,25 @@ namespace Events.Web.Controllers
         {
             var Eventattendees = _context.Eventattendees.Where(inc => inc.Id == id).FirstOrDefault();
             return Json(Eventattendees);
+        } 
+        
+        public IActionResult fetchcoupon(Int64 id)
+        {
+           
+            var  eventcouponassignments= _context.Eventcouponassignments.ToList();
+            var coupontype=_context.Eventcoupontypes.ToList();
+            var employeeRecord = from e in eventcouponassignments
+                                 join d in coupontype on e.CouponTypeId equals d.Id into table1
+                                 from d in table1.ToList()
+                                 select new 
+                                 {
+                                     id=e.Id,
+                                     EventId=e.EventId,
+                                     TotalCoupons=e.TotalCoupons,
+                                     CouponName=d.CouponName,
+                                 };
+    
+            return Json(employeeRecord);
         }
         [HttpPost]
         public IActionResult CreateEdit1(Eventattendee eventattendee)
