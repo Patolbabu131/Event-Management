@@ -80,6 +80,4 @@ public enum ModeOfPayment
     UPI = 2,
     Bank_Transfer = 3,
     Others = 4,
-
-
 }

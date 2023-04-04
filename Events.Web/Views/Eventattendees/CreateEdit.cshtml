@@ -45,7 +45,7 @@
 
                         <div class="form-group">
                             <label asp-for="ExecutiveMember" class="control-label"></label>
-                        <select type="number" name="ExecutiveMember" id="ExecutiveMember" class="form-control" placeholder="Click to select Member Id" asp-items="ViewBag.ExecutiveMember" value="">
+                            <select type="number" name="ExecutiveMember" id="ExecutiveMember" class="form-control" placeholder="Click to select Member Id" asp-items="ViewBag.ExecutiveMember" value="">
                                 <option disabled selected value="">Select Member</option>
                             </select>   
                         </div>
@@ -53,30 +53,33 @@
                         <div class="form-group">
                             <label asp-for="CouponTypeId" class="control-label"></label>
                             <select type="number" name="CouponTypeId" id="CouponTypeId" class="form-control" placeholder="Click to select coupon " asp-items="ViewBag.CouponTypeId" value="">
-                            <option disabled selected value="">Select Coupon</option>
+                                <option disabled selected value="">Select Coupon</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                        <label asp-for="CouponsPurchased" class="control-label"> Selection of Coupon Numbers</label>
-                        <input type="number" class="form-control" id="CouponsPurchased" name="CouponsPurchased">
-                        @*<select type="number" name="CouponsPurchased" id="CouponsPurchased" class="form-control" value="">
-                                <option disabled selected value="">Select No of Coupon</option>
-                            </select>*@
+                        <label asp-for="CouponsPurchased" class="control-label"> Selection of Coupon Numbers</label>                       
+                        <select type="number" id="CouponsPurchased" name="CouponsPurchased" class="form-control" value="" multiple>
+                            <option value="test1">123</option>
+                            <option value="test2">456</option>
+                            <option value="test3">789</option>
+                            <option value="test4">012</option>
+                            <option value="test5">345</option>
+                            <option value="test6">678</option>
+                        </select>
+                        
                         </div>
-
 
                         <div class="form-group">
                             <label asp-for="ModeOfPayment" class="control-label"></label>
-                        <select asp-for="ModeOfPayment" class="form-control" asp-items="Html.GetEnumSelectList<ModeOfPayment>()">
+                            <select asp-for="ModeOfPayment" class="form-control" asp-items="Html.GetEnumSelectList<ModeOfPayment>()">
                             <option selected="selected" value="" >Please select</option>
                         </select>
                         </div>
 
                         <div class="form-group">
                             <label asp-for="PaymentReference" class="control-label"></label>
-                        <input type="text" class="form-control" id="PaymentReference" name="PaymentReference">
-                        
+                            <input type="text" class="form-control" id="PaymentReference" name="PaymentReference">
                         </div>
 
                         <div class="form-group">
@@ -108,3 +111,14 @@
     <script src="~/Scripts/Eventattendees/index.js"></script>
 
     }
+
+    <script>
+   
+
+        var multipleCancelButton = new Choices('#CouponsPurchased') {
+            removeItemButton: true,
+        }
+
+    
+    </script>
+
