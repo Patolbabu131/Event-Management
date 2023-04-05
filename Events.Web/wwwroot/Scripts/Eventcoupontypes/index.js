@@ -20,7 +20,9 @@
                 {
                     "data": "couponPrice",
                 },
-
+                {
+                    "data": "totalCoupon",
+                },
                 {
                     render: function (data, type, row) {
                         if (row.active == 0) {
@@ -65,6 +67,10 @@ function save_ctype() {
                 required: true,
                 number:true
             },
+            TotalCoupon: {
+                required: true,
+                number: true
+            },
         },
         messages: {
             CouponName: {
@@ -73,6 +79,10 @@ function save_ctype() {
             CouponPrice: {
                 required: "Coupon Price is a required field!!!",
                 number:"Invalid input"
+            },
+            TotalCoupon: {
+                required: "Total Coupon is a required field!!!",
+                number: "Invalid input"
             },
         }
     });
@@ -84,12 +94,19 @@ function save_ctype() {
         } else {
             $("#Active").attr('value', 'false');
         }
-
+        var assign = [];
+        for (var i = 1; i <= $("#TotalCoupon").val(); i++) {
+            assign.push({
+                CouponNumber: i,
+            });
+        }
         var data = {
             Id: $("#Coupontype").val(),
             EventId: $("#EventId").val(),
             CouponName: $("#CouponName").val(),
             CouponPrice: $("#CouponPrice").val(),
+            TotalCoupon: $("#TotalCoupon").val(),
+            Eventcouponassignmentmappings: assign,
             Active: $("#Active").val()
         }
         $.ajax({
@@ -143,6 +160,7 @@ function edit_ct(id) {
                     $("#EventId").val(resonce.eventId);
                     $("#CouponName").val(resonce.couponName);
                     $("#CouponPrice").val(resonce.couponPrice);
+                    $("#TotalCoupon").val(resonce.totalCoupon);
                     $("#Active").prop("checked", resonce.active);
                 }
             })

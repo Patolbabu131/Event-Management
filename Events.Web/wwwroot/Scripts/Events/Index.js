@@ -209,8 +209,7 @@ function bindDatatable() {
             "order": [[1, 'desc']],
             "language": {
                 "emptyTable": "No record found.",
-                "processing":
-                    '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#060606;" font="color:#060606;"></i><span class="sr-only">Loading...</span> '
+                "processing":'<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#060606;" font="color:#060606;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
 
