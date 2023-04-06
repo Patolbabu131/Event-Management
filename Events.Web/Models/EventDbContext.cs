@@ -226,11 +226,16 @@ public partial class EventDbContext : DbContext
 
             entity.HasIndex(e => e.CouponTypeId, "CouponTypeID");
 
+            entity.HasIndex(e => e.EventID, "EventId");
+
             entity.HasIndex(e => e.ExecutiveMember, "ExecutiveMember");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("ID");
+            entity.Property(e => e.EventID)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("EventID");
             entity.Property(e => e.Attendee)
                 .HasMaxLength(200)
                 .HasDefaultValueSql("'NULL'");
@@ -255,6 +260,7 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.ExecutiveMember)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignmentmapping_ibfk_1");
+            
         });
 
         modelBuilder.Entity<Eventcoupontype>(entity =>

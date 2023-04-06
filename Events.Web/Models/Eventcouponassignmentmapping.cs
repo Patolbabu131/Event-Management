@@ -6,6 +6,7 @@ namespace Events.Web.Models;
 public partial class Eventcouponassignmentmapping
 {
     public long Id { get; set; }
+    public long EventID { get; set; }
 
     public long CouponTypeId { get; set; }
 

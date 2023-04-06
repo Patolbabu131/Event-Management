@@ -270,7 +270,8 @@ function bindDatatable() {
                         drop += '<option value = "/Eventcouponassignments/Index/' + row.id + '">Coupon</option>'
                         drop += '<option value = "/Eventcoupontypes/Index/' + row.id + '">Coupon Type</option>'
                         drop += '<option value = "/Eventattendees/Index/' + row.id + '">Attendees</option>'
-                        drop += '<option value = "/Eventexpenses/Index/' + row.id + '">Expenses</option></select>'
+                        drop += '<option value = "/Eventexpenses/Index/' + row.id + '">Expenses</option>'
+                        drop += '<option value = "/Eventcouponassignmentmappings/Index/' + row.id + '">Eventcouponassignmentmappings</option></select>'
                         return drop;
                     }
 
