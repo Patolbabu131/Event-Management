@@ -22,7 +22,6 @@
                 },
                 {
                     data: function (row, type, set) {
-      
                             var drop = '<select name = "list" class="selectmember form-control">'
                             drop += '<option value = "" disabled selected>Select Member</option>'
                             return drop;
@@ -50,10 +49,6 @@
                 },
             ]
         });
-    selectmember();
-})
-
-function selectmember() {
     $.ajax({
         type: "get",
         url: '/Eventcouponassignmentmappings/getmembers',
@@ -63,4 +58,5 @@ function selectmember() {
             });
         }
     })
-}
+})
+
