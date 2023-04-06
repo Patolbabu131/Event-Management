@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-
 namespace Events.Web.Controllers
 {
     public class EventcouponassignmentmappingsController : Controller
@@ -28,10 +27,15 @@ namespace Events.Web.Controllers
             else
             {
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
+                ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId==Id), "Id", "CouponName");
                 ViewBag.Eid = Id;
                 return View();
             }
 
+        }
+        public ActionResult getmembers()
+        {
+            return Json(_context.Executivemembers.ToList());
         }
 
         public ActionResult Getctype(JqueryDatatableParam param, Int64 Id)
@@ -43,7 +47,7 @@ namespace Events.Web.Controllers
             }
             else
             {
-                Ctype = _context.Eventcouponassignmentmappings.Where(m => m.EventID == Id);
+                Ctype = _context.Eventcouponassignmentmappings.Where(m => m.CouponTypeId == Id);
             }
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))

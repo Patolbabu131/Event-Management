@@ -1,9 +1,12 @@
-﻿function Coupenassignmapping(id) {
+﻿$("#mySelect").change(function () {
+   
+    var x = document.getElementById("mySelect").value;
     datatable = $('#Cassignmentmappingtable')
         .DataTable
         ({
-            "sAjaxSource": "/Eventcouponassignmentmappings/Getctype/" + id,
+            "sAjaxSource": "/Eventcouponassignmentmappings/Getctype/" + x,
             "bServerSide": true,
+            destroy: true,
             "bProcessing": true,
             "bSearchable": true,
             "filter": true,
@@ -15,17 +18,45 @@
             },
             "columns": [
                 {
-                    "data": "id",
-                },
-                {
-                    "data": "couponTypeId",
-                },
-                {
                     "data": "couponNumber",
                 },
                 {
+                    data: function (row, type, set) {
+                            var drop = '<select name = "list" class="selectmember form-control">'
+                            drop += '<option value = "" disabled selected>Select Member</option>'
+                            return drop;
+                    }
+                },
+                {
+                    data: function (row, type, set) {
+                        if (row.attendee == null) {
+                            return "_____________";
+                        }
+                        else {
+                            return row.attendee;
+                        }
+                    }
+                },
+
+                {
                     "data": "booked",
+                },
+
+                {
+                    render: function (data, type, row, meta) {  
+                        return '<a class="btn btn-info">Save</a>';
+                    }
                 },
             ]
         });
-}
+    $.ajax({
+        type: "get",
+        url: '/Eventcouponassignmentmappings/getmembers',
+        success: function (members) {
+            $.each(members, function (index, value) {
+                $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
+            });
+        }
+    })
+})
+

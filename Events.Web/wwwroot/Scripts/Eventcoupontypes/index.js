@@ -98,6 +98,7 @@ function save_ctype() {
         for (var i = 1; i <= $("#TotalCoupon").val(); i++) {
             assign.push({
                 CouponNumber: i,
+                EventId: $("#EventId").val()
             });
         }
         var data = {
