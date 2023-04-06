@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Events.Web.Models.Eventcouponassignmentmapping>
 
 @{
+
     ViewData["Title"] = "Index";
     var id = ViewBag.Eid;
     var iid = ViewBag.VBFriend.EventName;
@@ -29,7 +30,7 @@
         padding: 10px;
     }
 </style>
-<body onload="Coupenassignmapping(@id)">
+<body >
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -59,7 +60,11 @@
         <div class="col-6">
             <h2 class="fw-bold mb-4">Coupon</h2>
             @Html.ActionLink("Back to List", "Index","Events")
+            <select class="form-control" id="mySelect"  asp-items="ViewBag.Eventcoupontypes">
+                <option disabled selected>Select Coupon</option>
+            </select>
         </div>
+
     </div>
 
     <div class="card shadow">
@@ -68,14 +73,14 @@
             <table id="Cassignmentmappingtable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>CouponTypeId</th>
                         <th>CouponNumber</th>
-                        <th>Booked</th>
+                        <th>Executive Member</th>
+                        <th>Attende Name</th>
+                        <th>Booked?</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
             </table>
         </div>
@@ -91,4 +96,5 @@
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
     <script src="~/scripts/eventcouponassignmentmapping/index.js"></script>
+   
 }
