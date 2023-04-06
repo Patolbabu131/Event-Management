@@ -52,6 +52,7 @@ public partial class Executivemember
     public virtual ICollection<Eventcouponassignment> EventcouponassignmentExecutiveMembers { get; } = new List<Eventcouponassignment>();
 
     public virtual ICollection<Eventcouponassignment> EventcouponassignmentModifiedByNavigations { get; } = new List<Eventcouponassignment>();
+    public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
 
     public virtual ICollection<Eventcoupontype> EventcoupontypeCreatedByNavigations { get; } = new List<Eventcoupontype>();
 

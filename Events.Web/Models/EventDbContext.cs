@@ -21,6 +21,8 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Eventcouponassignment> Eventcouponassignments { get; set; }
 
+    public virtual DbSet<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; set; }
+
     public virtual DbSet<Eventcoupontype> Eventcoupontypes { get; set; }
 
     public virtual DbSet<Eventexpense> Eventexpenses { get; set; }
@@ -31,7 +33,9 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Executivemember> Executivemembers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)=> optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -112,7 +116,7 @@ public partial class EventDbContext : DbContext
                 .HasColumnType("bigint(20)");
             entity.Property(e => e.ModeOfPayment)
                 .HasDefaultValueSql("'NULL'")
-                .HasColumnType("enum('Cash','UPI','Bank Transfer','Others')");
+                .HasColumnType("enum('Cash','UPI','Bank_Transfer','Others')");
             entity.Property(e => e.ModifiedBy)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
@@ -126,6 +130,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventattendees)
                 .HasForeignKey(d => d.CouponTypeId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventattendees_ibfk_4");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.EventattendeeCreatedByNavigations)
@@ -154,8 +159,6 @@ public partial class EventDbContext : DbContext
 
             entity.ToTable("eventcouponassignments");
 
-            entity.HasIndex(e => e.CouponTypeId, "CouponTypeID");
-
             entity.HasIndex(e => e.CreatedBy, "CreatedBy");
 
             entity.HasIndex(e => e.ExecutiveMemberId, "ExecutiveMemberID");
@@ -163,6 +166,8 @@ public partial class EventDbContext : DbContext
             entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
 
             entity.HasIndex(e => e.EventId, "eventcouponassignments_ibfk_1");
+
+            entity.HasIndex(e => e.CouponTypeId, "eventcouponassignments_ibfk_5");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -213,17 +218,62 @@ public partial class EventDbContext : DbContext
                 .HasConstraintName("eventcouponassignments_ibfk_4");
         });
 
+        modelBuilder.Entity<Eventcouponassignmentmapping>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("eventcouponassignmentmapping");
+
+            entity.HasIndex(e => e.CouponTypeId, "CouponTypeID");
+
+            entity.HasIndex(e => e.EventID, "EventId");
+
+            entity.HasIndex(e => e.ExecutiveMember, "ExecutiveMember");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("ID");
+            entity.Property(e => e.EventID)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("EventID");
+            entity.Property(e => e.Attendee)
+                .HasMaxLength(200)
+                .HasDefaultValueSql("'NULL'");
+            entity.Property(e => e.Booked)
+                .HasDefaultValueSql("'''false'''")
+                .HasColumnType("enum('true','false')")
+                .HasColumnName("Booked?");
+            entity.Property(e => e.CouponNumber).HasPrecision(10);
+            entity.Property(e => e.CouponTypeId)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("CouponTypeID");
+            entity.Property(e => e.ExecutiveMember)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("bigint(20)");
+
+            entity.HasOne(d => d.CouponType).WithMany(p => p.Eventcouponassignmentmappings)
+                .HasForeignKey(d => d.CouponTypeId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("eventcouponassignmentmapping_ibfk_2");
+
+            entity.HasOne(d => d.ExecutiveMemberNavigation).WithMany(p => p.Eventcouponassignmentmappings)
+                .HasForeignKey(d => d.ExecutiveMember)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("eventcouponassignmentmapping_ibfk_1");
+            
+        });
+
         modelBuilder.Entity<Eventcoupontype>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("eventcoupontype");
 
-            entity.HasIndex(e => e.CreatedBy, "CreatedBy");
-
-            entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
-
             entity.HasIndex(e => e.EventId, "eventcoupontype_ibfk_3");
+
+            entity.HasIndex(e => e.ModifiedBy, "eventcoupontype_ibfk_4");
+
+            entity.HasIndex(e => e.CreatedBy, "eventcoupontype_ibfk_5");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -241,6 +291,7 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.ModifiedOn)
                 .HasMaxLength(6)
                 .HasDefaultValueSql("'NULL'");
+            entity.Property(e => e.TotalCoupon).HasColumnType("double(10,0)");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.EventcoupontypeCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)

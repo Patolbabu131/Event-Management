@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Events.Web.Models.Eventcouponassignmentmapping>
+
+@{
+    ViewData["Title"] = "Index";
+    var id = ViewBag.Eid;
+    var iid = ViewBag.VBFriend.EventName;
+    var edate = ViewBag.VBFriend.EventDate;
+    var evenue = ViewBag.VBFriend.EventVenue;
+    var estarttime = ViewBag.VBFriend.EventStartTime;
+    var eendtime = ViewBag.VBFriend.EventEndTime;
+    var eyear = ViewBag.VBFriend.EventYear;
+    var ecreatedon = ViewBag.VBFriend.CreatedOn;
+    var emodifiedon = ViewBag.VBFriend.ModifiedOn;
+}
+
+
+<h1>Index</h1>
+<html>
+<style>
+    .leftside, .rightside {
+        hight: 50px;
+        width: 300px;
+    }
+
+    .box {
+        hight: 100px;
+        width: 800px;
+        border: 2px solid black;
+        padding: 10px;
+    }
+</style>
+<body onload="Coupenassignmapping(@id)">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="leftside">
+                        EventName:@ViewBag.VBFriend.EventName
+                        <br />
+                        EventDate:@ViewBag.VBFriend.EventDate
+                        <br />
+                        EventStartTime:@ViewBag.VBFriend.EventStartTime|EventEndTime:@ViewBag.VBFriend.EventEndTime
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <hr width="1" size="70" style="0 auto" />
+                </div>
+                <div class="col">
+                    <div class="rightside">
+                        EventVenue:@ViewBag.VBFriend.EventVenue
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Cassign"></div>
+    <div class="row">
+        <div class="col-6">
+            <h2 class="fw-bold mb-4">Coupon</h2>
+            @Html.ActionLink("Back to List", "Index","Events")
+        </div>
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+            <table id="Cassignmentmappingtable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>CouponTypeId</th>
+                        <th>CouponNumber</th>
+                        <th>Booked</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+@section Scripts
+    {
+    <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/Custom/jquery-extensions.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/scripts/eventcouponassignmentmapping/index.js"></script>
+}

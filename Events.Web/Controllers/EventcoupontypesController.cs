@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using System.Globalization;
+using System.Collections;
 
 namespace Events.Web.Controllers
 {
@@ -117,7 +118,7 @@ namespace Events.Web.Controllers
             if (eventcoupontype.Id == null || eventcoupontype.Id == 0)
             {
 
-                var Coupontype = new Eventcoupontype()
+                Eventcoupontype Coupontype = new Eventcoupontype()
                 {
                     EventId = eventcoupontype.EventId,
                     CouponName = eventcoupontype.CouponName,
@@ -126,9 +127,13 @@ namespace Events.Web.Controllers
                     CreatedOn = DateTime.Now,
                     CreatedBy = Convert.ToInt64(mid),
                     ModifiedBy = Convert.ToInt64(mid),
-                    ModifiedOn = DateTime.Now,
-
+                    ModifiedOn = DateTime.Now
+                    
                 };
+                foreach(var i in eventcoupontype.Eventcouponassignmentmappings)
+                {
+                    Coupontype.Eventcouponassignmentmappings.Add(i);
+                }
                 _context.Eventcoupontypes.Add(Coupontype);
                 _context.SaveChanges();
 
