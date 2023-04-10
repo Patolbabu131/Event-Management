@@ -218,7 +218,7 @@ function details_event(id) {
 function edit_attendee(id) {
     $.ajax({
         type: "get",
-        url: '/Eventattendees/Edit/' + id,
+        url: '/Eventattendees/CreateEdit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
@@ -235,13 +235,15 @@ function edit_attendee(id) {
                     var month = ("0" + (now.getMonth() + 1)).slice(-2);
                     var today = day + "/" + month + "/" + now.getFullYear() ;
 
-
                     $("#attenid").val(resonce.id);
                     $("#EventId").val(resonce.id);
                     $("#AttendeeName").val(resonce.attendeeName);
                     $("#ContactNo").val(resonce.contactNo);
                     $("#CouponsPurchased").val(resonce.couponsPurchased);
                     $("#PurchasedOn").val(today);
+
+                    $("#ExecutiveMember").val(resonce.executiveMember);
+                    $("#CouponTypeIdd").val(resonce.couponTypeIdd);
                     $("#TotalAmount").val(resonce.totalAmount);
                     $("#Remarks").val(resonce.remarks);
                     $("#CouponTypeId").val(resonce.couponTypeId);
