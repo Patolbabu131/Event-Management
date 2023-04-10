@@ -15,14 +15,17 @@
 <html>
 <style>
     .leftside,.rightside{
-        hight:50px;
-        width:300px;
+        hight: 50px;
+        width: 300px;
     }
     .box{
-        hight:100px;
-        width:800px;
+        hight: 100px;
+        width: 800px;
         border:2px solid black;
         padding:10px;
+    }
+    .color {
+        color: black;
     }
 </style>
 <body onload="functionToCall(@id)">
@@ -39,7 +42,7 @@
                     </div>
                 </div>
                 <div class="col-md-1">
-                    <hr width="1" size="75" style="0 auto" />
+                    <hr width="1" size="75" style="auto" />
                 </div>
                 <div class="col">
                     <div class="rightside">
@@ -49,9 +52,6 @@
             </div>
             </div>
         </div>
-
-
-
 
     <div id="Attendees"></div>
     <div class="row">
@@ -76,7 +76,7 @@
                         <th>Coupons Purchased</th>
                         <th>Purchased On</th>
                         <th>Total Amount</th>
-                        <th>Remaining Coupons</th>
+                       @* <th>Remaining Coupons</th>*@
                         <th>Remarks</th>
                         <th></th>
                     </tr>

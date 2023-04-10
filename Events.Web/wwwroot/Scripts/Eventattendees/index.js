@@ -167,12 +167,40 @@ function save_Attendee() {
             type: "post",
             url: '/Eventattendees/CreateEdit1',
             data: data,
-            success: function ConfirmDialog(message) {
+            success: function ConfirmDialog(message)
+            {
                 $("#addeditattendee").modal('hide');
                 CallDialog(message);                                   
             }             
         })
     }
+}
+
+function CallDialog()
+{
+    $('#Attendees').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog("close");
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
 }
 
 function selectcoupon(cname) {
@@ -225,7 +253,7 @@ function edit_attendee(id) {
                     $("#TotalAmount").val(resonce.totalAmount);
                     $("#Remarks").val(resonce.remarks);
                     $("#CouponTypeId").val(resonce.couponTypeId);
-                    $("#RemainingCoupons").val(resonce.remainingCoupons);
+                    //$("#RemainingCoupons").val(resonce.remainingCoupons);
 
                 }
             })
