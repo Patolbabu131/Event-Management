@@ -26,6 +26,7 @@ namespace Events.Web.Controllers
             }
             else
             {
+                ViewBag.VBFriend = _context.Executivemembers.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId==Id), "Id", "CouponName");
                 ViewBag.Eid = Id;
@@ -154,42 +155,20 @@ namespace Events.Web.Controllers
         //    return View(eventcouponassignmentmapping);
         //}
 
-        //// POST: Eventcouponassignmentmappings/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(long id, [Bind("Id,CouponTypeId,CouponNumber,ExecutiveMember,Attendee,Booked")] Eventcouponassignmentmapping eventcouponassignmentmapping)
-        //{
-        //    if (id != eventcouponassignmentmapping.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Eventcouponassignmentmappings/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
+        {
+           
+            var mapping = _context.Eventcouponassignmentmappings.Where(e=>e.Id==eventcouponassignmentmapping.Id).FirstOrDefault();
+            mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
+            _context.Eventcouponassignmentmappings.Update(mapping);
+            await _context.SaveChangesAsync();
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(eventcouponassignmentmapping);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!EventcouponassignmentmappingExists(eventcouponassignmentmapping.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventcouponassignmentmapping.CouponTypeId);
-        //    ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignmentmapping.ExecutiveMember);
-        //    return View(eventcouponassignmentmapping);
-        //}
+            return Json("ok");
+        }
 
         //// GET: Eventcouponassignmentmappings/Delete/5
         //public async Task<IActionResult> Delete(long? id)
@@ -225,7 +204,7 @@ namespace Events.Web.Controllers
         //    {
         //        _context.Eventcouponassignmentmappings.Remove(eventcouponassignmentmapping);
         //    }
-            
+
         //    await _context.SaveChangesAsync();
         //    return RedirectToAction(nameof(Index));
         //}

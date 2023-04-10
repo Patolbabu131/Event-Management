@@ -22,8 +22,8 @@
                 },
                 {
                     data: function (row, type, set) {
-      
-                            var drop = '<select name = "list" class="selectmember form-control">'
+
+                        var drop = '<select name = "list" id="member_' + row.id + '" class="selectmember form-control">'
                             drop += '<option value = "" disabled selected>Select Member</option>'
                             return drop;
                     }
@@ -45,7 +45,7 @@
 
                 {
                     render: function (data, type, row, meta) {  
-                        return '<a class="btn btn-info">Save</a>';
+                        return '<button class="button-31" onclick="update(' + row.id + ')">Save</button>';
                     }
                 },
             ]
@@ -63,4 +63,30 @@ function selectmember() {
             });
         }
     })
+}
+
+
+
+var update = function (id) {
+
+    
+    var cno = $("#member_" + id).val();
+   
+    var data = {
+        Id: id,
+        ExecutiveMember: cno
+    }
+    $.ajax({
+        type: 'post',
+        url: "/Eventcouponassignmentmappings/Edit",
+        data: data,
+        success: function (result) {
+            alert(result);
+            location.reload();
+        },
+        error: function (xhr) {
+            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+        }
+
+    });
 }
