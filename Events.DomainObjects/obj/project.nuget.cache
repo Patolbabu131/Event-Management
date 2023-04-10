@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3xO/kI9l5jq7i6RtU01B771hHHqULQH8WFX8IDm1EUIswuBZTgWA8bFBuGTGB6wlpXa3AGHysrvHI+Zn0Z8XsA==",
+  "dgSpecHash": "IsY5e+r3VqXMqc9JU24TKoaFjNzTh9eEbJDOpVyR7ZhFtN4TNSRuKdhu6ToAYvautycdfOhh5WBhY0KEMU8DnQ==",
   "success": true,
-  "projectFilePath": "C:\\Projects\\EventsPSV\\Events.DomainObjects\\Events.DomainObjects.csproj",
+  "projectFilePath": "C:\\Users\\HP\\source\\repos\\Event\\Events.DomainObjects\\Events.DomainObjects.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HP\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
