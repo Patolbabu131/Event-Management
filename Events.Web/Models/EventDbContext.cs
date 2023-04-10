@@ -125,7 +125,6 @@ public partial class EventDbContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.PaymentReference).HasMaxLength(255);
             entity.Property(e => e.PurchasedOn).HasColumnType("datetime");
-            entity.Property(e => e.RemainingCoupons).HasColumnType("int(11)");
             entity.Property(e => e.TotalAmount).HasPrecision(10);
 
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventattendees)
@@ -224,21 +223,20 @@ public partial class EventDbContext : DbContext
 
             entity.ToTable("eventcouponassignmentmapping");
 
+            entity.HasIndex(e => e.Attendee, "Attendee");
+
             entity.HasIndex(e => e.CouponTypeId, "CouponTypeID");
 
-            entity.HasIndex(e => e.EventID, "EventId");
+            entity.HasIndex(e => e.EventId, "EventID");
 
             entity.HasIndex(e => e.ExecutiveMember, "ExecutiveMember");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("ID");
-            entity.Property(e => e.EventID)
-                .HasColumnType("bigint(20)")
-                .HasColumnName("EventID");
             entity.Property(e => e.Attendee)
-                .HasMaxLength(200)
-                .HasDefaultValueSql("'NULL'");
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("bigint(20)");
             entity.Property(e => e.Booked)
                 .HasDefaultValueSql("'''false'''")
                 .HasColumnType("enum('true','false')")
@@ -247,20 +245,32 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.CouponTypeId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("CouponTypeID");
+            entity.Property(e => e.EventId)
+                .HasColumnType("bigint(20)")
+                .HasColumnName("EventID");
             entity.Property(e => e.ExecutiveMember)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
 
+            entity.HasOne(d => d.AttendeeNavigation).WithMany(p => p.Eventcouponassignmentmappings)
+                .HasForeignKey(d => d.Attendee)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("eventcouponassignmentmapping_ibfk_4");
+
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventcouponassignmentmappings)
                 .HasForeignKey(d => d.CouponTypeId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventcouponassignmentmapping_ibfk_2");
+
+            entity.HasOne(d => d.Event).WithMany(p => p.Eventcouponassignmentmappings)
+                .HasForeignKey(d => d.EventId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("eventcouponassignmentmapping_ibfk_3");
 
             entity.HasOne(d => d.ExecutiveMemberNavigation).WithMany(p => p.Eventcouponassignmentmappings)
                 .HasForeignKey(d => d.ExecutiveMember)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignmentmapping_ibfk_1");
-            
         });
 
         modelBuilder.Entity<Eventcoupontype>(entity =>

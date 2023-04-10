@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Events.Web.Models.Eventcouponassignmentmapping>
-
+@using Newtonsoft.Json
 @{
 
     ViewData["Title"] = "Index";
@@ -127,7 +127,10 @@
 </body>
 </html>
 
+<script>
 
+    var memberslist = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.Executivemembers))');
+</script>
 @section Scripts
     {
     <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>

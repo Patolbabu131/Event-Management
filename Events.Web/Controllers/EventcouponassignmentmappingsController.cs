@@ -28,15 +28,17 @@ namespace Events.Web.Controllers
             {
                 ViewBag.VBFriend = _context.Executivemembers.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
-                ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId==Id), "Id", "CouponName");
+                ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
+                ViewBag.Executivemembers = _context.Executivemembers.Select(s => new { s.Id, s.FullName }).ToList();
                 ViewBag.Eid = Id;
                 return View();
             }
-
         }
+
         public ActionResult getmembers()
         {
-            return Json(_context.Executivemembers.ToList());
+            var member = _context.Executivemembers.ToList();
+            return Json(member);
         }
 
         public ActionResult Getctype(JqueryDatatableParam param, Int64 Id)
@@ -87,8 +89,6 @@ namespace Events.Web.Controllers
                 aaData = displayResult
             });
         }
-
-
 
 
         //// GET: Eventcouponassignmentmappings/Details/5
@@ -211,7 +211,7 @@ namespace Events.Web.Controllers
 
         private bool EventcouponassignmentmappingExists(long id)
         {
-          return (_context.Eventcouponassignmentmappings?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Eventcouponassignmentmappings?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

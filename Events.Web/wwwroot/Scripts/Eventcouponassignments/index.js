@@ -1,4 +1,4 @@
-﻿function Coupenassign(id) {
+﻿    function Coupenassign(id) {
     datatable = $('#Cassignmenttable')
         .DataTable
         ({

@@ -22,7 +22,6 @@ namespace Events.Web.Controllers
             cd = httpContextAccessor;
         }
 
-        // GET: Eventcoupontypes
         public async Task<IActionResult> Index(Int64 Id)
         {
             if (Id == null || Id == 0)
@@ -82,7 +81,6 @@ namespace Events.Web.Controllers
             });
         }
 
-        // GET: Eventcoupontypes/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null || _context.Eventcoupontypes == null)
@@ -123,6 +121,7 @@ namespace Events.Web.Controllers
                     EventId = eventcoupontype.EventId,
                     CouponName = eventcoupontype.CouponName,
                     CouponPrice = eventcoupontype.CouponPrice,
+                    TotalCoupon=eventcoupontype.TotalCoupon,
                     Active = eventcoupontype.Active,
                     CreatedOn = DateTime.Now,
                     CreatedBy = Convert.ToInt64(mid),
@@ -158,7 +157,6 @@ namespace Events.Web.Controllers
             
         }
 
-        // GET: Eventcoupontypes/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
 
@@ -166,9 +164,6 @@ namespace Events.Web.Controllers
             return Json(data);
         }
 
-        // POST: Eventcoupontypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,EventId,CouponName,CouponPrice,Active,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn")] Eventcoupontype eventcoupontype)
@@ -204,20 +199,20 @@ namespace Events.Web.Controllers
             return View(eventcoupontype);
         }
 
-        // GET: Eventcoupontypes/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public IActionResult Delete(long? id)
         {
             var eventcoupontype = _context.Eventcoupontypes.Where(e => e.Id == id).FirstOrDefault();
-            var data = _context.Eventattendees.Where(e => e.CouponTypeId == id).FirstOrDefault();
+            var newdata =_context.Eventcouponassignmentmappings.ToList();
+            var data = _context.Eventcouponassignmentmappings.Where(e => e.CouponTypeId == id && (e.Booked == "true" || e.ExecutiveMember != null)).FirstOrDefault();
           
                 if (data!=null)
                 {
-                    return Json("Unable To Delete Coupon. Because " + eventcoupontype.CouponName + " is already assigned to Attendee :" + data.AttendeeName);
+                    return Json("Unable To Delete Coupon. Because " + eventcoupontype.CouponName + " is already assigned to Attendee :" + data.Attendee);
                 }
                 else
                 {
                     _context.Eventcoupontypes.Remove(eventcoupontype);
-                    await _context.SaveChangesAsync();
+                     _context.SaveChanges();
                     return Json("Coupon Deleted");
                 }
           
@@ -238,8 +233,6 @@ namespace Events.Web.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-
         private bool EventcoupontypeExists(long id)
         {
           return _context.Eventcoupontypes.Any(e => e.Id == id);

@@ -202,9 +202,9 @@ function Delete(id) {
                 Yes: function () {
                     $.ajax({
                         url: '/Eventcoupontypes/Delete/' + id,
-                        success: function () {
+                        success: function (response) {
                             $('#dailog').appendTo('body')
-                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .html('<div><h6>' + response + '</h6></div>')
                                 .dialog({
                                     modal: true,
                                     title: 'Delete Message',
