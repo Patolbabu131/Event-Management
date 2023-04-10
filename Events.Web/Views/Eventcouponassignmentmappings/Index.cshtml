@@ -1,7 +1,7 @@
-﻿@model Events.Web.Models.Eventattendee
-
-@*@model IEnumerable<Events.Web.Models.Eventattendee>*@
+﻿@model IEnumerable<Events.Web.Models.Eventcouponassignmentmapping>
+@using Newtonsoft.Json
 @{
+
     ViewData["Title"] = "Index";
     var id = ViewBag.Eid;
     var iid = ViewBag.VBFriend.EventName;
@@ -14,26 +14,28 @@
     var emodifiedon = ViewBag.VBFriend.ModifiedOn;
 }
 
+
+<h1>Index</h1>
 <html>
-<link href="~/lib/select2.min.css" rel="stylesheet" />
 <style>
-    .leftside,.rightside{
-        hight:50px;
-        width:300px;
+    .leftside, .rightside {
+        hight: 50px;
+        width: 300px;
     }
-    .box{
-        hight:100px;
-        width:800px;
-        border:2px solid black;
-        padding:10px;
+
+    .box {
+        hight: 100px;
+        width: 800px;
+        border: 2px solid black;
+        padding: 10px;
     }
 </style>
-<body onload="functionToCall(@id)">
-        <div class="card">
-            <div class="card-body">
+<body >
+    <div class="card">
+        <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <div class="leftside"> 
+                    <div class="leftside">
                         EventName:@ViewBag.VBFriend.EventName
                         <br />
                         EventDate:@ViewBag.VBFriend.EventDate
@@ -42,7 +44,7 @@
                     </div>
                 </div>
                 <div class="col-md-1">
-                    <hr width="1" size="75" style="0 auto" />
+                    <hr width="1" size="70" style="0 auto" />
                 </div>
                 <div class="col">
                     <div class="rightside">
@@ -50,36 +52,32 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
 
-
-
-
-    <div id="Attendees"></div>
+    <div id="Cassign"></div>
     <div class="row">
         <div class="col-6">
-            <h2 class="fw-bold mb-4">Attendees</h2>
+            <h2 class="fw-bold mb-4">Coupon</h2>
             @Html.ActionLink("Back to List", "Index","Events")
+            <select class="form-control" id="mySelect"  asp-items="ViewBag.Eventcoupontypes">
+                <option disabled selected>Select Coupon</option>
+            </select>
         </div>
-        <div class="col-6 text-end">
-            <a class="btn btn-primary" id="create_attendee" onclick="create_attendee(@id);">Add Attendees</a>
-        </div>
+
     </div>
 
     <div class="card shadow">
 
-        <div class="card-body  table-responsive">
-            <table id="Eventattendeestable" class="table">
+        <div class="card-body">
+            <table id="Cassignmentmappingtable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Attendee Name</th>
-                        <th>Contact No</th>
-                        <th>Coupons Purchased</th>
-                        <th>Purchased On</th>
-                        <th>Total Amount</th>
-                        <th>Remarks</th>
-                        <th></th>
+                        <th>CouponNumber</th>
+                        <th>Executive Member</th>
+                        <th>Attende Name</th>
+                        <th>Booked?</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -90,12 +88,16 @@
 </body>
 </html>
 
+<script>
+
+    var memberslist = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.Executivemembers))');
+</script>
 @section Scripts
     {
     <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
-    <script src="~/Scripts/Eventattendees/index.js"></script>
+    <script src="~/scripts/eventcouponassignmentmapping/index.js"></script>
+   
 }
-
