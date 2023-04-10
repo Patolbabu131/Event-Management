@@ -10,6 +10,7 @@ using Events.Database;
 using NuGet.Common;
 using System.Security.Cryptography;
 using Eco.ViewModel.Runtime;
+using Org.BouncyCastle.Utilities;
 
 namespace Events.Web.Controllers
 {
@@ -56,7 +57,7 @@ namespace Events.Web.Controllers
             }
             else
             {
-                eventattendees = _context.Eventattendees.Where(m => m.EventId == Id);
+                eventattendees = _context.Eventattendees.Where(e => e.EventId == Id).ToList();
             }                                               
 
             //Searching
@@ -67,7 +68,6 @@ namespace Events.Web.Controllers
                                               || x.CouponsPurchased.ToString().Contains(param.sSearch.ToLower())
                                               || x.PurchasedOn.ToString().Contains(param.sSearch.ToLower())
                                               || x.TotalAmount.ToString().Contains(param.sSearch.ToLower())
-                                              || x.RemainingCoupons.ToString().Contains(param.sSearch.ToLower())
                                               || x.Remarks.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
 
@@ -96,11 +96,8 @@ namespace Events.Web.Controllers
             //{
             //    eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
             //}
+           
             else if (param.iSortCol_0 == 5)
-            {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.RemainingCoupons).ToList() : eventattendees.OrderByDescending(c => c.RemainingCoupons).ToList();
-            }
-            else if (param.iSortCol_0 == 6)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
             }
@@ -145,12 +142,8 @@ namespace Events.Web.Controllers
         {
             
             ViewBag.eid = id;
-
-            var e = _context.Executivemembers.ToList();
-            var p = _context.Eventcouponassignments.Where(c => c.EventId == id).ToList();
-      
            
-            //ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers)), "Id", "FullName");    
+            ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "FullName");    
 
             return PartialView("CreateEdit");
         }
@@ -181,29 +174,35 @@ namespace Events.Web.Controllers
         
         public IActionResult fetchcoupon(Int64 id)
         {
+            EventDbContext entities = new EventDbContext();
+            var myvalues = (from values in entities.Eventcouponassignmentmappings
+                            where values.ExecutiveMember!=null
+                            select values.CouponTypeId).ToArray();
+
+            IEnumerable<long> uniqueItems = myvalues.Distinct<long>();
+
+
+            List<Eventcoupontype> coupon =new List<Eventcoupontype>();
+            foreach (Int64 i in uniqueItems)
+            {
+                List<Eventcoupontype> eventcoupontypes = _context.Eventcoupontypes.Where(e => e.Id == i).ToList();
+                coupon = eventcoupontypes; 
+            }
            
-            var  eventcouponassignments= _context.Eventcouponassignments.ToList();
-            var coupontype=_context.Eventcoupontypes.ToList();
-            var employeeRecord = from e in eventcouponassignments
-                                 join d in coupontype on e.CouponTypeId equals d.Id into table1
-                                 from d in table1.ToList()
-                                 select new 
-                                 {
-                                     id=e.Id,
-                                     EventId=e.EventId,
-                                     TotalCoupons=e.TotalCoupons,
-                                     CouponName=d.CouponName,
-                                 };
-    
-            return Json(employeeRecord);
+            return Json(coupon);
         }
+        public IActionResult getnoofcoupon(Int64 id , Int64 mid)
+        {
+            var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.ExecutiveMember == mid) && e.Booked == "false").ToList();
+            return Json(nocoupon);
+        }
+        
         [HttpPost]
         public IActionResult CreateEdit1(Eventattendee eventattendee)
         {            
             string mid = cd.HttpContext.Session.GetString("MID");
             if (eventattendee.Id == null || eventattendee.Id==0)
-            {
-                
+            { 
                 var member = new Eventattendee()
                 {
                    EventId=eventattendee.EventId,
@@ -211,20 +210,29 @@ namespace Events.Web.Controllers
                    ContactNo = eventattendee.ContactNo,
                    CouponsPurchased = eventattendee.CouponsPurchased,
                    PurchasedOn = eventattendee.PurchasedOn,
-                   TotalAmount = eventattendee.TotalAmount,
+                   ExecutiveMember = eventattendee.ExecutiveMember,
+                   CouponTypeId = eventattendee.CouponTypeId,
+                   TotalAmount = 100,
+                   ModeOfPayment = eventattendee.ModeOfPayment,
+                   PaymentReference = eventattendee.PaymentReference,
+                   PaymentStatus = eventattendee.PaymentStatus,
                    Remarks = eventattendee.Remarks,
                    CreatedOn = DateTime.Now,
                    CreatedBy = Convert.ToInt64(mid),
-                   CouponTypeId = eventattendee.CouponTypeId,
-                   RemainingCoupons = eventattendee.RemainingCoupons,
                    ModifiedBy = Convert.ToInt64(mid),
                    ModifiedOn = DateTime.Now,
-                   ModeOfPayment = eventattendee.ModeOfPayment
-
-
                 };
                 _context.Eventattendees.Add(member);
-                _context.SaveChanges(); 
+                _context.SaveChanges();
+
+                foreach (var i in eventattendee.Eventcouponassignmentmappings)
+                {
+                    var multiplecoupon = _context.Eventcouponassignmentmappings.Where(e => e.Id == i.Id).FirstOrDefault();
+                    multiplecoupon.Attendee = member.Id;
+                    multiplecoupon.Booked = i.Booked;
+                    _context.Eventcouponassignmentmappings.Update(multiplecoupon);
+                    _context.SaveChanges();
+                }
                 return Json("Event created...");
             }
             else
@@ -239,7 +247,6 @@ namespace Events.Web.Controllers
                 attendees.TotalAmount= eventattendee.TotalAmount;
                 attendees.Remarks= eventattendee.Remarks;
                 attendees.CouponTypeId= eventattendee.CouponTypeId;
-                attendees.RemainingCoupons = eventattendee.RemainingCoupons;
                 attendees.ModifiedBy = Convert.ToInt64(mid);
                 attendees.ModifiedOn = DateTime.Now;
                 attendees.ModeOfPayment = eventattendee.ModeOfPayment;

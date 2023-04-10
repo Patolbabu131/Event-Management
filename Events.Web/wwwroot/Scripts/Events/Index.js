@@ -263,7 +263,7 @@ function bindDatatable() {
 
                 {
                     "render": function (data, type, row, meta) {
-                        var drop = '<select name = "list" class="btnlist form-control">'
+                        var drop = '<select name = "list" class="btnlist form-control form-select-sm ">'
                         drop += '<option value = "">Details</option>'
                         drop += '<option value = "/Eventsponsors/Index/' + row.id + '">Sponser</option>'
                         drop += '<option value = "/Eventsponsorsimages/Index/' + row.id + '">Sponsors Images</option>'

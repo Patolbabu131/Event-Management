@@ -44,8 +44,7 @@ public partial class Eventattendee
     [DisplayName("Coupon Type Id")]
     public long CouponTypeId { get; set; }
 
-    [DisplayName("Remaining Coupons")]
-    public int RemainingCoupons { get; set; }
+
 
     [DisplayName("Moldified By")]
     public long? ModifiedBy { get; set; }
@@ -70,7 +69,7 @@ public partial class Eventattendee
   
     public virtual Executivemember? ExecutiveMemberNavigation { get; set; }
 
-
+    public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
     public virtual Executivemember? ModifiedByNavigation { get; set; }
 }
 
@@ -80,6 +79,4 @@ public enum ModeOfPayment
     UPI = 2,
     Bank_Transfer = 3,
     Others = 4,
-
-
 }

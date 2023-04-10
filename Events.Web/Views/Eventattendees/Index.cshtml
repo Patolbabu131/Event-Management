@@ -66,17 +66,7 @@
             <a class="btn btn-primary" id="create_attendee" onclick="create_attendee(@id);">Add Attendees</a>
         </div>
     </div>
-@*
-    <div class="form-group">
-        <label value="CouponTypeId" class="control-label ">
-        </label>
-        <select id="CouponTypeIdd" multiple> 
-            <option value="test">1</option>
-            <option value="test">1</option>
-            <option value="test">1</option>
-            <option value="test">1</option>
-        </select>
-    </div>*@
+
     <div class="card shadow">
 
         <div class="card-body  table-responsive">
@@ -88,7 +78,6 @@
                         <th>Coupons Purchased</th>
                         <th>Purchased On</th>
                         <th>Total Amount</th>
-                        <th>Remaining Coupons</th>
                         <th>Remarks</th>
                         <th></th>
                     </tr>
@@ -110,109 +99,3 @@
     <script src="~/Scripts/Eventattendees/index.js"></script>
 }
 
-@*<div class="modal fade" id="addeditattendee" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="attendeestitle">Add Attendee</h5>
-
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <form id="formAddAttendees">
-                    <div class="modal-body">
-                        <input id="attenid" value="" hidden>
-                        <input id="EventId" value="@id" hidden>
-                        <div class="form-group">
-                            <label value="AttendeName" class="control-label"></label>
-                            <input type="text" name="AttendeeName" id="AttendeeName" class="form-control" value="" />
-                            <span asp-validation-for="AttendeeName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="ContactNo" class="control-label"></label>
-                            <input type="number" name="ContactNo" id="ContactNo" class="form-control" value="" />
-                            <span asp-validation-for="ContactNo" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CouponsPurchased" class="control-label"></label>
-                            <input name="CouponsPurchased" type="number" id="CouponsPurchased" class="form-control" value="" />
-                            <span asp-validation-for="CouponsPurchased" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PurchasedOn" class="control-label"></label>
-                            <input type="text" id="PurchasedOn" name="PurchasedOn" placeholder="DD/MM/YYYY" class="form-control" value="" autocomplete="off" />
-                            <span asp-validation-for="PurchasedOn" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="TotalAmount" class="control-label"></label>
-                            <input name="TotalAmount" id="TotalAmount" class="form-control numberonly" value="" />
-                            <span asp-validation-for="TotalAmount" class="text-danger divError"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="ExecutiveMember" class="control-label"></label>
-                            <select type="number" name="ExecutiveMember" id="ExecutiveMember" class="ExecutiveMember form-control" placeholder="Click to select Member Id" as p-items="ViewBag.ExecutiveMember" value="">
-                                <option disabled selected value="">Select Member</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                        <label asp-for="CouponTypeId" class="control-label ">
-                        </label>
-                        <select id="CouponTypeIdd">
-                        <option value="test">1</option>
-                        <option value="test">1</option>
-                        <option value="test">1</option>
-                        <option value="test">1</option>
-                        </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="CouponsPurchased" class="control-label"> Selection of Coupon Numbers</label>
-                            <select name="countries" id="countries">
-                            </select>
-
-                            <input type="number" class="form-control" id="CouponsPurchased" name="CouponsPurchased">
-                            @*<select type="number" name="CouponsPurchased" id="CouponsPurchased" class="form-control" value="">
-                            <option disabled selected value="">Select No of Coupon</option>
-                            </select>*@
-                     @*   </div>
-
-
-                        <div class="form-group">
-                            <label asp-for="ModeOfPayment" class="control-label"></label>
-                            <select asp-for="ModeOfPayment" class="form-control" asp-items="Html.GetEnumSelectList<ModeOfPayment>()">
-                                <option selected="selected" value="">Please select</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="PaymentReference" class="control-label"></label>
-                            <input type="text" class="form-control" id="PaymentReference" name="PaymentReference">
-
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="Remarks" class="control-label"></label>
-                            <textarea type="text" name="Remarks" id="Remarks" class="form-control" value=""> </textarea>
-                            <span asp-validation-for="Remarks" class="text-danger"></span>
-                        </div>
-                        <div class="form-group" hidden>
-                            <label asp-for="RemainingCoupons" class="control-label"></label>
-                            <input name="RemainingCoupons" id="RemainingCoupons" class="form-control" value="1" />
-                            <span asp-validation-for="RemainingCoupons" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                        <button type="button" onclick="save_Attendee()" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        @section Scripts
-        {
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    }
-    </div>*@

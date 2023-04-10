@@ -67,6 +67,7 @@ public partial class Event
     public virtual ICollection<Eventattendee> Eventattendees { get; } = new List<Eventattendee>();
 
     public virtual ICollection<Eventcouponassignment> Eventcouponassignments { get; } = new List<Eventcouponassignment>();
+    public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
 
     public virtual ICollection<Eventcoupontype> Eventcoupontypes { get; } = new List<Eventcoupontype>();
 

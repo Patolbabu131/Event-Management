@@ -1,5 +1,8 @@
-﻿$("#mySelect").change(function () {
-   
+﻿
+
+$("#mySelect").change(function () {
+
+    
     var x = document.getElementById("mySelect").value;
     datatable = $('#Cassignmentmappingtable')
         .DataTable
@@ -22,10 +25,23 @@
                 },
                 {
                     data: function (row, type, set) {
-                            var drop = '<select name = "list" class="selectmember form-control">'
-                            drop += '<option value = "" disabled selected>Select Member</option>'
-                            return drop;
+                       
+                        var drop = '<select name = "list" id="selectmember" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" >'
+                        drop += '<option value = "" disabled selected>Select Member</option>'
+                        $.each(memberslist, function (i, v) {
+                            if (v.id == row.executiveMember) {
+                                
+                                drop += '<option value="' + v.Id + '">' + v.FullName + '</option>';
+                            }
+                            else {
+                                drop += '<option value="' + v.Id + '"selected>' + v.FullName + '</option>';
+                            }
+                            
+                        })
+                        return drop;
+
                     }
+                   
                 },
                 {
                     data: function (row, type, set) {
@@ -48,15 +64,9 @@
                     }
                 },
             ]
+
         });
-    $.ajax({
-        type: "get",
-        url: '/Eventcouponassignmentmappings/getmembers',
-        success: function (members) {
-            $.each(members, function (index, value) {
-                $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
-            });
-        }
-    })
+    
+
 })
 

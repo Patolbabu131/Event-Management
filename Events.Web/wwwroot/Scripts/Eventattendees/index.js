@@ -37,9 +37,6 @@ function functionToCall(id) {
                     "data": "totalAmount",
                 },
                 {
-                    "data": "remainingCoupons"
-                },
-                {
                     "data": "remarks",
                 },
                 {
@@ -51,70 +48,58 @@ function functionToCall(id) {
         });
 }
 
-$(document).ready(function ()
-{
-    $('#CouponTypeIdd').select2({
-        'width': '100%'
-    });
-});
-
-
-
 function create_attendee(id) {
     $.ajax({
         url: '/Eventattendees/CreateEdit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
             $("#addeditattendee").modal('show');
-            onlynumber();
             $("#PurchasedOn").datepicker();
-
-            //for (let i = 0; i < 10; i++) {
-
-            //    $('#countries').append($('<option>').val(i).text(i));
-            //}
-         
-
-
-            //$(".ExecutiveMember").change(function () {
-                //$.ajax({
-                //type: "get",
-                //url: '/Eventattendees/fetchcoupon/' + id,
-                //success: function (resonce) {
-                //        for (let i = 0; i < resonce.length; i++) {
-
-                //            $('.CouponTypeId').append($('<optgroup id="' + resonce[i].couponName + '" label="' + resonce[i].couponName + '">'));
-
-                //            for (var j = 0; j < resonce[i].totalCoupons; j++) {
-
-                //                $('#' + resonce[i].couponName+'').append($('<option>').val(j).text(j));
-                //            }
-
-                //        }
-                //}
-
-            //})
-            //$('#CouponTypeId').multiselect();
-            $('#CouponTypeIdd').select2({
-                'width':'100%'
-            });
-            //var multipleCancelButton = new Choices('.CouponTypeId');
-
+        
+       
         }
-
     })
 }
 
 
+function myExecutiveMember() {
+    var eid = document.getElementById("ExecutiveMember").value;
+    $.get("/Eventattendees/fetchcoupon/"+eid,
+        function (data) {
+            //$("#CouponTypeIdd").prop("disabled", false);
+            $.each(data, function (index, value) {
+                $('.CouponTypeId').append(new Option(value.couponName, value.id));
+            });
+        }
+    )
+}
 
-function onlynumber() {
-    $('.numberonly').keypress(function (e) {
+function selectNocoupon() {
+    var couponid = document.getElementById("CouponTypeIdd").value;
+    var mid = document.getElementById("ExecutiveMember").value;
+    $.ajax({
 
-        var charCode = (e.which) ? e.which : event.keyCode
+        url: "/Eventattendees/getnoofcoupon",
+        data: {
+            id: couponid,
+            mid: mid
+       
+            },
+        success: function (value) {
+            //$("#selectmultiplecoupons").prop("disabled", false);
 
-        if (String.fromCharCode(charCode).match(/[^0-9]/g))
-            return false;
-    });
+         
+            $.each(value, function (index, value) {
+             
+                $('.nocoupon').append($('<option>').val(value.id).text(value.couponNumber))
+            });
+            $('.nocoupon').prop('multiple', true)
+            var multipleCancelButton = new Choices('.nocoupon', {
+                removeItemButton: true,
+            }); 
+        }
+    })
+ 
 }
 
 function save_Attendee() {
@@ -139,21 +124,13 @@ function save_Attendee() {
                 required: true,
                 number: true
             },
-            Remarks: {
-                required: true,
-                maxlength:500
-            },
             CouponTypeId: {
                 required: true,
                 number: true
             },
-            RemainingCoupons: {
-                required: true,
-                number: true
-            },
+
             Remarks:{
                  required: true,
-                 number: true
             },
 
         },
@@ -171,13 +148,8 @@ function save_Attendee() {
                 required: " Please enter Amount ",
                 number: "Invalid input"
             },
-            Remarks: "Please enter Remark",
             CouponTypeId: {
                 required: " Please Select Id ",
-                number: "Invalid input"
-            },
-            RemainingCoupons: {
-                required: " Please Remaining Coupons ",
                 number: "Invalid input"
             },
             Remarks: {
@@ -186,18 +158,31 @@ function save_Attendee() {
         },
     });
     if ($('#formAddAttendees').valid()) {
+
+        var assign = [];
+        var count = $('.nocoupon').val();
+        for (var i = 1; i <= count.length; i++) {
+            assign.push({
+                Id: count, 
+                Booked: "true"
+            });
+        }
         var data = {
             Id: $("#attenid").val(),
             EventId: $("#EventId").val(),
             AttendeeName: $("#AttendeeName").val(),
             ContactNo: $("#ContactNo").val(),
-            CouponsPurchased: $("#CouponsPurchased").val(),
             PurchasedOn: $("#PurchasedOn").val(),
-            TotalAmount: $("#TotalAmount").val(),
+            ExecutiveMember: $("#ExecutiveMember").val(),
+            CouponTypeId: $("#CouponTypeIdd").val(),
+            CouponsPurchased: $(".nocoupon").val().join(","),
+            ModeOfPayment: $("#ModeOfPayment").val(),
+            PaymentStatus: $("#PaymentStatus").val(),
+            PaymentReference: $("#PaymentReference").val(),
             Remarks: $("#Remarks").val(),
-            CouponTypeId: $("#CouponTypeId").val(),
-            RemainingCoupons: $("#RemainingCoupons").val(),
+            Eventcouponassignmentmappings:assign
         }
+
         $.ajax({
             type: "post",
             url: '/Eventattendees/CreateEdit1',
@@ -260,7 +245,6 @@ function edit_attendee(id) {
                     $("#TotalAmount").val(resonce.totalAmount);
                     $("#Remarks").val(resonce.remarks);
                     $("#CouponTypeId").val(resonce.couponTypeId);
-                    $("#RemainingCoupons").val(resonce.remainingCoupons);
 
                 }
             })
@@ -306,9 +290,9 @@ function Delete(id) {
                 Yes: function () {
                     $.ajax({
                         url: '/Eventattendees/Delete/' + id,
-                        success: function () {
+                        success: function (response) {
                             $('#dailog').appendTo('body')
-                                .html('<div><h6>' + "Deleted Successfully ... " + '</h6></div>')
+                                .html('<div><h6>' + response + '</h6></div>')
                                 .dialog({
                                     modal: true,
                                     title: 'Delete Message',
