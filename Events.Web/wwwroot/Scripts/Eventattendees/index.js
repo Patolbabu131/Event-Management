@@ -161,9 +161,9 @@ function save_Attendee() {
 
         var assign = [];
         var count = $('.nocoupon').val();
-        for (var i = 1; i <= count.length; i++) {
+        for (var i = 0; i < count.length; i++) {
             assign.push({
-                Id: count, 
+                Id: count[i],
                 Booked: "true"
             });
         }
@@ -325,5 +325,31 @@ function Delete(id) {
                     $(this).dialog("close");
                 }
             }
+        });
+}
+
+function CallDialog(message) {
+    $('#Attendees').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog("close");
+                        window.location.reload();
+                    }
+                }
+            ]
         });
 }

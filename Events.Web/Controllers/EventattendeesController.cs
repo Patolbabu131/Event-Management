@@ -231,8 +231,8 @@ namespace Events.Web.Controllers
                     multiplecoupon.Attendee = member.Id;
                     multiplecoupon.Booked = i.Booked;
                     _context.Eventcouponassignmentmappings.Update(multiplecoupon);
-                    _context.SaveChanges();
                 }
+                _context.SaveChanges();
                 return Json("Event created...");
             }
             else
@@ -303,7 +303,7 @@ namespace Events.Web.Controllers
         // GET: Eventattendees/Delete/5
         public  IActionResult Delete(long? id)
         {
-            var attendees = _context.Eventattendees.Where(e => e.EventId == id).FirstOrDefault();
+            var attendees = _context.Eventattendees.Where(e => e.Id == id).FirstOrDefault();
           
             _context.Eventattendees.Remove(attendees);
             _context.SaveChanges();

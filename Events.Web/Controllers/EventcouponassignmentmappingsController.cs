@@ -191,6 +191,18 @@ namespace Events.Web.Controllers
         //    return View(eventcouponassignmentmapping);
         //}
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
+        {
+
+            var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
+            mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
+            _context.Eventcouponassignmentmappings.Update(mapping);
+            await _context.SaveChangesAsync();
+
+            return Json("ok");
+        }
+    
         //// GET: Eventcouponassignmentmappings/Delete/5
         //public async Task<IActionResult> Delete(long? id)
         //{

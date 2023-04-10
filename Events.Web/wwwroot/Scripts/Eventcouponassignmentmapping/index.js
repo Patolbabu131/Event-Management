@@ -26,11 +26,10 @@ $("#mySelect").change(function () {
                 {
                     data: function (row, type, set) {
                        
-                        var drop = '<select name = "list" id="selectmember" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" >'
+                        var drop = '<select name = "list" id="selectmember'+row.id+'" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" >'
                         drop += '<option value = "" disabled selected>Select Member</option>'
                         $.each(memberslist, function (i, v) {
                             if (v.id == row.executiveMember) {
-                                
                                 drop += '<option value="' + v.Id + '">' + v.FullName + '</option>';
                             }
                             else {
@@ -60,7 +59,7 @@ $("#mySelect").change(function () {
 
                 {
                     render: function (data, type, row, meta) {  
-                        return '<a class="btn btn-info">Save</a>';
+                        return '<button class="btn btn" onclick="update(' + row.id + ')">Save</button>';
                     }
                 },
             ]
@@ -69,4 +68,30 @@ $("#mySelect").change(function () {
     
 
 })
+
+var update = function (id) {
+
+
+    var cno = $("#selectmember" + id).val();
+
+    var data = {
+        Id: id,
+        ExecutiveMember: cno
+    }
+    $.ajax({
+        type: 'post',
+        url: "/Eventcouponassignmentmappings/Edit",
+        data: data,
+        success: function (result) {
+            alert(result);
+            location.reload();
+        },
+        error: function (xhr) {
+            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+        }
+
+    });
+}
+
+
 
