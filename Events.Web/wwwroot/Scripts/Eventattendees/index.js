@@ -187,7 +187,8 @@ function save_Attendee() {
             type: "post",
             url: '/Eventattendees/CreateEdit1',
             data: data,
-            success: function ConfirmDialog(message) {
+            success: function ConfirmDialog(message)
+            {
                 $("#addeditattendee").modal('hide');
                 CallDialog(message);                                   
             }             
@@ -247,6 +248,7 @@ function edit_attendee(id) {
                     $("#TotalAmount").val(resonce.totalAmount);
                     $("#Remarks").val(resonce.remarks);
                     $("#CouponTypeId").val(resonce.couponTypeId);
+                    $("#RemainingCoupons").val(resonce.remainingCoupons);
 
                 }
             })
@@ -269,7 +271,6 @@ function edit_attendee(id) {
 //                    //$("#addeditattendee").modal('hide');
 //                    CallDialog(message);
 //                }
-
 //        })
 //    }
 //}

@@ -91,34 +91,37 @@ function save_Sponsors() {
             success: function ConfirmDialog(message)
             {
                 $("#addsponsors").modal('hide');
-                $('#sponsors').appendTo('body')
-                    .html('<div><h6>' + message + '</h6></div>')
-                    .dialog({
-                        modal: true,
-                        title: 'Save Message',
-                        zIndex: 10000,
-                        autoOpen: true,
-                        width: 'auto',
-                        icon: 'fa fa- close',
-                        click: function ()
-                        {
-                            $(this).dialog("close");
-                        },
-                        buttons: [
-                            {
-                                text: "Ok",
-                                icon: "ui-icon-heart",
-                                click: function ()
-                                {
-                                    $(this).dialog("close");
-                                    window.location.reload();
-                                }
-                            }
-                        ]
-                    });
+                CallDailog(message);
             }  
         })
     }
+}
+
+
+function CallDailog(message) {
+    $('#sponsors').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog("close");
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
 }
 
 
