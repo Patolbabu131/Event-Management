@@ -70,7 +70,9 @@ namespace Events.Web.Controllers
                                               || x.ContactNo.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponsPurchased.ToString().Contains(param.sSearch.ToLower())
                                               || x.PurchasedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.TotalAmount.ToString().Contains(param.sSearch.ToLower())
+                                              || x.PaymentStatus.ToString().Contains(param.sSearch.ToLower())
+                                              || x.ModeOfPayment.ToString().Contains(param.sSearch.ToLower())
+                                              || x.PaymentReference.ToString().Contains(param.sSearch.ToLower())
                                               || x.Remarks.ToString().Contains(param.sSearch.ToLower())).ToList();
             }
 
@@ -93,16 +95,24 @@ namespace Events.Web.Controllers
             }
             else if (param.iSortCol_0 == 4)
             {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.TotalAmount).ToList() : eventattendees.OrderByDescending(c => c.TotalAmount).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.PaymentStatus).ToList() : eventattendees.OrderByDescending(c => c.PaymentStatus).ToList();
+            }
+            else if (param.iSortCol_0 == 5)
+            {
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
+            }
+            else if (param.iSortCol_0 == 6)
+            {
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.PaymentReference).ToList() : eventattendees.OrderByDescending(c => c.PaymentReference).ToList();
             }
             //else if (param.iSortCol_0 == 5)
             //{
             //    eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
             //}
 
-            else if (param.iSortCol_0 == 5)
+            else if (param.iSortCol_0 == 7)
             {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
             }
 
             //TotalRecords

@@ -33,8 +33,13 @@ function functionToCall(id) {
 
                 },
                 {
-
-                    "data": "totalAmount",
+                    "data": "paymentStatus",
+                },
+                {
+                    "data": "modeOfPayment",
+                },
+                {
+                    "data": "paymentReference",
                 },
                 {
                     "data": "remarks",
@@ -112,45 +117,58 @@ function save_Attendee() {
             ContactNo: {
                 required: true,
                 maxlength: 10
-            },
-            CouponsPurchased: {
-                required: true,
-                number: true
-            },
+            },            
             PurchasedOn: {
-                required: true,
+                required: true
             },
-            TotalAmount: {
-                required: true,
-                number: true
+            ExecutiveMember: {
+                required: true               
             },
             CouponTypeId: {
-                required: true,
-                number: true
+                required: true
+            },
+            CouponsPurchased: {
+                required: true
+            },
+            ModeOfPayment: {
+                required: true
+            },
+            PaymentStatus: {
+                required: true
+            },
+            PaymentReference: {
+                required: true
             },
 
             Remarks: {
                 required: true,
             },
-
         },
         messages: {
             AttendeeName: " Please enter AttendeeName",
+
             ContactNo: " Please enter valid Contact Number",
-            CouponsPurchased: {
-                required: " Please enter Purchased Coupons",
-                number: "Invalid input"
-            },
+            
             PurchasedOn: {
                 required: "Please enter Date",
             },
-            TotalAmount: {
-                required: " Please enter Amount ",
-                number: "Invalid input"
+            ExecutiveMember: {
+                required: "Please enter Executive Member "
             },
             CouponTypeId: {
-                required: " Please Select Id ",
-                number: "Invalid input"
+                required: " Please Select Id "
+            },
+            CouponsPurchased: {
+                required: " Please enter Purchased Coupons"
+            },
+            ModeOfPayment: {
+                required:"Please enter Mode Of Paymnet"
+            },
+            PaymentStatus: {
+                required:"Please enter Paymnet Status"
+            },
+            PaymentReference: {
+                required: "Please enter Paymnet Refrence"
             },
             Remarks: {
                 required: " Please Enter Remarks ",
@@ -188,7 +206,8 @@ function save_Attendee() {
             type: "post",
             url: '/Eventattendees/CreateEdit1',
             data: data,
-            success: function ConfirmDialog(message) {
+            success: function ConfirmDialog(message)
+            {
                 $("#addeditattendee").modal('hide');
                 CallDialog(message);
             }
@@ -296,7 +315,6 @@ function edit_attendee(id) {
 //                    //$("#addeditattendee").modal('hide');
 //                    CallDialog(message);
 //                }
-
 //        })
 //    }
 //}

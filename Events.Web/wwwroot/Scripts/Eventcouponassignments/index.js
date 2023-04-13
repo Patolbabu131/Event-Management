@@ -91,9 +91,6 @@ function save_Cassign() {
             CouponsFrom: $("#CouponsFrom").val(),
             CouponsTo: $("#CouponsTo").val(),
             TotalCoupons: $("#TotalCoupons").val(),
-
-          
-         
         }
         $.ajax({
             type: "post",
@@ -101,32 +98,37 @@ function save_Cassign() {
             data: data,
             success: function ConfirmDialog(message) {
                 $("#addCAssign").modal('hide');
-                $('#Cassign').appendTo('body')
-                    .html('<div><h6>' + message + '</h6></div>')
-                    .dialog({
-                        modal: true,
-                        title: 'Save Message',
-                        zIndex: 10000,
-                        autoOpen: true,
-                        width: 'auto',
-                        icon: 'fa fa- close',
-                        click: function () {
-                            $(this).dialog("close");
-                        },
-                        buttons: [
-                            {
-                                text: "Ok",
-                                icon: "ui-icon-heart",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    window.location.reload();
-                                }
-                            }
-                        ]
-                    });
+                CallDialog(message);
             }
         })
     }
+}
+
+
+function CallDialog(message) {
+    $('#Cassign').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog("close");
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog("close");
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
 }
 
 
@@ -209,8 +211,6 @@ function Delete(id) {
             }
         });
 }
-
-
 
 function myFunction(val) {
     var from = $("#CouponsFrom").val();
