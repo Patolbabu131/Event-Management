@@ -21,7 +21,7 @@ public partial class Eventattendee
     public string ContactNo { get; set; } = null!;
 
     [DisplayName("Coupons Purchased")]
-    public int CouponsPurchased { get; set; }
+    public string CouponsPurchased { get; set; }
 
     [DisplayName("Purchased On")]
     public DateTime PurchasedOn { get; set; }
@@ -52,7 +52,7 @@ public partial class Eventattendee
     [DisplayName("Modified On")]
     public DateTime? ModifiedOn { get; set; }
     [DisplayName("Payment Status")]
-    public bool PaymentStatus { get; set; }
+    public PaymentStatus PaymentStatus { get; set; }
 
     [DisplayName("Mode Of Payment")]
     public ModeOfPayment ModeOfPayment { get; set; }
@@ -79,4 +79,9 @@ public enum ModeOfPayment
     UPI = 2,
     Bank_Transfer = 3,
     Others = 4,
+}
+public enum PaymentStatus
+{
+    Paid=1,
+    Pending=0
 }

@@ -19,7 +19,7 @@ namespace Events.Web.Controllers
         public EventcouponassignmentsController(EventDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
-            cd=httpContextAccessor;
+            cd = httpContextAccessor;
         }
 
         // GET: Eventcouponassignments
@@ -37,10 +37,9 @@ namespace Events.Web.Controllers
             }
 
         }
+
         public ActionResult GetCAssign(JqueryDatatableParam param, Int64 Id)
         {
-
-
             IEnumerable<dynamic> Cassign = null;
 
             if (Id == null || Id == 0)
@@ -82,7 +81,7 @@ namespace Events.Web.Controllers
                 Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.TotalCoupons).ToList() : Cassign.OrderByDescending(c => c.TotalCoupons).ToList();
             }
 
-            
+
             //TotalRecords
             var displayResult = Cassign.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
             var totalRecords = Cassign.Count();
@@ -95,7 +94,6 @@ namespace Events.Web.Controllers
             });
         }
 
-        
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null || _context.Eventcouponassignments == null)
@@ -116,8 +114,8 @@ namespace Events.Web.Controllers
 
             return View(eventcouponassignment);
         }
+
         [HttpGet]
-        // GET: Eventcouponassignments/Create
         public IActionResult CreateCAssign(Int64 id)
         {
             ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
@@ -183,10 +181,7 @@ namespace Events.Web.Controllers
             return Json(cassign);
         }
         
-            // POST: Eventcouponassignments/Create
-            // To protect from overposting attacks, enable the specific properties you want to bind to.
-            // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-            [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,EventId,ExecutiveMemberId,CouponsFrom,CouponsTo,TotalCoupons,CreatedOn,CreatedBy,ModifiedBy,ModifiedOn")] Eventcouponassignment eventcouponassignment)
         {
@@ -203,7 +198,6 @@ namespace Events.Web.Controllers
             return View(eventcouponassignment);
         }
 
-        // GET: Eventcouponassignments/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null || _context.Eventcouponassignments == null)
@@ -223,9 +217,6 @@ namespace Events.Web.Controllers
             return View(eventcouponassignment);
         }
 
-        // POST: Eventcouponassignments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,EventId,ExecutiveMemberId,CouponsFrom,CouponsTo,TotalCoupons,CreatedOn,CreatedBy,ModifiedBy,ModifiedOn")] Eventcouponassignment eventcouponassignment)
@@ -262,7 +253,6 @@ namespace Events.Web.Controllers
             return View(eventcouponassignment);
         }
 
-        // GET: Eventcouponassignments/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             var data = _context.Eventcouponassignments.Where(e => e.Id == id).SingleOrDefault();
@@ -271,7 +261,6 @@ namespace Events.Web.Controllers
             return Json("success");
         }
 
-        // POST: Eventcouponassignments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)

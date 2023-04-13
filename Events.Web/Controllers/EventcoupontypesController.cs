@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using System.Globalization;
 using System.Collections;
+using System.Text;
 
 namespace Events.Web.Controllers
 {
@@ -100,6 +101,7 @@ namespace Events.Web.Controllers
 
             return View(eventcoupontype);
         }
+
         [HttpGet]
         public IActionResult CreateCType(Int64 id)
         {
@@ -127,21 +129,26 @@ namespace Events.Web.Controllers
                     CreatedBy = Convert.ToInt64(mid),
                     ModifiedBy = Convert.ToInt64(mid),
                     ModifiedOn = DateTime.Now
-                    
                 };
-                foreach(var i in eventcoupontype.Eventcouponassignmentmappings)
-                {
-                    Coupontype.Eventcouponassignmentmappings.Add(i);
-                }
                 _context.Eventcoupontypes.Add(Coupontype);
                 _context.SaveChanges();
-
+                for (var i = 1; i <= eventcoupontype.TotalCoupon; i++)
+                {
+                    Eventcouponassignmentmapping mapping = new Eventcouponassignmentmapping()
+                    {
+                        CouponNumber = i,
+                        CouponTypeId= Coupontype.Id,
+                        EventId = eventcoupontype.EventId,
+                    };
+                    _context.Eventcouponassignmentmappings.Add(mapping);
+                    _context.SaveChanges();
+                }
+                _context.SaveChanges();
                 return Json("Type of Coupon is Created...");
             }
             else
             {
                 var Coupontype = _context.Eventcoupontypes.Where(m => m.Id == eventcoupontype.Id).FirstOrDefault();
-
                     Coupontype.CouponName = eventcoupontype.CouponName;
                     Coupontype.CouponPrice = eventcoupontype.CouponPrice;
                     Coupontype.Active = eventcoupontype.Active;
@@ -153,8 +160,6 @@ namespace Events.Web.Controllers
 
                 return Json("Updated ...");
             }
-       
-            
         }
 
         public async Task<IActionResult> Edit(long? id)
@@ -202,8 +207,8 @@ namespace Events.Web.Controllers
         public IActionResult Delete(long? id)
         {
             var eventcoupontype = _context.Eventcoupontypes.Where(e => e.Id == id).FirstOrDefault();
-            var newdata =_context.Eventcouponassignmentmappings.ToList();
-            var data = _context.Eventcouponassignmentmappings.Where(e => e.CouponTypeId == id && (e.Booked == "true" || e.ExecutiveMember != null)).FirstOrDefault();
+           
+            var data = _context.Eventcouponassignmentmappings.Where(e => e.CouponTypeId == id && e.Booked == "true").FirstOrDefault();
           
                 if (data!=null)
                 {
@@ -212,7 +217,13 @@ namespace Events.Web.Controllers
                 else
                 {
                     _context.Eventcoupontypes.Remove(eventcoupontype);
-                     _context.SaveChanges();
+
+                    var newdata = _context.Eventcouponassignmentmappings.Where(e=>e.CouponTypeId==id).ToList();
+                    foreach(var i in newdata)
+                    {
+                        _context.Eventcouponassignmentmappings.Remove(i);
+                    }
+                    _context.SaveChanges();
                     return Json("Coupon Deleted");
                 }
           

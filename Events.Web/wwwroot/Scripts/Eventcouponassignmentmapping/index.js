@@ -1,8 +1,4 @@
-﻿
-
-$("#mySelect").change(function () {
-
-    
+﻿$("#mySelect").change(function () { 
     var x = document.getElementById("mySelect").value;
     datatable = $('#Cassignmentmappingtable')
         .DataTable
@@ -38,9 +34,7 @@ $("#mySelect").change(function () {
                             
                         })
                         return drop;
-
                     }
-                   
                 },
                 {
                     data: function (row, type, set) {
@@ -59,7 +53,7 @@ $("#mySelect").change(function () {
 
                 {
                     render: function (data, type, row, meta) {  
-                        return '<button class="btn btn" onclick="update(' + row.id + ')">Save</button>';
+                        return '<button class="btn btn-primary" onclick="update(' + row.id + ')">Save</button>';
                     }
                 },
             ]
@@ -83,8 +77,7 @@ var update = function (id) {
         url: "/Eventcouponassignmentmappings/Edit",
         data: data,
         success: function (result) {
-            alert(result);
-            location.reload();
+            $("#mySelect").trigger("change");
         },
         error: function (xhr) {
             alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);

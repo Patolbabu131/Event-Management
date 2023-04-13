@@ -11,6 +11,9 @@ using NuGet.Common;
 using System.Security.Cryptography;
 using Eco.ViewModel.Runtime;
 using Org.BouncyCastle.Utilities;
+using System.Diagnostics.Metrics;
+using Events.Common;
+using Org.BouncyCastle.Asn1.IsisMtt.X509;
 
 namespace Events.Web.Controllers
 {
@@ -23,7 +26,7 @@ namespace Events.Web.Controllers
         }
         private readonly EventDbContext _context;
         private readonly IHttpContextAccessor cd;
-       
+
         public EventattendeesController(EventDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
@@ -49,7 +52,7 @@ namespace Events.Web.Controllers
 
         public ActionResult GetEventattendees(JqueryDatatableParam param, Int64 Id)
         {
-           // var list = _context.Eventattendees.ToList();
+            // var list = _context.Eventattendees.ToList();
             IEnumerable<dynamic> eventattendees = null;
             if (Id == null || Id == 0)
             {
@@ -58,7 +61,7 @@ namespace Events.Web.Controllers
             else
             {
                 eventattendees = _context.Eventattendees.Where(e => e.EventId == Id).ToList();
-            }                                               
+            }
 
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
@@ -96,7 +99,7 @@ namespace Events.Web.Controllers
             //{
             //    eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
             //}
-           
+
             else if (param.iSortCol_0 == 5)
             {
                 eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
@@ -114,7 +117,6 @@ namespace Events.Web.Controllers
             });
         }
 
-        // GET: Eventattendees/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null || _context.Eventattendees == null)
@@ -137,17 +139,15 @@ namespace Events.Web.Controllers
             return View(eventattendee);
         }
 
-       
         public IActionResult CreateEdit(Int64 id)
         {
-            
+
             ViewBag.eid = id;
-           
-            ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "FullName");    
+
+            ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "FullName");
 
             return PartialView("CreateEdit");
         }
-    
 
         public IActionResult Edit(Int64 id)
         {
@@ -157,11 +157,10 @@ namespace Events.Web.Controllers
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Eventattendees.EventId), "Id", "CouponName");
             ViewData["ExecutiveMember"] = new SelectList(_context.Eventattendees, "Id", "Id");
 
-          
+
             var s = _context.Eventcoupontypes.Where(e => e.Id == Eventattendees.CouponTypeId).FirstOrDefault();
 
             ViewBag.couponname = s.CouponName;
-
 
             return PartialView("CreateEdit");
         }
@@ -170,57 +169,68 @@ namespace Events.Web.Controllers
         {
             var Eventattendees = _context.Eventattendees.Where(inc => inc.Id == id).FirstOrDefault();
             return Json(Eventattendees);
-        } 
-        
+        }
+
         public IActionResult fetchcoupon(Int64 id)
         {
             EventDbContext entities = new EventDbContext();
             var myvalues = (from values in entities.Eventcouponassignmentmappings
-                            where values.ExecutiveMember!=null
+                            where values.ExecutiveMember != null
                             select values.CouponTypeId).ToArray();
 
             IEnumerable<long> uniqueItems = myvalues.Distinct<long>();
 
-
-            List<Eventcoupontype> coupon =new List<Eventcoupontype>();
+            List<Eventcoupontype> coupon = new List<Eventcoupontype>();
             foreach (Int64 i in uniqueItems)
             {
                 List<Eventcoupontype> eventcoupontypes = _context.Eventcoupontypes.Where(e => e.Id == i).ToList();
-                coupon = eventcoupontypes; 
+                coupon.AddRange(eventcoupontypes);
             }
-           
+
             return Json(coupon);
         }
-        public IActionResult getnoofcoupon(Int64 id , Int64 mid)
+
+        public IActionResult getnoofcoupon(Int64 id, Int64 mid, Int64 aid)
+
         {
-            var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.ExecutiveMember == mid) && e.Booked == "false").ToList();
-            return Json(nocoupon);
+
+            if (aid == null || aid == 0)
+            {
+                var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.ExecutiveMember == mid) && e.Booked == "false").ToList();
+                return Json(nocoupon);
+            }
+            else
+            {
+                var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.ExecutiveMember == mid) || e.Attendee == aid).ToList();
+                return Json(nocoupon);
+            }
+            return Json("somthing went wrong");
         }
-        
+
         [HttpPost]
         public IActionResult CreateEdit1(Eventattendee eventattendee)
-        {            
+        {
             string mid = cd.HttpContext.Session.GetString("MID");
-            if (eventattendee.Id == null || eventattendee.Id==0)
-            { 
+            if (eventattendee.Id == null || eventattendee.Id == 0)
+            {
                 var member = new Eventattendee()
                 {
-                   EventId=eventattendee.EventId,
-                   AttendeeName = eventattendee.AttendeeName,
-                   ContactNo = eventattendee.ContactNo,
-                   CouponsPurchased = eventattendee.CouponsPurchased,
-                   PurchasedOn = eventattendee.PurchasedOn,
-                   ExecutiveMember = eventattendee.ExecutiveMember,
-                   CouponTypeId = eventattendee.CouponTypeId,
-                   TotalAmount = 100,
-                   ModeOfPayment = eventattendee.ModeOfPayment,
-                   PaymentReference = eventattendee.PaymentReference,
-                   PaymentStatus = eventattendee.PaymentStatus,
-                   Remarks = eventattendee.Remarks,
-                   CreatedOn = DateTime.Now,
-                   CreatedBy = Convert.ToInt64(mid),
-                   ModifiedBy = Convert.ToInt64(mid),
-                   ModifiedOn = DateTime.Now,
+                    EventId = eventattendee.EventId,
+                    AttendeeName = eventattendee.AttendeeName,
+                    ContactNo = eventattendee.ContactNo,
+                    CouponsPurchased = eventattendee.CouponsPurchased,
+                    PurchasedOn = eventattendee.PurchasedOn,
+                    ExecutiveMember = eventattendee.ExecutiveMember,
+                    CouponTypeId = eventattendee.CouponTypeId,
+                    TotalAmount = 100,
+                    ModeOfPayment = eventattendee.ModeOfPayment,
+                    PaymentReference = eventattendee.PaymentReference,
+                    PaymentStatus = eventattendee.PaymentStatus,
+                    Remarks = eventattendee.Remarks,
+                    CreatedOn = DateTime.Now,
+                    CreatedBy = Convert.ToInt64(mid),
+                    ModifiedBy = Convert.ToInt64(mid),
+                    ModifiedOn = DateTime.Now,
                 };
                 _context.Eventattendees.Add(member);
                 _context.SaveChanges();
@@ -239,30 +249,50 @@ namespace Events.Web.Controllers
             {
                 var attendees = _context.Eventattendees.Where(m => m.Id == eventattendee.Id).FirstOrDefault();
 
-
                 attendees.AttendeeName = eventattendee.AttendeeName;
                 attendees.ContactNo = eventattendee.ContactNo;
-                attendees.CouponsPurchased = eventattendee.CouponsPurchased;
-                attendees.PurchasedOn= eventattendee.PurchasedOn;
-                attendees.TotalAmount= eventattendee.TotalAmount;
-                attendees.Remarks= eventattendee.Remarks;
-                attendees.CouponTypeId= eventattendee.CouponTypeId;
+                attendees.PurchasedOn = eventattendee.PurchasedOn;
+                attendees.ExecutiveMember = eventattendee.ExecutiveMember;
+                attendees.CouponTypeId = eventattendee.CouponTypeId;
+                attendees.TotalAmount = eventattendee.TotalAmount;
+                attendees.PaymentReference = eventattendee.PaymentReference;
+                attendees.PaymentStatus = eventattendee.PaymentStatus;
+                attendees.Remarks = eventattendee.Remarks;
+                attendees.CouponTypeId = eventattendee.CouponTypeId;
                 attendees.ModifiedBy = Convert.ToInt64(mid);
                 attendees.ModifiedOn = DateTime.Now;
                 attendees.ModeOfPayment = eventattendee.ModeOfPayment;
 
+                var names1 = attendees.CouponsPurchased.Split(',').Select(int.Parse).ToList();
+                var names2 = eventattendee.CouponsPurchased.Split(',').Select(int.Parse).ToList();
+
+                foreach (var i in names1)
+                {
+                    var multiplecoupon = _context.Eventcouponassignmentmappings.Where(e => e.Id == i).FirstOrDefault();
+                    multiplecoupon.Attendee = null;
+                    multiplecoupon.Booked = "false";
+                    _context.Eventcouponassignmentmappings.Update(multiplecoupon);
+                }
+                _context.SaveChanges();
+
+                foreach (var i in names2)
+                {
+                    var multiplecoupon = _context.Eventcouponassignmentmappings.Where(e => e.Id == i).FirstOrDefault();
+                    multiplecoupon.Attendee = eventattendee.Id;
+                    multiplecoupon.Booked = "1";
+                    _context.Eventcouponassignmentmappings.Update(multiplecoupon);
+                }
+                _context.SaveChanges();
+
+                attendees.CouponsPurchased = eventattendee.CouponsPurchased;
                 _context.Eventattendees.Update(attendees);
                 _context.SaveChanges();
 
+
                 return Json("Event updated...");
-            }          
+            }
         }
-     
-        // GET: Eventattendees/Edit/5
-  
-        // POST: Eventattendees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, Eventattendee eventattendee)
@@ -300,16 +330,24 @@ namespace Events.Web.Controllers
             return View(eventattendee);
         }
 
-        // GET: Eventattendees/Delete/5
-        public  IActionResult Delete(long? id)
+        public IActionResult Delete(long? id)
         {
             var attendees = _context.Eventattendees.Where(e => e.Id == id).FirstOrDefault();
-          
-            _context.Eventattendees.Remove(attendees);
-            _context.SaveChanges();
-            return Json("success"); 
-        }
 
+            _context.Eventattendees.Remove(attendees);
+            var multiplecoupon = _context.Eventcouponassignmentmappings.Where(e => e.Attendee == id).ToList();
+
+            foreach (var i in multiplecoupon)
+            {
+                var multiplecoupon1 = _context.Eventcouponassignmentmappings.Where(e => e.Id == i.Id).FirstOrDefault();
+                multiplecoupon1.Attendee = null;
+                multiplecoupon1.Booked = "false";
+                _context.Eventcouponassignmentmappings.Update(multiplecoupon1);
+            }
+            //_context.SaveChanges();
+            _context.SaveChanges();
+            return Json("success");
+        }
 
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
@@ -322,14 +360,14 @@ namespace Events.Web.Controllers
             {
                 _context.Eventattendees.Remove(eventattendee);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-          
+
         private bool EventattendeeExists(long id)
         {
-          return _context.Eventattendees.Any(e => e.Id == id);
+            return _context.Eventattendees.Any(e => e.Id == id);
         }
     }
 }

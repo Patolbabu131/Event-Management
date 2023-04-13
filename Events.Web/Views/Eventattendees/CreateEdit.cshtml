@@ -8,6 +8,15 @@
 <html>
 <head>
     <link href="~/lib/select2.min.css" rel="stylesheet" />
+    <style>
+        .select2-container {
+            z-index: 100000;
+        }
+
+        .select2-selection--multiple {
+            border-style: groove;
+        }
+    </style>
 </head>
     <body>
        <div class="modal fade" id="addeditattendee" tabindex="-1" aria-hidden="true">
@@ -39,7 +48,7 @@
                             <input type="text" id="PurchasedOn" name="PurchasedOn" placeholder="DD/MM/YYYY" class="form-control" value="" autocomplete="off" />
                             <span asp-validation-for="PurchasedOn" class="text-danger"></span>
                         </div>
-                 
+                  
 
                         <div class="form-group">
                             <label asp-for="ExecutiveMember" class="control-label"></label>
@@ -59,9 +68,9 @@
                         <div class="form-group">
                             <label value="Select No of Coupon" class="control-label ">Select Numbers of Coupons
                             </label>
-                            <select id="selectmultiplecoupons" class="nocoupon form-control" >
-                                
-                            </select>
+                            <select id="selectmultiplecoupons" class="nocoupon js-example-responsive" multiple>
+                          
+                                   </select>
                         </div>
                         <div class="form-group">
                             <label asp-for="ModeOfPayment" class="control-label"></label>
@@ -73,8 +82,8 @@
                             <label asp-for="PaymentStatus" class="control-label"></label>
                             <select asp-for="PaymentStatus" id="PaymentStatus" class="form-control">
                                 <option selected="selected" disabled>Select Payment Status</option>
-                                <option value="paid">Paid</option>
-                                <option value="pending">Pending</option>
+                                <option value="1">Paid</option>
+                                <option value="0">Pending</option>
                             </select>
                         </div>
 
