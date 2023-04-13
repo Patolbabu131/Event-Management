@@ -42,30 +42,28 @@ public partial class Eventattendee
     public long? ExecutiveMember { get; set; }
 
     [DisplayName("Coupon Type Id")]
-    public long CouponTypeId { get; set; }
-
-
+    public long? CouponTypeId { get; set; }
 
     [DisplayName("Moldified By")]
     public long? ModifiedBy { get; set; }
 
     [DisplayName("Modified On")]
     public DateTime? ModifiedOn { get; set; }
+
     [DisplayName("Payment Status")]
     public bool PaymentStatus { get; set; }
 
     [DisplayName("Mode Of Payment")]
     public ModeOfPayment ModeOfPayment { get; set; }
+
     [DisplayName("PaymentReference")]
     public string PaymentReference { get; set; } = null!;
 
-    public virtual Eventcoupontype CouponType { get; set; } = null!;
-   
+    public virtual Eventcoupontype CouponType { get; set; } = null!;   
 
     public virtual Executivemember CreatedByNavigation { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
-
   
     public virtual Executivemember? ExecutiveMemberNavigation { get; set; }
 
