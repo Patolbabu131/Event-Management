@@ -12,7 +12,7 @@
     var eyear = ViewBag.VBFriend.EventYear;
     var ecreatedon = ViewBag.VBFriend.CreatedOn;
     var emodifiedon = ViewBag.VBFriend.ModifiedOn;
-    //var eid = ViewBag.VBFriend.id;
+    var eid = ViewBag.Ecamid;
 }
 
 
@@ -69,7 +69,7 @@
     }
 
 </style>
-<body >
+<body>
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -99,9 +99,13 @@
         <div class="col-6">
             <h2 class="fw-bold mb-4">Coupon</h2>
             @Html.ActionLink("Back to List", "Index","Events")
-            <select class="form-control" id="mySelect"  asp-items="ViewBag.Eventcoupontypes">
+            <select class="form-control" id="mySelect" asp-items="ViewBag.Eventcoupontypes">
                 <option disabled selected>Select Coupon</option>
             </select>
+            <select name="list" id="DDL" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" disabled>
+                <option value="" disabled selected>Select Member</option>
+            </select>
+            <button onclick="dropdownval()">save</button>
         </div>
 
     </div>
@@ -117,6 +121,7 @@
                         <th>Attende Name</th>
                         <th>Booked?</th>
                         <th>Action</th>
+                        <th>Check</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,5 +143,6 @@
     <script src="~/Scripts/Custom/jquery-extensions.js"></script>
     <script src="~/Scripts/Common.js"></script>
     <script src="~/scripts/eventcouponassignmentmapping/index.js"></script>
-   
+
 }
+

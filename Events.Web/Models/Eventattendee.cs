@@ -21,7 +21,7 @@ public partial class Eventattendee
     public string ContactNo { get; set; } = null!;
 
     [DisplayName("Coupons Purchased")]
-    public int CouponsPurchased { get; set; }
+    public string CouponsPurchased { get; set; }
 
     [DisplayName("Purchased On")]
     public DateTime PurchasedOn { get; set; }

@@ -167,6 +167,8 @@ function Delete(id) {
                         Yes: function () {
                             $.ajax({
                                 url: '/Eventsponsors/Delete/' + id,
+                                url: '/Eventsponsors/Delete/' + id,
+                                url: '/Eventsponsors/Delete/' + id,
                                 success: function ()
                                 {
                                     $('#dailog').appendTo('body')

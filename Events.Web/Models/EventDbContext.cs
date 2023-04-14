@@ -105,7 +105,7 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.CouponTypeId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("CouponTypeID");
-            entity.Property(e => e.CouponsPurchased).HasColumnType("bigint(20)");
+            entity.Property(e => e.CouponsPurchased).HasMaxLength(200);
             entity.Property(e => e.CreatedBy).HasColumnType("bigint(20)");
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.EventId)

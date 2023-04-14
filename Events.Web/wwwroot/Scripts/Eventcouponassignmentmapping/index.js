@@ -1,7 +1,4 @@
 ﻿
-
-$("#mySelect").change(function () {
-
     var x = document.getElementById("mySelect").value;
     datatable = $('#Cassignmentmappingtable')
         .DataTable
@@ -24,23 +21,22 @@ $("#mySelect").change(function () {
                 },
                 {
                     data: function (row, type, set) {
-                       
-                        var drop = '<select name = "list"  id="member_' + row.id + '" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" >'
+
+                        var drop = '<select name = "list"  id="member_' + row.id + '" class="selectmember form-control form-select-sm " value="' + row.executiveMember + '" >'
                         drop += '<option value = "" disabled selected>Select Member</option>'
                         $.each(memberslist, function (i, v) {
                             if (v.id == row.executiveMember) {
-                                
                                 drop += '<option value="' + v.Id + '">' + v.FullName + '</option>';
                             }
                             else {
                                 drop += '<option value="' + v.Id + '"selected>' + v.FullName + '</option>';
                             }
-                            
+
                         })
                         return drop;
 
                     }
-                   
+
                 },
                 {
                     data: function (row, type, set) {
@@ -62,43 +58,103 @@ $("#mySelect").change(function () {
                         return '<button class="button-31" onclick="update(' + row.id + ')">Save</button>';
                     }
                 },
-            ]
+
+                {
+                    data: "active",
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+                            return '<input type="checkbox" class="editor-active save_value" id="chkddl_' + row.id + '" onclick="Enableddl_(' + row.id + ')" value="' + row.id + '">';
+                        }
+                        return data;
+                    },
+                    className: "dt-body-center"
+                },
+
+            ],
+
         });
+
     selectmember();
 })
-    function selectmember() {
-        $.ajax({
-            type: "get",
-            url: '/Eventcouponassignmentmappings/getmembers',
-            success: function (members) {
-                $.each(members, function (index, value) {
-                    $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
-                });
-            }
-        })
-    }
-
-
-    var update = function (id) {
-
-
-        var cno = $("#member_" + id).val();
-
-        var data = {
-            Id: id,
-            ExecutiveMember: cno
+function selectmember() {
+    $.ajax({
+        type: "get",
+        url: '/Eventcouponassignmentmappings/getmembers',
+        success: function (members) {
+            $.each(members, function (index, value) {
+                $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
+            });
         }
-        $.ajax({
-            type: 'post',
-            url: "/Eventcouponassignmentmappings/Edit",
-            data: data,
-            success: function (result) {
-                alert(result);
-                location.reload();
-            },
-            error: function (xhr) {
-                alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-            }
+    })
+}
 
-        });
+
+function Enableddl_(id) {
+    var chkddl_ = document.getElementById("chkddl_" + id);
+    var ddl = document.getElementById("DDL");
+    ddl.disabled = chkddl_.checked ? false : true;
+    if (!ddl.disabled) {
+        ddl.focus();
     }
+
+}
+
+
+
+var update = function (id) {
+
+
+    var cno = $("#member_" + id).val();
+
+    var data = {
+        Id: id,
+        ExecutiveMember: cno
+    }
+    $.ajax({
+        type: 'post',
+        url: "/Eventcouponassignmentmappings/Edit",
+        data: data,
+        success: function (result) {
+            alert(result);
+
+        },
+        error: function (xhr) {
+            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+        }
+
+    });
+}
+
+
+
+function dropdownval() {
+    var ExeVal = $("#DDL").val();
+
+    var val = '';
+    $(':checkbox:checked').each(function (i) {
+        val = (val == "" ? "" : val + "," ) + $(this).val();
+    });
+
+    
+    var data = {
+        ExecutiveMember: ExeVal,
+        strids: val
+
+    }
+    $.ajax({
+        type: 'post',
+        url: "/Eventcouponassignmentmappings/Edit2",
+        data: data,
+        success: function (result) {
+            alert(result);
+            location.reload(); 
+
+        },
+        error: function (xhr) {
+            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+        }
+
+    });
+
+}
+
