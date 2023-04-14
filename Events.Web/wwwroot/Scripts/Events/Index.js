@@ -294,7 +294,7 @@ $(document).ready(function () {
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
-                $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yyyy' });
+                $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yy' });
                 $('#addStartTime').timepicker({
                     timeFormat: 'HH:mm',
                     dynamic: true,

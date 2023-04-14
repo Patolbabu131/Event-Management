@@ -66,14 +66,13 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                eventattendees = eventattendees.Where(x => x.AttendeeName.ToString().Contains(param.sSearch.ToLower())
+                eventattendees = eventattendees.Where(x => x.AttendeeName.ToLower().Contains(param.sSearch.ToLower())
                                               || x.ContactNo.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponsPurchased.ToString().Contains(param.sSearch.ToLower())
-                                              || x.PurchasedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.PaymentStatus.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ModeOfPayment.ToString().Contains(param.sSearch.ToLower())
-                                              || x.PaymentReference.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Remarks.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.PurchasedOn.ToString().Contains(param.sSearch.ToString())
+                                              || x.PaymentStatus.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.ModeOfPayment.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.PaymentReference.ToString().Contains(param.sSearch.ToString())).ToList();
             }
 
             //Sorting

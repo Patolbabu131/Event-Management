@@ -38,7 +38,7 @@
                 },
                 {
                     data: function (row, type, set) {
-                        if (row.attendee == null) {
+                        if (row.attendee.length === 0) {
                             return "_____________";
                         }
                         else {

@@ -34,9 +34,27 @@ function functionToCall(id) {
                 },
                 {
                     "data": "paymentStatus",
+                    "render": function (row) {
+                        if (row == 1) {
+                            return 'Paid';
+                        } else {
+                            return 'Pending';
+                        }
+                    }
                 },
                 {
                     "data": "modeOfPayment",
+                    "render": function (row) {
+                        if (row == 1)
+                            return "Cash";
+                        else if (row == 2)
+                            return "UPI";
+                        else if (row == 3)
+                            return "Bank_Transfer";
+                        else if (row == 4)
+                            return "Others";
+                       
+                    }
                 },
                 {
                     "data": "paymentReference",
@@ -116,7 +134,8 @@ function save_Attendee() {
             },
             ContactNo: {
                 required: true,
-                maxlength: 10
+                maxlength: 10,
+                minlength:10
             },            
             PurchasedOn: {
                 required: true
@@ -141,34 +160,34 @@ function save_Attendee() {
             },
 
             Remarks: {
-                required: true,
+                required: true
             },
         },
         messages: {
-            AttendeeName: " Please enter AttendeeName",
+            AttendeeName: " Please Enter AttendeeName",
 
-            ContactNo: " Please enter valid Contact Number",
+            ContactNo: " Please Enter valid Contact Number",
             
             PurchasedOn: {
-                required: "Please enter Date",
+                required: "Please Select Date",
             },
             ExecutiveMember: {
-                required: "Please enter Executive Member "
+                required: "Please Select Executive Member "
             },
             CouponTypeId: {
-                required: " Please Select Id "
+                required: " Please Select Coupon "
             },
             CouponsPurchased: {
-                required: " Please enter Purchased Coupons"
+                required: " Please Select Coupons Numbers"
             },
             ModeOfPayment: {
-                required:"Please enter Mode Of Paymnet"
+                required:"Please Select Mode Of Paymnet"
             },
             PaymentStatus: {
-                required:"Please enter Paymnet Status"
+                required:"Please Select Paymnet Status"
             },
             PaymentReference: {
-                required: "Please enter Paymnet Refrence"
+                required: "Please Select Paymnet Refrence"
             },
             Remarks: {
                 required: " Please Enter Remarks ",
@@ -241,7 +260,9 @@ function edit_attendee(id) {
             $("#PurchasedOn").datepicker();
             $('#attendeestitle').text('Edit Attendee Detail');
             onlynumber();
-        
+            $("#CouponTypeIdd").prop('disabled', true);
+            $("#ExecutiveMember").prop('disabled', true);
+
             $.ajax({
                 type: "get",
                 url: '/Eventattendees/Edit1/' + id,

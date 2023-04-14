@@ -63,31 +63,30 @@ namespace Events.Web.Controllers
                          }).ToList();
             }
             //Searching
-            //if (!string.IsNullOrEmpty(param.sSearch))
-            //{
-            //    Ctype = Ctype.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.CouponNumber.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.AttendeeName.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.Booked.ToString().Contains(param.sSearch.ToLower())).ToList();
-            //}
-            ////Sorting
-            //if (param.iSortCol_0 == 0)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
-            //}
-            //else if (param.iSortCol_0 == 1)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponTypeId).ToList() : Ctype.OrderByDescending(c => c.CouponTypeId).ToList();
-            //}
-            //else if (param.iSortCol_0 == 2)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.AttendeeName).ToList() : Ctype.OrderByDescending(c => c.AttendeeName).ToList();
-            //}
-            //else if (param.iSortCol_0 == 3)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Booked).ToList() : Ctype.OrderByDescending(c => c.Booked).ToList();
-            //}
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                Ctype = Ctype.Where(x => x.CouponNumber.ToString().Contains(param.sSearch.ToString())
+                                              || x.ExecutiveMember.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.Attendee.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.Booked.ToString().ToLower().Contains(param.sSearch.ToLower())).ToList();
+            }
+            //Sorting
+            if (param.iSortCol_0 == 0)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
+            }
+            else if (param.iSortCol_0 == 1)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponTypeId).ToList() : Ctype.OrderByDescending(c => c.CouponTypeId).ToList();
+            }
+            else if (param.iSortCol_0 == 2)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.AttendeeName).ToList() : Ctype.OrderByDescending(c => c.AttendeeName).ToList();
+            }
+            else if (param.iSortCol_0 == 3)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Booked).ToList() : Ctype.OrderByDescending(c => c.Booked).ToList();
+            }
 
             //TotalRecords
             var displayResult = Ctype.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
