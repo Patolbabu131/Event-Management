@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
+using Org.BouncyCastle.Crypto;
+
 namespace Events.Web.Controllers
 {
     public class EventcouponassignmentmappingsController : Controller
@@ -25,10 +27,13 @@ namespace Events.Web.Controllers
             }
             else
             {
+                ViewBag.VBFriend = _context.Executivemembers.Where(e => e.Id == Id).FirstOrDefault();
+                ViewBag.VBFriend = _context.Eventcouponassignmentmappings.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
                 ViewBag.Executivemembers = _context.Executivemembers.Select(s => new { s.Id, s.FullName }).ToList();
                 ViewBag.Eid = Id;
+                ViewBag.Ecamid = Id;
                 return View();
             }
         }
@@ -165,42 +170,36 @@ namespace Events.Web.Controllers
         //    return View(eventcouponassignmentmapping);
         //}
 
-        //// POST: Eventcouponassignmentmappings/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(long id, [Bind("Id,CouponTypeId,CouponNumber,ExecutiveMember,Attendee,Booked")] Eventcouponassignmentmapping eventcouponassignmentmapping)
-        //{
-        //    if (id != eventcouponassignmentmapping.Id)
-        //    {
-        //        return NotFound();
-        //    }
+        // POST: Eventcouponassignmentmappings/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
+        {
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(eventcouponassignmentmapping);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!EventcouponassignmentmappingExists(eventcouponassignmentmapping.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventcouponassignmentmapping.CouponTypeId);
-        //    ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignmentmapping.ExecutiveMember);
-        //    return View(eventcouponassignmentmapping);
-        //}
+            var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
+            mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
+            _context.Eventcouponassignmentmappings.Update(mapping);
+            await _context.SaveChangesAsync();
+
+            return Json("ok");
+        }
+        public async Task<IActionResult> Edit2(Int64 ExecutiveMember, string strids)
+        {
+            var ids = strids.Split(",").Select(long.Parse).ToList();
+            var mapping = _context.Eventcouponassignmentmappings.Where(e => ids.Contains(e.Id)).ToList();
+            if (mapping.Count() > 0)
+            {
+                foreach (var item in mapping)
+                {
+                    item.ExecutiveMember = ExecutiveMember;
+                    _context.Eventcouponassignmentmappings.Update(item);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            return Json("ok");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
