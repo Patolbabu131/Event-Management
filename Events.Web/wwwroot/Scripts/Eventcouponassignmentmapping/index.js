@@ -1,4 +1,6 @@
 ﻿
+
+$("#mySelect").change(function () {
     var x = document.getElementById("mySelect").value;
     datatable = $('#Cassignmentmappingtable')
         .DataTable
