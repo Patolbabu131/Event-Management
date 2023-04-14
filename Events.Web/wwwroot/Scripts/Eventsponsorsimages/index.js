@@ -86,14 +86,14 @@ function CallDailog(message) {
             width: 'auto',
             icon: 'fa fa- close',
             click: function () {
-                $(this).dialog("close");
+                $(this).dialog('destroy');
             },
             buttons: [
                 {
                     text: "Ok",
                     icon: "ui-icon-heart",
                     click: function () {
-                        $(this).dialog("close");
+                        $(this).dialog('destroy');
                         window.location.reload();
                     }
                 }
@@ -114,7 +114,7 @@ function Delete(id) {
             width: 'auto',
             icon: 'fa fa- close',
             click: function () {
-                $(this).dialog("close");
+                $(this).dialog('destroy');
             },
             buttons: {
                 Yes: function () {
@@ -131,14 +131,15 @@ function Delete(id) {
                                     width: 'auto',
                                     icon: 'fa fa- close',
                                     click: function () {
-                                        $(this).dialog("close");
+                                        $(this).dialog('destroy');
                                     },
                                     buttons: [
                                         {
                                             text: "Ok",
                                             icon: "ui-icon-heart",
                                             click: function () {
-                                                $(this).dialog("close");
+                                                $(this).dialog('destroy');
+
                                                 window.location.reload();
                                             }
                                         }
@@ -150,7 +151,7 @@ function Delete(id) {
                 },
                 No: function () {
 
-                    $(this).dialog("close");
+                    $(this).dialog('destroy');
                 }
             }
         });

@@ -31,6 +31,7 @@ namespace Events.Web.Controllers
                 ViewBag.VBFriend = _context.Eventcouponassignmentmappings.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
+                ViewData["Executivememberss"] = new SelectList(_context.Executivemembers, "Id", "FullName");
                 ViewBag.Executivemembers = _context.Executivemembers.Select(s => new { s.Id, s.FullName }).ToList();
                 ViewBag.Eid = Id;
                 ViewBag.Ecamid = Id;
@@ -186,6 +187,10 @@ namespace Events.Web.Controllers
         }
         public async Task<IActionResult> Edit2(Int64 ExecutiveMember, string strids)
         {
+            if (strids == null)
+            {
+                return Json("Select Coupon");
+            }
             var ids = strids.Split(",").Select(long.Parse).ToList();
             var mapping = _context.Eventcouponassignmentmappings.Where(e => ids.Contains(e.Id)).ToList();
             if (mapping.Count() > 0)
@@ -201,17 +206,6 @@ namespace Events.Web.Controllers
             return Json("ok");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
-        {
-
-            var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
-            mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
-            _context.Eventcouponassignmentmappings.Update(mapping);
-            await _context.SaveChangesAsync();
-
-            return Json(mapping.EventId);
-        }
 
         //// GET: Eventcouponassignmentmappings/Delete/5
         //public async Task<IActionResult> Delete(long? id)
