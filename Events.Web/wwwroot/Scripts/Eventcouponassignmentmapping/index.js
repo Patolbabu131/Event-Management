@@ -36,7 +36,6 @@ $("#mySelect").change(function () {
 
                         })
                         return drop;
-
                     }
 
                 },
@@ -159,4 +158,29 @@ function dropdownval() {
     });
 
 }
+
+var update = function (id) {
+
+
+    var cno = $("#selectmember" + id).val();
+
+    var data = {
+        Id: id,
+        ExecutiveMember: cno
+    }
+    $.ajax({
+        type: 'post',
+        url: "/Eventcouponassignmentmappings/Edit",
+        data: data,
+        success: function (result) {
+            $("#mySelect").trigger("change");
+        },
+        error: function (xhr) {
+            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+        }
+
+    });
+}
+
+
 

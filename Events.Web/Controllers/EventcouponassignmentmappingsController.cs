@@ -19,7 +19,6 @@ namespace Events.Web.Controllers
             _context = context;
         }
 
-        // GET: Eventcouponassignmentmappings
         public async Task<IActionResult> Index(Int64 Id)
         {
             if (Id == null || Id == 0)
@@ -53,34 +52,47 @@ namespace Events.Web.Controllers
                 Ctype = _context.Eventcouponassignmentmappings.ToList();
             }
             else
-            {
-                Ctype = _context.Eventcouponassignmentmappings.Where(m => m.CouponTypeId == Id).ToList();
+                {
+
+
+                Ctype = (from a in _context.Eventcouponassignmentmappings
+                         let attendeename = _context.Eventattendees.Where(c => a.Attendee.HasValue && c.Id == a.Attendee.Value).Select(s => s.AttendeeName).FirstOrDefault()
+                         where a.CouponTypeId == Id
+                         select new
+                         {
+                             Id=a.Id,
+                             CouponNumber = a.CouponNumber,
+                             ExecutiveMember = a.ExecutiveMember,
+                             Booked = a.Booked,
+                             Attendee = !string.IsNullOrEmpty(attendeename) ? attendeename : string.Empty
+                         }).ToList();
             }
             //Searching
-            if (!string.IsNullOrEmpty(param.sSearch))
-            {
-                Ctype = Ctype.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CouponNumber.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Booked.ToString().Contains(param.sSearch.ToLower())).ToList();
-            }
-            //Sorting
-            if (param.iSortCol_0 == 0)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
-            }
-            else if (param.iSortCol_0 == 1)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponTypeId).ToList() : Ctype.OrderByDescending(c => c.CouponTypeId).ToList();
-            }
-            else if (param.iSortCol_0 == 2)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponNumber).ToList() : Ctype.OrderByDescending(c => c.CouponNumber).ToList();
-            }
-            else if (param.iSortCol_0 == 3)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Booked).ToList() : Ctype.OrderByDescending(c => c.Booked).ToList();
-            }
+            //if (!string.IsNullOrEmpty(param.sSearch))
+            //{
+            //    Ctype = Ctype.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
+            //                                  || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
+            //                                  || x.CouponNumber.ToString().Contains(param.sSearch.ToLower())
+            //                                  || x.AttendeeName.ToString().Contains(param.sSearch.ToLower())
+            //                                  || x.Booked.ToString().Contains(param.sSearch.ToLower())).ToList();
+            //}
+            ////Sorting
+            //if (param.iSortCol_0 == 0)
+            //{
+            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
+            //}
+            //else if (param.iSortCol_0 == 1)
+            //{
+            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponTypeId).ToList() : Ctype.OrderByDescending(c => c.CouponTypeId).ToList();
+            //}
+            //else if (param.iSortCol_0 == 2)
+            //{
+            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.AttendeeName).ToList() : Ctype.OrderByDescending(c => c.AttendeeName).ToList();
+            //}
+            //else if (param.iSortCol_0 == 3)
+            //{
+            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Booked).ToList() : Ctype.OrderByDescending(c => c.Booked).ToList();
+            //}
 
             //TotalRecords
             var displayResult = Ctype.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
@@ -188,6 +200,18 @@ namespace Events.Web.Controllers
             }
 
             return Json("ok");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
+        {
+
+            var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
+            mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
+            _context.Eventcouponassignmentmappings.Update(mapping);
+            await _context.SaveChangesAsync();
+
+            return Json(mapping.EventId);
         }
 
         //// GET: Eventcouponassignmentmappings/Delete/5
