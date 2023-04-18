@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using Org.BouncyCastle.Crypto;
+using Events.Web.Session;
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
     public class EventcouponassignmentmappingsController : Controller
     {
         private readonly EventDbContext _context;

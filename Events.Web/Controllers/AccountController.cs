@@ -20,10 +20,10 @@ namespace Events.Web.Controllers
             cd = httpContextAccessor;
         }
 
-        // GET: /<controller>/
         public IActionResult Login()
-        { 
+        {
             return View();
+
         }
         [HttpPost]
         public IActionResult Login(string email_username, Int64 password)

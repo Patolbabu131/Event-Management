@@ -3,15 +3,14 @@ using Events.Common;
 using Events.DomainObjects;
 using Events.Services;
 using Events.Web.Models;
-using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using static Events.Web.Services.CommonService;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Events.Web.Session;
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
     public class EventsController : BaseController
     {
         #region Variables
@@ -47,7 +46,7 @@ namespace Events.Web.Controllers
         #region Event Methods
 
         // GET: /<controller>/
-        
+
         public IActionResult Index()
         {
 

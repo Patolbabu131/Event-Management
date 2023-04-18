@@ -6,17 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-using Events.Database;
-using NuGet.Common;
-using System.Security.Cryptography;
-using Eco.ViewModel.Runtime;
-using Org.BouncyCastle.Utilities;
-using System.Diagnostics.Metrics;
-using Events.Common;
-using Org.BouncyCastle.Asn1.IsisMtt.X509;
+using Events.Web.Session;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+
     public class EventattendeesController : Controller
     {
         public class ViewModel
@@ -32,7 +28,7 @@ namespace Events.Web.Controllers
             _context = context;
             cd = httpContextAccessor;
         }
-
+    
         // GET: Eventattendees
         public async Task<IActionResult> Index(Int64 Id)
         {
@@ -147,7 +143,6 @@ namespace Events.Web.Controllers
 
             return View(eventattendee);
         }
-
         public IActionResult CreateEdit(Int64 id)
         {
 
