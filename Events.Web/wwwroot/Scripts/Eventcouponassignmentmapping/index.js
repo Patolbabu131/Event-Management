@@ -83,6 +83,17 @@
         });
 
 })
+function selectmember() {
+    $.ajax({
+        type: "get",
+        url: '/Eventcouponassignmentmappings/getmembers',
+        success: function (members) {
+            $.each(members, function (index, value) {
+                $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
+            });
+        }
+    })
+}
 
 var update = function (id) {
 

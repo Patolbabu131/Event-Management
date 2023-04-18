@@ -176,6 +176,7 @@ namespace Events.Web.Controllers
         // POST: Eventcouponassignmentmappings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
         {
@@ -185,7 +186,7 @@ namespace Events.Web.Controllers
             _context.Eventcouponassignmentmappings.Update(mapping);
             await _context.SaveChangesAsync();
 
-            return Json("ok");
+            return Json(mapping.EventId);
         }
         public async Task<IActionResult> Edit2(Int64 ExecutiveMember, string strids)
         {
