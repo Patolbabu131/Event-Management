@@ -13,7 +13,7 @@ public partial class Eventcouponassignmentmapping
 
     public decimal CouponNumber { get; set; }
 
-    public long? ExecutiveMember { get; set; }
+    public long? User { get; set; }
 
     public long? Attendee { get; set; }
 
@@ -25,6 +25,6 @@ public partial class Eventcouponassignmentmapping
 
     public virtual Event Event { get; set; } = null!;
 
-    public virtual Executivemember? ExecutiveMemberNavigation { get; set; }
+    public virtual User? UserNavigation { get; set; }
 }
 

@@ -22,10 +22,10 @@
                 {
                     data: function (row, type, set) {
 
-                        var drop = '<select name = "list"  id="member_' + row.id + '" class="selectmember form-control form-select-sm " value="' + row.executiveMember + '" >'
+                        var drop = '<select name = "list"  id="member_' + row.id + '" class="selectmember form-control form-select-sm " value="' + row.user + '" >'
                         drop += '<option value = "" disabled selected>Select Member</option>'
                         $.each(memberslist, function (i, v) {
-                            if (v.id == row.executiveMember) {
+                            if (v.id == row.User) {
                                 drop += '<option value="' + v.Id + '">' + v.FullName + '</option>';
                             }
                             else {
@@ -90,7 +90,7 @@ var update = function (id) {
 
     var data = {
         Id: id,
-        ExecutiveMember: cno
+        User: cno
     }
     $.ajax({
         type: 'post',
@@ -119,7 +119,7 @@ function dropdownval() {
 
 
         var data = {
-            ExecutiveMember: ExeVal,
+            User: ExeVal,
             strids: val
 
         }

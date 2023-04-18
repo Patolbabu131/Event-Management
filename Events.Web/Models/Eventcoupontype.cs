@@ -36,12 +36,12 @@ public partial class Eventcoupontype
     [DisplayName("Modified On")]
     public DateTime? ModifiedOn { get; set; }
 
-    public virtual Executivemember CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByNavigation { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
 
     public virtual ICollection<Eventattendee> Eventattendees { get; } = new List<Eventattendee>();
     public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
     public virtual ICollection<Eventcouponassignment> Eventcouponassignments { get; } = new List<Eventcouponassignment>();
-    public virtual Executivemember? ModifiedByNavigation { get; set; }
+    public virtual User? ModifiedByNavigation { get; set; }
 }

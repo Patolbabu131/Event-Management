@@ -11,11 +11,11 @@ using Org.BouncyCastle.Math;
 
 namespace Events.Web.Controllers
 {
-    public class ExecutiveMembersController : Controller
+    public class UsersController : Controller
     {
-        private readonly ILogger<ExecutiveMembersController> _logger;
+        private readonly ILogger<UsersController> _logger;
         private readonly EventDbContext _db;
-        public ExecutiveMembersController(ILogger<ExecutiveMembersController> logger, EventDbContext db)
+        public UsersController(ILogger<UsersController> logger, EventDbContext db)
         {
             _logger = logger;
             _db = db;
@@ -29,12 +29,12 @@ namespace Events.Web.Controllers
         {
             return PartialView("_addECMember");
         }
-        public IActionResult CreateMembers(Executivemember executivemember)
+        public IActionResult CreateMembers(User executivemember)
         {
             if (executivemember.Id == null)
             {
-                var id = _db.Executivemembers.ToList();
-                var member = new Executivemember()
+                var id = _db.Users.ToList();
+                var member = new User()
                 {
                     FullName = executivemember.FullName,
                     Designation = executivemember.Designation,
@@ -43,13 +43,13 @@ namespace Events.Web.Controllers
                     CreatedOn = DateTime.Now,
                     ModifiedOn = DateTime.Now
                 };
-                _db.Executivemembers.Add(member);
+                _db.Users.Add(member);
                 _db.SaveChanges();
                 return Json("Member saved.");
             }
             else
             {
-                var member = new Executivemember()
+                var member = new User()
                 {
                     Id = executivemember.Id,
                     FullName = executivemember.FullName,
@@ -59,7 +59,7 @@ namespace Events.Web.Controllers
                     CreatedOn = executivemember.CreatedOn,
                     ModifiedOn = DateTime.Now
                 };
-                _db.Executivemembers.Update(member);
+                _db.Users.Update(member);
                 _db.SaveChanges();
                 return Json("Member saved.");
             }
@@ -67,12 +67,12 @@ namespace Events.Web.Controllers
         }
         public IActionResult GetEdit(Int64 id)
         {
-            var EC = _db.Executivemembers.Where(x => x.Id == id).FirstOrDefault();
+            var EC = _db.Users.Where(x => x.Id == id).FirstOrDefault();
             return Json(EC);
         }
         public ActionResult GetECMember(JqueryDatatableParam param)
         {
-            var eventattendees = _db.Executivemembers.ToList();
+            var eventattendees = _db.Users.ToList();
 
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
@@ -118,14 +118,14 @@ namespace Events.Web.Controllers
         }
         public IActionResult ECMemberDetails(Int64 id)
         {
-            var EC = _db.Executivemembers.Where(x => x.Id == id).FirstOrDefault();
+            var EC = _db.Users.Where(x => x.Id == id).FirstOrDefault();
             return PartialView("_ECDetails", EC);
         }
 
         public IActionResult DeteleMember(Int64 id)
         {
-            var data = _db.Executivemembers.Where(e => e.Id == id).SingleOrDefault();
-            _db.Executivemembers.Remove(data);
+            var data = _db.Users.Where(e => e.Id == id).SingleOrDefault();
+            _db.Users.Remove(data);
             _db.SaveChanges();
             return Json("success");
         }

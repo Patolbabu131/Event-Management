@@ -12,8 +12,8 @@ public partial class Eventcouponassignment
     [DisplayName("Event Id")]
     public long EventId { get; set; }
 
-    [DisplayName("Executive Member Id")]
-    public long ExecutiveMemberId { get; set; }
+    [DisplayName("User")]
+    public long User { get; set; }
 
     [DisplayName("Coupons Form")]
     public int CouponsFrom { get; set; }
@@ -37,11 +37,11 @@ public partial class Eventcouponassignment
     public DateTime? ModifiedOn { get; set; }
     public long CouponTypeId { get; set; }
     public virtual Eventcoupontype CouponType { get; set; } = null!;
-    public virtual Executivemember CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByNavigation { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
 
-    public virtual Executivemember ExecutiveMember { get; set; } = null!;
+    public virtual User user { get; set; } = null!;
 
-    public virtual Executivemember? ModifiedByNavigation { get; set; }
+    public virtual User? ModifiedByNavigation { get; set; }
 }

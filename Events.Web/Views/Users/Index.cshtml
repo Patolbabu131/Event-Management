@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Executive Members";
+}
+<div id="member"></div>
+<div class="row">
+    <div class="col-6">
+        <h2 class="fw-bold mb-4">@ViewData["Title"]</h2>
+        @Html.ActionLink("Back to List", "Index","Events")
+    </div>
+    <div class="col-6 text-end">
+        <a class="btn btn-primary" id="create_member">Add Users</a>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+       
+        <table id="tblecmembers" class="table table-striped mb-5" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Appointed On</th>
+                    <th>Duties</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/Custom/jquery-extensions.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/ECMember/index.js"></script>
+}

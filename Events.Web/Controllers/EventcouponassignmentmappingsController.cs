@@ -29,12 +29,12 @@ namespace Events.Web.Controllers
             }
             else
             {
-                ViewBag.VBFriend = _context.Executivemembers.Where(e => e.Id == Id).FirstOrDefault();
+                ViewBag.VBFriend = _context.Users.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Eventcouponassignmentmappings.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
-                ViewData["Executivememberss"] = new SelectList(_context.Executivemembers, "Id", "FullName");
-                ViewBag.Executivemembers = _context.Executivemembers.Select(s => new { s.Id, s.FullName }).ToList();
+                ViewData["Users"] = new SelectList(_context.Users, "Id", "FullName");
+                ViewBag.Users = _context.Users.Select(s => new { s.Id, s.FullName }).ToList();
                 ViewBag.Eid = Id;
                 ViewBag.Ecamid = Id;
                 return View();
@@ -43,7 +43,7 @@ namespace Events.Web.Controllers
 
         public ActionResult getmembers()
         {
-            var member = _context.Executivemembers.ToList();
+            var member = _context.Users.ToList();
             return Json(member);
         }
 
@@ -65,7 +65,7 @@ namespace Events.Web.Controllers
                          {
                              Id=a.Id,
                              CouponNumber = a.CouponNumber,
-                             ExecutiveMember = a.ExecutiveMember,
+                             User = a.User,
                              Booked = a.Booked,
                              Attendee = !string.IsNullOrEmpty(attendeename) ? attendeename : string.Empty
                          }).ToList();
@@ -74,7 +74,7 @@ namespace Events.Web.Controllers
             if (!string.IsNullOrEmpty(param.sSearch))
             {
                 Ctype = Ctype.Where(x => x.CouponNumber.ToString().Contains(param.sSearch.ToString())
-                                              || x.ExecutiveMember.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.User.ToString().ToLower().Contains(param.sSearch.ToLower())
                                               || x.Attendee.ToString().ToLower().Contains(param.sSearch.ToLower())
                                               || x.Booked.ToString().ToLower().Contains(param.sSearch.ToLower())).ToList();
             }
@@ -119,7 +119,7 @@ namespace Events.Web.Controllers
 
         //    var eventcouponassignmentmapping = await _context.Eventcouponassignmentmappings
         //        .Include(e => e.CouponType)
-        //        .Include(e => e.ExecutiveMemberNavigation)
+        //        .Include(e => e.UserNavigation)
         //        .FirstOrDefaultAsync(m => m.Id == id);
         //    if (eventcouponassignmentmapping == null)
         //    {
@@ -133,7 +133,7 @@ namespace Events.Web.Controllers
         //public IActionResult Create()
         //{
         //    ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id");
-        //    ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "Id");
+        //    ViewData["User"] = new SelectList(_context.Users, "Id", "Id");
         //    return View();
         //}
 
@@ -142,7 +142,7 @@ namespace Events.Web.Controllers
         //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[HttpPost]
         //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,CouponTypeId,CouponNumber,ExecutiveMember,Attendee,Booked")] Eventcouponassignmentmapping eventcouponassignmentmapping)
+        //public async Task<IActionResult> Create([Bind("Id,CouponTypeId,CouponNumber,User,Attendee,Booked")] Eventcouponassignmentmapping eventcouponassignmentmapping)
         //{
         //    if (ModelState.IsValid)
         //    {
@@ -151,7 +151,7 @@ namespace Events.Web.Controllers
         //        return RedirectToAction(nameof(Index));
         //    }
         //    ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventcouponassignmentmapping.CouponTypeId);
-        //    ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignmentmapping.ExecutiveMember);
+        //    ViewData["User"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignmentmapping.User);
         //    return View(eventcouponassignmentmapping);
         //}
 
@@ -169,7 +169,7 @@ namespace Events.Web.Controllers
         //        return NotFound();
         //    }
         //    ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventcouponassignmentmapping.CouponTypeId);
-        //    ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignmentmapping.ExecutiveMember);
+        //    ViewData["User"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignmentmapping.User);
         //    return View(eventcouponassignmentmapping);
         //}
 
@@ -182,13 +182,13 @@ namespace Events.Web.Controllers
         {
 
             var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
-            mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
+            mapping.User = eventcouponassignmentmapping.User;
             _context.Eventcouponassignmentmappings.Update(mapping);
             await _context.SaveChangesAsync();
 
             return Json(mapping.EventId);
         }
-        public async Task<IActionResult> Edit2(Int64 ExecutiveMember, string strids)
+        public async Task<IActionResult> Edit2(Int64 User, string strids)
         {
             if (strids == null)
             {
@@ -200,7 +200,7 @@ namespace Events.Web.Controllers
             {
                 foreach (var item in mapping)
                 {
-                    item.ExecutiveMember = ExecutiveMember;
+                    item.User = User;
                     _context.Eventcouponassignmentmappings.Update(item);
                     await _context.SaveChangesAsync();
                 }
@@ -214,7 +214,7 @@ namespace Events.Web.Controllers
         //{
 
         //    var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
-        //    mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
+        //    mapping.User = eventcouponassignmentmapping.User;
         //    _context.Eventcouponassignmentmappings.Update(mapping);
         //    await _context.SaveChangesAsync();
 
@@ -231,7 +231,7 @@ namespace Events.Web.Controllers
 
         //    var eventcouponassignmentmapping = await _context.Eventcouponassignmentmappings
         //        .Include(e => e.CouponType)
-        //        .Include(e => e.ExecutiveMemberNavigation)
+        //        .Include(e => e.UserNavigation)
         //        .FirstOrDefaultAsync(m => m.Id == id);
         //    if (eventcouponassignmentmapping == null)
         //    {

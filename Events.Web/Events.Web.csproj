@@ -8,13 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\File\**" />
-    <Compile Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+    <Compile Remove="wwwroot\Scripts\Users\**" />
     <Content Remove="wwwroot\File\**" />
-    <Content Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+    <Content Remove="wwwroot\Scripts\Users\**" />
     <EmbeddedResource Remove="wwwroot\File\**" />
-    <EmbeddedResource Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+    <EmbeddedResource Remove="wwwroot\Scripts\Users\**" />
     <None Remove="wwwroot\File\**" />
-    <None Remove="wwwroot\Scripts\ExecutiveMembers\**" />
+    <None Remove="wwwroot\Scripts\Users\**" />
   </ItemGroup>
 
   <ItemGroup>

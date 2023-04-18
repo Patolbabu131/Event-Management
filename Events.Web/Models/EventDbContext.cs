@@ -31,7 +31,7 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<Eventsponsorsimage> Eventsponsorsimages { get; set; }
 
-    public virtual DbSet<Executivemember> Executivemembers { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -87,7 +87,7 @@ public partial class EventDbContext : DbContext
 
             entity.ToTable("eventattendees");
 
-            entity.HasIndex(e => e.ExecutiveMember, "ExecutiveMember");
+            entity.HasIndex(e => e.User, "User");
 
             entity.HasIndex(e => e.EventId, "eventattendees_ibfk_1");
 
@@ -111,7 +111,7 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.EventId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("EventID");
-            entity.Property(e => e.ExecutiveMember)
+            entity.Property(e => e.User)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
             entity.Property(e => e.ModeOfPayment)
@@ -141,8 +141,8 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.EventId)
                 .HasConstraintName("eventattendees_ibfk_1");
 
-            entity.HasOne(d => d.ExecutiveMemberNavigation).WithMany(p => p.EventattendeeExecutiveMemberNavigations)
-                .HasForeignKey(d => d.ExecutiveMember)
+            entity.HasOne(d => d.UserNavigation).WithMany(p => p.EventattendeeUserNavigations)
+                .HasForeignKey(d => d.User)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventattendees_ibfk_9");
 
@@ -160,7 +160,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasIndex(e => e.CreatedBy, "CreatedBy");
 
-            entity.HasIndex(e => e.ExecutiveMemberId, "ExecutiveMemberID");
+            entity.HasIndex(e => e.User, "User");
 
             entity.HasIndex(e => e.ModifiedBy, "ModifiedBy");
 
@@ -181,9 +181,9 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.EventId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("EventID");
-            entity.Property(e => e.ExecutiveMemberId)
+            entity.Property(e => e.User)
                 .HasColumnType("bigint(20)")
-                .HasColumnName("ExecutiveMemberID");
+                .HasColumnName("User");
             entity.Property(e => e.ModifiedBy)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
@@ -206,8 +206,8 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.EventId)
                 .HasConstraintName("eventcouponassignments_ibfk_1");
 
-            entity.HasOne(d => d.ExecutiveMember).WithMany(p => p.EventcouponassignmentExecutiveMembers)
-                .HasForeignKey(d => d.ExecutiveMemberId)
+            entity.HasOne(d => d.user).WithMany(p => p.EventcouponassignmentUsers)
+                .HasForeignKey(d => d.User)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignments_ibfk_2");
 
@@ -229,7 +229,7 @@ public partial class EventDbContext : DbContext
 
             entity.HasIndex(e => e.EventId, "EventID");
 
-            entity.HasIndex(e => e.ExecutiveMember, "ExecutiveMember");
+            entity.HasIndex(e => e.User, "User");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -248,7 +248,7 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.EventId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("EventID");
-            entity.Property(e => e.ExecutiveMember)
+            entity.Property(e => e.User)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
 
@@ -267,8 +267,8 @@ public partial class EventDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignmentmapping_ibfk_3");
 
-            entity.HasOne(d => d.ExecutiveMemberNavigation).WithMany(p => p.Eventcouponassignmentmappings)
-                .HasForeignKey(d => d.ExecutiveMember)
+            entity.HasOne(d => d.UserNavigation).WithMany(p => p.Eventcouponassignmentmappings)
+                .HasForeignKey(d => d.User)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignmentmapping_ibfk_1");
         });
@@ -429,11 +429,11 @@ public partial class EventDbContext : DbContext
                 .HasConstraintName("eventsponsorsimage_ibfk_1");
         });
 
-        modelBuilder.Entity<Executivemember>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("executivemembers");
+            entity.ToTable("users");
 
             entity.HasIndex(e => e.CreatedBy, "CreatedBy");
 
@@ -455,16 +455,15 @@ public partial class EventDbContext : DbContext
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
             entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("executivemembers_ibfk_2");
+                .HasConstraintName("users_ibfk_2");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.InverseModifiedByNavigation)
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("executivemembers_ibfk_1");
+                .HasConstraintName("users_ibfk_1");
         });
 
         OnModelCreatingPartial(modelBuilder);

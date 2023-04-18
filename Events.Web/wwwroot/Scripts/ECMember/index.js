@@ -6,7 +6,7 @@ $(document).ready(function () {
 $('#create_member').click(function () {
     $.ajax({
         type: "post",
-        url: '/ExecutiveMembers/CreateMember',
+        url: '/Users/CreateMember',
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
@@ -71,7 +71,7 @@ function savemember(data) {
     $.ajax({
         type: "post",
         data: data,
-        url: '/ExecutiveMembers/CreateMembers',
+        url: '/Users/CreateMembers',
         success: //function (resonce) {
             //alert(resonce);
 
@@ -103,7 +103,7 @@ function bindmember() {
         .DataTable
         ({
 
-            "sAjaxSource": "/ExecutiveMembers/GetECMember",
+            "sAjaxSource": "/Users/GetECMember",
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
@@ -154,7 +154,7 @@ function details_member(id) {
     $.ajax({
         type: "post",
         data: id,
-        url: '/ExecutiveMembers/ECMemberDetails/'+id,
+        url: '/Users/ECMemberDetails/'+id,
         success: function (resonce) {
             $('#member').html(resonce);
             $("#DetailsECMemberModal").modal('show');
@@ -165,7 +165,7 @@ function details_member(id) {
 function edit_member(id) {
     $.ajax({
         type: "post",
-        url: '/ExecutiveMembers/CreateMember',
+        url: '/Users/CreateMember',
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
@@ -176,7 +176,7 @@ function edit_member(id) {
     $.ajax({
         type: "post",
         data: id,
-        url: '/ExecutiveMembers/GetEdit/'+id,
+        url: '/Users/GetEdit/'+id,
         success: function (resonce) {
             var now = new Date(resonce.appointedOn);
             var day = ("0" + now.getDate()).slice(-2);
@@ -204,7 +204,7 @@ function delete_member(id) {
     if (confirmation) {
         $.ajax({
             type: "post",
-            url: '/ExecutiveMembers/DeteleMember/'+id,
+            url: '/Users/DeteleMember/'+id,
             success: function (resonce) {
                 alert("Record Deleted Successfuly..");
                 window.location.reload();

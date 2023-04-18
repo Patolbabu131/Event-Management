@@ -115,9 +115,9 @@ namespace Events.Web.Controllers
         [HttpGet]
         public IActionResult CreateEdit(Int64 Id)
         {
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             ViewBag.eid = Id;
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id");
             return PartialView("CreateEdit");
         }
 

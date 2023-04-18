@@ -113,7 +113,7 @@
             </select>
         </div>
         <div style="width:40%">
-            <select id="DDL" class="selectmultiplemember form-control form-select-sm " asp-items="ViewBag.Executivememberss">
+            <select id="DDL" class="selectmultiplemember form-control form-select-sm " asp-items="ViewBag.Users">
                 <option disabled selected>Select Member</option>
             </select>
         </div>
@@ -146,7 +146,7 @@
 
 <script>
 
-    var memberslist = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.Executivemembers))');
+    var memberslist = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(ViewBag.Users))');
 </script>
 @section Scripts
     {

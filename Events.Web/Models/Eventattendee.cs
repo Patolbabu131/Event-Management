@@ -39,7 +39,7 @@ public partial class Eventattendee
     public long CreatedBy { get; set; }
 
     [DisplayName("(Executive member)Invited By ")]
-    public long? ExecutiveMember { get; set; }
+    public long? User { get; set; }
 
     [DisplayName("Coupon Type Id")]
     public long? CouponTypeId { get; set; }
@@ -63,14 +63,14 @@ public partial class Eventattendee
 
     public virtual Eventcoupontype CouponType { get; set; } = null!;   
 
-    public virtual Executivemember CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByNavigation { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
   
-    public virtual Executivemember? ExecutiveMemberNavigation { get; set; }
+    public virtual User? UserNavigation { get; set; }
 
     public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
-    public virtual Executivemember? ModifiedByNavigation { get; set; }
+    public virtual User? ModifiedByNavigation { get; set; }
 }
 
 public enum ModeOfPayment

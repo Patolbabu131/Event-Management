@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Events.Web.Models;
 
-public partial class Executivemember
+public partial class User
 {
     [DisplayName("ID")]
     public long Id { get; set; }
@@ -36,20 +36,20 @@ public partial class Executivemember
     [DisplayName("Active")]
     public bool Active { get; set; }
 
-    public virtual Executivemember? CreatedByNavigation { get; set; }
+    public virtual User? CreatedByNavigation { get; set; }
 
     public virtual ICollection<Event> EventCreatedByNavigations { get; } = new List<Event>();
 
     public virtual ICollection<Event> EventModifiedByNavigations { get; } = new List<Event>();
 
     public virtual ICollection<Eventattendee> EventattendeeCreatedByNavigations { get; } = new List<Eventattendee>();
-    public virtual ICollection<Eventattendee> EventattendeeExecutiveMemberNavigations { get; } = new List<Eventattendee>();
+    public virtual ICollection<Eventattendee> EventattendeeUserNavigations { get; } = new List<Eventattendee>();
 
     public virtual ICollection<Eventattendee> EventattendeeModifiedByNavigations { get; } = new List<Eventattendee>();
 
     public virtual ICollection<Eventcouponassignment> EventcouponassignmentCreatedByNavigations { get; } = new List<Eventcouponassignment>();
 
-    public virtual ICollection<Eventcouponassignment> EventcouponassignmentExecutiveMembers { get; } = new List<Eventcouponassignment>();
+    public virtual ICollection<Eventcouponassignment> EventcouponassignmentUsers { get; } = new List<Eventcouponassignment>();
 
     public virtual ICollection<Eventcouponassignment> EventcouponassignmentModifiedByNavigations { get; } = new List<Eventcouponassignment>();
     public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
@@ -66,9 +66,9 @@ public partial class Executivemember
 
     public virtual ICollection<Eventsponsor> EventsponsorModifiedByNavigations { get; } = new List<Eventsponsor>();
 
-    public virtual ICollection<Executivemember> InverseCreatedByNavigation { get; } = new List<Executivemember>();
+    public virtual ICollection<User> InverseCreatedByNavigation { get; } = new List<User>();
 
-    public virtual ICollection<Executivemember> InverseModifiedByNavigation { get; } = new List<Executivemember>();
+    public virtual ICollection<User> InverseModifiedByNavigation { get; } = new List<User>();
 
-    public virtual Executivemember? ModifiedByNavigation { get; set; }
+    public virtual User? ModifiedByNavigation { get; set; }
 }

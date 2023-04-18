@@ -14,7 +14,7 @@
             },
             "columns": [
                 {
-                    "data": "executiveMemberId",
+                    "data": "user",
                 },
                 {
                     "data": "couponTypeId",
@@ -87,7 +87,7 @@ function save_Cassign() {
             Id: $("#Cassignid").val(),
             EventId: $("#EventId").val(),
             CouponTypeId: $("#CouponTypeId").val(),
-            ExecutiveMemberId: $("#ExecutiveMemberId").val(),
+            User: $("#User").val(),
             CouponsFrom: $("#CouponsFrom").val(),
             CouponsTo: $("#CouponsTo").val(),
             TotalCoupons: $("#TotalCoupons").val(),
@@ -147,7 +147,7 @@ function edit_cassign(id) {
                 success: function (resonce) {
                     $("#Cassignid").val(resonce.id);
                     $("#EventId").val(resonce.eventId);
-                    $("#ExecutiveMemberId").val(resonce.executiveMemberId);
+                    $("#User").val(resonce.user);
                     $("#CouponsFrom").val(resonce.couponsFrom);
                     $("#CouponsTo").val(resonce.couponsTo);
                     $("#TotalCoupons").val(resonce.totalCoupons);

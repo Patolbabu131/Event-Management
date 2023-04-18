@@ -110,9 +110,9 @@ namespace Events.Web.Controllers
         // GET: Eventsponsors/Create
         public IActionResult CreateEdit(Int64 id)
         {
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             ViewBag.eid = id;
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id");
             return PartialView("CreateEdit");
         }
         [HttpPost]
@@ -169,9 +169,9 @@ namespace Events.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventsponsor.CreatedBy);
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", eventsponsor.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventsponsor.EventId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventsponsor.ModifiedBy);
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id", eventsponsor.ModifiedBy);
             return View(eventsponsor);
         }
 
@@ -214,9 +214,9 @@ namespace Events.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventsponsor.CreatedBy);
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", eventsponsor.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventsponsor.EventId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventsponsor.ModifiedBy);
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id", eventsponsor.ModifiedBy);
             return View(eventsponsor);
         }
 

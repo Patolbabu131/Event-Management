@@ -62,7 +62,7 @@ public partial class Event
     public string FoodMenu { get; set; } = null!;
     //[Required(ErrorMessage = "Food Menu is required...")]
 
-    public virtual Executivemember? CreatedByNavigation { get; set; }
+    public virtual User? CreatedByNavigation { get; set; }
     
     public virtual ICollection<Eventattendee> Eventattendees { get; } = new List<Eventattendee>();
 
@@ -77,5 +77,5 @@ public partial class Event
 
     public virtual ICollection<Eventsponsorsimage> Eventsponsorsimages { get; } = new List<Eventsponsorsimage>();
 
-    public virtual Executivemember? ModifiedByNavigation { get; set; }
+    public virtual User? ModifiedByNavigation { get; set; }
 }

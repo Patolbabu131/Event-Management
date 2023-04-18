@@ -88,8 +88,8 @@ function create_attendee(id) {
     })
 }
 
-function myExecutiveMember() {
-    var eid = document.getElementById("ExecutiveMember").value;
+function myUser() {
+    var eid = document.getElementById("User").value;
     $.get("/Eventattendees/fetchcoupon/" + eid,
         function (data) {
             //$("#CouponTypeIdd").prop("disabled", false);
@@ -103,7 +103,7 @@ function myExecutiveMember() {
 
 function selectNocoupon(temp) {
     var couponid = document.getElementById("CouponTypeIdd").value;
-    var mid = document.getElementById("ExecutiveMember").value;
+    var mid = document.getElementById("User").value;
     var aid = $("#attenid").val();
     $.ajax({
 
@@ -140,7 +140,7 @@ function save_Attendee() {
             PurchasedOn: {
                 required: true
             },
-            ExecutiveMember: {
+            User: {
                 required: true               
             },
             CouponTypeId: {
@@ -171,7 +171,7 @@ function save_Attendee() {
             PurchasedOn: {
                 required: "Please Select Date",
             },
-            ExecutiveMember: {
+            User: {
                 required: "Please Select Executive Member "
             },
             CouponTypeId: {
@@ -211,7 +211,7 @@ function save_Attendee() {
             AttendeeName: $("#AttendeeName").val(),
             ContactNo: $("#ContactNo").val(),
             PurchasedOn: $("#PurchasedOn").val(),
-            ExecutiveMember: $("#ExecutiveMember").val(),
+            User: $("#User").val(),
             CouponTypeId: $("#CouponTypeIdd").val(),
             CouponsPurchased: $(".nocoupon").val().join(","),
             ModeOfPayment: $("#ModeOfPayment").val(),
@@ -261,7 +261,7 @@ function edit_attendee(id) {
             $('#attendeestitle').text('Edit Attendee Detail');
             onlynumber();
             $("#CouponTypeIdd").prop('disabled', true);
-            $("#ExecutiveMember").prop('disabled', true);
+            $("#User").prop('disabled', true);
 
             $.ajax({
                 type: "get",
@@ -272,7 +272,7 @@ function edit_attendee(id) {
                     var month = ("0" + (now.getMonth() + 1)).slice(-2);
                     var today = day + "/" + month + "/" + now.getFullYear();
                     if (resonce.id != 0) {
-                        myExecutiveMember();
+                        myUser();
                     }
                  
                     $("#attenid").val(resonce.id);
@@ -281,7 +281,7 @@ function edit_attendee(id) {
                     $("#ContactNo").val(resonce.contactNo);
                     $("#CouponsPurchased").val(resonce.couponsPurchased);
                     $("#PurchasedOn").val(today);
-                    $("#ExecutiveMember").val(resonce.executiveMember);
+                    $("#User").val(resonce.user);
                     $("#CouponTypeIdd").val(resonce.couponTypeIdd);
                     $("#TotalAmount").val(resonce.totalAmount);
                     $("#Remarks").val(resonce.remarks);

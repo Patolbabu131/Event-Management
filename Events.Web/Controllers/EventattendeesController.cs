@@ -133,7 +133,7 @@ namespace Events.Web.Controllers
                 .Include(e => e.CouponType)
                 .Include(e => e.CreatedByNavigation)
                 .Include(e => e.Event)
-                .Include(e => e.ExecutiveMemberNavigation)
+                .Include(e => e.UserNavigation)
                 .Include(e => e.ModifiedByNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (eventattendee == null)
@@ -148,7 +148,7 @@ namespace Events.Web.Controllers
 
             ViewBag.eid = id;
 
-            ViewData["ExecutiveMember"] = new SelectList(_context.Executivemembers, "Id", "FullName");
+            ViewData["User"] = new SelectList(_context.Users, "Id", "FullName");
 
             return PartialView("CreateEdit");
         }
@@ -159,7 +159,7 @@ namespace Events.Web.Controllers
 
 
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Eventattendees.EventId), "Id", "CouponName");
-            ViewData["ExecutiveMember"] = new SelectList(_context.Eventattendees, "Id", "Id");
+            ViewData["User"] = new SelectList(_context.Eventattendees, "Id", "Id");
 
 
             var s = _context.Eventcoupontypes.Where(e => e.Id == Eventattendees.CouponTypeId).FirstOrDefault();
@@ -179,7 +179,7 @@ namespace Events.Web.Controllers
         {
             EventDbContext entities = new EventDbContext();
             var myvalues = (from values in entities.Eventcouponassignmentmappings
-                            where values.ExecutiveMember != null
+                            where values.User != null
                             select values.CouponTypeId).ToArray();
 
             IEnumerable<long> uniqueItems = myvalues.Distinct<long>();
@@ -200,12 +200,12 @@ namespace Events.Web.Controllers
 
             if (aid == null || aid == 0)
             {
-                var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.ExecutiveMember == mid) && e.Booked == "false").ToList();
+                var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.User == mid) && e.Booked == "false").ToList();
                 return Json(nocoupon);
             }
             else
             {
-                var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.ExecutiveMember == mid) || e.Attendee == aid).ToList();
+                var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.User == mid) || e.Attendee == aid).ToList();
                 return Json(nocoupon);
             }
             return Json("somthing went wrong");
@@ -224,7 +224,7 @@ namespace Events.Web.Controllers
                     ContactNo = eventattendee.ContactNo,
                     CouponsPurchased = eventattendee.CouponsPurchased,
                     PurchasedOn = eventattendee.PurchasedOn,
-                    ExecutiveMember = eventattendee.ExecutiveMember,
+                    User = eventattendee.User,
                     CouponTypeId = eventattendee.CouponTypeId,
                     TotalAmount = 100,
                     ModeOfPayment = eventattendee.ModeOfPayment,
@@ -256,7 +256,7 @@ namespace Events.Web.Controllers
                 attendees.AttendeeName = eventattendee.AttendeeName;
                 attendees.ContactNo = eventattendee.ContactNo;
                 attendees.PurchasedOn = eventattendee.PurchasedOn;
-                attendees.ExecutiveMember = eventattendee.ExecutiveMember;
+                attendees.User = eventattendee.User;
                 attendees.CouponTypeId = eventattendee.CouponTypeId;
                 attendees.TotalAmount = eventattendee.TotalAmount;
                 attendees.PaymentReference = eventattendee.PaymentReference;
@@ -327,10 +327,10 @@ namespace Events.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "Id", eventattendee.CouponTypeId);
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.CreatedBy);
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", eventattendee.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventattendee.EventId);
-            ViewData["ExecutiveMember"] = new SelectList(_context.Eventattendees, "Id", "Id", eventattendee.ExecutiveMember);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventattendee.ModifiedBy);
+            ViewData["User"] = new SelectList(_context.Eventattendees, "Id", "Id", eventattendee.User);
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id", eventattendee.ModifiedBy);
             return View(eventattendee);
         }
 

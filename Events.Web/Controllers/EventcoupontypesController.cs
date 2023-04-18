@@ -107,9 +107,9 @@ namespace Events.Web.Controllers
         [HttpGet]
         public IActionResult CreateCType(Int64 id)
         {
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             ViewBag.eid = id;
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id");
             return PartialView("CreateCType");
         }
 
@@ -200,9 +200,9 @@ namespace Events.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcoupontype.CreatedBy);
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", eventcoupontype.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventcoupontype.EventId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcoupontype.ModifiedBy);
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id", eventcoupontype.ModifiedBy);
             return View(eventcoupontype);
         }
 

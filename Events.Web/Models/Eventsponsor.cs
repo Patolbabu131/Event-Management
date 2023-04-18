@@ -33,9 +33,9 @@ public partial class Eventsponsor
     [DisplayName("Modified On")]
     public DateTime? ModifiedOn { get; set; }
 
-    public virtual Executivemember CreatedByNavigation { get; set; } = null!;
+    public virtual User CreatedByNavigation { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
 
-    public virtual Executivemember? ModifiedByNavigation { get; set; }
+    public virtual User? ModifiedByNavigation { get; set; }
 }

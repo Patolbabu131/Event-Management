@@ -28,7 +28,7 @@ namespace Events.Web.Controllers
         [HttpPost]
         public IActionResult Login(string email_username, Int64 password)
         {
-            var data = _db.Executivemembers.Where(r => r.Id == password && r.FullName == email_username).FirstOrDefault();
+            var data = _db.Users.Where(r => r.Id == password && r.FullName == email_username).FirstOrDefault();
             if(data == null)
             {
                 ViewBag.Message = "UserName or password is wrong";

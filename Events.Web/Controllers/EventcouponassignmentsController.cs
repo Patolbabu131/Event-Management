@@ -55,7 +55,7 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                Cassign = Cassign.Where(x => x.ExecutiveMemberId.ToString().Contains(param.sSearch.ToLower())
+                Cassign = Cassign.Where(x => x.User.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponsFrom.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponsTo.ToString().Contains(param.sSearch.ToLower())
@@ -64,7 +64,7 @@ namespace Events.Web.Controllers
             //Sorting
             if (param.iSortCol_0 == 0)
             {
-                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.ExecutiveMemberId).ToList() : Cassign.OrderByDescending(c => c.ExecutiveMemberId).ToList();
+                Cassign = param.sSortDir_0 == "asc" ? Cassign.OrderBy(c => c.User).ToList() : Cassign.OrderByDescending(c => c.User).ToList();
             }
             if (param.iSortCol_0 == 1)
             {
@@ -106,7 +106,7 @@ namespace Events.Web.Controllers
             var eventcouponassignment = await _context.Eventcouponassignments
                 .Include(e => e.CreatedByNavigation)
                 .Include(e => e.Event)
-                .Include(e => e.ExecutiveMember)
+                .Include(e => e.User)
                 .Include(e => e.ModifiedByNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (eventcouponassignment == null)
@@ -120,11 +120,11 @@ namespace Events.Web.Controllers
         [HttpGet]
         public IActionResult CreateCAssign(Int64 id)
         {
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "CouponName");
             ViewBag.eid = id;
-            ViewData["ExecutiveMemberId"] = new SelectList(_context.Executivemembers, "Id", "FullName");
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
+            ViewData["User"] = new SelectList(_context.Users, "Id", "FullName");
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id");
             return PartialView("Create");
         }
         [HttpPost]
@@ -138,7 +138,7 @@ namespace Events.Web.Controllers
                 {
                     EventId = eventcouponassignment.EventId,
                     CouponTypeId=eventcouponassignment.CouponTypeId,
-                    ExecutiveMemberId = eventcouponassignment.ExecutiveMemberId,
+                    User = eventcouponassignment.User,
                     CouponsFrom = eventcouponassignment.CouponsFrom,
                     CouponsTo = eventcouponassignment.CouponsTo,
                     TotalCoupons =eventcouponassignment.TotalCoupons,
@@ -159,7 +159,7 @@ namespace Events.Web.Controllers
 
                 var member = _context.Eventcouponassignments.Where(m => m.Id == eventcouponassignment.Id).FirstOrDefault();
 
-                member.ExecutiveMemberId = Convert.ToInt64(mid);
+                member.User = Convert.ToInt64(mid);
                 member.CouponTypeId = eventcouponassignment.CouponTypeId;
                 member.CouponsFrom = eventcouponassignment.CouponsFrom;
                 member.CouponsTo = eventcouponassignment.CouponsTo;
@@ -185,7 +185,7 @@ namespace Events.Web.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EventId,ExecutiveMemberId,CouponsFrom,CouponsTo,TotalCoupons,CreatedOn,CreatedBy,ModifiedBy,ModifiedOn")] Eventcouponassignment eventcouponassignment)
+        public async Task<IActionResult> Create([Bind("Id,EventId,User,CouponsFrom,CouponsTo,TotalCoupons,CreatedOn,CreatedBy,ModifiedBy,ModifiedOn")] Eventcouponassignment eventcouponassignment)
         {
             if (ModelState.IsValid)
             {
@@ -193,10 +193,10 @@ namespace Events.Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.CreatedBy);
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventcouponassignment.EventId);
-            ViewData["ExecutiveMemberId"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.ExecutiveMemberId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.ModifiedBy);
+            ViewData["User"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.User);
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.ModifiedBy);
             return View(eventcouponassignment);
         }
 
@@ -212,16 +212,16 @@ namespace Events.Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.CreatedBy);
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventcouponassignment.EventId);
-            ViewData["ExecutiveMemberId"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.ExecutiveMemberId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.ModifiedBy);
+            ViewData["User"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.User);
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.ModifiedBy);
             return View(eventcouponassignment);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,EventId,ExecutiveMemberId,CouponsFrom,CouponsTo,TotalCoupons,CreatedOn,CreatedBy,ModifiedBy,ModifiedOn")] Eventcouponassignment eventcouponassignment)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,EventId,User,CouponsFrom,CouponsTo,TotalCoupons,CreatedOn,CreatedBy,ModifiedBy,ModifiedOn")] Eventcouponassignment eventcouponassignment)
         {
             if (id != eventcouponassignment.Id)
             {
@@ -248,10 +248,10 @@ namespace Events.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.CreatedBy);
+            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.CreatedBy);
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Id", eventcouponassignment.EventId);
-            ViewData["ExecutiveMemberId"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.ExecutiveMemberId);
-            ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id", eventcouponassignment.ModifiedBy);
+            ViewData["User"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.User);
+            ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id", eventcouponassignment.ModifiedBy);
             return View(eventcouponassignment);
         }
 
