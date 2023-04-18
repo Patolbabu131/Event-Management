@@ -3,6 +3,7 @@ using Events.Database;
 using Events.Repository;
 using Events.Services;
 using Events.Web.Models;
+using Events.Web.Session;
 
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
@@ -17,8 +18,9 @@ builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession(option =>
 {
-    option.IdleTimeout = TimeSpan.FromSeconds(1200);
+    option.IdleTimeout = TimeSpan.FromSeconds(10);
 });
+builder.Services.AddScoped<SessionTimeoutAttribute>();
 builder.Services.AddTransient<IEventsService, EventsService>();
 builder.Services.AddTransient<IEventsRepository, EventsRepository>();
 builder.Services.AddDbContext<EventDbContext>();

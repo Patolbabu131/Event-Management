@@ -10,9 +10,11 @@ using Events.Web.Models;
 using System.Globalization;
 using System.Collections;
 using System.Text;
+using Events.Web.Session;
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
     public class EventcoupontypesController : Controller
     {
         private readonly EventDbContext _context;
@@ -52,9 +54,9 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                Ctype = Ctype.Where(x => x.CouponName.ToString().Contains(param.sSearch.ToLower())
-                                              || x.CouponPrice.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Active.ToString().Contains(param.sSearch.ToLower())).ToList();
+                Ctype = Ctype.Where(x => x.CouponName.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.CouponPrice.ToString().Contains(param.sSearch.ToString())
+                                              || x.TotalCoupon.ToString().Contains(param.sSearch.ToString())).ToList();
             }
             //Sorting
             if (param.iSortCol_0 == 0)

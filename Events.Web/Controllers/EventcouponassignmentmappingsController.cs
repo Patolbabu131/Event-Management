@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using Org.BouncyCastle.Crypto;
+using Events.Web.Session;
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
     public class EventcouponassignmentmappingsController : Controller
     {
         private readonly EventDbContext _context;
@@ -31,6 +33,7 @@ namespace Events.Web.Controllers
                 ViewBag.VBFriend = _context.Eventcouponassignmentmappings.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
+                ViewData["Executivememberss"] = new SelectList(_context.Executivemembers, "Id", "FullName");
                 ViewBag.Executivemembers = _context.Executivemembers.Select(s => new { s.Id, s.FullName }).ToList();
                 ViewBag.Eid = Id;
                 ViewBag.Ecamid = Id;
@@ -67,7 +70,31 @@ namespace Events.Web.Controllers
                              Attendee = !string.IsNullOrEmpty(attendeename) ? attendeename : string.Empty
                          }).ToList();
             }
-            
+            //Searching
+            if (!string.IsNullOrEmpty(param.sSearch))
+            {
+                Ctype = Ctype.Where(x => x.CouponNumber.ToString().Contains(param.sSearch.ToString())
+                                              || x.ExecutiveMember.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.Attendee.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.Booked.ToString().ToLower().Contains(param.sSearch.ToLower())).ToList();
+            }
+            //Sorting
+            if (param.iSortCol_0 == 0)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
+            }
+            else if (param.iSortCol_0 == 1)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponTypeId).ToList() : Ctype.OrderByDescending(c => c.CouponTypeId).ToList();
+            }
+            else if (param.iSortCol_0 == 2)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.AttendeeName).ToList() : Ctype.OrderByDescending(c => c.AttendeeName).ToList();
+            }
+            else if (param.iSortCol_0 == 3)
+            {
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Booked).ToList() : Ctype.OrderByDescending(c => c.Booked).ToList();
+            }
 
             //TotalRecords
             var displayResult = Ctype.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
@@ -81,32 +108,7 @@ namespace Events.Web.Controllers
             });
         }
 
-//Searching
-            //if (!string.IsNullOrEmpty(param.sSearch))
-            //{
-            //    Ctype = Ctype.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.CouponTypeId.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.CouponNumber.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.AttendeeName.ToString().Contains(param.sSearch.ToLower())
-            //                                  || x.Booked.ToString().Contains(param.sSearch.ToLower())).ToList();
-            //}
-            ////Sorting
-            //if (param.iSortCol_0 == 0)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
-            //}
-            //else if (param.iSortCol_0 == 1)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponTypeId).ToList() : Ctype.OrderByDescending(c => c.CouponTypeId).ToList();
-            //}
-            //else if (param.iSortCol_0 == 2)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.AttendeeName).ToList() : Ctype.OrderByDescending(c => c.AttendeeName).ToList();
-            //}
-            //else if (param.iSortCol_0 == 3)
-            //{
-            //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Booked).ToList() : Ctype.OrderByDescending(c => c.Booked).ToList();
-            //}
+
         //// GET: Eventcouponassignmentmappings/Details/5
         //public async Task<IActionResult> Details(long? id)
         //{
@@ -188,6 +190,10 @@ namespace Events.Web.Controllers
         }
         public async Task<IActionResult> Edit2(Int64 ExecutiveMember, string strids)
         {
+            if (strids == null)
+            {
+                return Json("Select Coupon");
+            }
             var ids = strids.Split(",").Select(long.Parse).ToList();
             var mapping = _context.Eventcouponassignmentmappings.Where(e => ids.Contains(e.Id)).ToList();
             if (mapping.Count() > 0)

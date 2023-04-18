@@ -13,30 +13,35 @@
     var emodifiedon = ViewBag.VBFriend.ModifiedOn;
 }
 <html>
-<style>
-    .leftside, .rightside {
-        hight: 50px;
-        width: 300px;
-    }
+    <head>
+    <style>
+        .leftside, .rightside {
+            hight: 50px;
+            width: 300px;
+        }
 
-    .box {
-        hight: 100px;
-        width: 800px;
-        border: 2px solid black;
-        padding: 10px;
-    }
-</style>
+        .box {
+            hight: 100px;
+            width: 800px;
+            border: 2px solid black;
+            padding: 10px;
+        }
+    </style>
+    </head>
+
     <body onload="Coupenassign(@id)">
         <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col">
                     <div class="leftside">
-                        EventName:@ViewBag.VBFriend.EventName
+                        EventName : @ViewBag.VBFriend.EventName
                         <br />
-                        EventDate:@ViewBag.VBFriend.EventDate
+                        EventDate : @ViewBag.VBFriend.EventDate
                         <br />
-                        EventStartTime:@ViewBag.VBFriend.EventStartTime|EventEndTime:@ViewBag.VBFriend.EventEndTime
+                        EventStartTime : @ViewBag.VBFriend.EventStartTime
+                        <br />
+                        EventEndTime : @ViewBag.VBFriend.EventEndTime
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -44,7 +49,7 @@
                 </div>
                 <div class="col">
                     <div class="rightside">
-                        EventVenue:@ViewBag.VBFriend.EventVenue
+                        EventVenue : @ViewBag.VBFriend.EventVenue
                     </div>
                 </div>
             </div>
@@ -52,37 +57,37 @@
         </div>
 
 
-<div id="Cassign"></div>
-<div class="row">
-    <div class="col-6">
-        <h2 class="fw-bold mb-4">Assigned Coupon</h2>
-            @Html.ActionLink("Back to List", "Index","Events")
-    </div>
-    <div class="col-6 text-end">
-            <a class="btn btn-primary" onclick="create_cassign(@id)">Assign Coupon</a>
-    </div>
-</div>
+        <div id="Cassign"></div>
+        <div class="row">
+            <div class="col-6">
+                <h2 class="fw-bold mb-4">Assigned Coupon</h2>
+                    @Html.ActionLink("Back to List", "Index","Events")
+            </div>
+            <div class="col-6 text-end">
+                    <a class="btn btn-primary" onclick="create_cassign(@id)">Assign Coupon</a>
+            </div>
+        </div>
 
-<div class="card shadow">
+        <div class="card shadow">
    
-    <div class="card-body">
-        <table id="Cassignmenttable" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Exicutive Member</th>
-                    <th>Coupon Type</th>
-                    <th>Coupons From</th>
-                    <th>Coupons To</th>
-                    <th>Total Coupons</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
+            <div class="card-body">
+                <table id="Cassignmenttable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Exicutive Member</th>
+                            <th>Coupon Type</th>
+                            <th>Coupons From</th>
+                            <th>Coupons To</th>
+                            <th>Total Coupons</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-            </tbody>
-        </table>
-    </div>
-</div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 </body>
 </html>
 

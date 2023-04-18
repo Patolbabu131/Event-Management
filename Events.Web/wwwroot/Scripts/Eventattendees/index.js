@@ -33,8 +33,31 @@ function functionToCall(id) {
 
                 },
                 {
-
-                    "data": "totalAmount",
+                    "data": "paymentStatus",
+                    "render": function (row) {
+                        if (row == 1) {
+                            return 'Paid';
+                        } else {
+                            return 'Pending';
+                        }
+                    }
+                },
+                {
+                    "data": "modeOfPayment",
+                    "render": function (row) {
+                        if (row == 1)
+                            return "Cash";
+                        else if (row == 2)
+                            return "UPI";
+                        else if (row == 3)
+                            return "Bank_Transfer";
+                        else if (row == 4)
+                            return "Others";
+                       
+                    }
+                },
+                {
+                    "data": "paymentReference",
                 },
                 {
                     "data": "remarks",
@@ -111,46 +134,60 @@ function save_Attendee() {
             },
             ContactNo: {
                 required: true,
-                maxlength: 10
-            },
-            CouponsPurchased: {
-                required: true,
-                number: true
-            },
+                maxlength: 10,
+                minlength:10
+            },            
             PurchasedOn: {
-                required: true,
+                required: true
             },
-            TotalAmount: {
-                required: true,
-                number: true
+            ExecutiveMember: {
+                required: true               
             },
             CouponTypeId: {
-                required: true,
-                number: true
+                required: true
+            },
+            CouponsPurchased: {
+                required: true
+            },
+            ModeOfPayment: {
+                required: true
+            },
+            PaymentStatus: {
+                required: true
+            },
+            PaymentReference: {
+                required: true
             },
 
             Remarks: {
-                required: true,
+                required: true
             },
-
         },
         messages: {
-            AttendeeName: " Please enter AttendeeName",
-            ContactNo: " Please enter valid Contact Number",
-            CouponsPurchased: {
-                required: " Please enter Purchased Coupons",
-                number: "Invalid input"
-            },
+            AttendeeName: " Please Enter AttendeeName",
+
+            ContactNo: " Please Enter valid Contact Number",
+            
             PurchasedOn: {
-                required: "Please enter Date",
+                required: "Please Select Date",
             },
-            TotalAmount: {
-                required: " Please enter Amount ",
-                number: "Invalid input"
+            ExecutiveMember: {
+                required: "Please Select Executive Member "
             },
             CouponTypeId: {
-                required: " Please Select Id ",
-                number: "Invalid input"
+                required: " Please Select Coupon "
+            },
+            CouponsPurchased: {
+                required: " Please Select Coupons Numbers"
+            },
+            ModeOfPayment: {
+                required:"Please Select Mode Of Paymnet"
+            },
+            PaymentStatus: {
+                required:"Please Select Paymnet Status"
+            },
+            PaymentReference: {
+                required: "Please Select Paymnet Refrence"
             },
             Remarks: {
                 required: " Please Enter Remarks ",
@@ -188,7 +225,8 @@ function save_Attendee() {
             type: "post",
             url: '/Eventattendees/CreateEdit1',
             data: data,
-            success: function ConfirmDialog(message) {
+            success: function ConfirmDialog(message)
+            {
                 $("#addeditattendee").modal('hide');
                 CallDialog(message);
             }
@@ -222,7 +260,9 @@ function edit_attendee(id) {
             $("#PurchasedOn").datepicker();
             $('#attendeestitle').text('Edit Attendee Detail');
             onlynumber();
-        
+            $("#CouponTypeIdd").prop('disabled', true);
+            $("#ExecutiveMember").prop('disabled', true);
+
             $.ajax({
                 type: "get",
                 url: '/Eventattendees/Edit1/' + id,
@@ -296,7 +336,6 @@ function edit_attendee(id) {
 //                    //$("#addeditattendee").modal('hide');
 //                    CallDialog(message);
 //                }
-
 //        })
 //    }
 //}
@@ -312,7 +351,7 @@ function Delete(id) {
             width: 'auto',
             icon: 'fa fa- close',
             click: function () {
-                $(this).dialog("close");
+                $(this).dialog('destroy');
             },
             buttons: {
                 Yes: function () {
@@ -329,14 +368,14 @@ function Delete(id) {
                                     width: 'auto',
                                     icon: 'fa fa- close',
                                     click: function () {
-                                        $(this).dialog("close");
+                                        $(this).dialog('destroy');
                                     },
                                     buttons: [
                                         {
                                             text: "Ok",
                                             icon: "ui-icon-heart",
                                             click: function () {
-                                                $(this).dialog("close");
+                                                $(this).dialog('destroy');
                                                 window.location.reload();
                                             }
                                         }
@@ -348,7 +387,7 @@ function Delete(id) {
                 },
                 No: function () {
 
-                    $(this).dialog("close");
+                    $(this).dialog('destroy');
                 }
             }
         });
@@ -365,14 +404,14 @@ function CallDialog(message) {
             width: 'auto',
             icon: 'fa fa- close',
             click: function () {
-                $(this).dialog("close");
+                $(this).dialog('destroy');
             },
             buttons: [
                 {
                     text: "Ok",
                     icon: "ui-icon-heart",
                     click: function () {
-                        $(this).dialog("close");
+                        $(this).dialog('destroy');
                         window.location.reload();
                     }
                 }

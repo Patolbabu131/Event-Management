@@ -71,11 +71,13 @@
             <div class="row">
                 <div class="col">
                     <div class="leftside">
-                        EventName:@ViewBag.VBFriend.EventName
+                        EventName : @ViewBag.VBFriend.EventName
                         <br />
-                        EventDate:@ViewBag.VBFriend.EventDate
+                        EventDate : @ViewBag.VBFriend.EventDate
                         <br />
-                        EventStartTime:@ViewBag.VBFriend.EventStartTime|EventEndTime:@ViewBag.VBFriend.EventEndTime
+                        EventStartTime : @ViewBag.VBFriend.EventStartTime
+                        <br />
+                        EventEndTime : @ViewBag.VBFriend.EventEndTime
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -83,59 +85,62 @@
                 </div>
                 <div class="col">
                     <div class="rightside">
-                        EventVenue:@ViewBag.VBFriend.EventVenue
+                        EventVenue : @ViewBag.VBFriend.EventVenue
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+
+
+
+        
     <div id="Cassign"></div>
     <div class="row">
         <div class="col-6">
             <h2 class="fw-bold mb-4">Coupon</h2>
             @Html.ActionLink("Back to List", "Index","Events")
-            <div class="row">
-                <div class="col">
-                    <div class="leftside">
-                        <select class="form-control" id="mySelect" asp-items="ViewBag.Eventcoupontypes">
-                            <option disabled selected>Select Coupon</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="rightside">
-                        <select name="list" id="DDL" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" disabled>
-                            <option value="" disabled selected>Select Member</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col">
-                    <button onclick="dropdownval()">save</button>
-                </div>
-            </div>
-
+      
         </div>
+
+    </div>
+
+    <div class="row">
+        <div style="width:40%">
+            <select class="form-control" style="width:100%" id="mySelect" asp-items="ViewBag.Eventcoupontypes">
+                <option disabled selected>Select Coupon</option>
+            </select>
+        </div>
+        <div style="width:40%">
+            <select id="DDL" class="selectmultiplemember form-control form-select-sm " asp-items="ViewBag.Executivememberss">
+                <option disabled selected>Select Member</option>
+            </select>
+        </div>
+        <div style="width:20%">
+            <button onclick="dropdownval()" style="width:100%" class="btn btn-primary">save</button>
+            </div>
+    </div>
 
         <div class="card shadow">
 
-            <div class="card-body">
-                <table id="Cassignmentmappingtable" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>CouponNumber</th>
-                            <th>Executive Member</th>
-                            <th>Attende Name</th>
-                            <th>Booked?</th>
-                            <th>Action</th>
-                            <th>Check</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
+        <div class="card-body">
+            <table id="Cassignmentmappingtable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Coupon Number</th>
+                        <th>Executive Member</th>
+                        <th>Attende Name</th>
+                        <th>Booked?</th>
+                        <th>Action</th>
+                        <th>Check</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
+    </div>
 </body>
 </html>
 

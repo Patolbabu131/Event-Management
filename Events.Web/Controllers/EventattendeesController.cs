@@ -6,17 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-using Events.Database;
-using NuGet.Common;
-using System.Security.Cryptography;
-using Eco.ViewModel.Runtime;
-using Org.BouncyCastle.Utilities;
-using System.Diagnostics.Metrics;
-using Events.Common;
-using Org.BouncyCastle.Asn1.IsisMtt.X509;
+using Events.Web.Session;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+
     public class EventattendeesController : Controller
     {
         public class ViewModel
@@ -32,7 +28,7 @@ namespace Events.Web.Controllers
             _context = context;
             cd = httpContextAccessor;
         }
-
+    
         // GET: Eventattendees
         public async Task<IActionResult> Index(Int64 Id)
         {
@@ -66,12 +62,13 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                eventattendees = eventattendees.Where(x => x.AttendeeName.ToString().Contains(param.sSearch.ToLower())
+                eventattendees = eventattendees.Where(x => x.AttendeeName.ToLower().Contains(param.sSearch.ToLower())
                                               || x.ContactNo.ToString().Contains(param.sSearch.ToLower())
                                               || x.CouponsPurchased.ToString().Contains(param.sSearch.ToLower())
-                                              || x.PurchasedOn.ToString().Contains(param.sSearch.ToLower())
-                                              || x.TotalAmount.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Remarks.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.PurchasedOn.ToString().Contains(param.sSearch.ToString())
+                                              || x.PaymentStatus.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.ModeOfPayment.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.PaymentReference.ToString().Contains(param.sSearch.ToString())).ToList();
             }
 
             //Sorting
@@ -93,16 +90,24 @@ namespace Events.Web.Controllers
             }
             else if (param.iSortCol_0 == 4)
             {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.TotalAmount).ToList() : eventattendees.OrderByDescending(c => c.TotalAmount).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.PaymentStatus).ToList() : eventattendees.OrderByDescending(c => c.PaymentStatus).ToList();
+            }
+            else if (param.iSortCol_0 == 5)
+            {
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
+            }
+            else if (param.iSortCol_0 == 6)
+            {
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.PaymentReference).ToList() : eventattendees.OrderByDescending(c => c.PaymentReference).ToList();
             }
             //else if (param.iSortCol_0 == 5)
             //{
             //    eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.ModeOfPayment).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
             //}
 
-            else if (param.iSortCol_0 == 5)
+            else if (param.iSortCol_0 == 7)
             {
-                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.ModeOfPayment).ToList();
+                eventattendees = param.sSortDir_0 == "asc" ? eventattendees.OrderBy(c => c.Remarks).ToList() : eventattendees.OrderByDescending(c => c.Remarks).ToList();
             }
 
             //TotalRecords
@@ -138,7 +143,6 @@ namespace Events.Web.Controllers
 
             return View(eventattendee);
         }
-
         public IActionResult CreateEdit(Int64 id)
         {
 

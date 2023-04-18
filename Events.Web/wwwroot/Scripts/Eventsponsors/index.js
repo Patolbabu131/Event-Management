@@ -91,34 +91,37 @@ function save_Sponsors() {
             success: function ConfirmDialog(message)
             {
                 $("#addsponsors").modal('hide');
-                $('#sponsors').appendTo('body')
-                    .html('<div><h6>' + message + '</h6></div>')
-                    .dialog({
-                        modal: true,
-                        title: 'Save Message',
-                        zIndex: 10000,
-                        autoOpen: true,
-                        width: 'auto',
-                        icon: 'fa fa- close',
-                        click: function ()
-                        {
-                            $(this).dialog("close");
-                        },
-                        buttons: [
-                            {
-                                text: "Ok",
-                                icon: "ui-icon-heart",
-                                click: function ()
-                                {
-                                    $(this).dialog("close");
-                                    window.location.reload();
-                                }
-                            }
-                        ]
-                    });
+                CallDailog(message);
             }  
         })
     }
+}
+
+
+function CallDailog(message) {
+    $('#sponsors').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog('destroy');
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog('destroy');
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
 }
 
 
@@ -161,13 +164,11 @@ function Delete(id) {
                     width: 'auto',
                     icon: 'fa fa- close',
                     click: function () {
-                        $(this).dialog("close");
+                        $(this).dialog('destroy');
                     },
                     buttons: {
                         Yes: function () {
                             $.ajax({
-                                url: '/Eventsponsors/Delete/' + id,
-                                url: '/Eventsponsors/Delete/' + id,
                                 url: '/Eventsponsors/Delete/' + id,
                                 success: function ()
                                 {
@@ -181,14 +182,14 @@ function Delete(id) {
                                             width: 'auto',
                                             icon: 'fa fa- close',
                                             click: function () {
-                                                $(this).dialog("close");
+                                                $(this).dialog('destroy');
                                             },
                                             buttons: [
                                                 {
                                                     text: "Ok",
                                                     icon: "ui-icon-heart",
                                                     click: function () {
-                                                        $(this).dialog("close");
+                                                        $(this).dialog('destroy');
                                                         window.location.reload();
                                                     }
                                                 }
@@ -200,7 +201,7 @@ function Delete(id) {
                         },
                         No: function () {
 
-                            $(this).dialog("close");
+                            $(this).dialog('destroy');
                         }
                     } 
                 });

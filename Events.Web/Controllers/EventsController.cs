@@ -3,15 +3,14 @@ using Events.Common;
 using Events.DomainObjects;
 using Events.Services;
 using Events.Web.Models;
-using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using static Events.Web.Services.CommonService;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Events.Web.Session;
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
     public class EventsController : BaseController
     {
         #region Variables
@@ -47,6 +46,7 @@ namespace Events.Web.Controllers
         #region Event Methods
 
         // GET: /<controller>/
+
         public IActionResult Index()
         {
 
@@ -61,12 +61,12 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                events = events.Where(x => x.EventName.ToString().Contains(param.sSearch.ToLower())
+                events = events.Where(x => x.EventName.ToLower().Contains(param.sSearch.ToLower())
                                               || x.EventDate.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventStartTime.ToString().Contains(param.sSearch.ToLower())
                                               || x.EventEndTime.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventStatus.ToString().Contains(param.sSearch.ToLower())
-                                              || x.EventVenue.ToString().Contains(param.sSearch.ToLower())).ToList();
+                                              || x.EventStatus.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.EventVenue.ToLower().Contains(param.sSearch.ToLower())).ToList();
             }
 
             ////Sorting
@@ -107,7 +107,7 @@ namespace Events.Web.Controllers
                 aaData = displayResult
             });
         }
-
+      
         public IActionResult CreateEvent()
         {
             return PartialView("_AddEditEvent");
@@ -166,8 +166,7 @@ namespace Events.Web.Controllers
             var EC = _db.Events.Where(x => x.Id == id).FirstOrDefault();
             return Json(EC);
         }
-
-
+        
         public IActionResult DeteleEvent(Int64 id)
         {
             var data = _db.Events.Where(e => e.Id == id).SingleOrDefault();
@@ -175,6 +174,7 @@ namespace Events.Web.Controllers
             _db.SaveChanges();
             return Json("success");
         }
+        
         public IActionResult EventsDetails(Int64 id)
         {
             var EC = _db.Events.Where(x => x.Id == id).FirstOrDefault();

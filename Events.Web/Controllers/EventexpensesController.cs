@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
+using Events.Web.Session;
 
 
 namespace Events.Web.Controllers
 {
+    [ServiceFilter(typeof(SessionTimeoutAttribute))]
     public class EventexpensesController : Controller
     {
         private readonly EventDbContext _context;
@@ -53,10 +55,10 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                expenses = expenses.Where(x => x.ExpenseName.ToString().Contains(param.sSearch.ToLower())
-                                              || x.ExpenseSubject.ToString().Contains(param.sSearch.ToLower())
-                                              || x.AmountSpent.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Remarks.ToString().Contains(param.sSearch.ToLower())).ToList();
+                expenses = expenses.Where(x => x.ExpenseName.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.ExpenseSubject.ToLower().Contains(param.sSearch.ToLower())
+                                              || x.AmountSpent.ToString().Contains(param.sSearch.ToString())
+                                              || x.Remarks.ToLower().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
             if (param.iSortCol_0 == 0)

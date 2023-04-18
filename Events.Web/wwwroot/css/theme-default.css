@@ -225,7 +225,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
     .table thead th {
         border-bottom: 2px solid #E9ECEF;
-        color: #ced4da;
+        //color: #ced4da;
+        color: #10203;
         font-weight: 400;
         vertical-align: bottom;
     }

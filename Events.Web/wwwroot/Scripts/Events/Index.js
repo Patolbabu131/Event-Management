@@ -146,7 +146,6 @@ function save_event() {
         }
     });
 
-
     if ($('#formAddEvent').valid()) {
 
         CKEDITOR.instances.FoodMenu.updateElement();
@@ -168,33 +167,38 @@ function save_event() {
             data: data,
             success: function ConfirmDialog(message) {
                 $("#addEventModal").modal('hide');
-                $('#CreateContainer').appendTo('body')
-                    .html('<div><h6>' + message + '</h6></div>')
-                    .dialog({
-                        modal: true,
-                        title: 'Save Message',
-                        zIndex: 10000,
-                        autoOpen: true,
-                        width: 'auto',
-                        icon: 'fa fa- close',
-                        click: function () {
-                            $(this).dialog("close");
-                        },
-                        buttons: [
-                            {
-                                text: "Ok",
-                                icon: "ui-icon-heart",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    window.location.reload();
-                                }
-                            }
-                        ]
-                    });
+                CallDailog(message);
             }
         })
     }
 }
+
+function CallDailog(message) {
+    $('#CreateContainer').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog('destroy');
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog('destroy');
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
+}
+
 
 function bindDatatable() {
     datatable = $('#tblevents')
@@ -274,9 +278,7 @@ function bindDatatable() {
                         drop += '<option value = "/Eventcouponassignmentmappings/Index/' + row.id + '">Eventcouponassignmentmappings</option></select>'
                         return drop;
                     }
-
-                },
-                
+                },                
             ]
         });
 }
@@ -292,7 +294,7 @@ $(document).ready(function () {
             success: function (resonce) {
                 $('#CreateContainer').html(resonce);
                 $("#addEventModal").modal('show');
-                $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yyyy' });
+                $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yy' });
                 $('#addStartTime').timepicker({
                     timeFormat: 'HH:mm',
                     dynamic: true,
@@ -342,7 +344,6 @@ $(document).ready(function () {
         window.location = $(this).val();
     });
 });
-
 
 function details_event(id) {
     $.ajax({
@@ -432,7 +433,7 @@ function delete_event(id) {
             width: 'auto',
             icon: 'fa fa- close',
             click: function () {
-                $(this).dialog("close");
+                $(this).dialog('destroy');
             },
             buttons: {
                 Yes: function () {
@@ -449,14 +450,14 @@ function delete_event(id) {
                                     width: 'auto',
                                     icon: 'fa fa- close',
                                     click: function () {
-                                        $(this).dialog("close");
+                                        $(this).dialog('destroy');
                                     },
                                     buttons: [
                                         {
                                             text: "Ok",
                                             icon: "ui-icon-heart",
                                             click: function () {
-                                                $(this).dialog("close");
+                                                $(this).dialog('destroy');
                                                 window.location.reload();
                                             }
                                         }
@@ -467,7 +468,7 @@ function delete_event(id) {
                     })
                 },
                 No: function () {
-                    $(this).dialog("close");
+                    $(this).dialog('destroy');
                 }
             }
         });

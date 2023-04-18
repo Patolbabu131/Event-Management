@@ -1,6 +1,4 @@
-﻿
-
-$("#mySelect").change(function () {
+﻿$("#mySelect").change(function () { 
     var x = document.getElementById("mySelect").value;
     datatable = $('#Cassignmentmappingtable')
         .DataTable
@@ -41,7 +39,7 @@ $("#mySelect").change(function () {
                 },
                 {
                     data: function (row, type, set) {
-                        if (row.attendee == null) {
+                        if (row.attendee.length === 0) {
                             return "_____________";
                         }
                         else {
@@ -56,17 +54,26 @@ $("#mySelect").change(function () {
 
                 {
                     render: function (data, type, row, meta) {
-                        return '<button class="button-31" onclick="update(' + row.id + ')">Save</button>';
+                       
+                        if (row.booked === "true") {
+                            return '<button class=" button-31" id="savebtn" onclick="update(' + row.id + ')" disabled>Save</button>';
+                        } else {
+                            return '<button class=" button-31" id="savebtn" onclick="update(' + row.id + ')">Save</button>';
+                        }
                     }
                 },
 
                 {
                     data: "active",
                     render: function (data, type, row) {
-                        if (type === 'display') {
-                            return '<input type="checkbox" class="editor-active save_value" id="chkddl_' + row.id + '" onclick="Enableddl_(' + row.id + ')" value="' + row.id + '">';
+
+                        if (row.booked === "true") {
+                            return '<input type="checkbox" class="checkbox editor-active save_value" id="chkddl_' + row.id + '"  value="' + row.id + '" disabled>';
+                        } else {
+                            return '<input type="checkbox" class="checkbox editor-active save_value" id="chkddl_' + row.id + '" value="' + row.id + '">';
                         }
-                        return data;
+                           
+
                     },
                     className: "dt-body-center"
                 },
@@ -75,99 +82,11 @@ $("#mySelect").change(function () {
 
         });
 
-    selectmember();
 })
 
-
-function selectmember() {
-    $.ajax({
-        type: "get",
-        url: '/Eventcouponassignmentmappings/getmembers',
-        success: function (members) {
-            $.each(members, function (index, value) {
-                $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
-            });
-        }
-    })
-}
-
-
-function Enableddl_(id) {
-    var chkddl_ = document.getElementById("chkddl_" + id);
-    var ddl = document.getElementById("DDL");
-    /*ddl.disabled = chkddl_.checked ? false : true;*/
-    $(':checkbox:checked').each(function (i) {
-        if (chkddl_.checked) {
-            ddl.removeAttribute("disabled");
-        }
-    });
-}
-//    if (!ddl.disabled) {
-//        ddl.focus();
-//    }
-
-
 var update = function (id) {
-
 
     var cno = $("#member_" + id).val();
-
-    var data = {
-        Id: id,
-        ExecutiveMember: cno
-    }
-    $.ajax({
-        type: 'post',
-        url: "/Eventcouponassignmentmappings/Edit",
-        data: data,
-        success: function (result) {
-            alert(result);
-
-        },
-        error: function (xhr) {
-            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-        }
-
-    });
-}
-
-
-
-function dropdownval() {
-    var ExeVal = $("#DDL").val();
-
-    var val = '';
-    $(':checkbox:checked').each(function (i) {
-        val = (val == "" ? "" : val + "," ) + $(this).val();
-    });
-
-    
-    var data = {
-        ExecutiveMember: ExeVal,
-        strids: val
-
-    }
-    $.ajax({
-        type: 'post',
-        url: "/Eventcouponassignmentmappings/Edit2",
-        data: data,
-        success: function (result) {
-            alert(result);
-            location.reload(); 
-
-        },
-        error: function (xhr) {
-            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
-        }
-
-    });
-
-}
-
-var update = function (id) {
-
-
-    var cno = $("#selectmember" + id).val();
 
     var data = {
         Id: id,
@@ -181,11 +100,69 @@ var update = function (id) {
             $("#mySelect").trigger("change");
         },
         error: function (xhr) {
-            alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+            CallDialog('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
         }
-
     });
 }
 
+function dropdownval() {
+    if ($(".selectmultiplemember").val()===null) {
+        CallDialog("Select Executive Member");
+    } 
+    else {
+        var ExeVal = $("#DDL").val();
+
+        var val = '';
+        $(':checkbox:checked').each(function (i) {
+            val = (val == "" ? "" : val + ",") + $(this).val();
+        });
 
 
+        var data = {
+            ExecutiveMember: ExeVal,
+            strids: val
+
+        }
+        $.ajax({
+            type: 'post',
+            url: "/Eventcouponassignmentmappings/Edit2",
+            data: data,
+            success: function (result) {
+                CallDialog(result);
+                $("#mySelect").trigger("change");
+            },
+            error: function (xhr) {
+                CallDialog('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);
+            }
+
+        });
+    }
+
+}
+
+function CallDialog(message) {
+    $('#Cassign').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog('destroy');
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog('destroy');
+                        $("#mySelect").trigger("change");
+                    }
+                }
+            ]
+        });
+
+}

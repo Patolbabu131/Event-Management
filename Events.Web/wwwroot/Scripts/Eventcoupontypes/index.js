@@ -115,32 +115,36 @@ function save_ctype() {
             data: data,
             success: function ConfirmDialog(message) {
                 $("#addCTypee").modal('hide');
-                $('#Ctype').appendTo('body')
-                    .html('<div><h6>' + message + '</h6></div>')
-                    .dialog({
-                        modal: true,
-                        title: 'Save Message',
-                        zIndex: 10000,
-                        autoOpen: true,
-                        width: 'auto',
-                        icon: 'fa fa- close',
-                        click: function () {
-                            $(this).dialog("close");
-                        },
-                        buttons: [
-                            {
-                                text: "Ok",
-                                icon: "ui-icon-heart",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    window.location.reload();
-                                }
-                            }
-                        ]
-                    });
+                CallDailog(message);
             }             
         })
     }
+}
+
+function CallDailog(message) {
+    $('#Ctype').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog('destroy');
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog('destroy');
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
 }
 
 
@@ -195,7 +199,7 @@ function Delete(id) {
             width: 'auto',
             icon: 'fa fa- close',
             click: function () {
-                $(this).dialog("close");
+                $(this).dialog('destroy');
             },
             buttons: {
                 Yes: function () {
@@ -212,14 +216,14 @@ function Delete(id) {
                                     width: 'auto',
                                     icon: 'fa fa- close',
                                     click: function () {
-                                        $(this).dialog("close");
+                                        $(this).dialog('destroy');
                                     },
                                     buttons: [
                                         {
                                             text: "Ok",
                                             icon: "ui-icon-heart",
                                             click: function () {
-                                                $(this).dialog("close");
+                                                $(this).dialog('destroy');
                                                 window.location.reload();
                                             }
                                         }
@@ -231,7 +235,7 @@ function Delete(id) {
                 },
                 No: function () {
 
-                    $(this).dialog("close");
+                    $(this).dialog('destroy');
                 }
             }
         });
