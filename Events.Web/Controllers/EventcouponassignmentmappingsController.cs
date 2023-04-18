@@ -67,7 +67,21 @@ namespace Events.Web.Controllers
                              Attendee = !string.IsNullOrEmpty(attendeename) ? attendeename : string.Empty
                          }).ToList();
             }
-            //Searching
+            
+
+            //TotalRecords
+            var displayResult = Ctype.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
+            var totalRecords = Ctype.Count();
+            return Json(new
+            {
+                param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalRecords,
+                aaData = displayResult
+            });
+        }
+
+//Searching
             //if (!string.IsNullOrEmpty(param.sSearch))
             //{
             //    Ctype = Ctype.Where(x => x.Id.ToString().Contains(param.sSearch.ToLower())
@@ -93,20 +107,6 @@ namespace Events.Web.Controllers
             //{
             //    Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Booked).ToList() : Ctype.OrderByDescending(c => c.Booked).ToList();
             //}
-
-            //TotalRecords
-            var displayResult = Ctype.Skip(param.iDisplayStart).Take(param.iDisplayLength).ToList();
-            var totalRecords = Ctype.Count();
-            return Json(new
-            {
-                param.sEcho,
-                iTotalRecords = totalRecords,
-                iTotalDisplayRecords = totalRecords,
-                aaData = displayResult
-            });
-        }
-
-
         //// GET: Eventcouponassignmentmappings/Details/5
         //public async Task<IActionResult> Details(long? id)
         //{
@@ -174,6 +174,7 @@ namespace Events.Web.Controllers
         // POST: Eventcouponassignmentmappings/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
         {
@@ -183,7 +184,7 @@ namespace Events.Web.Controllers
             _context.Eventcouponassignmentmappings.Update(mapping);
             await _context.SaveChangesAsync();
 
-            return Json("ok");
+            return Json(mapping.EventId);
         }
         public async Task<IActionResult> Edit2(Int64 ExecutiveMember, string strids)
         {
@@ -202,17 +203,17 @@ namespace Events.Web.Controllers
             return Json("ok");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(Int64 Id, Eventcouponassignmentmapping eventcouponassignmentmapping)
+        //{
 
-            var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
-            mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
-            _context.Eventcouponassignmentmappings.Update(mapping);
-            await _context.SaveChangesAsync();
+        //    var mapping = _context.Eventcouponassignmentmappings.Where(e => e.Id == eventcouponassignmentmapping.Id).FirstOrDefault();
+        //    mapping.ExecutiveMember = eventcouponassignmentmapping.ExecutiveMember;
+        //    _context.Eventcouponassignmentmappings.Update(mapping);
+        //    await _context.SaveChangesAsync();
 
-            return Json(mapping.EventId);
-        }
+        //    return Json();
+        //}
 
         //// GET: Eventcouponassignmentmappings/Delete/5
         //public async Task<IActionResult> Delete(long? id)

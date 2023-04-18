@@ -31,10 +31,6 @@
         padding: 10px;
     }
 
-
-
-
-
     .button-31 {
         background-color: #222;
         border-radius: 4px;
@@ -63,10 +59,10 @@
         width: 100%;
     }
 
-    .button-31:hover,
-    .button-31:focus {
-        opacity: .75;
-    }
+        .button-31:hover,
+        .button-31:focus {
+            opacity: .75;
+        }
 
 </style>
 <body>
@@ -99,36 +95,47 @@
         <div class="col-6">
             <h2 class="fw-bold mb-4">Coupon</h2>
             @Html.ActionLink("Back to List", "Index","Events")
-            <select class="form-control" id="mySelect" asp-items="ViewBag.Eventcoupontypes">
-                <option disabled selected>Select Coupon</option>
-            </select>
-            <select name="list" id="DDL" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" disabled>
-                <option value="" disabled selected>Select Member</option>
-            </select>
-            <button onclick="dropdownval()">save</button>
+            <div class="row">
+                <div class="col">
+                    <div class="leftside">
+                        <select class="form-control" id="mySelect" asp-items="ViewBag.Eventcoupontypes">
+                            <option disabled selected>Select Coupon</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="rightside">
+                        <select name="list" id="DDL" class="selectmember form-control form-select-sm " value="' + row.executiveMember +'" disabled>
+                            <option value="" disabled selected>Select Member</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <button onclick="dropdownval()">save</button>
+                </div>
+            </div>
+
         </div>
 
-    </div>
+        <div class="card shadow">
 
-    <div class="card shadow">
-
-        <div class="card-body">
-            <table id="Cassignmentmappingtable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>CouponNumber</th>
-                        <th>Executive Member</th>
-                        <th>Attende Name</th>
-                        <th>Booked?</th>
-                        <th>Action</th>
-                        <th>Check</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div class="card-body">
+                <table id="Cassignmentmappingtable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>CouponNumber</th>
+                            <th>Executive Member</th>
+                            <th>Attende Name</th>
+                            <th>Booked?</th>
+                            <th>Action</th>
+                            <th>Check</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 </body>
 </html>
 

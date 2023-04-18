@@ -77,6 +77,8 @@ $("#mySelect").change(function () {
 
     selectmember();
 })
+
+
 function selectmember() {
     $.ajax({
         type: "get",
@@ -93,13 +95,16 @@ function selectmember() {
 function Enableddl_(id) {
     var chkddl_ = document.getElementById("chkddl_" + id);
     var ddl = document.getElementById("DDL");
-    ddl.disabled = chkddl_.checked ? false : true;
-    if (!ddl.disabled) {
-        ddl.focus();
-    }
-
+    /*ddl.disabled = chkddl_.checked ? false : true;*/
+    $(':checkbox:checked').each(function (i) {
+        if (chkddl_.checked) {
+            ddl.removeAttribute("disabled");
+        }
+    });
 }
-
+//    if (!ddl.disabled) {
+//        ddl.focus();
+//    }
 
 
 var update = function (id) {
