@@ -31,7 +31,7 @@ namespace Events.Web.Controllers
         }
         public IActionResult CreateMembers(User executivemember)
         {
-            if (executivemember.Id == null)
+            if (executivemember.Id == null|| executivemember.Id==0)
             {
                 var id = _db.Users.ToList();
                 var member = new User()
@@ -40,6 +40,10 @@ namespace Events.Web.Controllers
                     Designation = executivemember.Designation,
                     AppointedOn = executivemember.AppointedOn,
                     Duties = executivemember.Duties,
+                    LoginName = executivemember.LoginName,
+                    Password = executivemember.Password,
+                    Role = executivemember.Role,
+                    Active = executivemember.Active,
                     CreatedOn = DateTime.Now,
                     ModifiedOn = DateTime.Now
                 };
@@ -56,6 +60,10 @@ namespace Events.Web.Controllers
                     Designation = executivemember.Designation,
                     AppointedOn = executivemember.AppointedOn,
                     Duties = executivemember.Duties,
+                    LoginName = executivemember.LoginName,
+                    Password = executivemember.Password,
+                    Role = executivemember.Role,
+                    Active = executivemember.Active,
                     CreatedOn = executivemember.CreatedOn,
                     ModifiedOn = DateTime.Now
                 };

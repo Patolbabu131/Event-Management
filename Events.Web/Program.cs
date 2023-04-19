@@ -18,7 +18,7 @@ builder.Services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession(option =>
 {
-    option.IdleTimeout = TimeSpan.FromSeconds(10);
+    option.IdleTimeout = TimeSpan.FromSeconds(600);
 });
 builder.Services.AddScoped<SessionTimeoutAttribute>();
 builder.Services.AddTransient<IEventsService, EventsService>();

@@ -10,11 +10,11 @@ $('#create_member').click(function () {
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
-            $("#PurchasedOn").datepicker();
+            $("#addAppointedOn").datepicker();
         }
     })
 });
- 
+
 
 
 
@@ -25,7 +25,6 @@ function save_member() {
             addName: "required",
             addDesignation: {
                 required: true,
-
             },
             PurchasedOn: {
                 required: true,
@@ -36,6 +35,16 @@ function save_member() {
             addDuties: {
                 required: true,
             },
+            addLoginName: {
+                required: true,
+            },
+            addPassword: {
+                required: true,
+            },
+            addRole: {
+                required: true,
+            },
+
         },
         messages: {
             addName: " Please enter Name",
@@ -46,6 +55,9 @@ function save_member() {
                 required: " Please AppointedOn ",
             },
             addDuties: "Please enter Duties",
+            addLoginName: "Please enter LoginName",
+            addPassword: "Please enter Password",
+            addRole: "Please select Role",
         },
         highlight: function (element) {
             $(element).parent().addClass('error')
@@ -55,48 +67,54 @@ function save_member() {
         }
     });
     if ($('#formAddECMember').valid()) {
+        if ($("#addActive").is(':checked')) {
+            $("#addActive").attr('value', 'true');
+        } else {
+            $("#addActive").attr('value', 'false');
+        }
         var data = {
             Id: $("#EventId").val(),
             FullName: $("#addrName").val(),
             Designation: $("#addDesignation").val(),
             AppointedOn: $("#addAppointedOn").val(),
             Duties: $("#addDuties").val(),
-        CreatedOn:$("#createon").val()
+            loginName: $("#addLoginName").val(),
+            password: $("#addPassword").val(),
+            Role: $("#addRole").val(),
+            Active: $("#addActive").val(),
         }
-        savemember(data);
+
+        $.ajax({
+            type: "post",
+            url: '/Users/CreateMembers',
+            data: data,
+
+            success: function
+                ConfirmDialog(message) {
+                $('<div></div>').appendTo('body')
+                    .html('<div><h6>' + message + '?</h6></div>')
+                    .dialog({
+                        modal: true,
+                        title: 'Events Data Is Saved...',
+                        zIndex: 10000,
+                        autoOpen: true,
+                        width: 'auto',
+                        resizable: false,
+                        close: function (event, ui) {
+                            $(this).remove();
+                            window.location.reload();
+                        }
+                    })
+                window.location.reload(); 
+            }
+                   
+        })
+
+
     }
 }
 
-function savemember(data) {
-    $.ajax({
-        type: "post",
-        data: data,
-        url: '/Users/CreateMembers',
-        success: //function (resonce) {
-            //alert(resonce);
 
-           // ConfirmDialog('Are you sure');
-
-            function ConfirmDialog(message)
-            {
-            $('<div></div>').appendTo('body')
-                .html('<div><h6>' + message + '?</h6></div>')
-                .dialog({
-                    modal: true,
-                    title: 'Events Data Is Saved...',
-                    zIndex: 10000,
-                    autoOpen: true,
-                    width: 'auto',
-                    resizable: false,
-                    close: function (event, ui) {
-                        $(this).remove();
-                    }
-                })
-           }
-            //window.location.reload();        
-    })
-    window.location.reload();
-}
 
 function bindmember() {
     datatable = $('#tblecmembers')
@@ -110,7 +128,7 @@ function bindmember() {
             "filter": true,
             "language": {
                 "emptyTable": "No record found.",
-                "processing":'<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                "processing": '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
                 {
@@ -126,8 +144,8 @@ function bindmember() {
                     }
                 },
                 {
-              
-                     "data": "appointedon",
+
+                    "data": "appointedon",
                     "render": function (data) {
                         var date = new Date(data);
                         var month = date.getMonth() + 1;
@@ -154,7 +172,7 @@ function details_member(id) {
     $.ajax({
         type: "post",
         data: id,
-        url: '/Users/ECMemberDetails/'+id,
+        url: '/Users/ECMemberDetails/' + id,
         success: function (resonce) {
             $('#member').html(resonce);
             $("#DetailsECMemberModal").modal('show');
@@ -169,34 +187,35 @@ function edit_member(id) {
         success: function (resonce) {
             $('#member').html(resonce);
             $("#addECMemberModal").modal('show');
-            $("#PurchasedOn").datepicker();
+            $("#addAppointedOn").datepicker();
+
+            $.ajax({
+                type: "post",
+                url: '/Users/GetEdit/' + id,
+                success: function (resonce) {
+
+                    var now = new Date(resonce.appointedOn);
+                    var day = ("0" + now.getDate()).slice(-2);
+                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+
+
+                    $('#EventId').val(resonce.id);
+                    $('#addrName').val(resonce.fullName);
+                    $('#addDesignation').val(resonce.designation);
+                    $('#addAppointedOn').val(today);
+                    $('#addDuties').val(resonce.duties);
+                    $("#addLoginName").val(resonce.loginName),
+                        $("#addPassword").val(resonce.password),
+                        $("#addRole").val(resonce.role),
+                        $("#addActive").prop("checked", resonce.active)
+                }
+            })
         }
     })
 
-    $.ajax({
-        type: "post",
-        data: id,
-        url: '/Users/GetEdit/'+id,
-        success: function (resonce) {
-            var now = new Date(resonce.appointedOn);
-            var day = ("0" + now.getDate()).slice(-2);
-            var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var today = now.getFullYear() + "-" + (month) + "-" + (day);
 
-
-            var ok = new Date(resonce.createdOn);
-            var day1 = ("0" + ok.getDate()).slice(-2);
-            var month1 = ("0" + (ok.getMonth() + 1)).slice(-2);
-            var create = ok.getFullYear() + "-" + (month1) + "-" + (day1);
-
-            $('#EventId').val(resonce.id);
-            $('#addrName').val(resonce.fullName);
-            $('#addDesignation').val(resonce.designation);
-            $('#addAppointedOn').val(today);
-            $('#addDuties').val(resonce.duties);
-            $('#createon').val(create)
-        }
-    })
 }
 
 function delete_member(id) {
@@ -204,7 +223,7 @@ function delete_member(id) {
     if (confirmation) {
         $.ajax({
             type: "post",
-            url: '/Users/DeteleMember/'+id,
+            url: '/Users/DeteleMember/' + id,
             success: function (resonce) {
                 alert("Record Deleted Successfuly..");
                 window.location.reload();

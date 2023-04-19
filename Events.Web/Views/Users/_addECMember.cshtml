@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <input type="text" id="EventId" hidden>
-                        <input type="date" id="createon"hidden>
+                        <input type="date" id="createon" hidden>
                         <div class="mb-3 col-md-12">
                             <label for="addName" class="form-label">Name</label>
                             <input class="form-control" type="text" id="addrName" name="addName" />
@@ -24,21 +24,37 @@
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addAppointedOn" class="form-label">Appointed On</label>
-                            <input class="form-control" type="date" name="addAppointedOn" id="addAppointedOn" />
+                            <input class="form-control" type="text" name="addAppointedOn" id="addAppointedOn" />
                         </div>
                         <div class="mb-3 col-md-12">
                             <label for="addDuties" class="form-label">Duties</label>
                             <textarea class="form-control" id="addDuties" name="addDuties"></textarea>
                         </div>
-                      @*  <div class="col-md-12">
-                            <label for="addUploadProfile" class="form-label">Upload Profile Pic</label>
-                            <input class="form-control" type="file" id="addrUploadProfile" name="addUploadProfile" />
-                        </div>*@
+                        <div class="mb-3 col-md-6">
+                            <label for="addLoginName" class="form-label">LoginName</label>
+                            <input type="text" class="form-control" id="addLoginName" name="addLoginName" />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="addPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="addPassword" name="addPassword" />
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="addRole" class="control-label">Role</label>
+                            <select class ="form-control" id="addRole" name="addRole" value="">
+                                <option value="Please Select Role" selected disabled>Click on this select Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Executivemember">Executive Member</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-6">
+                            <label for="addActive" class="form-label">Is Active?</label>
+                            <input type="checkbox" id="addActive" name="addActive" value="" />
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                    <button type="button"  onclick="save_member()" class="btn btn-primary">Save</button>
+                    <button type="button" onclick="save_member()" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>

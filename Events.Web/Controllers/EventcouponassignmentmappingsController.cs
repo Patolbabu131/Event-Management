@@ -32,7 +32,8 @@ namespace Events.Web.Controllers
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
                 ViewData["Users"] = new SelectList(_context.Users, "Id", "FullName");
-                ViewBag.Users = _context.Users.Select(s => new { s.Id, s.FullName }).ToList();
+                ViewBag.Userss = _context.Users.Select(s => new { s.Id, s.FullName }).ToList();
+                ViewData["User"] = new SelectList(_context.Users, "Id", "FullName");
                 ViewBag.Eid = Id;
                 return View();
             }

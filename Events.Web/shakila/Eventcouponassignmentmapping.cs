@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Events.Web.Models;
+namespace Events.Web.shakila;
 
 public partial class Eventcouponassignmentmapping
 {
@@ -18,6 +18,7 @@ public partial class Eventcouponassignmentmapping
     public long? Attendee { get; set; }
 
     public string Booked { get; set; } = null!;
+
     public virtual Eventattendee? AttendeeNavigation { get; set; }
 
     public virtual Eventcoupontype CouponType { get; set; } = null!;
@@ -26,4 +27,3 @@ public partial class Eventcouponassignmentmapping
 
     public virtual User? UserNavigation { get; set; }
 }
-

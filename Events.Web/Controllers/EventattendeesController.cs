@@ -208,7 +208,7 @@ namespace Events.Web.Controllers
                 var nocoupon = _context.Eventcouponassignmentmappings.Where(e => (e.CouponTypeId == id && e.User == mid) || e.Attendee == aid).ToList();
                 return Json(nocoupon);
             }
-            return Json("somthing went wrong");
+            //return Json("somthing went wrong");
         }
 
         [HttpPost]

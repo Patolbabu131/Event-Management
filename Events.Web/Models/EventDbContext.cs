@@ -33,9 +33,7 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)=> optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -111,9 +109,6 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.EventId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("EventID");
-            entity.Property(e => e.User)
-                .HasDefaultValueSql("'NULL'")
-                .HasColumnType("bigint(20)");
             entity.Property(e => e.ModeOfPayment)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("enum('Cash','UPI','Bank_Transfer','Others')");
@@ -126,6 +121,9 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.PaymentReference).HasMaxLength(255);
             entity.Property(e => e.PurchasedOn).HasColumnType("datetime");
             entity.Property(e => e.TotalAmount).HasPrecision(10);
+            entity.Property(e => e.User)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("bigint(20)");
 
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventattendees)
                 .HasForeignKey(d => d.CouponTypeId)
@@ -141,15 +139,15 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.EventId)
                 .HasConstraintName("eventattendees_ibfk_1");
 
-            entity.HasOne(d => d.UserNavigation).WithMany(p => p.EventattendeeUserNavigations)
-                .HasForeignKey(d => d.User)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("eventattendees_ibfk_9");
-
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventattendeeModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventattendees_ibfk_7");
+
+            entity.HasOne(d => d.UserNavigation).WithMany(p => p.EventattendeeUserNavigations)
+                .HasForeignKey(d => d.User)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("eventattendees_ibfk_9");
         });
 
         modelBuilder.Entity<Eventcouponassignment>(entity =>
@@ -181,16 +179,14 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.EventId)
                 .HasColumnType("bigint(20)")
                 .HasColumnName("EventID");
-            entity.Property(e => e.User)
-                .HasColumnType("bigint(20)")
-                .HasColumnName("User");
             entity.Property(e => e.ModifiedBy)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
-            entity.Property(e => e.ModifiedOn)
+            entity.Property(e => e.ModifiedOn)  
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("datetime");
             entity.Property(e => e.TotalCoupons).HasColumnType("bigint(20)");
+            entity.Property(e => e.User).HasColumnType("bigint(20)");
 
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventcouponassignments)
                 .HasForeignKey(d => d.CouponTypeId)
@@ -206,15 +202,15 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.EventId)
                 .HasConstraintName("eventcouponassignments_ibfk_1");
 
-            entity.HasOne(d => d.Users).WithMany(p => p.EventcouponassignmentUsers)
-                .HasForeignKey(d => d.User)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("eventcouponassignments_ibfk_2");
-
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.EventcouponassignmentModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignments_ibfk_4");
+
+            entity.HasOne(d => d.UserNavigation).WithMany(p => p.EventcouponassignmentUserNavigations)
+                .HasForeignKey(d => d.User)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("eventcouponassignments_ibfk_2");
         });
 
         modelBuilder.Entity<Eventcouponassignmentmapping>(entity =>
@@ -225,11 +221,11 @@ public partial class EventDbContext : DbContext
 
             entity.HasIndex(e => e.Attendee, "Attendee");
 
-            entity.HasIndex(e => e.CouponTypeId, "CouponTypeID");
-
             entity.HasIndex(e => e.EventId, "EventID");
 
             entity.HasIndex(e => e.User, "User");
+
+            entity.HasIndex(e => e.CouponTypeId, "eventcouponassignmentmapping_ibfk_2");
 
             entity.Property(e => e.Id)
                 .HasColumnType("bigint(20)")
@@ -259,7 +255,6 @@ public partial class EventDbContext : DbContext
 
             entity.HasOne(d => d.CouponType).WithMany(p => p.Eventcouponassignmentmappings)
                 .HasForeignKey(d => d.CouponTypeId)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("eventcouponassignmentmapping_ibfk_2");
 
             entity.HasOne(d => d.Event).WithMany(p => p.Eventcouponassignmentmappings)
@@ -451,10 +446,14 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.CreatedOn).HasColumnType("datetime");
             entity.Property(e => e.Designation).HasMaxLength(200);
             entity.Property(e => e.FullName).HasMaxLength(100);
+            entity.Property(e => e.LoginName).HasMaxLength(200);
             entity.Property(e => e.ModifiedBy)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
             entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+            entity.Property(e => e.Password).HasMaxLength(200);
+            entity.Property(e => e.Role).HasColumnType("enum('Executivemember','Admin')");
+
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
                 .HasForeignKey(d => d.CreatedBy)
                 .OnDelete(DeleteBehavior.Restrict)

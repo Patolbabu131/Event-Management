@@ -83,6 +83,11 @@ function save_Cassign() {
         },
     });
     if ($('#CAssignform').valid()) {
+        if ($("#Active").is(':checked')) {
+            $("#Active").attr('value', 'true');
+        } else {
+            $("#Active").attr('value', 'false');
+        }
         var data = {
             Id: $("#Cassignid").val(),
             EventId: $("#EventId").val(),

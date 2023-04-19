@@ -25,7 +25,7 @@
                         var drop = '<select name = "list"  id="member_' + row.id + '" class="selectmember form-control form-select-sm " value="' + row.user + '" >'
                         drop += '<option value = "" disabled selected>Select Member</option>'
                         $.each(memberslist, function (i, v) {
-                            if (v.id == row.User) {
+                            if (v.id == row.user) {
                                 drop += '<option value="' + v.Id + '">' + v.FullName + '</option>';
                             }
                             else {
@@ -84,17 +84,17 @@
 
 })
 
-function selectexmember() {
-    $.ajax({
-        type: "get",
-        url: '/Eventcouponassignmentmappings/getmembers',
-        success: function (members) {
-            $.each(members, function (index, value) {
-                $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
-            });
-        }
-    })
-}
+//function selectexmember() {
+//    $.ajax({
+//        type: "get",
+//        url: '/Eventcouponassignmentmappings/getmembers',
+//        success: function (members) {
+//            $.each(members, function (index, value) {
+//                $('.selectmember').append($('<option>').val(value.id).text(value.fullName));
+//            });
+//        }
+//    })
+//}
 
 
 var update = function (id) {
