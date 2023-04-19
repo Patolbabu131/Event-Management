@@ -206,7 +206,7 @@ public partial class EventDbContext : DbContext
                 .HasForeignKey(d => d.EventId)
                 .HasConstraintName("eventcouponassignments_ibfk_1");
 
-            entity.HasOne(d => d.user).WithMany(p => p.EventcouponassignmentUsers)
+            entity.HasOne(d => d.Users).WithMany(p => p.EventcouponassignmentUsers)
                 .HasForeignKey(d => d.User)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("eventcouponassignments_ibfk_2");

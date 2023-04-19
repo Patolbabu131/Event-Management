@@ -41,7 +41,7 @@ public partial class Eventcouponassignment
 
     public virtual Event Event { get; set; } = null!;
 
-    public virtual User user { get; set; } = null!;
+    public virtual User Users { get; set; } = null!;
 
     public virtual User? ModifiedByNavigation { get; set; }
 }

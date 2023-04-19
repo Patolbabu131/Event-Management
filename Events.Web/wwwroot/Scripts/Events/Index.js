@@ -208,8 +208,8 @@ function bindDatatable() {
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
-            "filter": true,
-            "autoWidth": true,            
+            "filter": true,   
+            "autoWidth": true,         
             "order": [[1, 'desc']],
             "language": {
                 "emptyTable": "No record found.",

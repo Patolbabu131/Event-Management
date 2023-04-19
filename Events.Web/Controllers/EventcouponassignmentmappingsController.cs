@@ -29,14 +29,11 @@ namespace Events.Web.Controllers
             }
             else
             {
-                ViewBag.VBFriend = _context.Users.Where(e => e.Id == Id).FirstOrDefault();
-                ViewBag.VBFriend = _context.Eventcouponassignmentmappings.Where(e => e.Id == Id).FirstOrDefault();
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
                 ViewData["Users"] = new SelectList(_context.Users, "Id", "FullName");
                 ViewBag.Users = _context.Users.Select(s => new { s.Id, s.FullName }).ToList();
                 ViewBag.Eid = Id;
-                ViewBag.Ecamid = Id;
                 return View();
             }
         }

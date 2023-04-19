@@ -24,6 +24,7 @@ public partial class Eventcouponassignmentmapping
     public virtual Eventcoupontype CouponType { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
+    public virtual User Users  { get; set; } = null!;
 
     public virtual User? UserNavigation { get; set; }
 }

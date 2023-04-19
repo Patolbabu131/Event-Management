@@ -9,10 +9,6 @@
     var evenue = ViewBag.VBFriend.EventVenue;
     var estarttime = ViewBag.VBFriend.EventStartTime;
     var eendtime = ViewBag.VBFriend.EventEndTime;
-    var eyear = ViewBag.VBFriend.EventYear;
-    var ecreatedon = ViewBag.VBFriend.CreatedOn;
-    var emodifiedon = ViewBag.VBFriend.ModifiedOn;
-    var eid = ViewBag.Ecamid;
 }
 
 
@@ -113,7 +109,7 @@
             </select>
         </div>
         <div style="width:40%">
-            <select id="DDL" class="selectmultiplemember form-control form-select-sm " asp-items="ViewBag.Users">
+            <select id="DDL" class="selectmultiplemember form-control form-select-sm " asp-items="ViewBag.User">
                 <option disabled selected>Select Member</option>
             </select>
         </div>
