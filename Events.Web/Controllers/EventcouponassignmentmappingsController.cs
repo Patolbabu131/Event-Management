@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using Org.BouncyCastle.Crypto;
-using Events.Web.Session;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Events.Web.Controllers
 {
-    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+    [Authorize]
     public class EventcouponassignmentmappingsController : Controller
     {
         private readonly EventDbContext _context;
@@ -81,15 +81,11 @@ namespace Events.Web.Controllers
             //Sorting
             if (param.iSortCol_0 == 0)
             {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Id).ToList() : Ctype.OrderByDescending(c => c.Id).ToList();
-            }
-            else if (param.iSortCol_0 == 1)
-            {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponTypeId).ToList() : Ctype.OrderByDescending(c => c.CouponTypeId).ToList();
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.CouponNumber).ToList() : Ctype.OrderByDescending(c => c.CouponNumber).ToList();
             }
             else if (param.iSortCol_0 == 2)
             {
-                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.AttendeeName).ToList() : Ctype.OrderByDescending(c => c.AttendeeName).ToList();
+                Ctype = param.sSortDir_0 == "asc" ? Ctype.OrderBy(c => c.Attendee).ToList() : Ctype.OrderByDescending(c => c.Attendee).ToList();
             }
             else if (param.iSortCol_0 == 3)
             {

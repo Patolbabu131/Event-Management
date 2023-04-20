@@ -175,12 +175,13 @@
     }
 }
 
-
 $(document).on("click", "button[data-dismiss='modal']", function () {
     if ($(".modal-backdrop.in").length > 0) {
         $(".modal-backdrop.in").remove();
     }
+    
 });
+
 function validateIPaddress(ipaddress) {
 
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
@@ -188,6 +189,7 @@ function validateIPaddress(ipaddress) {
     }
     return (false)
 }
+
 function validateEmail(email) {
     var regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regExp.test(email);
@@ -343,6 +345,7 @@ function onlynumber() {
             return false;
     });
 }
+
 $(document).ready(function () {
 
 
@@ -382,23 +385,4 @@ function checkfile(sender) {
     }
     else return true;
 }
-
-function smallTable() {
-    //debugger;
-    var headertext = [],
-        headers = document.querySelectorAll(".customsmallTable th"),
-        tablerows = document.querySelectorAll(".customsmallTable th"),
-        tablebody = document.querySelector(".customsmallTable tbody");
-
-    for (var i = 0; i < headers.length; i++) {
-        var current = headers[i];
-        headertext.push(current.textContent.replace(/\r?\n|\r/, ""));
-    }
-    for (var i = 0, row; row = tablebody.rows[i]; i++) {
-        for (var j = 0, col; col = row.cells[j]; j++) {
-            col.setAttribute("data-th", headertext[j]);
-        }
-    }
-}
-
 

@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
-using Events.Web.Session;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Events.Web.Controllers
 {
-    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+    [Authorize]
     public class EventexpensesController : Controller
     {
         private readonly EventDbContext _context;
@@ -115,6 +114,9 @@ namespace Events.Web.Controllers
         [HttpGet]
         public IActionResult CreateEdit(Int64 Id)
         {
+            if (cd.HttpContext.Session.GetString("MID") == "0") {
+                return RedirectToAction("login","Account");
+            }
             ViewData["CreatedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");
             ViewBag.eid = Id;
             ViewData["ModifiedBy"] = new SelectList(_context.Executivemembers, "Id", "Id");

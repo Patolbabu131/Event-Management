@@ -8,12 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Events.Web.Models;
 using Org.BouncyCastle.Asn1.X500;
 using System.Collections;
-using Events.Web.Session;   
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Events.Web.Controllers
 {
-    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+    [Authorize]
     public class EventcouponassignmentsController : Controller
     {
         private readonly EventDbContext _context;
