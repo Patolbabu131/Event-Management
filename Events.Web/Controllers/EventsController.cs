@@ -6,11 +6,11 @@ using Events.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using static Events.Web.Services.CommonService;
-using Events.Web.Session;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Events.Web.Controllers
 {
-    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+    [Authorize]
     public class EventsController : BaseController
     {
         #region Variables

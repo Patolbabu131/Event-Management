@@ -12,11 +12,11 @@ using System.Drawing.Text;
 using Microsoft.EntityFrameworkCore.Migrations;
 using static System.Net.WebRequestMethods;
 using static Azure.Core.HttpHeader;
-using Events.Web.Session;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Events.Web.Controllers
 {
-    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+    [Authorize]
     public class EventsponsorsimagesController : Controller
     {
         private readonly EventDbContext _context;
