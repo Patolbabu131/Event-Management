@@ -10,11 +10,11 @@ using Events.Web.Models;
 using System.Globalization;
 using System.Collections;
 using System.Text;
-using Events.Web.Session;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Events.Web.Controllers
 {
-    [ServiceFilter(typeof(SessionTimeoutAttribute))]
+    [Authorize]
     public class EventcoupontypesController : Controller
     {
         private readonly EventDbContext _context;

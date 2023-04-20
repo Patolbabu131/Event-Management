@@ -13,7 +13,7 @@ public partial class EventDbContext : DbContext
     public EventDbContext(DbContextOptions<EventDbContext> options)
         : base(options)
     {
-    }
+        }
 
     public virtual DbSet<Event> Events { get; set; }
 

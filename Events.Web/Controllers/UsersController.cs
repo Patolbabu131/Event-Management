@@ -4,6 +4,7 @@ using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Threading.Tasks;
 using Events.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Math;
 
@@ -11,6 +12,7 @@ using Org.BouncyCastle.Math;
 
 namespace Events.Web.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly ILogger<UsersController> _logger;

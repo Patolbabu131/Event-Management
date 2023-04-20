@@ -76,7 +76,7 @@ function save_member() {
             Id: $("#EventId").val(),
             FullName: $("#addrName").val(),
             Designation: $("#addDesignation").val(),
-            AppointedOn: $("#addAppointedOn").val(),
+            AppointedOn: $("#addAppointedOn").val(),                    
             Duties: $("#addDuties").val(),
             loginName: $("#addLoginName").val(),
             password: $("#addPassword").val(),
