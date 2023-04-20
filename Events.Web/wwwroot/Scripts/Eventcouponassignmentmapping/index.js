@@ -47,11 +47,17 @@
                         }
                     }
                 },
-
                 {
-                    "data": "booked",
-                },
 
+                    render: function (data, type, row) {
+                        if (row.attendee.length === 0) {
+                            return 'No'
+                        }
+                        else {
+                            return 'Yes'
+                        }
+                    },
+                },
                 {
                     render: function (data, type, row, meta) {
                        
@@ -62,7 +68,6 @@
                         }
                     }
                 },
-
                 {
                     data: "active",
                     render: function (data, type, row) {

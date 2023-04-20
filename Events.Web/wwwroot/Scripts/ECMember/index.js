@@ -145,11 +145,14 @@ function bindmember() {
                 },
                 {
 
-                    "data": "appointedon",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
+                    "data": "appointedOn",
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.appointedOn);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const joined = [day, month, year].join('/');
+                        return joined;
                     }
                 },
                 {
@@ -157,6 +160,28 @@ function bindmember() {
                     render: function (data, type, row, meta) {
                         return row.duties
                     }
+                },
+                {
+                    "data": "loginName",
+                    render: function (data, type, row, meta) {
+                        return row.loginName
+                    }
+                },
+                {
+                    "data": "role",
+                    render: function (data, type, row, meta) {
+                        return row.role
+                    }
+                },
+                {
+                    render: function (data, type, row) {
+                        if (row.active == 0) {
+                            return 'No'
+                        }
+                        else {
+                            return 'Yes'
+                        }
+                    },
                 },
                 {
                     render: function (data, type, row, meta) {
@@ -207,9 +232,9 @@ function edit_member(id) {
                     $('#addAppointedOn').val(today);
                     $('#addDuties').val(resonce.duties);
                     $("#addLoginName").val(resonce.loginName),
-                        $("#addPassword").val(resonce.password),
-                        $("#addRole").val(resonce.role),
-                        $("#addActive").prop("checked", resonce.active)
+                    $("#addPassword").val(resonce.password),
+                    $("#addRole").val(resonce.role),
+                    $("#addActive").prop("checked", resonce.active)
                 }
             })
         }

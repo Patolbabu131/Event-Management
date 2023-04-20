@@ -25,10 +25,13 @@ function functionToCall(id) {
                 },
                 {
                     "data": "purchasedOn",
-                    "render": function (data) {
-                        var date = new Date(data);
-                        var month = date.getMonth() + 1;
-                        return (month.toString().length > 1 ? month : "0" + month) + "/" + date.getDate() + "/" + date.getFullYear();
+                    "render": function (data, type, row, meta) {
+                        var date = new Date(row.purchasedOn);
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const joined = [day, month, year].join('/');
+                        return joined;
                     }
 
                 },
