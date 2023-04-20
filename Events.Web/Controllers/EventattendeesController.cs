@@ -218,6 +218,7 @@ namespace Events.Web.Controllers
             if (eventattendee.Id == null || eventattendee.Id == 0)
             {
                 var member = new Eventattendee()
+
                 {
                     EventId = eventattendee.EventId,
                     AttendeeName = eventattendee.AttendeeName,
