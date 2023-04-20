@@ -347,9 +347,12 @@ function onlynumber() {
 }
 
 $(document).ready(function () {
+    $.post("/events/admin", null, function (data) {
+        if (data == "false") {
+            $("#adminonly").hide();
+        }
+    }); 
 
-
- 
     $('#fileFormatValidation').hide();
     var m_names = ['January', 'February', 'March',
         'April', 'May', 'June', 'July',
@@ -370,6 +373,9 @@ $(document).ready(function () {
         // Add a leading zero to the minutes value
         $(".time-inner").html(((hours < 10 ? "0" : "") + hours) + ':' + (minutes < 10 ? "0" : "") + minutes);
     }, 1000);
+
+
+
 
 })
 

@@ -35,10 +35,10 @@ function save_member() {
             addDuties: {
                 required: true,
             },
-            addLoginName: {
+            LoginName: {
                 required: true,
             },
-            addPassword: {
+            adddPassword: {
                 required: true,
             },
             addRole: {
@@ -55,8 +55,8 @@ function save_member() {
                 required: " Please AppointedOn ",
             },
             addDuties: "Please enter Duties",
-            addLoginName: "Please enter LoginName",
-            addPassword: "Please enter Password",
+            LoginName: "Please enter LoginName",
+            adddPassword: "Please enter valide email",
             addRole: "Please select Role",
         },
         highlight: function (element) {
@@ -185,7 +185,7 @@ function bindmember() {
                 },
                 {
                     render: function (data, type, row, meta) {
-                        return '<a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> |  <a class="btn btn-danger" onclick="delete_member(' + row.id + ')" >Delete</a>';
+                        return '<a class="btn btn-info"  onclick="edit_member(' + row.id + ')" >Edit</a> ';
                     }
                 }
             ]

@@ -122,7 +122,7 @@ namespace Events.Web.Controllers
             ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["CouponTypeId"] = new SelectList(_context.Eventcoupontypes, "Id", "CouponName");
             ViewBag.eid = id;
-            ViewData["User"] = new SelectList(_context.Users, "Id", "FullName");
+            ViewData["User"] = new SelectList(_context.Users.Where(e=>e.Role== "Executivemember" && e.Active == true), "Id", "FullName");
             ViewData["ModifiedBy"] = new SelectList(_context.Users, "Id", "Id");
             return PartialView("Create");
         }

@@ -206,7 +206,17 @@ namespace Events.Web.Controllers
                 return Json(new { message = ex.Message });
             }
         }
-
+        public ActionResult Admin()
+        {
+            string mid = cd.HttpContext.Session.GetString("MID");
+            Int64 id = Int16.Parse(mid);
+            var i = _db.Users.Where(e => e.Id == id).FirstOrDefault();
+            if (i.Role == "Admin")
+            {
+                return Json("true");
+            }
+            return Json("false");
+        }
         #endregion
     }
 }

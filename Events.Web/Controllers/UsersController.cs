@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Events.Web.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ using Org.BouncyCastle.Math;
 
 namespace Events.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class UsersController : Controller
     {
         private readonly ILogger<UsersController> _logger;
@@ -43,7 +44,7 @@ namespace Events.Web.Controllers
                     AppointedOn = executivemember.AppointedOn,
                     Duties = executivemember.Duties,
                     LoginName = executivemember.LoginName,
-                    Password = executivemember.Password,
+                    Password = EncryptPassword(executivemember.Password),
                     Role = executivemember.Role,
                     Active = executivemember.Active,
                     CreatedOn = DateTime.Now,
@@ -63,7 +64,7 @@ namespace Events.Web.Controllers
                     AppointedOn = executivemember.AppointedOn,
                     Duties = executivemember.Duties,
                     LoginName = executivemember.LoginName,
-                    Password = executivemember.Password,
+                    Password = EncryptPassword(executivemember.Password),
                     Role = executivemember.Role,
                     Active = executivemember.Active,
                     CreatedOn = executivemember.CreatedOn,
@@ -77,7 +78,8 @@ namespace Events.Web.Controllers
         }
         public IActionResult GetEdit(Int64 id)
         {
-            var EC = _db.Users.Where(x => x.Id == id).FirstOrDefault();
+            var EC = _db.Users.Where(x => x.Id == id  ).FirstOrDefault();
+            EC.Password = DecryptPassword(EC.Password);
             return Json(EC);
         }
         public ActionResult GetECMember(JqueryDatatableParam param)
@@ -87,10 +89,9 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                eventattendees = eventattendees.Where(x => x.FullName.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Designation.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Duties.ToString().Contains(param.sSearch.ToLower())
-                                              || x.Active.ToString().Contains(param.sSearch.ToLower())).ToList();
+                eventattendees = eventattendees.Where(x => x.FullName.ToLower().ToString().Contains(param.sSearch.ToLower())
+                                              || x.Designation.ToLower().ToString().Contains(param.sSearch.ToLower())
+                                              || x.Duties.ToLower().ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
             if (param.iSortCol_0 == 0)
@@ -134,10 +135,37 @@ namespace Events.Web.Controllers
 
         public IActionResult DeteleMember(Int64 id)
         {
-            var data = _db.Users.Where(e => e.Id == id).SingleOrDefault();
+            var data = _db. Users.Where(e => e.Id == id).SingleOrDefault();
             _db.Users.Remove(data);
             _db.SaveChanges();
             return Json("success");
+        }
+
+        public static string EncryptPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                return null;
+            }
+            else
+            {
+                byte[] storePassword = ASCIIEncoding.ASCII.GetBytes(password);
+                string encryptedPassword = Convert.ToBase64String(storePassword);
+                return encryptedPassword;
+            }
+        }
+        public static string DecryptPassword(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+            {
+                return null;
+            }
+            else
+            {
+                byte[] encryptedPassword = Convert.FromBase64String(password);
+                string decryptedPassword = ASCIIEncoding.ASCII.GetString(encryptedPassword);
+                return decryptedPassword;
+            }
         }
     }
 }

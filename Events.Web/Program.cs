@@ -27,6 +27,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             x.Cookie.Name = "CookieAuthenticationDefaults";
             x.ExpireTimeSpan = TimeSpan.FromMinutes(10);//For Auto Logout 
             x.LoginPath = "/Account/login";
+            x.AccessDeniedPath = "/Events/index";
             x.SlidingExpiration = true;
         });
     

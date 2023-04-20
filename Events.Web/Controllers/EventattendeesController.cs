@@ -147,7 +147,7 @@ namespace Events.Web.Controllers
 
             ViewBag.eid = id;
 
-            ViewData["User"] = new SelectList(_context.Users, "Id", "FullName");
+            ViewData["User"] = new SelectList(_context.Users.Where(e=>e.Role== "Executivemember"&& e.Active==true), "Id", "FullName");
 
             return PartialView("CreateEdit");
         }

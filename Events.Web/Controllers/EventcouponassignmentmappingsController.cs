@@ -31,9 +31,9 @@ namespace Events.Web.Controllers
             {
                 ViewBag.VBFriend = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
                 ViewData["Eventcoupontypes"] = new SelectList(_context.Eventcoupontypes.Where(c => c.EventId == Id), "Id", "CouponName");
-                ViewData["Users"] = new SelectList(_context.Users, "Id", "FullName");
-                ViewBag.Userss = _context.Users.Select(s => new { s.Id, s.FullName }).ToList();
-                ViewData["User"] = new SelectList(_context.Users, "Id", "FullName");
+                ViewData["Users"] = new SelectList(_context.Users.Where(e => e.Role == "Executivemember" && e.Active==true), "Id", "FullName");
+                ViewBag.Userss = _context.Users.Where(e => e.Role == "Executivemember" && e.Active == true).Select(s => new { s.Id, s.FullName }).ToList();
+                ViewData["User"] = new SelectList(_context.Users.Where(e => e.Role == "Executivemember" && e.Active == true), "Id", "FullName");
                 ViewBag.Eid = Id;
                 return View();
             }
@@ -41,7 +41,7 @@ namespace Events.Web.Controllers
 
         public ActionResult getmembers()
         {
-            var member = _context.Users.ToList();
+            var member = _context.Users.Where(e => e.Role == "Executivemember" && e.Active == true).ToList();
             return Json(member);
         }
 
