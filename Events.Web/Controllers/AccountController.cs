@@ -71,6 +71,12 @@ namespace Events.Web.Controllers
                return View();
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            cd.HttpContext.Session.SetString("MID", " ");
+            return RedirectToAction("Login");
+        }
         public static string EncryptPassword(string password)
         {
             if (string.IsNullOrEmpty(password))

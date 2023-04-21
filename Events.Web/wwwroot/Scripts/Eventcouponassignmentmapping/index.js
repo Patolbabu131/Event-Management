@@ -25,11 +25,11 @@
                         var drop = '<select name = "list"  id="member_' + row.id + '" class="selectmember form-control form-select-sm " value="' + row.user + '" >'
                         drop += '<option value = "" disabled selected>Select Member</option>'
                         $.each(memberslist, function (i, v) {
-                            if (v.id == row.user) {
-                                drop += '<option value="' + v.Id + '">' + v.FullName + '</option>';
+                            if (v.Id == row.user) {
+                                drop += '<option value="' + v.Id + '"selected>' + v.FullName + '</option>';
                             }
                             else {
-                                drop += '<option value="' + v.Id + '"selected>' + v.FullName + '</option>';
+                                drop += '<option value="' + v.Id + '">' + v.FullName + '</option>';
                             }
 
                         })

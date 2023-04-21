@@ -347,11 +347,6 @@ function onlynumber() {
 }
 
 $(document).ready(function () {
-    $.post("/events/admin", null, function (data) {
-        if (data == "false") {
-            $("#adminonly").hide();
-        }
-    }); 
 
     $('#fileFormatValidation').hide();
     var m_names = ['January', 'February', 'March',

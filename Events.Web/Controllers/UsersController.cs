@@ -13,15 +13,17 @@ using Org.BouncyCastle.Math;
 
 namespace Events.Web.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly ILogger<UsersController> _logger;
         private readonly EventDbContext _db;
-        public UsersController(ILogger<UsersController> logger, EventDbContext db)
+        private readonly IHttpContextAccessor cd;
+        public UsersController(ILogger<UsersController> logger, EventDbContext db, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _db = db;
+            cd = httpContextAccessor;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -34,51 +36,69 @@ namespace Events.Web.Controllers
         }
         public IActionResult CreateMembers(User executivemember)
         {
-            if (executivemember.Id == null|| executivemember.Id==0)
+            string mid = cd.HttpContext.Session.GetString("MID");
+
+
+
+            if (executivemember.Id == null || executivemember.Id == 0)
             {
-                var id = _db.Users.ToList();
-                var member = new User()
+                var user = _db.Users.Where(e => e.LoginName == executivemember.LoginName).ToList();
+                if (user == null)
                 {
-                    FullName = executivemember.FullName,
-                    Designation = executivemember.Designation,
-                    AppointedOn = executivemember.AppointedOn,
-                    Duties = executivemember.Duties,
-                    LoginName = executivemember.LoginName,
-                    Password = EncryptPassword(executivemember.Password),
-                    Role = executivemember.Role,
-                    Active = executivemember.Active,
-                    CreatedOn = DateTime.Now,
-                    ModifiedOn = DateTime.Now
-                };
-                _db.Users.Add(member);
-                _db.SaveChanges();
-                return Json("Member saved.");
+                    var id = _db.Users.ToList();
+                    var member = new User()
+                    {
+                        FullName = executivemember.FullName,
+                        Designation = executivemember.Designation,
+                        AppointedOn = executivemember.AppointedOn,
+                        Duties = executivemember.Duties,
+                        LoginName = executivemember.LoginName,
+                        Password = EncryptPassword(executivemember.Password),
+                        Role = executivemember.Role,
+                        Active = executivemember.Active,
+                        CreatedOn = DateTime.Now,
+                        ModifiedOn = DateTime.Now,
+                        CreatedBy = Convert.ToInt64(mid),
+                        ModifiedBy = Convert.ToInt64(mid)
+                    };
+                    _db.Users.Add(member);
+                    _db.SaveChanges();
+                    return Json("Member saved.");
+                }
+                return Json("true");
             }
             else
             {
-                var member = new User()
+                var user = _db.Users.Where(e => e.LoginName == executivemember.LoginName && e.Id != executivemember.Id).FirstOrDefault();
+                if (user == null)
                 {
-                    Id = executivemember.Id,
-                    FullName = executivemember.FullName,
-                    Designation = executivemember.Designation,
-                    AppointedOn = executivemember.AppointedOn,
-                    Duties = executivemember.Duties,
-                    LoginName = executivemember.LoginName,
-                    Password = EncryptPassword(executivemember.Password),
-                    Role = executivemember.Role,
-                    Active = executivemember.Active,
-                    CreatedOn = executivemember.CreatedOn,
-                    ModifiedOn = DateTime.Now
-                };
-                _db.Users.Update(member);
-                _db.SaveChanges();
-                return Json("Member saved.");
+                    var member = new User()
+                    {
+                        Id = executivemember.Id,
+                        FullName = executivemember.FullName,
+                        Designation = executivemember.Designation,
+                        AppointedOn = executivemember.AppointedOn,
+                        Duties = executivemember.Duties,
+                        LoginName = executivemember.LoginName,
+                        Password = EncryptPassword(executivemember.Password),
+                        Role = executivemember.Role,
+                        Active = executivemember.Active,
+                        ModifiedOn = DateTime.Now,
+                        ModifiedBy = Convert.ToInt64(mid)
+                    };
+                    _db.Users.Update(member);
+                    _db.SaveChanges();
+                    return Json("Member saved.");
+                }
+                return Json("true");
             }
-     
+
+
+
         }
         public IActionResult GetEdit(Int64 id)
         {
-            var EC = _db.Users.Where(x => x.Id == id  ).FirstOrDefault();
+            var EC = _db.Users.Where(x => x.Id == id).FirstOrDefault();
             EC.Password = DecryptPassword(EC.Password);
             return Json(EC);
         }
@@ -135,7 +155,7 @@ namespace Events.Web.Controllers
 
         public IActionResult DeteleMember(Int64 id)
         {
-            var data = _db. Users.Where(e => e.Id == id).SingleOrDefault();
+            var data = _db.Users.Where(e => e.Id == id).SingleOrDefault();
             _db.Users.Remove(data);
             _db.SaveChanges();
             return Json("success");

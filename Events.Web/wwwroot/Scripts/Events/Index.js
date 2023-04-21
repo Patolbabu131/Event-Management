@@ -208,12 +208,12 @@ function bindDatatable() {
             "bServerSide": true,
             "bProcessing": true,
             "bSearchable": true,
-            "filter": true,   
-            "autoWidth": true,         
+            "filter": true,
+            "autoWidth": true,
             "order": [[1, 'desc']],
             "language": {
                 "emptyTable": "No record found.",
-                "processing":'<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#060606;" font="color:#060606;"></i><span class="sr-only">Loading...</span> '
+                "processing": '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#060606;" font="color:#060606;"></i><span class="sr-only">Loading...</span> '
             },
             "columns": [
 
@@ -275,16 +275,30 @@ function bindDatatable() {
                         drop += '<option value = "/Eventcoupontypes/Index/' + row.id + '">Coupon Type</option>'
                         drop += '<option value = "/Eventattendees/Index/' + row.id + '">Attendees</option>'
                         drop += '<option value = "/Eventexpenses/Index/' + row.id + '">Expenses</option>'
-                        drop += '<option value = "/Eventcouponassignmentmappings/Index/' + row.id + '">Eventcouponassignmentmappings</option></select>'
+                        drop += '<option value = "/Eventcouponassignmentmappings/Index/' + row.id + '">Eventcouponassignmentmappings</option>'
+                        drop += '<option value = "/Users/Index">User</option></select>'
+
+                        $.post("/events/admin", null, function (data) {
+                            if (data == "false") {
+                                $(".btnlist option[value='/Users/Index']").remove();
+                            }
+                        }); 
+
                         return drop;
+
+
+
                     }
-                },                
+                },
             ]
         });
+
 }
 
 
+
 $(document).ready(function () {
+
 
     $('#create_event').click(function () {
 

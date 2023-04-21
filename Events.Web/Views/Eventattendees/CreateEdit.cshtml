@@ -54,7 +54,7 @@
 
                         <div class="form-group">
                             <label asp-for="User" class="control-label"></label>
-                            <select name="User" id="User" onchange="myUser()" class="form-control" placeholder="Click to select Member Id" asp-items="ViewBag.User" value="">
+                            <select name="User" id="User" onchange="myUser(1)" class="form-control" placeholder="Click to select Member Id" asp-items="ViewBag.User" value="">
                                 <option disabled selected value="">Select Member</option>
                             </select>
                         </div>
@@ -63,7 +63,7 @@
                             <label  class="control-label ">Coupon Type
                             </label>
                             <select id="CouponTypeIdd" name="CouponTypeId" onchange="selectNocoupon()" class="CouponTypeId form-control">
-                                <option selected disabled>Select Coupon</option>
+                                <option selected disable >Select Coupon</option>
                             </select>
                         </div>
 
@@ -71,8 +71,8 @@
                             <label value="Select No of Coupon" class="control-label ">Select Numbers of Coupons
                             </label>
                             <select id="selectmultiplecoupons" name="CouponsPurchased" class="nocoupon js-example-responsive" multiple>
-                          
-                                   </select>
+                                
+                            </select>
                         </div>
                         <div class="form-group">
                             <label asp-for="ModeOfPayment" class="control-label"></label>

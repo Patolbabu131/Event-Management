@@ -15,10 +15,6 @@ $('#create_member').click(function () {
     })
 });
 
-
-
-
-
 function save_member() {
     $("#formAddECMember").validate({
         rules: {
@@ -88,25 +84,15 @@ function save_member() {
             type: "post",
             url: '/Users/CreateMembers',
             data: data,
-
-            success: function
-                ConfirmDialog(message) {
-                $('<div></div>').appendTo('body')
-                    .html('<div><h6>' + message + '?</h6></div>')
-                    .dialog({
-                        modal: true,
-                        title: 'Events Data Is Saved...',
-                        zIndex: 10000,
-                        autoOpen: true,
-                        width: 'auto',
-                        resizable: false,
-                        close: function (event, ui) {
-                            $(this).remove();
-                            window.location.reload();
-                        }
-                    })
-                window.location.reload(); 
-            }
+            success: function (resonce) {
+                if (resonce == "true") {
+                    $("#loginnameerror").html("Login name already exists").addClass("error-msg");
+                } else {
+                    $("#addECMemberModal").modal('hide');
+                    CallDialog(resonce);
+                }
+             }
+                
                    
         })
 
@@ -255,4 +241,30 @@ function delete_member(id) {
             }
         })
     }
+}
+function CallDialog(message) {
+    $('#addECMemberModal').appendTo('body')
+        .html('<div><h6>' + message + '</h6></div>')
+        .dialog({
+            modal: true,
+            title: 'Save Message',
+            body: message,
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            icon: 'fa fa- close',
+            click: function () {
+                $(this).dialog('destroy');
+            },
+            buttons: [
+                {
+                    text: "Ok",
+                    icon: "ui-icon-heart",
+                    click: function () {
+                        $(this).dialog('destroy');
+                        window.location.reload();
+                    }
+                }
+            ]
+        });
 }

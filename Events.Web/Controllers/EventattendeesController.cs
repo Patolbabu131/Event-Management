@@ -51,6 +51,7 @@ namespace Events.Web.Controllers
             IEnumerable<dynamic> eventattendees = null;
             if (Id == null || Id == 0)
             {
+
                 eventattendees = _context.Eventattendees.ToList();
             }
             else

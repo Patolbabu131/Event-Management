@@ -3,6 +3,11 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
+                <style>
+                    .error-msg {
+                        color: red
+                    }
+                </style>
                 <h5 class="modal-title">Add User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -33,10 +38,11 @@
                         <div class="mb-3 col-md-6">
                             <label  class="form-label">LoginName</label>
                             <input type="email" class="form-control" id="addLoginName" name="LoginName" />
+                            <p id="loginnameerror" ></p>
                         </div>
                         <div class="mb-3 col-md-6">
                             <label  class="form-label">Password</label>
-                            <input type="password" class="form-control" id="addPassword" name="adddPassword" />
+                            <input type="password" class="form-control" id="addPassword" />
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="addRole" class="control-label">Role</label>

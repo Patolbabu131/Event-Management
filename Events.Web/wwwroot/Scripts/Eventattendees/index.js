@@ -56,7 +56,7 @@ function functionToCall(id) {
                             return "Bank_Transfer";
                         else if (row == 4)
                             return "Others";
-                       
+
                     }
                 },
                 {
@@ -86,25 +86,30 @@ function create_attendee(id) {
                 closeOnSelect: false,
                 placeholder: "Select Numbers of Coupons",
                 multiple: true
-            });   
+            });
         }
     })
 }
 
-function myUser() {
+function myUser(tmp) {
     var eid = document.getElementById("User").value;
     $.get("/Eventattendees/fetchcoupon/" + eid,
         function (data) {
             //$("#CouponTypeIdd").prop("disabled", false);
+            if (tmp != 1) {
+                $('.CouponTypeId option').remove();
+                $('.CouponTypeId').append("<option selected disable> Select Coupon</option > ");
+            }
+   
             $.each(data, function (index, value) {
                 $('.CouponTypeId').append(new Option(value.couponName, value.id));
             });
-           
+
         }
     )
 }
 
-function selectNocoupon(temp) {
+function selectNocoupon() {
     var couponid = document.getElementById("CouponTypeIdd").value;
     var mid = document.getElementById("User").value;
     var aid = $("#attenid").val();
@@ -122,12 +127,12 @@ function selectNocoupon(temp) {
             $.each(value, function (index, value) {
                 $('.nocoupon').append($('<option id="option' + value.id + '">').val(value.id).text(value.couponNumber))
             });
-           
+
         }
     })
 
 }
-    
+
 function save_Attendee() {
     $("#formAddAttendees").validate({
         rules: {
@@ -138,13 +143,13 @@ function save_Attendee() {
             ContactNo: {
                 required: true,
                 maxlength: 10,
-                minlength:10
-            },            
+                minlength: 10
+            },
             PurchasedOn: {
                 required: true
             },
             User: {
-                required: true               
+                required: true
             },
             CouponTypeId: {
                 required: true
@@ -170,7 +175,7 @@ function save_Attendee() {
             AttendeeName: " Please Enter AttendeeName",
 
             ContactNo: " Please Enter valid Contact Number",
-            
+
             PurchasedOn: {
                 required: "Please Select Date",
             },
@@ -184,10 +189,10 @@ function save_Attendee() {
                 required: " Please Select Coupons Numbers"
             },
             ModeOfPayment: {
-                required:"Please Select Mode Of Paymnet"
+                required: "Please Select Mode Of Paymnet"
             },
             PaymentStatus: {
-                required:"Please Select Paymnet Status"
+                required: "Please Select Paymnet Status"
             },
             PaymentReference: {
                 required: "Please Select Paymnet Refrence"
@@ -228,8 +233,7 @@ function save_Attendee() {
             type: "post",
             url: '/Eventattendees/CreateEdit1',
             data: data,
-            success: function ConfirmDialog(message)
-            {
+            success: function ConfirmDialog(message) {
                 $("#addeditattendee").modal('hide');
                 CallDialog(message);
             }
@@ -238,7 +242,7 @@ function save_Attendee() {
 }
 
 function selectcoupon(cname) {
-    $("#CouponTypeId select").val(cname);
+    $("#CouponTypeIdd").val(cname);
 }
 
 function details_event(id) {
@@ -259,67 +263,81 @@ function edit_attendee(id) {
         url: '/Eventattendees/CreateEdit/' + id,
         success: function (resonce) {
             $('#Attendees').html(resonce);
-            $("#addeditattendee").modal('show');
+       
             $("#PurchasedOn").datepicker();
             $('#attendeestitle').text('Edit Attendee Detail');
-            onlynumber();
+
             $("#CouponTypeIdd").prop('disabled', true);
             $("#User").prop('disabled', true);
 
-            $.ajax({
-                type: "get",
-                url: '/Eventattendees/Edit1/' + id,
-                success: function (resonce) {
-                    var now = new Date(resonce.purchasedOn);
-                    var day = ("0" + now.getDate()).slice(-2);
-                    var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                    var today = day + "/" + month + "/" + now.getFullYear();
-                    if (resonce.id != 0) {
-                        myUser();
+            setTimeout(function () {
+                $.ajax({
+                    type: "get",
+                    url: '/Eventattendees/Edit1/' + id,
+                    success: function (resonce) {
+                        var now = new Date(resonce.purchasedOn);
+                        var day = ("0" + now.getDate()).slice(-2);
+                        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                        var today = day + "/" + month + "/" + now.getFullYear();
+
+                        $("#attenid").val(resonce.id);
+                        $("#EventId").val(resonce.id);
+                        $("#AttendeeName").val(resonce.attendeeName);
+                        $("#ContactNo").val(resonce.contactNo);
+                        $("#CouponsPurchased").val(resonce.couponsPurchased);
+                        $("#PurchasedOn").val(today);
+                        $("#TotalAmount").val(resonce.totalAmount);
+                        $("#Remarks").val(resonce.remarks);
+                        $("#ModeOfPayment").val(resonce.modeOfPayment);
+                        $("#PaymentStatus").val(resonce.paymentStatus);
+                        $("#PaymentReference").val(resonce.paymentReference);
+
+                     
+              
+                        function1();
+                        function function1() {
+                            $("#User").val(resonce.user);
+                            function2();
+                        }
+                        function function2() {
+                            myUser();
+                            setTimeout(function () {
+                                function3();
+                            }, 470)
+
+                        }
+                        function function3() {
+                            $("#CouponTypeIdd").val(resonce.couponTypeId);
+                            function4();
+                        }
+
+                        function function4() {
+                            selectNocoupon();
+                            setTimeout(function () {
+                                function5();
+                            }, 300)
+                       
+                        }
+                        function function5() {
+                            var nameArr = resonce.couponsPurchased.split(',');
+                            $(nameArr).each(function (k, v) {
+                                $("#selectmultiplecoupons option[value='" + v + "']").attr('selected', 'selected');
+                            }); function6();
+                        }
+                        function function6() {
+                            $('.nocoupon').select2({
+                                'width': '100%',
+                                closeOnSelect: false,
+                                placeholder: "Select Numbers of Coupons",
+                            });
+                            $("#addeditattendee").modal('show');
+                        }   
                     }
-                 
-                    $("#attenid").val(resonce.id);
-                    $("#EventId").val(resonce.id);
-                    $("#AttendeeName").val(resonce.attendeeName);
-                    $("#ContactNo").val(resonce.contactNo);
-                    $("#CouponsPurchased").val(resonce.couponsPurchased);
-                    $("#PurchasedOn").val(today);
-                    $("#User").val(resonce.user);
-                    $("#CouponTypeIdd").val(resonce.couponTypeIdd);
-                    $("#TotalAmount").val(resonce.totalAmount);
-                    $("#Remarks").val(resonce.remarks);
-                    $("#ModeOfPayment").val(resonce.modeOfPayment);
-                    $("#PaymentStatus").val(resonce.paymentStatus);
-                    $("#PaymentReference").val(resonce.paymentReference);
-                    $("#CouponTypeId").val(resonce.couponTypeId);
-                    //$.when(selectNocoupon(1)).then(function () {
-                    //    var nameArr = resonce.couponsPurchased.split(',');
-                    //    $(nameArr).each(function (k, v) {
-                    //        $("#selectmultiplecoupons option[value='" + v + "']").attr('selected', 'selected');
-                    //    });
-                    //});
-                
+                })
+            }, 150)
 
-                    setTimeout(function () {
-                        selectNocoupon(1);
-                    }, 200)
 
-                    setTimeout(function () {
-                        var nameArr = resonce.couponsPurchased.split(',');
-                        $(nameArr).each(function (k, v) {
-                            $("#selectmultiplecoupons option[value='" + v + "']").attr('selected', 'selected');
-                        });
-
-                    }, 400)
-                    setTimeout(function () {
-                        $('.nocoupon').select2({
-                            'width': '100%',
-                            closeOnSelect: false,
-                            placeholder: "Select Numbers of Coupons",
-                        });  
-                    },500)
-                }
-            })
+    
         }
     })
 
