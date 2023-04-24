@@ -38,7 +38,7 @@ $('#create_member').click(function () {
     })
 });
 
-function myFunction() {
+function myFun() {
     var x = document.getElementById("password");
     if (x.type === "password") {
         x.type = "text";

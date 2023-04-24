@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;    
+using System.ComponentModel.DataAnnotations;
 
 namespace Events.Web.Models;
 
@@ -12,7 +12,7 @@ public partial class Eventattendee
 
     [DisplayName("Event Id")]
     public long EventId { get; set; }
-    [Required(ErrorMessage ="lakh")]
+    [Required(ErrorMessage = "lakh")]
 
     [DisplayName("Attendee Name")]
     public string AttendeeName { get; set; } = null!;
@@ -61,12 +61,12 @@ public partial class Eventattendee
     [DisplayName("PaymentReference")]
     public string PaymentReference { get; set; } = null!;
 
-    public virtual Eventcoupontype CouponType { get; set; } = null!;   
+    public virtual Eventcoupontype CouponType { get; set; } = null!;
 
     public virtual User CreatedByNavigation { get; set; } = null!;
 
     public virtual Event Event { get; set; } = null!;
-  
+
     public virtual User? UserNavigation { get; set; }
 
     public virtual ICollection<Eventcouponassignmentmapping> Eventcouponassignmentmappings { get; } = new List<Eventcouponassignmentmapping>();
@@ -82,6 +82,6 @@ public enum ModeOfPayment
 }
 public enum PaymentStatus
 {
-    Paid=1,
-    Pending=0
+    Paid = 1,
+    Pending = 0
 }

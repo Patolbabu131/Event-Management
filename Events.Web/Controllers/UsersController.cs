@@ -4,6 +4,7 @@ using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Eco.Framework.Impl.Frontside;
 using Events.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -42,8 +43,8 @@ namespace Events.Web.Controllers
 
             if (executivemember.Id == null || executivemember.Id == 0)
             {
-                var user = _db.Users.Where(e => e.LoginName == executivemember.LoginName).ToList();
-                if (user == null)
+                var user = _db.Users.Where(e => e.LoginName == executivemember.LoginName).FirstOrDefault();
+                if (user==null)
                 {
                     var id = _db.Users.ToList();
                     var member = new User()
@@ -56,10 +57,10 @@ namespace Events.Web.Controllers
                         Password = EncryptPassword(executivemember.Password),
                         Role = executivemember.Role,
                         Active = executivemember.Active,
+                        CreatedBy = Convert.ToInt64(mid),
+                        ModifiedBy = Convert.ToInt64(mid),
                         CreatedOn = DateTime.Now,
                         ModifiedOn = DateTime.Now,
-                        CreatedBy = Convert.ToInt64(mid),
-                        ModifiedBy = Convert.ToInt64(mid)
                     };
                     _db.Users.Add(member);
                     _db.SaveChanges();
@@ -85,7 +86,7 @@ namespace Events.Web.Controllers
                         Active = executivemember.Active,
                         ModifiedOn = DateTime.Now,
                         ModifiedBy = Convert.ToInt64(mid)
-                    };
+                };
                     _db.Users.Update(member);
                     _db.SaveChanges();
                     return Json("Member saved.");
@@ -98,13 +99,41 @@ namespace Events.Web.Controllers
         }
         public IActionResult GetEdit(Int64 id)
         {
-            var EC = _db.Users.Where(x => x.Id == id).FirstOrDefault();
+            //var EC = (from a in _db.Users.Where(a=>a.Id) 
+            //                      select new
+            //                      {
+            //                          Id= a.Id,
+            //                          FullName = a.FullName,
+            //                          Designation = a.Designation,
+            //                          Duties = a.Duties,
+            //                          Password = a.Password,
+            //                          AppointedOn = a.AppointedOn,
+            //                          Active = a.Active,
+            //                          LoginName = a.LoginName,
+            //                          Role = a.Role,
+            //                      }).FirstOrDefault();
+
+            var EC = _db.Users.Where(e => e.Id == id).FirstOrDefault();
             EC.Password = DecryptPassword(EC.Password);
             return Json(EC);
         }
         public ActionResult GetECMember(JqueryDatatableParam param)
         {
-            var eventattendees = _db.Users.ToList();
+            var eventattendees = (from a in _db.Users
+
+                                  select new
+                                  {
+                                      id = a.Id,
+                                      FullName=a.FullName,
+                                      Designation = a.Designation,
+                                      Duties=a.Duties,
+                                      AppointedOn=a.AppointedOn,
+                                      Active=a.Active,
+                                      LoginName = a.LoginName,
+                                      Role = a.Role,
+                                  }).ToList();
+
+
 
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
@@ -152,7 +181,6 @@ namespace Events.Web.Controllers
             var EC = _db.Users.Where(x => x.Id == id).FirstOrDefault();
             return PartialView("_ECDetails", EC);
         }
-
         public IActionResult DeteleMember(Int64 id)
         {
             var data = _db.Users.Where(e => e.Id == id).SingleOrDefault();
@@ -160,7 +188,6 @@ namespace Events.Web.Controllers
             _db.SaveChanges();
             return Json("success");
         }
-
         public static string EncryptPassword(string password)
         {
             if (string.IsNullOrEmpty(password))

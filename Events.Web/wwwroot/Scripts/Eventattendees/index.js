@@ -100,8 +100,9 @@ function myUser(tmp) {
     $.get("/Eventattendees/fetchcoupon/" + eid,
         function (data) {
             //$("#CouponTypeIdd").prop("disabled", false);
-            if (tmp =   = 1) {
+            if (tmp == 1) {
                 $('.CouponTypeId option').remove();
+                $('#selectmultiplecoupons option').remove();
                 $('.CouponTypeId').append("<option selected disable> Select Coupon</option > ");
             }
    

@@ -13,7 +13,7 @@ public partial class EventDbContext : DbContext
     public EventDbContext(DbContextOptions<EventDbContext> options)
         : base(options)
     {
-        }
+    }
 
     public virtual DbSet<Event> Events { get; set; }
 
@@ -33,7 +33,7 @@ public partial class EventDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)=> optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySQL("server=localhost;user id=root;Password=;database=event_db;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -182,7 +182,7 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.ModifiedBy)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("bigint(20)");
-            entity.Property(e => e.ModifiedOn)  
+            entity.Property(e => e.ModifiedOn)
                 .HasDefaultValueSql("'NULL'")
                 .HasColumnType("datetime");
             entity.Property(e => e.TotalCoupons).HasColumnType("bigint(20)");
@@ -454,15 +454,15 @@ public partial class EventDbContext : DbContext
             entity.Property(e => e.Password).HasMaxLength(200);
             entity.Property(e => e.Role).HasColumnType("enum('Executivemember','Admin')");
 
-            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
-                .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("users_ibfk_2");
+            //entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.InverseCreatedByNavigation)
+            //    .HasForeignKey(d => d.CreatedBy)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("users_ibfk_2");
 
-            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.InverseModifiedByNavigation)
-                .HasForeignKey(d => d.ModifiedBy)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("users_ibfk_1");
+            //entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.InverseModifiedByNavigation)
+            //    .HasForeignKey(d => d.ModifiedBy)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("users_ibfk_1");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -346,7 +346,22 @@ function onlynumber() {
     });
 }
 
+function myFunc() {
+    var x = document.getElementById("addPassword");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
 $(document).ready(function () {
+
+            $.post("/events/admin", null, function (data) {
+                if (data == "false") {
+                    $("#userbtn").hide();
+                }
+            });
+
 
     $('#fileFormatValidation').hide();
     var m_names = ['January', 'February', 'March',

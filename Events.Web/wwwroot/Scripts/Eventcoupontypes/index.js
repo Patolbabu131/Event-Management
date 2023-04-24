@@ -35,7 +35,7 @@
                 },  
                 {
                     render: function (data, type, row, meta) {
-                        return ' <a class="btn btn-info"  onclick="edit_ct(' + row.id + ')" hidden>Edit</a>            <a class="btn btn-danger" onclick="Delete(' + row.id + ')" >Delete</a>';
+                        return ' <a class="btn btn-info"  onclick="edit_ct(' + row.id + ')" >Edit</a> | <a class="btn btn-info"  onclick="Delete(' + row.id + ')" >Delete</a>';
                     }
                 },
             ]
@@ -155,7 +155,9 @@ function edit_ct(id) {
         success: function (resonce) {
             $('#Ctype').html(resonce);
             $("#addCTypee").modal('show');
+            $("#TotalCoupon").prop('disabled', true);
             $('.modal-title').text('Edit Coupon Type');
+
             $.ajax({
                 type: "get",
                 url: '/Eventcoupontypes/Edit/' + id,

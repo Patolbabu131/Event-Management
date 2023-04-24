@@ -42,7 +42,7 @@ public partial class User
 
     public string Role { get; set; } = null!;
 
-    public virtual User? CreatedByNavigation { get; set; }
+    //public virtual User? CreatedByNavigation { get; set; }
 
     public virtual ICollection<Event> EventCreatedByNavigations { get; } = new List<Event>();
 
@@ -78,5 +78,5 @@ public partial class User
 
     public virtual ICollection<User> InverseModifiedByNavigation { get; } = new List<User>();
 
-    public virtual User? ModifiedByNavigation { get; set; }
+    //public virtual User? ModifiedByNavigation { get; set; }
 }

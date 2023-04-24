@@ -271,18 +271,11 @@ function bindDatatable() {
                         drop += '<option value = "">Details</option>'
                         drop += '<option value = "/Eventsponsors/Index/' + row.id + '">Sponser</option>'
                         drop += '<option value = "/Eventsponsorsimages/Index/' + row.id + '">Sponsors Images</option>'
-                        drop += '<option value = "/Eventcouponassignments/Index/' + row.id + '">Coupon</option>'
                         drop += '<option value = "/Eventcoupontypes/Index/' + row.id + '">Coupon Type</option>'
                         drop += '<option value = "/Eventattendees/Index/' + row.id + '">Attendees</option>'
                         drop += '<option value = "/Eventexpenses/Index/' + row.id + '">Expenses</option>'
                         drop += '<option value = "/Eventcouponassignmentmappings/Index/' + row.id + '">Eventcouponassignmentmappings</option>'
-                        drop += '<option value = "/Users/Index">User</option></select>'
-
-                        $.post("/events/admin", null, function (data) {
-                            if (data == "false") {
-                                $(".btnlist option[value='/Users/Index']").remove();
-                            }
-                        }); 
+                       
 
                         return drop;
 

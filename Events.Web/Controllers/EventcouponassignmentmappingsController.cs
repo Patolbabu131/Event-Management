@@ -200,7 +200,7 @@ namespace Events.Web.Controllers
                 }
             }
 
-            return Json("ok");
+            return Json("Saved...");
         }
 
         //[HttpPost]

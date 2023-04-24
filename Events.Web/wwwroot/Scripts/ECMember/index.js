@@ -89,8 +89,31 @@ function save_member() {
                     $("#loginnameerror").html("Login name already exists").addClass("error-msg");
                 } else {
                     $("#addECMemberModal").modal('hide');
-                    CallDialog(resonce);
+                    $('#member').appendTo('body')
+                        .html('<div><h6>' + resonce + '</h6></div>')
+                        .dialog({
+                            modal: true,
+                            title: 'Save Message',
+                            zIndex: 10000,
+                            autoOpen: true,
+                            width: 'auto',
+                            icon: 'fa fa- close',
+                            click: function () {
+                                $(this).dialog('destroy');
+                            },
+                            buttons: [
+                                {
+                                    text: "Ok",
+                                    icon: "ui-icon-heart",
+                                    click: function () {
+                                        $(this).dialog('destroy');
+                                        window.location.reload();
+                                    }
+                                }
+                            ]
+                        });
                 }
+               
              }
                 
                    
@@ -120,7 +143,7 @@ function bindmember() {
                 {
                     "data": "fullname",
                     render: function (data, type, row, meta) {
-                        return row.fullName
+                            return row.fullName
                     }
                 },
                 {
@@ -241,30 +264,4 @@ function delete_member(id) {
             }
         })
     }
-}
-function CallDialog(message) {
-    $('#addECMemberModal').appendTo('body')
-        .html('<div><h6>' + message + '</h6></div>')
-        .dialog({
-            modal: true,
-            title: 'Save Message',
-            body: message,
-            zIndex: 10000,
-            autoOpen: true,
-            width: 'auto',
-            icon: 'fa fa- close',
-            click: function () {
-                $(this).dialog('destroy');
-            },
-            buttons: [
-                {
-                    text: "Ok",
-                    icon: "ui-icon-heart",
-                    click: function () {
-                        $(this).dialog('destroy');
-                        window.location.reload();
-                    }
-                }
-            ]
-        });
 }
