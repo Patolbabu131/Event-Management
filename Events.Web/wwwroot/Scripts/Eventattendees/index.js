@@ -22,6 +22,10 @@ function functionToCall(id) {
                 },
                 {
                     "data": "couponsPurchased",
+                    "render": function (row) {
+                        var arr = row.split(",");
+                        return arr.length;
+                    }
                 },
                 {
                     "data": "purchasedOn",
@@ -96,7 +100,7 @@ function myUser(tmp) {
     $.get("/Eventattendees/fetchcoupon/" + eid,
         function (data) {
             //$("#CouponTypeIdd").prop("disabled", false);
-            if (tmp != 1) {
+            if (tmp =   = 1) {
                 $('.CouponTypeId option').remove();
                 $('.CouponTypeId').append("<option selected disable> Select Coupon</option > ");
             }
@@ -269,6 +273,7 @@ function edit_attendee(id) {
 
             $("#CouponTypeIdd").prop('disabled', true);
             $("#User").prop('disabled', true);
+            $("#loaderDiv").show();
 
             setTimeout(function () {
                 $.ajax({
@@ -330,6 +335,7 @@ function edit_attendee(id) {
                                 closeOnSelect: false,
                                 placeholder: "Select Numbers of Coupons",
                             });
+                            $("#loaderDiv").hide();
                             $("#addeditattendee").modal('show');
                         }   
                     }
