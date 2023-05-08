@@ -71,10 +71,10 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                Ctype = Ctype.Where(x => x.CouponNumber.ToString().Contains(param.sSearch.ToString())
-                                              || x.User.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                              || x.Attendee.ToString().ToLower().Contains(param.sSearch.ToLower())
-                                              || x.Booked.ToString().ToLower().Contains(param.sSearch.ToLower())).ToList();
+                Ctype = Ctype.Where(x => x.CouponNumber.ToString().ToLower().Contains(param.sSearch.ToString().ToLower())
+                                              || x.User!=null && x.User.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.Attendee!=null && x.Attendee.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.Booked.ToLower().ToString().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
             if (param.iSortCol_0 == 0)

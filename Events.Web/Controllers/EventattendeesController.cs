@@ -248,7 +248,7 @@ namespace Events.Web.Controllers
                     _context.Eventcouponassignmentmappings.Update(multiplecoupon);
                 }
                 _context.SaveChanges();
-                return Json("Event created...");
+                return Json("Attendee created...");
             }
             else
             {
@@ -294,7 +294,7 @@ namespace Events.Web.Controllers
                 _context.SaveChanges();
 
 
-                return Json("Event updated...");
+                return Json("Attendees updated...");
             }
         }
 

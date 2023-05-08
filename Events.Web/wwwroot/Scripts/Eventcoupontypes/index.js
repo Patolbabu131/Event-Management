@@ -192,7 +192,7 @@ function edit_ct(id) {
 
 function Delete(id) {
     $('#Ctype').appendTo('body')
-        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Coupon ?... " + '</h6></div>')
         .dialog({
             modal: true,
             title: 'Delete Message',

@@ -53,16 +53,16 @@ namespace Events.Web.Controllers
             //Searching
             if (!string.IsNullOrEmpty(param.sSearch))
             {
-                sponsors = sponsors.Where(x => x.SponsorName.ToString().Contains(param.sSearch.ToLower())
-                                              || x.SponsorOrganization.ToString().Contains(param.sSearch.ToLower())
-                                              || x.AmountSponsored.ToString().Contains(param.sSearch.ToLower())).ToList();
+                sponsors = sponsors.Where(x => x.SponsorName.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.SponsorOrganization.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.AmountSponsored.ToString().Contains(param.sSearch.ToString())).ToList();
             }
             //Sorting
             else if (param.iSortCol_0 == 2)
             {
                 sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.SponsorName).ToList() : sponsors.OrderByDescending(c => c.SponsorName).ToList();
 
-            }
+            } 
             else if (param.iSortCol_0 == 3)
             {
                 sponsors = param.sSortDir_0 == "asc" ? sponsors.OrderBy(c => c.SponsorOrganization).ToList() : sponsors.OrderByDescending(c => c.SponsorOrganization).ToList();

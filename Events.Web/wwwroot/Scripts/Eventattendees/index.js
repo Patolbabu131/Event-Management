@@ -309,7 +309,7 @@ function edit_attendee(id) {
                             myUser();
                             setTimeout(function () {
                                 function3();
-                            }, 470)
+                            }, 400)
 
                         }
                         function function3() {
@@ -337,7 +337,12 @@ function edit_attendee(id) {
                                 placeholder: "Select Numbers of Coupons",
                             });
                             $("#loaderDiv").hide();
-                            $("#addeditattendee").modal('show');
+                            if ($("#CouponTypeIdd").val() == 'Select Coupon') {
+                                edit_attendee(id);
+                            } else {
+                                $("#addeditattendee").modal('show');
+                            }           
+                   
                         }   
                     }
                 })
@@ -370,7 +375,7 @@ function edit_attendee(id) {
 
 function Delete(id) {
     $('#Attendees').appendTo('body')
-        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?..." + '</h6></div>')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Attendee ?..." + '</h6></div>')
         .dialog({
             modal: true,
             title: 'Delete Message',

@@ -343,7 +343,6 @@ $(document).ready(function () {
         $(".btnlist").change(function () {
             window.location.href = $(this).val();
         });
-
     }, 100);
 
     $('#selectEl').change(function () {
@@ -370,7 +369,6 @@ function edit_event(id) {
         url: '/Events/CreateEvent',
         success: function (resonce) {
             $('#CreateContainer').html(resonce);
-            $("#addEventModal").modal('show');
             $('.modal-title').text('Edit Event Details');
             $("#addEventDate").datepicker({ dateFormat: 'dd/mm/yy' });
             $('#addStartTime').timepicker({
@@ -385,22 +383,28 @@ function edit_event(id) {
                 dropdown: true,
                 scrollbar: true
             });
-            CKEDITOR.replace('FoodMenu', {
-                toolbar: [
-                    { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
-                    { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
-                    { name: 'links', items: ['Link', 'Anchor'] },
-                    { name: 'insert', items: ['Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+            setTimeout(function () {
+                CKEDITOR.replace('FoodMenu', {
+                    toolbar: [
+                        { name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                        { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language'] },
+                        { name: 'links', items: ['Link', 'Anchor'] },
+                        { name: 'insert', items: ['Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
 
-                    { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-                    { name: 'colors', items: ['TextColor', 'BGColor'] },
-                    { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
-                    { name: 'others', items: ['-'] }
-                ]
-            });
+                        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                        { name: 'colors', items: ['TextColor', 'BGColor'] },
+                        { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+                        { name: 'others', items: ['-'] }
+                    ]
+                });
+                if ($("#addEventName").val() == "" || $("#addEventName").val() == null) {
+                    edit_event(id);
+                } else {
+                    $("#addEventModal").modal('show');
+                }
+            }, 100)
         }
     })
-
     $.ajax({
         type: "post",
         data: id,
@@ -410,13 +414,10 @@ function edit_event(id) {
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
             var today = (day) + "/" + (month) + "/" + now.getFullYear();
-
             var start = new Date(resonce.eventStartTime);
             var end = new Date(resonce.eventEndTime);
             var strTime = String(start.getHours()).padStart(2, '0') + ':' + String(start.getMinutes()).padStart(2, '0');
-
             var endtime = String(end.getHours()).padStart(2, '0') + ':' + String(end.getMinutes()).padStart(2, '0');
-
             $('#EventID').val(resonce.id);
             $('#addEventName').val(resonce.eventName);
             $('#addEventDate').val(today);
@@ -427,11 +428,14 @@ function edit_event(id) {
             $('#FoodMenu').val(resonce.foodMenu);
         }
     })
+ 
+
+   
 }
 
 function delete_event(id) {
     $('#CreateContainer').appendTo('body')
-        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Event ?... " + '</h6></div>')
         .dialog({
             modal: true,
             title: 'Delete Message',
@@ -471,7 +475,6 @@ function delete_event(id) {
                                     ]
                                 });
                         }
-
                     })
                 },
                 No: function () {

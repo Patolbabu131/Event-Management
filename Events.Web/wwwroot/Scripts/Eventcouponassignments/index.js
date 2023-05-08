@@ -166,7 +166,7 @@ function edit_cassign(id) {
 
 function Delete(id) {
     $('#Cassign').appendTo('body')
-        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This Member ?... " + '</h6></div>')
+        .html('<div id="dailog"><h6>' + "Are You Sure Want To Delete This coupon ?... " + '</h6></div>')
         .dialog({
             modal: true,
             title: 'Delete Message',

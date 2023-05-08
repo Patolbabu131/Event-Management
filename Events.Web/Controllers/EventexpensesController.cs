@@ -55,8 +55,8 @@ namespace Events.Web.Controllers
             if (!string.IsNullOrEmpty(param.sSearch))
             {
                 expenses = expenses.Where(x => x.ExpenseName.ToLower().Contains(param.sSearch.ToLower())
-                                              || x.ExpenseSubject.ToLower().Contains(param.sSearch.ToLower())
-                                              || x.AmountSpent.ToString().Contains(param.sSearch.ToString())
+                                              || x.ExpenseSubject.ToString().ToLower().Contains(param.sSearch.ToLower())
+                                              || x.AmountSpent.ToString().Contains(param.sSearch.ToString())        
                                               || x.Remarks.ToLower().Contains(param.sSearch.ToLower())).ToList();
             }
             //Sorting
