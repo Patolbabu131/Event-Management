@@ -15,7 +15,7 @@ public partial class Eventsponsorsimage
     [NotMapped]
 
     [DisplayName("File")]
-    public IFormFile File { get; set; }
+    public List<IFormFile>? File { get; set; }
 
     [DisplayName("Sponsor Image")]
     public string SponsorImage { get; set; } = null!;

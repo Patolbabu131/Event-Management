@@ -117,40 +117,42 @@ namespace Events.Web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Create( Int64 EventId,IFormFile File)
+        public IActionResult Create( Int64 EventId, List<IFormFile> File)
         {
-
+            foreach (var file in File)
+            {
                 string CurrentDirectory = System.Environment.CurrentDirectory;
-                FileInfo fileInfo = new FileInfo(File.FileName);
-                string Name = File.FileName;
+                FileInfo fileInfo = new FileInfo(file.FileName);
+                string Name = file.FileName;
 
                 var fileName = EventId.ToString() + Name;
 
-                var sponimg = _context.Eventsponsorsimages.Where(e=>e.EventId==EventId).ToList();
+                //var sponimg = _context.Eventsponsorsimages.Where(e=>e.EventId==EventId).ToList();
 
-                foreach (var i in sponimg)
+                //foreach (var i in sponimg)
+                //{
+                //    if (Equals(i.SponsorImage, fileName))
+                //    {
+                //        return Json("Selected Image is already exists");
+                //    }
+                //}
+
+                string path = Path.Combine(CurrentDirectory + "\\wwwroot\\Files");
+                string fileNameWithPath = Path.Combine(path, fileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
-                    if (Equals(i.SponsorImage, fileName))
-                    {
-                        return Json("Selected Image is already exists");
-                    }
+                    file.CopyTo(stream);
                 }
-
-               string path = Path.Combine(CurrentDirectory+ "\\wwwroot\\Files");            
-               string fileNameWithPath = Path.Combine(path, fileName);
-
-               using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-               {
-                    File.CopyTo(stream);
-               }
-               var member = new Eventsponsorsimage()
-               {
+                var member = new Eventsponsorsimage()
+                {
                     EventId = EventId,
                     SponsorImage = fileName
-               };
-               _context.Add(member);
-               _context.SaveChangesAsync();
-            return Json("Image Saved");
+                };
+                _context.Add(member);
+                _context.SaveChangesAsync();
+            }
+            return RedirectToAction("index", new { Id = EventId });
         }
 
          

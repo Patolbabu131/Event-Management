@@ -1,11 +1,10 @@
 ﻿@model Events.Web.Models.Eventattendee
-
 @*@model IEnumerable<Events.Web.Models.Eventattendee>*@
 @{
     ViewData["Title"] = "Index";
     var id = ViewBag.Eid;
     var iid = ViewBag.VBFriend.EventName;
-    var edate = ViewBag.VBFriend.EventDate;
+    var edate = ViewBag.VBFriend.EventDate.ToString("dd-MMM-yyyy");
     var evenue = ViewBag.VBFriend.EventVenue;
     var estarttime = ViewBag.VBFriend.EventStartTime;
     var eendtime = ViewBag.VBFriend.EventEndTime;
@@ -16,10 +15,29 @@
 
 <html>
 <link href="~/lib/select2.min.css" rel="stylesheet" />
+
 <style>
-    .leftside,.rightside{
-        hight:50px;
-        width:300px;
+    .leftside{
+           width:350px;
+    
+    }
+    .rightside{
+           display: flex;
+           justify-content: start;
+    }
+
+    .event-answer {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    .address-container {
+            display: flex;
+            align-items: flex-start;
+        }
+    .event-label {
+        display: inline-block;
+        width: 150px;
+        font-weight: bold;
     }
     .box{
         hight:100px;
@@ -40,38 +58,37 @@
         text-align: center;
         color: #555;
     }
+  
 </style>
-<div style="text-align:center;display:none" id="loaderDiv">
 
+<div style="text-align:center;display:none" id="loaderDiv">
     <img  width="50px" src="~/lib/roblox-loading.gif" />
 </div>
 
 <body onload="functionToCall(@id)">
-        <div class="card ">
-            <div class="card-body">
+    <div class="card " style=" margin-bottom: 15px">
+        <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <div class="leftside"> 
-                        EventName : @ViewBag.VBFriend.EventName
-                        <br />
-                        EventDate : @ViewBag.VBFriend.EventDate
-                        <br />
-                        EventStartTime : @ViewBag.VBFriend.EventStartTime
-                        <br />
-                        EventEndTime : @ViewBag.VBFriend.EventEndTime
+                    <div class="leftside">
+                        <span class="event-label">Event Name :</span> @ViewBag.VBFriend.EventName<br>
+                        <span class="event-label">Event Date :</span> @ViewBag.VBFriend.EventDate.ToString(string.Format("dd/MM/yyyy"))<br>
+                        <span class="event-label">Event Start Time :</span> @ViewBag.VBFriend.EventStartTime.ToString(string.Format("hh:mm"))<br>
+                        <span class="event-label">Event End Time :</span>  @ViewBag.VBFriend.EventStartTime.ToString(string.Format("hh:mm"))<br>
                     </div>
                 </div>
                 <div class="col-md-1">
-                    <hr width="1" size="75" style="0 auto" />
+                    <hr width="1" style="0 auto" />
                 </div>
                 <div class="col">
                     <div class="rightside">
-                        EventVenue : @ViewBag.VBFriend.EventVenue
+                        <div><span style="font-weight: bold;">Event Venue :    </span>  </div>
+                        <div style="margin-left:2em;"><span>  @Html.Raw(ViewBag.VBFriend.EventVenue.Replace("\n","<br/>"))</span> </div>
                     </div>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
 
 
     <div id="Attendees"></div>

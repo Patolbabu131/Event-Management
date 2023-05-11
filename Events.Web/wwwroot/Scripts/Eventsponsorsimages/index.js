@@ -53,12 +53,16 @@ function save_image() {
     if ($('#imageform').valid()) {
 
     var formData = new FormData();
-    var data = {
-        EventId: $("#EventId").val(),
-        File: $("#File")[0].files[0]
-    }
-    formData.append("EventId", $("#EventId").val());
-    formData.append("File", $("#File")[0].files[0]);
+
+        formData.append("EventId", $("#EventId").val());
+
+       
+        $.each($(".multipleimg"), function (i, obj) {
+            $.each(obj.files, function (j, File) {
+                formData.append('File[' + i + ']', File); // is the var i against the var j, because the i is incremental the j is ever 0
+            });
+        });
+/*    formData.append("File", $("#File")[0].files[0]);*/
 
     $.ajax({
         type: "POST",

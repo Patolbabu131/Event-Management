@@ -16,9 +16,29 @@
 <html>
 <body onload="Loadsponsor(@id)">
     <style>
-        .leftside, .rightside {
-            hight: 50px;
-            width: 300px;
+        .leftside {
+            width: 400px;
+        }
+
+        .event-label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        .rightside {
+            width: 400px;
+            display: flex;
+            justify-content: start;
+        }
+
+        .event-answer {
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .address-container {
+            display: flex;
+            align-items: flex-start;
         }
 
         .box {
@@ -28,29 +48,27 @@
             padding: 10px;
         }
     </style>
-    <div class="card">
+    <div class="card " style=" margin-bottom: 15px">
         <div class="card-body">
-        <div class="row">
-            <div class="col">
-                <div class="leftside">
-                    EventName : @ViewBag.VBFriend.EventName
-                    <br />
-                    EventDate : @ViewBag.VBFriend.EventDate
-                    <br />
-                    EventStartTime : @ViewBag.VBFriend.EventStartTime
-                    <br />
-                    EventEndTime : @ViewBag.VBFriend.EventEndTime
+            <div class="row">
+                <div class="col">
+                    <div class="leftside">
+                        <span class="event-label">Event Name :</span> @ViewBag.VBFriend.EventName<br>
+                        <span class="event-label">Event Date :</span> @ViewBag.VBFriend.EventDate.ToString(string.Format("dd/MM/yyyy"))<br>
+                        <span class="event-label">Event Start Time :</span> @ViewBag.VBFriend.EventStartTime.ToString(string.Format("hh:mm"))<br>
+                        <span class="event-label">Event End Time :</span>  @ViewBag.VBFriend.EventStartTime.ToString(string.Format("hh:mm"))<br>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <hr width="1" style="0 auto" />
+                </div>
+                <div class="col">
+                    <div class="rightside">
+                        <div><span style="font-weight: bold;">Event Venue :    </span>  </div>
+                        <div style="margin-left:2em;"><span>  @Html.Raw(ViewBag.VBFriend.EventVenue.Replace("\n","<br/>"))</span> </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-1">
-                <hr width="1" size="100" style="0 auto" />
-            </div>
-            <div class="col">
-                <div class="rightside">
-                    EventVenue : @ViewBag.VBFriend.EventVenue
-                </div>
-            </div>
-        </div>
         </div>
     </div>
     <div id="sponsors"></div>
