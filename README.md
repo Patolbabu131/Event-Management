@@ -72,12 +72,15 @@ Only admin can add user, so no need of signup page.
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/a1d2db4b-d986-489c-84c3-04f934013bc3)
 
 # Add Attendee
+
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/e9db6633-ebab-483f-81b9-83681587c15e)
 
 - 1. There are two executive members.
+     
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/0b3b4c29-0db5-471c-aeaf-5d50fc459da1)
 
 - 2. When I select rujal we can see two coupons.
+     
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/357879b1-3551-4f2f-b59c-390a58734f51)
 
 - 3. When I select the coupon it will show the coupon count which is assigned to rujal
