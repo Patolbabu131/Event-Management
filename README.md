@@ -22,10 +22,10 @@ Only admin can add user, so no need of signup page.
 # 7. Let's start with adding sponsors.
 # Sponsor Dashboard
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/90815374-47c2-4a6a-a086-c252b7a35c50)
-# Add sponsor
 - Add Sponsor Button
 - List of sponsors
 - Edit, Delete button for sponsor
+# Add sponsor
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/2b05177d-6f76-42e5-b2ed-6662fb65feda)
 # 8. Sponsor image
 # Dashboard 
