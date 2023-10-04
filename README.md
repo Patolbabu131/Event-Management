@@ -33,7 +33,7 @@ Only admin can add user, so no need of signup page.
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/98f82222-a739-4fac-8098-881a59041cb3)
 
 # Add image
-- We can add multiple files at once.
+- We can upload Multiple images at ones
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/ff96e851-c05b-4135-8e5e-8b5ec58d5bd1)
 # 9. Coupon
 # Dashboard
@@ -44,7 +44,7 @@ Only admin can add user, so no need of signup page.
 - When we add a coupon, then total numbers of coupons are generated in EventCouponAssignmentMapping, as you can see in the image 
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/86ff0957-d652-4978-ae4b-a9e0759b8b05)
 # Edit
-- We can delete the coupon, but we activate or deactivate it.
+- We can delete the coupon, but we can activate or deactivate it.
 - We cannot change the total coupon count.
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/9201f5ce-f3b9-44ed-bbb7-a8213bc8a527)
 # 10. Expenses
@@ -55,16 +55,16 @@ Only admin can add user, so no need of signup page.
 # Add Expense
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/deda3f16-35f2-46cf-b151-c9bfef41118b)
 # 11. EventCouponAssignmentMapping
-- Before going to add attendees, we need to assign coupons to the Executive Member so they can assign coupons to the user. (Only executive member can assign coupon to the user)
+- Before going to add attendees, we need to assign coupons to the Executive Member so they can assign coupons to the user. 
 # Dashboard
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/a5d819af-6a9a-43bd-a435-a01fa7524741)
 - When you select coupon form dropdown list, you can see the coupon list 
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/75b85613-e2d1-45aa-9560-dd88139a4a6a)
 
 - We can assign coupons to executive members in two ways.
-- 1. For single coupon select EM form the dropdown list and save
+- 1. For single coupon, select EM form the dropdown list and save
   ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/49bcb8f5-6a50-40c4-815e-457ba8c3e357)
-  2. For Assigning multiple coupons at once in three steps
+  2. For Assigning multiple coupons at once, there are three steps
   ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/70488b8f-b3e2-48a1-8543-03f60bcc01bc)
 - When coupon is assigned to Attendee, then the coupon is booked and then we can not change the executive member
 # 12. Attendee.
@@ -73,11 +73,15 @@ Only admin can add user, so no need of signup page.
 
 # Add Attendee
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/e9db6633-ebab-483f-81b9-83681587c15e)
--1. There are two executive members.
+
+- 1. There are two executive members.
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/0b3b4c29-0db5-471c-aeaf-5d50fc459da1)
--2. When I select rujal we can see two coupons.
+
+- 2. When I select rujal we can see two coupons.
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/357879b1-3551-4f2f-b59c-390a58734f51)
--3. When I select the coupon it will show the coupon count which is assigned to rujal
+
+- 3. When I select the coupon it will show the coupon count which is assigned to rujal
+     
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/85e0a8f2-8a4c-4c68-8d72-f07a332f86a7)
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/b5b2a32b-e9a0-4bef-8681-2f6d2762b0b7)
 
