@@ -89,15 +89,23 @@ Only admin can add user, so no need of signup page.
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/b5b2a32b-e9a0-4bef-8681-2f6d2762b0b7)
 
 - We can see that rujal has three golden coupons and one silver coupon.
+  
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/6acd851f-dc59-4968-82ea-2dac0230e1d8)
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/f539fa36-01f1-435c-94ac-2f9a67f422cc)
+
 - We can select multiple coupons.
 - Let me assign 2,3 number gold coupon to attendees.
+  
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/804ec705-fa08-4046-9602-cf9ab62f1020)
+
 - Now, we can see that coupons 2,3 are booked by Anshraj attendee and now we can not change executive member.
+ 
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/3b90ff7d-3740-48b8-a502-07d0b37af13d)
+
 # Edit
+
 - We can not change executive member and coupon but, we can remove and add coupon count 
+
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/925d2af8-ccf9-4cd7-bc03-92a3e2e072fb)
 
 
