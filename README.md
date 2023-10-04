@@ -13,7 +13,7 @@ Only admin can add user, so no need of signup page.
 - Admin can select the role of the user according to requirement. There are two roles, Admin and Executive Member.
 - Admin create password can give it to respected user.
 - Admin can not delete the user because it has relation with other tables. So, an admin can activate or deactivate the user.
-# 4. Let's log out from admin and login using executive member and add new event By clicking on Add Event 
+# 4. Let's logout from admin and login using executive member and add new event By clicking on Add Event 
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/3a578be7-ef7e-4157-927b-79667a0bd297)
 # 5. Edit Event pop-up
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/588097ec-0fdf-4b27-ac8e-7cb5c6ed5e19)
