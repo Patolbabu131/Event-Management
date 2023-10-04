@@ -1,7 +1,7 @@
 # Event-management-system
 The event management system project is a comprehensive software solution designed to facilitate the planning, organization, and execution of events. The objective is to streamline the entire event management process, from the initial event conception to post-event evaluation.
 # 1. Login Page
-Only admin can add users. Only admin can add user, so no need of signup page.
+Only admin can add user, so no need of signup page.
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/3f65fdaa-2247-4f54-acb6-6ff1ceba2a16)
 # 3. Dashboard
 ![image](https://github.com/Patolbabu131/Event-management-system-/assets/97328289/d6b1cb59-8ec9-4e77-811d-8115dfd99ebf)
